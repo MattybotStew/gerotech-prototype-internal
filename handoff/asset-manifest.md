@@ -10,12 +10,10 @@
 |---|---|---|
 | `gerotech-logo.svg` | Header logo | Final |
 | `gerotech-logo-white.svg` | Footer logo | Final |
-| `haas-f1-team.jpg` | Haas Relationship brand card (WP Engine-safe JPEG) | Final |
-| `haas-f1-lockup.png` | Legacy PNG — **403 on WP Engine**; do not use | Deprecated |
+| `haas-f1-team.jpg` | Haas Relationship brand card (WP Engine-safe JPEG). Replaced the legacy `haas-f1-lockup.png`, which 403'd on WP Engine and was pruned 2026-09-28. | Final |
 | `haas-wordmark-watermark.svg` | Haas Relationship watermark (~5% opacity) | Final |
 | `fanuc-asi-seal.png` | ES credential band (clipped circle) | ⚠️ FANUC usage rights unconfirmed |
 | `haas-winners-circle.png` | Haas Tooling lineup panel (white) | Final |
-| `icons/haas-rel-{apps,sales,service,warranty}.svg` | Haas features band icons (black via CSS filter) | Final |
 
 ## 2. Media Library — client content photos
 
@@ -37,14 +35,14 @@
 | `automation-hero.jpg` | Automation page-hero (Figma `7196:4264`) |
 | `automation-cell-design.jpg` | Automation **Automation Cell Design** card (Figma `7196:4308`) |
 | `robot-eoat.jpg` | Automation **Robot EOAT** card (Figma `7196:4316`) |
-| `pre-engineered-solutions.jpg` (1120×550, 595KB — client photo from Figma fill / node `7196:4324`, 2026-09-22) | Automation **Pre-Engineered Solutions** card |
+| `pre-engineered-card.jpg` (906×1024, 254KB — client photo, 2026-09-28) | Automation **Pre-Engineered Solutions** card (close-up) |
+| `pre-engineered-gallery.jpg` (900×1024, 259KB — client photo, 2026-09-28) | Automation **Pre-Engineered Solutions** gallery collection (wide shop-floor shot) |
 | `app-gallery-umc750.jpg` | Applications card + gallery |
 | `haas-umc-750.jpg` | Homepage lineup — machining centers |
 | `haas-st-25y.jpg` | Homepage lineup — turning |
-| `haas-umc-1000ss.png`, `machine-milling-centers.png` | ES/machine imagery |
-| `hero-slide-01.jpg`, `hero-showroom.jpg`, `hero-automation-cell.jpg`, `hero-training-showroom.jpg` | Homepage hero slides / training |
+| `hero-showroom.jpg`, `hero-automation-cell.jpg` | Homepage hero slides (slides 2–3) |
 | `mcs-gallery/*.jpg` (13) | MCS gallery + service cards |
-| `automation-gallery/*.jpg` | Automation gallery photos. Live collections match the five service cards only: HMI Design, Layered Controls Solutions, Automation Cell Design, Robot EOAT, Pre-Engineered Solutions. The older installed-project JPEGs remain on disk. |
+| `automation-gallery/hmi-*.jpg`, `layered-controls-diagram.jpg` | Automation gallery photos. Live collections match the five service cards only: HMI Design, Layered Controls Solutions, Automation Cell Design, Robot EOAT, Pre-Engineered Solutions. The older installed-project JPEGs (`01`–`07`) were pruned 2026-09-28 — they were referenced nowhere. |
 
 > Verify each against client-provided originals; some bundled files are downloaded stand-ins, not final client art.
 
@@ -64,9 +62,7 @@
 | `about.html` | 4 |
 | `careers.html` | 3 |
 | `showroom.html` *(exploratory)* | 11 |
-| `index-cta-lockup-preview.html` *(preview)* | 9 |
-| `hero-variations.html` *(exploratory)* | 3 |
-| **Total** | **45** |
+| **Total** | **33** |
 
 `engineered-solutions.html` and `application.html` are now fully local. Applications was the last page on the **live** site depending on someone else's servers — its five gallery collections (cover + lightbox) were on Unsplash while its cards were already local media attachments, so the fix was the gallery, not the cards. Bundled as `app-{troubleshooting,optimization,tooling,demo,training}.jpg` plus `app-hero.jpg`; the stored rows were rewritten by `scripts/localize-applications-gallery.php`.
 
@@ -94,7 +90,7 @@ Every remote `<img>` carries an HTML comment (`<!-- Stand-in: Unsplash — await
 
 ## 6. Post-migration tasks
 
-1. ~~Compress large PNGs (`es-hero.png` 2.8MB)~~ **Done 2026-09-21** — `es-hero.png` → `es-hero.jpg` (500KB), and the homepage hero went from a 7.2MB raw JPEG to `hero-slide-1.jpg` (619KB) + `hero-slide-1@2x.jpg` (1.0MB) behind `srcset`. Still open: `machine-milling-centers.png` (1.2MB, preview page only) → WebP/JPEG.
+1. ~~Compress large PNGs (`es-hero.png` 2.8MB)~~ **Done 2026-09-21** — `es-hero.png` → `es-hero.jpg` (500KB), and the homepage hero went from a 7.2MB raw JPEG to `hero-slide-1.jpg` (619KB) + `hero-slide-1@2x.jpg` (1.0MB) behind `srcset`. The last large PNG (`machine-milling-centers.png`) was pruned with its preview page 2026-09-28.
 2. Replace all Unsplash URLs with Media Library attachments.
 3. Confirm FANUC ASI seal usage rights before go-live.
 4. Keep brand assets in the theme (not the Media Library) so updates don't touch content.

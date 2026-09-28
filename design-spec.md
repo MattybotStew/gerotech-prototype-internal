@@ -124,7 +124,7 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 
 | Slide | Eyebrow | Headline | Peek title | CTA | Image |
 |-------|---------|----------|------------|-----|-------|
-| 1 | A Division of Gerotech | Haas Factory Outlet | (active — not in peek row) | Explore the Haas Line → `#machine-browse` | `assets/images/hero-slide-01.jpg` |
+| 1 | A Division of Gerotech | Haas Factory Outlet | (active — not in peek row) | Explore the Haas Line → `#machine-browse` | `assets/images/hero-slide-1.jpg` |
 | 2 | New Arrivals | Our Showroom Machines Are Ready To Ship | In-Stock & Ready | Browse Inventory → Haas showroom | `assets/images/hero-showroom.jpg` |
 | 3 | Engineered Solutions | Automation Built for Your Shop Floor | Automation for Michigan | Explore Solutions | `assets/images/hero-automation-cell.jpg` |
 
@@ -155,7 +155,7 @@ Icons: `assets/images/icons/haas-rel-{sales,apps,warranty,service}.svg` · Water
 | Automation | Pallet Systems & Robots | View Automation → `gerotech.com/machines` |
 | Haas Tooling | Tooling & Workholding | View Haas Tooling → `gerotech.com/machines` |
 
-Default panel photo: `assets/images/machine-milling-centers.png` (Figma export). Tab switching: `machine-tabs.js`.
+Default panel photo: `assets/images/haas-umc-750.jpg`. Tab switching: `machine-tabs.js`.
 
 ### Machine browse cards (legacy — replaced 2026-08-07)
 
@@ -235,11 +235,9 @@ Most images are **Unsplash stand-ins** (`<img>` tags with HTML comment crediting
 
 | File | Use |
 |------|-----|
-| `assets/images/hero-slide-01.jpg` | Hero slide 1 background (Figma `7046:872`) |
-| `assets/images/machine-milling-centers.png` | Machine lineup — Machining Centers panel (Figma `7043:223`) |
-| `assets/images/haas-logo.svg` | Haas wordmark — Haas Relationship intro (Figma SVG) |
-| `assets/images/icons/haas-rel-*.svg` | Haas Relationship capability icons (4) |
-| `assets/images/testimonial-shop-floor.png` | Testimonial slide 1 photo |
+| `assets/images/hero-slide-1.jpg` | Hero slide 1 background |
+| `assets/images/haas-umc-750.jpg` | Machine lineup — Machining Centers panel |
+| `assets/images/haas-f1-team.jpg` | Haas Relationship brand card |
 | `assets/images/gerotech-logo.svg` / `gerotech-logo-white.svg` | Header / footer |
 
 ### Known URL swaps (2026-07-14)
@@ -302,10 +300,8 @@ gerotech-prototype/
     └── images/
         ├── gerotech-logo.svg
         ├── gerotech-logo-white.svg
-        ├── haas-logo.svg
-        ├── hero-slide-01.jpg
-        ├── machine-milling-centers.png
-        ├── testimonial-shop-floor.png
-        └── icons/
-            └── haas-rel-{sales,apps,warranty,service}.svg
+        ├── haas-f1-team.jpg
+        ├── haas-wordmark-watermark.svg
+        ├── hero-slide-1.jpg
+        └── …                    ← see handoff/asset-manifest.md for the full list
 ```

@@ -171,7 +171,7 @@ Homepage and shared components use an editorial, numbered-row system with invert
 | Homepage wireframe | `6218:10` |
 | ES wireframe | `6217:425` |
 
-## Pages (12 HTML)
+## Pages (11 HTML)
 
 | Page | File |
 |------|------|
@@ -186,7 +186,6 @@ Homepage and shared components use an editorial, numbered-row system with invert
 | Careers | `careers.html` |
 | Machine Modification | `machine-modification.html` (redirect → MCS) |
 | Showroom | `showroom.html` (exploratory) |
-| Hero variations | `hero-variations.html` (exploratory) |
 
 Shared partials: `partials/site-header.html`, `partials/site-footer.html`, `partials/testimonials-block.html`
 

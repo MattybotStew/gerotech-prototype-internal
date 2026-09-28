@@ -28,7 +28,6 @@ Static HTML/CSS/JS **presentation prototype** for **Gerotech, Inc.** — Michiga
 | About | `about.html` | ✅ Photo hero, story, stats, locations |
 | Machine Modification | `machine-modification.html` | ✅ Redirect → MCS |
 | Showroom | `showroom.html` | 🔵 Exploratory variant page |
-| Hero variations | `hero-variations.html` | 🔵 Exploratory layout tests |
 
 Shared: `partials/site-header.html`, `partials/site-footer.html`, `partials/testimonials-block.html`
 

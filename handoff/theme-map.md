@@ -23,7 +23,7 @@ Each prototype page becomes a `page-{slug}.php` template (auto-applies by slug, 
 | `careers.html` | `page-careers.php` | |
 | `machine-modification.html` | — | Canonical redirect to MCS; recreate as 301 in WP, not a template |
 
-Not in scope: `hero-variations.html`, `showroom.html`, `index-cta-lockup-preview.html`, `gallery-module-preview.html` (exploratory/preview, stay out of the theme).
+Not in scope: `showroom.html`, `gallery-module-preview.html` (exploratory/preview, stay out of the theme). `hero-variations.html` and `index-cta-lockup-preview.html` were pruned 2026-09-28.
 
 ---
 
@@ -74,7 +74,7 @@ Load order is fixed and must be preserved:
 3. `assets/css/layout.css`
 4. `assets/css/elevated.css` — elevation/photography layer
 
-Enqueue in that order via `inc/enqueue.php`; dequeue the parent theme stylesheet if child. `assets/css/hero-showcase.css` is exploratory (hero-variations only) — **do not enqueue**.
+Enqueue in that order via `inc/enqueue.php`; dequeue the parent theme stylesheet if child.
 
 ---
 

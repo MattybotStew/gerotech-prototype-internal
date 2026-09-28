@@ -3,10 +3,11 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-09-28 (Cursor — Applications and Pre-Engineered client photos on proto, Local, Dev)
-**Active Agent:** Cursor
-**Branch:** `master` (photo pass not committed)
-**Deployed:** Theme rsynced to Dev. Applications gallery/cards and Pre-Engineered card vs gallery photos updated in stored ACF on Local and Dev. Tooling cart file is a screenshot crop and still shows the Figma pin.
+**Last Updated:** 2026-09-28 (opencode — pruned unused original-build assets + exploratory pages, synced docs; photo pass committed)
+**Active Agent:** opencode
+**Branch:** `master` — photo pass `a604ec0` committed; asset prune committed this session and pushed.
+**Deployed:** Theme rsynced to Dev earlier (unchanged this session). Applications gallery/cards and Pre-Engineered card vs gallery photos live in stored ACF on Local and Dev. Tooling cart file is still a screenshot crop showing the Figma pin.
+**Prune (2026-09-28):** Deleted 17 unused images from proto + theme (`automation-gallery/01`–`07`, `pre-engineered-solutions.jpg`, `haas-f1-lockup.png`, `haas-umc-1000ss.png`, `hero-slide-01.jpg`, `hero-training-showroom.jpg`, `machine-milling-centers.png`, `icons/haas-rel-*.svg`) and the two exploratory pages that were their only consumers (`hero-variations.html`, `index-cta-lockup-preview.html`) plus `assets/css/hero-showcase.css`. Refs cleaned in `AGENTS.md`, `design-spec.md`, `docs/PROJECT_BRIEF.md`, `handoff/{asset-manifest,theme-map,qa-checklist}.md`. `sync-theme-assets.sh --check` OK.
 **Verification:** Homepage + all 4 ES pages confirmed fully ACF-wired end-to-end on Local: templates read every section through `gerotech_field()` with code defaults; `scripts/audit-acf-applied.php` reports **279/291 top-level fields applied**. The 12 unapplied fields are all *correct by design* (see the "Blanks that are correct" list): accent/CTA colour selects (blank = design colour), `es_partners_logos` (wordmark fallback is the design), `haas_brand_logo`/`cta_image` (theme-bundled), `mcs_cta_body`/`app_cta_body` (deliberately empty). No code changes needed; theme re-synced to Local (`sync-theme-to-local.sh`); all 5 URLs HTTP 200. Nothing to commit for this pass.
 **Note (CLI recipe):** Local `wp eval-file` bootstrap needs `do_action('init')` — running a script that only `require`s wp-load skips plugin `init`, so ACF/`get_field` are absent. A wrapper `require wp-load; require <script>;` works (scripts must live outside repo `scripts/` is fine — absolute path). Audit script's `$args` warning under plain CLI is harmless.
 

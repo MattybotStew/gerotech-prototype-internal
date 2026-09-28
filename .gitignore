@@ -15,3 +15,6 @@ src/figma/
 # dependencies
 node_modules/
 .tmp/
+
+# local client image drops (raw Figma exports, not committed)
+geroTech-images/
