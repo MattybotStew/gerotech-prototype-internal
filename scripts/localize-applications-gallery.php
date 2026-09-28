@@ -33,10 +33,10 @@ $post_id = (int) $page->ID;
 
 /** Unsplash id => bundled theme file. */
 $map = array(
-	'photo-1713371398485-7bde1bde9def' => 'app-troubleshooting.jpg',
+	'photo-1713371398485-7bde1bde9def' => 'app-troubleshooting-cabinet.jpg',
 	'photo-1713371398484-cc4e4f6a262a' => 'app-optimization.jpg',
-	'photo-1666618090858-fbcee636bd3e' => 'app-tooling.jpg',
-	'photo-1727292485858-588c7652ad69' => 'app-demo.jpg',
+	'photo-1666618090858-fbcee636bd3e' => 'app-tooling-cart.jpg',
+	'photo-1727292485858-588c7652ad69' => 'app-demo-showroom.jpg',
 	'photo-1647427060118-4911c9821b82' => 'app-training.jpg',
 );
 
