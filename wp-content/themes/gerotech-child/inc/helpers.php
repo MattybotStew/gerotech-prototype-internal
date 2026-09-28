@@ -81,6 +81,22 @@ function gerotech_quote_mailto( $subject = 'Gerotech Quote Request' ) {
 }
 
 /**
+ * Page slugs whose templates render card modals + gallery collections.
+ *
+ * Shared by inc/enqueue.php (which loads modal.js / gallery-module.js) and
+ * footer.php (which renders the #mcs-modal container), so the container and its
+ * script can never drift apart — a missing container silently kills every popup.
+ *
+ * @return string[] Actual WP page slugs (dev slugs), not prototype filenames.
+ */
+function gerotech_modal_pages() {
+	return (array) apply_filters(
+		'gerotech_modal_pages',
+		array( 'modification-of-standard-machine-tools', 'automated-system', 'unique-applications-for-standard-machines' )
+	);
+}
+
+/**
  * Read a theme asset versioned by file mtime (cache-busting).
  *
  * @param string $rel Relative path under the theme, e.g. 'assets/css/tokens.css'.

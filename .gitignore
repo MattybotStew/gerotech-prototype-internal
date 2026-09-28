@@ -3,6 +3,7 @@
 # OS / editor cruft
 .DS_Store
 .codewhale/
+.playwright-mcp/
 
 # Web Lens element context + screenshots (webLens.contextDirectory)
 .tmp/

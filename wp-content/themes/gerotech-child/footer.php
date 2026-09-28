@@ -81,6 +81,20 @@
 		</div>
 	</footer>
 
+	<?php if ( is_page( gerotech_modal_pages() ) ) : ?>
+	<div class="mcs-modal" id="mcs-modal" role="dialog" aria-modal="true" aria-labelledby="mcs-modal-title" hidden>
+		<div class="mcs-modal__backdrop"></div>
+		<div class="mcs-modal__panel">
+			<button type="button" class="mcs-modal__close" aria-label="Close">&#215;</button>
+			<div class="mcs-modal__img"></div>
+			<div class="mcs-modal__body">
+				<h2 class="mcs-modal__title" id="mcs-modal-title"></h2>
+				<div class="mcs-modal__detail"></div>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
+
 	<?php wp_footer(); ?>
 </body>
 </html>

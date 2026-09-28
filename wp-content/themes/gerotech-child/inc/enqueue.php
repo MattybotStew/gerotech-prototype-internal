@@ -102,10 +102,8 @@ function gerotech_child_enqueue_assets() {
 
 	// Card modals + gallery collections viewer — ES detail pages.
 	// NOTE: these are the actual WP page slugs (dev slugs), not prototype slugs.
-	$modal_pages = (array) apply_filters(
-		'gerotech_modal_pages',
-		array( 'modification-of-standard-machine-tools', 'automated-system', 'unique-applications-for-standard-machines' )
-	);
+	// Shared with footer.php, which renders the #mcs-modal container.
+	$modal_pages = gerotech_modal_pages();
 	if ( is_page( $modal_pages ) ) {
 		wp_enqueue_script( 'gerotech-modal', $js . 'modal.js', array(), gerotech_asset_version( 'assets/js/modal.js' ), true );
 		wp_enqueue_script( 'gerotech-gallery-module', $js . 'gallery-module.js', array(), gerotech_asset_version( 'assets/js/gallery-module.js' ), true );

@@ -7,6 +7,7 @@
 **Active Agent:** Cursor
 **Branch:** `master` — **uncommitted:** Process Optimization gallery graphic + Process Troubleshooting cabinet + prior MCS Auto Door / Custom Workholding / card/CTA photo work.
 **Deployed:** Theme-only rsync of `app-optimization-gallery.jpg` (+ Apps template) to gerotechdev. Local/Dev `app_collections` Process Optimization media **replaced** with 1 gallery line (`app-optimization-gallery.jpg` string). Card left on uploads `app-optimization.jpg` (Local `#3476`, Dev `#3475`). Page + CDN caches flushed. Verified Dev HTML: card thumb unchanged; gallery cover + data-src use new filename.
+**Popup fix (2026-09-28, opencode):** the `#mcs-modal` container was missing from the theme — cards had `aria-haspopup="dialog"` and `modal.js` was enqueued, but with no container `modal.js` bailed at its `if (modal && cards.length)` guard, so **every** card popup on MCS / Automation / Applications was dead on Local and Dev. Added the container to `footer.php`, guarded by a new `gerotech_modal_pages()` in `inc/helpers.php` (same helper now feeds `inc/enqueue.php`, so container + script can't drift). Deployed to Dev, caches flushed; popups verified opening/closing on `/automated-system/`.
 
 **Note (CLI recipe):** Local `wp eval-file` bootstrap needs `do_action('init')` — running a script that only `require`s wp-load skips plugin `init`, so ACF/`get_field` are absent. A wrapper `require wp-load; require <script>;` works (scripts must live outside repo `scripts/` is fine — absolute path). Audit script's `$args` warning under plain CLI is harmless.
 
