@@ -3,10 +3,10 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-09-22 (Cline — committed the gallery trim + deployed theme to Dev)
-**Active Agent:** Cline
-**Branch:** `master` @ `f7292fa` — pushed to origin (also shipped the previously-unpushed `f8ef395`).
-**Deployed:** Theme on Dev matches repo (rsync --delete, caches flushed); `/automated-system/` renders the 5 service-card collections on Local and Dev.
+**Last Updated:** 2026-09-28 (Cursor — Applications and Pre-Engineered client photos on proto, Local, Dev)
+**Active Agent:** Cursor
+**Branch:** `master` (photo pass not committed)
+**Deployed:** Theme rsynced to Dev. Applications gallery/cards and Pre-Engineered card vs gallery photos updated in stored ACF on Local and Dev. Tooling cart file is a screenshot crop and still shows the Figma pin.
 **Verification:** Homepage + all 4 ES pages confirmed fully ACF-wired end-to-end on Local: templates read every section through `gerotech_field()` with code defaults; `scripts/audit-acf-applied.php` reports **279/291 top-level fields applied**. The 12 unapplied fields are all *correct by design* (see the "Blanks that are correct" list): accent/CTA colour selects (blank = design colour), `es_partners_logos` (wordmark fallback is the design), `haas_brand_logo`/`cta_image` (theme-bundled), `mcs_cta_body`/`app_cta_body` (deliberately empty). No code changes needed; theme re-synced to Local (`sync-theme-to-local.sh`); all 5 URLs HTTP 200. Nothing to commit for this pass.
 **Note (CLI recipe):** Local `wp eval-file` bootstrap needs `do_action('init')` — running a script that only `require`s wp-load skips plugin `init`, so ACF/`get_field` are absent. A wrapper `require wp-load; require <script>;` works (scripts must live outside repo `scripts/` is fine — absolute path). Audit script's `$args` warning under plain CLI is harmless.
 

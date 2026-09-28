@@ -44,12 +44,12 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Tooling Recommendation',
-			'image'  => 'assets/images/app-tooling.jpg',
+			'image'  => 'assets/images/app-tooling-cart.jpg',
 			'detail' => '<p>Expert tooling selection matched to your material, machine, and application — ensuring the right tool is always in the spindle for optimal performance and tool life.</p>',
 		),
 		array(
 			'title'  => 'Demo',
-			'image'  => 'assets/images/app-demo.jpg',
+			'image'  => 'assets/images/app-demo-showroom.jpg',
 			'detail' => '<p>Live demonstrations of application capabilities, software, and processes at your facility or at a Gerotech-supported location — see the solution before you commit.</p>',
 		),
 		array(
@@ -73,34 +73,39 @@ $collections   = $pick(
 			'media' => "image | {$uri}/assets/images/app-gallery-umc750.jpg | | Haas UMC-750 5-axis machining | UMC-750 · 5-axis machining\n"
 				. "image | {$uri}/assets/images/app-gallery-milling-coolant.jpg | | Milling operation under high-pressure coolant | Milling · high-pressure coolant\n"
 				. "image | {$uri}/assets/images/app-gallery-turning-large.jpg | | Large-diameter turning operation | Turning · large-diameter work\n"
-				. "image | {$uri}/assets/images/app-gallery-turning-drill.jpg | | Turning setup with a drilling operation | Turning · drilling",
+				. "image | {$uri}/assets/images/app-gallery-turning-drill.jpg | | Turning setup with a drilling operation | Turning · drilling\n"
+				. "image | {$uri}/assets/images/app-gallery-coolant-impeller.jpg | | Coolant spray on an impeller being machined | Milling · high-pressure coolant\n"
+				. "image | {$uri}/assets/images/app-gallery-boring.jpg | | Boring bar on a large turned part | Turning · boring\n"
+				. "image | {$uri}/assets/images/app-gallery-drill.jpg | | Drill approaching a chucked part | Turning · drilling",
 		),
 		array(
 			'title' => 'Process Troubleshooting',
 			'meta'  => '',
-			'media' => 'image | {$uri}/assets/images/app-troubleshooting.jpg',
+			'media' => "image | {$uri}/assets/images/app-troubleshooting.jpg | | Process Troubleshooting | Process Troubleshooting",
 		),
 		array(
 			'title' => 'Process Optimization',
 			'meta'  => '',
-			'media' => 'image | {$uri}/assets/images/app-optimization.jpg',
+			'media' => "image | {$uri}/assets/images/app-optimization.jpg | | Cycle-time reduction, part quality and tooling performance diagram | Process optimisation cycle · cycle time, quality, tooling",
 		),
 		array(
 			'title' => 'Tooling Recommendation',
 			'meta'  => '',
-			'media' => 'image | {$uri}/assets/images/app-tooling.jpg',
+			'media' => "image | {$uri}/assets/images/app-tooling-cart.jpg | | Haas Tooling cart with holders and pegboard | Haas Tooling cart",
 		),
 		array(
 			'title' => 'Demo',
 			'meta'  => '',
-			'media' => 'image | {$uri}/assets/images/app-demo.jpg',
+			'media' => "image | {$uri}/assets/images/app-demo-showroom.jpg | | Gerotech showroom with a Haas UMC-750 | Showroom · Haas UMC-750",
 		),
 		array(
 			'title' => 'Training',
 			'meta'  => '',
 			'media' => "image | {$uri}/assets/images/app-training.jpg | | Gerotech instructor walking a customer through a Haas control | Training session · Haas control walkthrough\n"
 				. "image | {$uri}/assets/images/app-gallery-training-control.jpg | | Operator programming at a Haas control | Programming at the control\n"
-				. "image | {$uri}/assets/images/app-gallery-training-group.jpg | | Training session around a Haas VF-3 machining centre | Group session · Haas VF-3",
+				. "image | {$uri}/assets/images/app-gallery-training-group.jpg | | Training session around a Haas VF-3 machining centre | Group session · Haas VF-3\n"
+				. "image | {$uri}/assets/images/app-gallery-training-qr.jpg | | Instructor at a Haas control showing a QR code on screen | Haas control · programming\n"
+				. "image | {$uri}/assets/images/app-gallery-training-vf3.jpg | | Training group gathered at a Haas VF-3 | Group session · Haas VF-3",
 		),
 	)
 );

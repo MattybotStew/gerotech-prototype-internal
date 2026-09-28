@@ -2,6 +2,27 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-28 — Remaining export photos (Cursor)
+
+`geroTech-images/image 12`–`17` already match the Automation HMI screens and Layered Controls diagram. `image 7`–`11` were new and were added:
+
+- Part Programming gallery: `app-gallery-coolant-impeller.jpg`, `app-gallery-boring.jpg`, `app-gallery-drill.jpg` (now 7 photos).
+- Training gallery: `app-gallery-training-qr.jpg`, `app-gallery-training-vf3.jpg` (now 5 photos).
+
+Prototype, theme defaults, Local, and Dev. Not committed.
+
+## 2026-09-28 — Applications + Automation client photos (Cursor)
+
+Tristien photo comments applied on prototype, Local, and Dev. Stored ACF rows updated (they win over defaults).
+
+- **Process Optimization** gallery now uses `app-optimization.jpg` (same cycle diagram as the card).
+- **Tooling Recommendation** card + gallery use `app-tooling-cart.jpg`. Source is a crop of the Figma comment screenshot — the blue selection handle and comment pin are still in the pixels. A clean export would replace this file.
+- **Demo** card + gallery use `app-demo-showroom.jpg` (UMC-750 showroom).
+- **Pre-Engineered Solutions** card uses `pre-engineered-card.jpg` (grey cabinet close-up). Gallery uses a different file, `pre-engineered-gallery.jpg` (white dual-door cabinet on the floor).
+- Theme PHP gallery defaults that were single-quoted (`{$uri}` literal) now interpolate.
+- Local attachments: tooling #3484, demo #3485, pre-engineered card #3486. Dev: #3480, #3481, #3482. Caches flushed on Dev.
+- Not committed.
+
 ## 2026-09-23 — CORRECTION 2: wireframes are code too, comments map via Cursor (DSH)
 
 Two more corrections from Matt, both folded in:
