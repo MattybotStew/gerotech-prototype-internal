@@ -118,6 +118,13 @@ if [ -d "$SRC/videos" ]; then
   done < <(cd "$SRC/videos" && find . -type f | sed 's|^\./||')
 fi
 
+# Normalise permissions so a restrictive local umask can never ship files the
+# web server cannot read — WP Engine returns 403 for non-world-readable assets.
+if [ "$MODE" = "sync" ]; then
+  find "$DST" -type d -exec chmod 755 {} + 2>/dev/null || true
+  find "$DST" -type f -exec chmod 644 {} + 2>/dev/null || true
+fi
+
 if [ "$PRUNE" -eq 1 ] && [ "$MODE" = "sync" ]; then
   while IFS= read -r rel; do
     # Theme-only legacy page images (added directly to the theme, never in the

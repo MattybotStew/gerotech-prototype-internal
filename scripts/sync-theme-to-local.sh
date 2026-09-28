@@ -43,5 +43,9 @@ if [ "$MODE" = "check" ]; then
   fi
 else
   rsync -a --delete --exclude '.DS_Store' "$SRC/" "$DEST/"
+  # macOS ships openrsync, which has no --chmod; normalise explicitly so a
+  # restrictive umask can never ship non-world-readable files (WP Engine -> 403).
+  find "$DEST" -type d -exec chmod 755 {} + 2>/dev/null || true
+  find "$DEST" -type f -exec chmod 644 {} + 2>/dev/null || true
   echo "Synced repo theme -> $DEST"
 fi
