@@ -68,7 +68,7 @@ $collections     = $pick(
 			'meta'  => 'Operator screens · cell overview · diagnostics',
 			'media' => implode( "\n", array(
 				"image | {$uri}/assets/images/automation-gallery/hmi-operator-1.jpg | | Gerotech operator screen showing part complete and fixture presence | Operator screen · part complete",
-				"image | {$uri}/assets/images/automation-gallery/hmi-operator-2.jpg | | Gerotech operator screen, closer view of part complete | Operator screen · part complete",
+				"image | {$uri}/assets/images/automation-gallery/hmi-operator-2.jpg | | Gerotech operator screen, closer view of part complete | Operator screen · part complete (close view)",
 				"image | {$uri}/assets/images/automation-gallery/hmi-operator-3.jpg | | Gerotech operator screen with the full button bar | Operator screen · full controls",
 				"image | {$uri}/assets/images/automation-gallery/hmi-cell-overview.jpg | | Gerotech cell overview screen with mill and robot status | Cell overview",
 				"image | {$uri}/assets/images/automation-gallery/hmi-diagnostics.jpg | | Gerotech diagnostics screen showing safety inputs and a door-open fault | Diagnostics · safety inputs",

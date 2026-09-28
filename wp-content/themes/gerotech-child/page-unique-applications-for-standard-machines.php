@@ -74,9 +74,9 @@ $collections   = $pick(
 				. "image | {$uri}/assets/images/app-gallery-milling-coolant.jpg | | Milling operation under high-pressure coolant | Milling · high-pressure coolant\n"
 				. "image | {$uri}/assets/images/app-gallery-turning-large.jpg | | Large-diameter turning operation | Turning · large-diameter work\n"
 				. "image | {$uri}/assets/images/app-gallery-turning-drill.jpg | | Turning setup with a drilling operation | Turning · drilling\n"
-				. "image | {$uri}/assets/images/app-gallery-coolant-impeller.jpg | | Coolant spray on an impeller being machined | Milling · high-pressure coolant\n"
+				. "image | {$uri}/assets/images/app-gallery-coolant-impeller.jpg | | Coolant spray on an impeller being machined | Milling · coolant on impeller\n"
 				. "image | {$uri}/assets/images/app-gallery-boring.jpg | | Boring bar on a large turned part | Turning · boring\n"
-				. "image | {$uri}/assets/images/app-gallery-drill.jpg | | Drill approaching a chucked part | Turning · drilling",
+				. "image | {$uri}/assets/images/app-gallery-drill.jpg | | Drill approaching a chucked part | Turning · drilling a chucked part",
 		),
 		array(
 			'title' => 'Process Troubleshooting',
@@ -105,7 +105,7 @@ $collections   = $pick(
 				. "image | {$uri}/assets/images/app-gallery-training-control.jpg | | Operator programming at a Haas control | Programming at the control\n"
 				. "image | {$uri}/assets/images/app-gallery-training-group.jpg | | Training session around a Haas VF-3 machining centre | Group session · Haas VF-3\n"
 				. "image | {$uri}/assets/images/app-gallery-training-qr.jpg | | Instructor at a Haas control showing a QR code on screen | Haas control · programming\n"
-				. "image | {$uri}/assets/images/app-gallery-training-vf3.jpg | | Training group gathered at a Haas VF-3 | Group session · Haas VF-3",
+				. "image | {$uri}/assets/images/app-gallery-training-vf3.jpg | | Training group gathered at a Haas VF-3 | Group session · VF-3, wide",
 		),
 	)
 );

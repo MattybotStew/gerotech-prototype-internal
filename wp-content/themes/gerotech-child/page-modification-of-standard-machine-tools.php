@@ -119,7 +119,7 @@ $collections     = $pick(
 			'media' => "image | {$uri}/assets/images/mcs-gallery/workholding-p2.jpg | | Serrated tombstone fixture plate marked P2 | Tombstone plate · P2\nimage | {$uri}/assets/images/mcs-gallery/workholding-tombstone.jpg | | Dark tombstone fixture marked 259-300-15 | Tombstone fixture · 259-300-15\nimage | {$uri}/assets/images/mcs-gallery/workholding-gtd-11962.jpg | | Gerotech fixture GTD-11962 marked 1B | GTD-11962 · 1B\nimage | {$uri}/assets/images/mcs-gallery/workholding-gtd-11961.jpg | | Gerotech fixture GTD-11961 holding a part marked 1A | GTD-11961 · 1A",
 		),
 		array(
-			'title' => 'Safety &amp; Environmental',
+			'title' => 'Safety &amp; Environmental Modifications',
 			'meta'  => 'Mist collection · air quality',
 			'media' => "image | {$uri}/assets/images/mcs-gallery/mist-torit.jpg | | Donaldson Torit mist collector on a mill | Donaldson Torit mist collector\nimage | {$uri}/assets/images/mcs-gallery/mist-lina.jpg | | LINA3nine mist collector on a mill | LINA3nine mist collector",
 		),
