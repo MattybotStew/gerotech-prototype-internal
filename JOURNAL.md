@@ -2,6 +2,62 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-28 — Applications Process Optimization gallery graphic (Cursor)
+
+Gallery-only swap for **Process Optimization** on Applications. Card thumbnail left on the older cycle diagram.
+
+- New file: `assets/images/app-optimization-gallery.jpg` (copied from Untitled drop; 93675 bytes). Card remains on `app-optimization.jpg` / uploads attachment.
+- Proto `application.html` gallery cover + data-src → gallery filename; card markup unchanged.
+- Theme default `app_collections` Process Optimization media → gallery filename; `app_cards` image default still `app-optimization.jpg`.
+- Local ACF `app_collections` row **replaced** (1 pipe string); card `#3476` untouched.
+- Theme-only rsync to Dev; Dev `app_collections` media written as **string** (not array); card `#3475` untouched. Page + CDN caches flushed.
+- Dev HTML: card `uploads/…/app-optimization.jpg`; gallery `…/app-optimization-gallery.jpg` (cover + data-src).
+- **Not committed.**
+
+## 2026-09-28 — Applications Process Troubleshooting cabinet photo (Cursor)
+
+Replaced the Process Troubleshooting stock stand-in with client electrical-cabinet photo (`app-troubleshooting-cabinet.jpg`). Single-item gallery **replaced** (not appended); card image updated.
+
+- Copied from Untitled asset drop → `assets/images/app-troubleshooting-cabinet.jpg` (254813 bytes); synced to theme + Local.
+- Proto/theme markup already pointed at the new file; stored ACF applied on Local (`app_cards` attachment `#3489`, `app_collections` 1 pipe line) and Dev (`#3485`; gallery media string fixed after an initial array write broke cover/data-src).
+- Theme-only rsync to Dev; page + CDN caches flushed. Dev HTML shows cabinet on card + gallery (3 refs); old `app-troubleshooting.jpg` gone.
+- **Not committed.**
+
+## 2026-09-28 — MCS Auto Door Integration gallery (+3 photos) (Cursor)
+
+Appended three client photos to **Auto Door Integration** (existing real cover `auto-door-haas.jpg` kept). Service card left alone (video + poster).
+
+- New files: `mcs-gallery/auto-door-vf2yt.jpg` (first of new), `auto-door-servax.jpg`, `auto-door-pendant.jpg`
+- Order after append: haas → vertical-door-closed → vertical-door-window → vertical-door-drive → vf2yt → servax → pendant → video
+- Proto + theme default + stored `mcs_collections` row on Local and Dev (theme-relative paths)
+- Theme images + PHP rsynced to Dev; caches flushed. Not committed.
+
+## 2026-09-28 — MCS Custom Workholding gallery (4 photos) (Cursor)
+
+Renamed gallery collection **Custom Fixture Design** → **Custom Workholding** and replaced its media with four client tombstone/fixture photos (cover = `workholding-p2.jpg`). Service card stays on `custom-workholding-plate.jpg`.
+
+- Files: `mcs-gallery/workholding-p2.jpg`, `workholding-tombstone.jpg`, `workholding-gtd-11962.jpg`, `workholding-gtd-11961.jpg`
+- Proto + theme default + stored `mcs_collections` row 5 on Local and Dev (theme-relative paths; no media sideload)
+- Theme images + PHP rsynced to Dev; caches flushed. Not committed.
+
+## 2026-09-28 — MCS Custom Workholding card photo (Cursor)
+
+Replaced the Custom Workholding service-card photo only (Figma `7497:732`). New file `assets/images/custom-workholding-plate.jpg` (silver tombstone plate + Jergens clamps + hydraulic cylinder). Gallery "Custom Fixture Design" still uses `custom-fixtures.jpg`.
+
+- Proto: `machine-custom-solutions.html` card img + alt updated.
+- Theme default: `page-modification-of-standard-machine-tools.php` `mcs_cards` Custom Workholding image path.
+- Stored ACF: Local attachment `#3488`, Dev `#3484`. Theme image + PHP rsynced to Dev; caches flushed.
+- Not committed.
+
+## 2026-09-28 — ES CTA band client photo (Cursor)
+
+Replaced the Engineered Solutions CTA background only (Figma `7425:3847` overlay section). New file `assets/images/cta-es-cell.jpg` (yellow FANUC + Midaco cell). Automation keeps `cta-rail-robot.jpg`.
+
+- Proto: `engineered-solutions.html` points at `cta-es-cell.jpg` (no srcset; no @2x).
+- Theme default + alt updated in `page-engineered-solutions.php`.
+- Stored ACF `es_cta_image` updated on Local (#3487) and Dev (#3483). Theme image + PHP rsynced to Dev; caches flushed.
+- Not committed.
+
 ## 2026-09-28 — Remaining export photos (Cursor)
 
 `geroTech-images/image 12`–`17` already match the Automation HMI screens and Layered Controls diagram. `image 7`–`11` were new and were added:

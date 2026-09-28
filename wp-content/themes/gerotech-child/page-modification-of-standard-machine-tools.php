@@ -65,7 +65,7 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Custom Workholding',
-			'image'  => 'assets/images/mcs-gallery/custom-workholding.jpg',
+			'image'  => 'assets/images/custom-workholding-plate.jpg',
 			'detail' => '<p>Purpose-built fixtures designed for your specific part — improving repeatability, reducing setup time, and enabling automation-ready production.</p>',
 		),
 		array(
@@ -106,7 +106,7 @@ $collections     = $pick(
 		array(
 			'title' => 'Auto Door Integration',
 			'meta'  => 'Servak · vertical doors',
-			'media' => "image | {$uri}/assets/images/mcs-gallery/auto-door-haas.jpg | | Servak auto door on a Haas mill | Servak auto door · Haas mill\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-closed.jpg | | Vertical auto door closed on a mill | Vertical door · closed\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-window.jpg | | Vertical auto door with window on a mill | Vertical door · windowed\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-drive.jpg | | Vertical auto door drive assembly | Vertical door · drive\nvideo | {$uri}/assets/videos/auto-door.mp4 | {$uri}/assets/images/mcs-gallery/auto-door-haas.jpg | Auto door cycling video | Auto door cycling · bench test",
+			'media' => "image | {$uri}/assets/images/mcs-gallery/auto-door-haas.jpg | | Servak auto door on a Haas mill | Servak auto door · Haas mill\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-closed.jpg | | Vertical auto door closed on a mill | Vertical door · closed\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-window.jpg | | Vertical auto door with window on a mill | Vertical door · windowed\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-drive.jpg | | Vertical auto door drive assembly | Vertical door · drive\nimage | {$uri}/assets/images/mcs-gallery/auto-door-vf2yt.jpg | | Haas VF-2YT with both auto doors open and control pendant on the right | Haas VF-2YT · doors open\nimage | {$uri}/assets/images/mcs-gallery/auto-door-servax.jpg | | Servax Drives actuator on top of a Haas VF-2YT enclosure | Servax Drives actuator · VF-2YT\nimage | {$uri}/assets/images/mcs-gallery/auto-door-pendant.jpg | | Auto door control pendant with DOOR MANUAL / DOOR AUTO switch and status lights | Door control pendant\nvideo | {$uri}/assets/videos/auto-door.mp4 | {$uri}/assets/images/mcs-gallery/auto-door-haas.jpg | Auto door cycling video | Auto door cycling · bench test",
 		),
 		array(
 			'title' => 'Hydraulic / Pneumatic',
@@ -114,9 +114,9 @@ $collections     = $pick(
 			'media' => "image | {$uri}/assets/images/mcs-gallery/hydraulic-rotary.jpg | | Hydraulic rotary and workholding integration | Rotary and workholding integration",
 		),
 		array(
-			'title' => 'Custom Fixture Design',
-			'meta'  => 'Machined plates · left/right-hand',
-			'media' => "image | {$uri}/assets/images/mcs-gallery/custom-fixtures.jpg | | Row of custom aluminum fixture plates with clamps | Machined fixture plates · left/right-hand",
+			'title' => 'Custom Workholding',
+			'meta'  => 'Tombstone fixtures · custom plates',
+			'media' => "image | {$uri}/assets/images/mcs-gallery/workholding-p2.jpg | | Serrated tombstone fixture plate marked P2 | Tombstone plate · P2\nimage | {$uri}/assets/images/mcs-gallery/workholding-tombstone.jpg | | Dark tombstone fixture marked 259-300-15 | Tombstone fixture · 259-300-15\nimage | {$uri}/assets/images/mcs-gallery/workholding-gtd-11962.jpg | | Gerotech fixture GTD-11962 marked 1B | GTD-11962 · 1B\nimage | {$uri}/assets/images/mcs-gallery/workholding-gtd-11961.jpg | | Gerotech fixture GTD-11961 holding a part marked 1A | GTD-11961 · 1A",
 		),
 		array(
 			'title' => 'Safety &amp; Environmental',

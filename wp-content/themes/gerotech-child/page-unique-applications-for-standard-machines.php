@@ -34,7 +34,7 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Process Troubleshooting',
-			'image'  => 'assets/images/app-troubleshooting.jpg',
+			'image'  => 'assets/images/app-troubleshooting-cabinet.jpg',
 			'detail' => '<p>Hands-on diagnosis of machining process problems — tool life, surface finish, dimensional variation, and cycle inefficiencies resolved by experienced application engineers.</p>',
 		),
 		array(
@@ -81,12 +81,12 @@ $collections   = $pick(
 		array(
 			'title' => 'Process Troubleshooting',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/app-troubleshooting.jpg | | Process Troubleshooting | Process Troubleshooting",
+			'media' => "image | {$uri}/assets/images/app-troubleshooting-cabinet.jpg | | Open electrical cabinet with terminal blocks, relays, VFD, and e-stop | Process Troubleshooting · electrical cabinet",
 		),
 		array(
 			'title' => 'Process Optimization',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/app-optimization.jpg | | Cycle-time reduction, part quality and tooling performance diagram | Process optimisation cycle · cycle time, quality, tooling",
+			'media' => "image | {$uri}/assets/images/app-optimization-gallery.jpg | | Circular process optimization diagram over a machined part: cycle time reduction, part quality, tooling performance | Process Optimisation · cycle time, quality, tooling",
 		),
 		array(
 			'title' => 'Tooling Recommendation',
