@@ -91,7 +91,7 @@ $current_id = (int) $current_id;
 $stub = pathinfo( $asset_rel, PATHINFO_FILENAME );
 if ( $current_id ) {
 	$attached = (string) get_post_meta( $current_id, '_wp_attached_file', true );
-	if ( 0 === strpos( basename( $attached ), $stub ) ) {
+	if ( basename( $attached ) === basename( $asset_rel ) ) {
 		$meta = wp_get_attachment_metadata( $current_id );
 		printf(
 			"  '%s' already uses attachment #%d (%s)%s — nothing to do.\n",

@@ -2,6 +2,60 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-29 — Automation Cell Design gallery +3 photos (Cursor)
+
+**Automation Cell Design** collection now **4 images** (cover unchanged: `automation-cell-design.jpg`).
+
+- New assets: `automation-gallery/automation-cell-lab.jpg`, `automation-cell-guarded.jpg`, `automation-cell-vision.jpg` (proto + theme sync).
+- Proto `automation-integration.html` + theme `page-automated-system.php` `ai_collections` default.
+- **Loose end:** stored `ai_collections` row on `automated-system` until `replace-gallery-media.php` on Local/Dev. Not committed.
+
+## 2026-09-29 — Deploy + ACF apply (Dev) + commit (Cursor)
+
+Theme rsync to gerotechdev; chmod 755/644 on child theme. Dev ACF: Custom Workholding card, MCS CTA, Demo gallery (+2), EOAT gallery (3 lines), hero already current. Caches flushed.
+
+- Local: theme synced; **DB offline** — ACF not applied. Start Local and run the five eval-file helpers when ready.
+- `set-card-image.php`: idempotent check compares full basename (not stub prefix).
+- Pushed to `origin/master`.
+
+## 2026-09-29 — Automation hero photo (Cursor)
+
+Replaced `automation-hero.jpg` with client yellow-robot cell photo (1024×471). Proto + theme asset; alt text updated. Path still `assets/images/automation-hero.jpg`.
+
+- **Loose end:** stored `ai_hero_image` until `set-page-image.php`. Not committed.
+
+## 2026-09-29 — Automation EOAT gallery +2 photos (Cursor)
+
+**Robot EOAT – Ancillary Material Handling** gallery now 3 images (card cover still `robot-eoat.jpg`).
+
+- `automation-gallery/eoat-vacuum-suction.jpg`, `automation-gallery/eoat-gripper-pair.jpg`.
+- Proto `automation-integration.html` + theme `ai_collections` default.
+- **Loose end:** `replace-gallery-media.php` on `automated-system` / `ai_collections` for stored rows. Not committed.
+
+## 2026-09-29 — Applications Demo gallery +2 photos (Cursor)
+
+Added client demo photos to the **Demo** gallery collection (Applications). Card thumb still `app-demo-showroom.jpg`.
+
+- `app-gallery-demo-dc1.jpg`, `app-gallery-demo-showroom-group.jpg` in proto + theme.
+- Proto `application.html` + theme `app_collections` default now 3 images.
+- **Loose end:** run `add-app-gallery-items.php "Demo"` on Local/Dev to append to stored rows. Not committed.
+
+## 2026-09-29 — MCS CTA shop-floor photo (Cursor)
+
+Figma `7425:4357` CTA band background replaced with the attached shop photo (VF-2SS + yellow robot cell).
+
+- `assets/images/cta-mcs-cell.jpg` (1024×682) + theme copy.
+- Proto `machine-custom-solutions.html` and theme default `mcs_cta_image` now use it. Sheet-metal gallery photo left in place.
+- **Loose end:** a stored `mcs_cta_image` attachment still wins over the template default until `set-page-image.php`. Not deployed.
+
+## 2026-09-29 — Custom Workholding card photo (Cursor)
+
+Figma card `7425:4236` comment: the welded subframe in the machining center is the card photo.
+
+- New file: `assets/images/custom-workholding.jpg` (1012×1800, q80, ~408 KB) from the Figma fill. Theme copy in place.
+- Proto `machine-custom-solutions.html` and theme `page-modification-of-standard-machine-tools.php` card default now use that file. Gallery set (`workholding-p2.jpg` and the other three) unchanged. `custom-workholding-plate.jpg` left on disk.
+- **Loose end:** stored `mcs_cards` still points at the plate upload until `wp eval-file scripts/set-card-image.php` on Local and Dev. Not deployed. Not committed.
+
 ## 2026-09-28 — Applications Process Optimization gallery graphic (Cursor)
 
 Gallery-only swap for **Process Optimization** on Applications. Card thumbnail left on the older cycle diagram.

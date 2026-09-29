@@ -58,7 +58,7 @@ $cards        = $pick(
 );
 
 /* ── Gallery ──────────────────────────────────────────────── */
-$gallery_eyebrow = $pick( 'ai_gallery_eyebrow', 'Gallery' );
+$gallery_eyebrow = $pick( 'ai_gallery_eyebrow', 'On Our Floor' );
 $gallery_title   = $pick( 'ai_gallery_title', 'Installed Automation <em>Gallery</em>' );
 $collections     = $pick(
 	'ai_collections',
@@ -82,12 +82,17 @@ $collections     = $pick(
 		array(
 			'title' => 'Automation Cell Design',
 			'meta'  => 'FANUC M-20iD/25 · Haas ST-10',
-			'media' => "image | {$uri}/assets/images/automation-cell-design.jpg | | FANUC M-20iD/25 tending a Haas ST-10 in a guarded cell | FANUC M-20iD/25 · Haas ST-10",
+			'media' => "image | {$uri}/assets/images/automation-cell-design.jpg | | FANUC M-20iD/25 tending a Haas ST-10 in a guarded cell | FANUC M-20iD/25 · Haas ST-10\n"
+				. "image | {$uri}/assets/images/automation-gallery/automation-cell-lab.jpg | | Automation training lab with control cabinet, teach pendant, dual yellow robots on pedestals, EOAT tree, and CNC machines in the background | Training lab · dual robots · EOAT tree\n"
+				. "image | {$uri}/assets/images/automation-gallery/automation-cell-guarded.jpg | | Guarded yellow robot cell with wire-mesh safety enclosure, vertical control cabinet with HMI, and floor controller | Guarded robot cell · control cabinet\n"
+				. "image | {$uri}/assets/images/automation-gallery/automation-cell-vision.jpg | | Keyence overhead machine vision system with four green LED ring lights on a diamond mounting plate | Keyence vision · ring lights",
 		),
 		array(
 			'title' => 'Robot EOAT – Ancillary Material Handling',
 			'meta'  => 'Custom end-of-arm tooling',
-			'media' => "image | {$uri}/assets/images/robot-eoat.jpg | | Custom dual-gripper end-of-arm tooling | Custom end-of-arm tooling",
+			'media' => "image | {$uri}/assets/images/robot-eoat.jpg | | Custom dual-gripper end-of-arm tooling | Custom end-of-arm tooling\n"
+				. "image | {$uri}/assets/images/automation-gallery/eoat-vacuum-suction.jpg | | Vacuum suction end-of-arm tooling with orange cups on an aluminum frame | Vacuum EOAT · suction cups\n"
+				. "image | {$uri}/assets/images/automation-gallery/eoat-gripper-pair.jpg | | Custom dual end-of-arm gripper tooling with pneumatic fittings on a workbench | Dual gripper EOAT",
 		),
 		array(
 			'title' => 'Pre-Engineered Solutions',
@@ -124,7 +129,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 
 <main id="main">
     <section class="page-hero" aria-labelledby="ai-hero-headline">
-      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>" alt="Robotic automation cell with machine guarding" loading="eager" decoding="async" />
+      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>" alt="Yellow FANUC robot in a guarded automation cell beside CNC equipment" loading="eager" decoding="async" />
       <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
       <div class="slide__content slide__content--left">
         <nav class="page-hero__breadcrumb" aria-label="Breadcrumb">

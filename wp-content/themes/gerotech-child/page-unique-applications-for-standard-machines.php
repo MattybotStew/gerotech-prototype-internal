@@ -96,7 +96,9 @@ $collections   = $pick(
 		array(
 			'title' => 'Demo',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/app-demo-showroom.jpg | | Gerotech showroom with a Haas UMC-750 | Showroom · Haas UMC-750",
+			'media' => "image | {$uri}/assets/images/app-demo-showroom.jpg | | Gerotech showroom with a Haas UMC-750 | Showroom · Haas UMC-750\n"
+				. "image | {$uri}/assets/images/app-gallery-demo-dc1.jpg | | Gerotech instructor demonstrating a Haas DC-1 to customers in the showroom | Demo · Haas DC-1\n"
+				. "image | {$uri}/assets/images/app-gallery-demo-showroom-group.jpg | | Customers touring a Haas UMC machining center in the Gerotech showroom | Showroom · customer demo",
 		),
 		array(
 			'title' => 'Training',

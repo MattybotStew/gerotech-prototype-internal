@@ -65,7 +65,7 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Custom Workholding',
-			'image'  => 'assets/images/custom-workholding-plate.jpg',
+			'image'  => 'assets/images/custom-workholding.jpg',
 			'detail' => '<p>Purpose-built fixtures designed for your specific part — improving repeatability, reducing setup time, and enabling automation-ready production.</p>',
 		),
 		array(
@@ -82,7 +82,7 @@ $cards        = $pick(
 );
 
 /* ── Gallery ──────────────────────────────────────────────── */
-$gallery_eyebrow = $pick( 'mcs_gallery_eyebrow', 'On the Floor' );
+$gallery_eyebrow = $pick( 'mcs_gallery_eyebrow', 'On Our Floor' );
 $gallery_title   = $pick( 'mcs_gallery_title', 'Installed <em>Gallery</em>' );
 $gallery_body    = $pick( 'mcs_gallery_body', 'Recent customization and retrofit work from Gerotech engineers.' );
 $collections     = $pick(
@@ -132,7 +132,7 @@ $cta_headline     = $pick( 'mcs_cta_headline', 'Need a <em>custom solution</em> 
 $cta_body         = $pick( 'mcs_cta_body', '' );
 $cta_button_label = $pick( 'mcs_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'mcs_cta_button_url', gerotech_quote_mailto() );
-$cta_image        = gerotech_image_url( $pick( 'mcs_cta_image', 'assets/images/mcs-gallery/sheet-metal-machine.jpg' ) );
+$cta_image        = gerotech_image_url( $pick( 'mcs_cta_image', 'assets/images/cta-mcs-cell.jpg' ) );
 $cta_call_label   = $pick( 'mcs_cta_call_label', 'Prefer to talk it through?' );
 $cta_call_number  = $pick( 'mcs_cta_call_number', '(734) 379-7788' );
 $cta_call_note    = $pick( 'mcs_cta_call_note', 'Talk to a person, not a form.' );
@@ -276,7 +276,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
          SECTION 6: CTA Band (Detail-specific)
          ============================================================ -->
     <section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="Call to action">
-      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="Custom sheet metal enclosure on a machining center" loading="lazy" />
+      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="Haas VF-2SS and a yellow robot inside a Gerotech automation cell" loading="lazy" />
       <div class="cta-band__overlay" aria-hidden="true"></div>
       <div class="cta-band__content">
         <div class="cta-band__copy">
