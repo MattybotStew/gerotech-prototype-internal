@@ -5,7 +5,7 @@
 ## Current Session State
 **Last Updated:** 2026-09-29 (Cursor — client photos deploy + commit)
 **Active Agent:** Cursor
-**Branch:** `master` — synced with `origin/master` after push.
+**Branch:** `master` — synced with `origin/master` after push (`f34b720`).
 **Deployed:** Theme rsync to gerotechdev (2026-09-29). Dev ACF applied: MCS Custom Workholding card (#3490), `mcs_cta_image` (#3489), Applications Demo gallery (3 items), Automation EOAT gallery (3 items), `ai_hero_image` already #3455. Page + CDN caches flushed.
 **Local:** `sync-theme-to-local.sh` OK; ACF scripts **not run** — Local DB down (start Local site, then re-run the five eval-file steps or a bundled script).
 **Popup fix (2026-09-28, opencode):** the `#mcs-modal` container was missing from the theme — cards had `aria-haspopup="dialog"` and `modal.js` was enqueued, but with no container `modal.js` bailed at its `if (modal && cards.length)` guard, so **every** card popup on MCS / Automation / Applications was dead on Local and Dev. Added the container to `footer.php`, guarded by a new `gerotech_modal_pages()` in `inc/helpers.php` (same helper now feeds `inc/enqueue.php`, so container + script can't drift). Deployed to Dev, caches flushed; popups verified opening/closing on `/automated-system/`.
