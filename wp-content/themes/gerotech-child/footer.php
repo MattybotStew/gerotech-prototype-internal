@@ -2,13 +2,20 @@
 /**
  * Site footer.
  *
- * Ported from partials/site-footer.html. Column links are hardcoded for v1
- * (see implementation plan §7). Social + legal URLs are placeholders pending
- * client values.
+ * Brand block, link columns and bottom bar are client-editable through the
+ * Site Content options page (see inc/acf-global-fields.php); the defaults live
+ * in inc/global-content.php so a blank field still renders the design copy.
+ *
+ * The link columns are edited separately from the main menu: the footer groups
+ * links differently and points at the external Haas catalog.
  *
  * @package GerotechChild
  */
 
+$gerotech_footer = gerotech_footer_data();
+$gerotech_logo   = $gerotech_footer['logo']
+	? gerotech_image_url( $gerotech_footer['logo'], '' )
+	: GEROTECH_CHILD_URI . '/assets/images/gerotech-logo-white.svg';
 ?>
 	<footer class="site-footer" role="contentinfo">
 		<div class="site-footer__inner">
@@ -16,67 +23,62 @@
 				<div class="site-footer__brand">
 					<img
 						class="site-footer__logo-img"
-						src="<?php echo esc_url( GEROTECH_CHILD_URI . '/assets/images/gerotech-logo-white.svg' ); ?>"
-						alt="Gerotech — Machines, Solutions, Support"
-						width="176"
-						height="28"
+						src="<?php echo esc_url( $gerotech_logo ); ?>"
+						alt="<?php echo esc_attr( $gerotech_footer['logo_alt'] ); ?>"
+						width="<?php echo (int) $gerotech_footer['logo_width']; ?>"
+						height="<?php echo (int) $gerotech_footer['logo_height']; ?>"
 					/>
-					<p class="site-footer__tagline">
-						Michigan's Premier CNC Machinery Distributor &amp; Engineering Solutions
-						Provider — serving manufacturers since 1987.
-					</p>
-					<address class="site-footer__address">
-						29220 Commerce Drive<br />
-						Flat Rock, MI 48134<br />
-						<a href="tel:+17343797788">734-379-7788</a>
-					</address>
-					<div class="site-footer__socials">
-						<a class="social-icon" href="#" aria-label="LinkedIn">in</a>
-						<a class="social-icon" href="#" aria-label="Instagram">ig</a>
-						<a class="social-icon" href="#" aria-label="YouTube">▶</a>
+					<?php if ( '' !== trim( $gerotech_footer['tagline'] ) ) : ?>
+						<p class="site-footer__tagline">
+							<?php echo nl2br( esc_html( $gerotech_footer['tagline'] ) ); ?>
+						</p>
+					<?php endif; ?>
+					<?php if ( '' !== trim( $gerotech_footer['address'] ) || '' !== trim( $gerotech_footer['phone'] ) ) : ?>
+						<address class="site-footer__address">
+							<?php
+							echo nl2br( esc_html( $gerotech_footer['address'] ) );
+							if ( '' !== trim( $gerotech_footer['phone'] ) ) :
+								?>
+								<br /><a href="<?php echo esc_url( $gerotech_footer['phone_url'] ); ?>"><?php echo esc_html( $gerotech_footer['phone'] ); ?></a>
+								<?php
+							endif;
+							?>
+						</address>
+					<?php endif; ?>
+					<?php if ( ! empty( $gerotech_footer['socials'] ) ) : ?>
+						<div class="site-footer__socials">
+							<?php foreach ( $gerotech_footer['socials'] as $social ) : ?>
+								<a class="social-icon" href="<?php echo esc_url( $social['url'] ); ?>" aria-label="<?php echo esc_attr( $social['label'] ); ?>"<?php echo gerotech_link_attrs( $social ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $social['icon'] ); ?></a>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+				</div>
+
+				<?php foreach ( $gerotech_footer['columns'] as $column ) : ?>
+					<div>
+						<?php if ( '' !== trim( $column['title'] ) ) : ?>
+							<p class="site-footer__col-title"><?php echo esc_html( $column['title'] ); ?></p>
+						<?php endif; ?>
+						<?php if ( ! empty( $column['links'] ) ) : ?>
+							<ul class="site-footer__links">
+								<?php foreach ( $column['links'] as $link ) : ?>
+									<li><a href="<?php echo esc_url( $link['url'] ); ?>"<?php echo gerotech_link_attrs( $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $link['label'] ); ?></a></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
 					</div>
-				</div>
-
-				<div>
-					<p class="site-footer__col-title"><?php esc_html_e( 'Machines', 'gerotech-child' ); ?></p>
-					<ul class="site-footer__links">
-						<li><a href="https://gerotech.com/machines" target="_blank" rel="noopener noreferrer">Machining Centers ↗</a></li>
-						<li><a href="https://gerotech.com/machines" target="_blank" rel="noopener noreferrer">Turning Centers ↗</a></li>
-						<li><a href="https://gerotech.com/machines" target="_blank" rel="noopener noreferrer">EDM ↗</a></li>
-						<li><a href="<?php gerotech_page_link( 'automation-integration' ); ?>">Automation</a></li>
-						<li><a href="https://gerotech.com/machines" target="_blank" rel="noopener noreferrer">All Machines ↗</a></li>
-					</ul>
-				</div>
-
-				<div>
-					<p class="site-footer__col-title"><?php esc_html_e( 'Solutions & Support', 'gerotech-child' ); ?></p>
-					<ul class="site-footer__links">
-						<li><a href="<?php gerotech_page_link( 'engineered-solutions' ); ?>">Engineered Solutions</a></li>
-						<li><a href="<?php gerotech_page_link( 'support' ); ?>">Service Request</a></li>
-						<li><a href="<?php gerotech_page_link( 'support' ); ?>">Parts</a></li>
-						<li><a href="<?php gerotech_page_link( 'training' ); ?>">Training</a></li>
-						<li><a href="<?php echo esc_url( gerotech_page_url( 'support' ) . '#documentation' ); ?>">Documentation</a></li>
-					</ul>
-				</div>
-
-				<div>
-					<p class="site-footer__col-title"><?php esc_html_e( 'Company', 'gerotech-child' ); ?></p>
-					<ul class="site-footer__links">
-						<li><a href="<?php gerotech_page_link( 'about' ); ?>">About Gerotech</a></li>
-						<li><a href="<?php gerotech_page_link( 'about' ); ?>">Our Team</a></li>
-						<li><a href="<?php gerotech_page_link( 'careers' ); ?>">Careers</a></li>
-						<li><a href="<?php gerotech_page_link( 'about' ); ?>">News</a></li><!-- TODO: wire to client news/blog URL -->
-						<li><a href="<?php gerotech_page_link( 'about' ); ?>">Contact</a></li>
-					</ul>
-				</div>
+				<?php endforeach; ?>
 			</div>
 
 			<div class="site-footer__bottom">
-				<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> Gerotech, Inc. All rights reserved.</span>
-				<div class="site-footer__legal-links">
-					<a href="<?php gerotech_page_link( 'about' ); ?>">Privacy Policy</a><!-- TODO: client legal URL -->
-					<a href="<?php gerotech_page_link( 'about' ); ?>">Terms of Use</a><!-- TODO: client legal URL -->
-				</div>
+				<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $gerotech_footer['copyright'] ); ?></span>
+				<?php if ( ! empty( $gerotech_footer['legal_links'] ) ) : ?>
+					<div class="site-footer__legal-links">
+						<?php foreach ( $gerotech_footer['legal_links'] as $link ) : ?>
+							<a href="<?php echo esc_url( $link['url'] ); ?>"<?php echo gerotech_link_attrs( $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $link['label'] ); ?></a>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</footer>

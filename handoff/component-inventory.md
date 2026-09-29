@@ -4,12 +4,13 @@ Section → BEM root → editable fields → JS dependency. One row per repeatin
 
 | Section | BEM root | Editable fields | JS |
 |---|---|---|---|
-| Alert banner | `.alert-banner` | 3 phone links (label + tel) | `nav.js` (collapse on scroll) |
-| Site header | `.site-header` | logo, CTA label/url | `nav.js` (sticky, mobile toggle, search modal) |
-| Mega-nav (Machines) | `.mega-nav--machines` | hardcoded v1 | `nav.js` |
-| Mega-nav (ES) | `.mega-nav--es` | hardcoded v1 | `nav.js` |
-| Mobile nav | `.mobile-nav` | hardcoded v1 | `nav.js` |
-| Search modal | `.search-modal` | quick links (hardcoded v1) | `nav.js` (focus trap, inert) |
+| Alert banner | `.alert-banner` | `header_banner_items` — label + value, `tel:` derived | `nav.js` (collapse on scroll) |
+| Site header | `.site-header` | `header_logo`, `header_logo_alt`, `header_logo_url`, `header_cta_label`, `header_cta_url` | `nav.js` (sticky, mobile toggle, search modal) |
+| Desktop nav | `.site-nav` | `nav_items` — label, url, new_tab, style, show_mobile, sub-links | `nav.js` |
+| Mega-nav (Machines) | `.mega-nav--machines` | `nav_machines_groups` (title, column, mobile_order, links), help card, footer link (+ mobile label) | `nav.js` |
+| Mega-nav (ES) | `.mega-nav--es` | `nav_es_col1_title`, `nav_es_categories`, `nav_es_services` (incl. per-link mobile label), `nav_es_cta_*`, `nav_es_col2_title` | `nav.js` |
+| Mobile nav | `.mobile-nav` | **derived from `nav_items` + both panels** — no separate fields | `nav.js` |
+| Search modal | `.search-modal` | `header_search_title` / `_hint` / `_placeholder`, `header_search_links` | `nav.js` (focus trap, inert) |
 | Hero peek slider | `.hero-slider--peek` | eyebrow, headline, body, CTA, image, badge | `slider.js` |
 | Stat counter | `.stat-counter` | value, label | `stat-counter.js` |
 | Haas relationship | `.haas-relationship` | eyebrow, headline, lede, brand logo, features (4) | `animations.js` |
@@ -27,7 +28,7 @@ Section → BEM root → editable fields → JS dependency. One row per repeatin
 | Testimonials | `.testimonial-grid` | quote, name, role (global ACF) | `animations.js` |
 | CTA band (lockup) | `.cta-band--cinema-lockup` | eyebrow, headline, body, button, optional call card, image | `animations.js` |
 | Email signup | `.email-signup` | title (accent), sub, form | `nav.js` (thanks state) |
-| Footer | `.site-footer` | tagline, address, phone, columns, socials, legal | — |
+| Footer | `.site-footer` | `footer_logo`(+`_alt`), `footer_tagline`, `footer_address`, `footer_phone`, `footer_socials`, `footer_columns` (max 3), `footer_copyright_text`, `footer_legal_links` | — |
 
 ## Cards
 

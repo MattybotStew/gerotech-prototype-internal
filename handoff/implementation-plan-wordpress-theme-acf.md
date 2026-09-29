@@ -115,13 +115,13 @@ Section markup is unchanged; only strings/images become field calls.
 
 ## 5. ACF field model
 
-**Global — Options page "Site Settings":** contact numbers, address, alert-banner repeater, header CTA, footer columns/socials/legal, shared testimonials repeater.
+**Global — options page "Site Content":** contact numbers, alert banner, logo + alt, header CTA, search modal, the full menu tree (items, Machines panel, ES panel), footer brand/socials/columns/legal, and the shared testimonials repeater. Implemented — see `acf-spec.md` §1 for the real field names.
 
 **Per page:** homepage = hero slides, stats, Haas intro + features, machine-lineup panels, news lead + items, CTA, email signup. Interior = page-hero, section headers, card-grid repeater, CTA, email signup.
 
 **Three constraints:**
 
-1. **Repeaters can't nest.** News lead → **Group** (groups can hold repeaters). Footer links → flattened `{column, label, url}` rows.
+1. **Repeaters can't nest.** News lead → **Group** (groups can hold repeaters). Footer/nav columns are repeaters of *link* repeaters, which ACF does support — only a repeater directly inside a repeater's value object is the problem.
 2. **Accent words.** Map WYSIWYG `em`/`i` → accent style; client italicises the word.
 3. **Machine lineup** = one flat repeater with `panel_type` select + conditional fields.
 

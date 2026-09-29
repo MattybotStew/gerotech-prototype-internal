@@ -2,6 +2,42 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-29 — Global header / nav / footer made ACF-editable (opencode)
+
+The last hardcoded part of the site is now editable. Banner, logo/alt, header CTA, search modal, the full desktop menu tree, both mega panels, the phone menu, and the footer all come from the **Site Content** ACF Pro options page.
+
+**New files**
+- `inc/acf-global-fields.php` — `group_site_header`, `group_site_navigation`, `group_site_footer` (PHP-registered).
+- `inc/global-content.php` — all defaults + normalisers. `gerotech_link_row()` collapses `title`/`label` and `target`/`new_tab`; `gerotech_link_attr()` normalises external + `mailto:`/`tel:`; `gerotech_image_url()` falls back to the theme-bundled SVG when a logo field is blank.
+- `template-parts/site-nav.php`, `site-mobile-nav.php`, `search-modal.php`.
+
+**Rewritten:** `header.php`, `footer.php`; `functions.php` loads the two includes. No CSS or JS changes — the same BEM classes and hooks, so `nav.js` / `styles.css` were untouched.
+
+**Defaults live in code, not ACF.** `default_value` is used nowhere in the new groups (the standing rule). Blank value = current design. A blank `header_cta_label` hides the button.
+
+**Mobile menu is derived, not a second copy.** `site-mobile-nav.php` walks `nav_items` + both panels, so the two menus can't drift. Where the design genuinely differs, the difference is a field: `mobile_order` on machine groups, `nav_machines_footer_mobile_label`, `nav_es_cta_mobile_label`, and a per-link `mobile_label` on ES service links. This is what preserves the base's quirks (desktop shows Rotaries before Horizontal; the phone shows Horizontal first; "Machine Column Risers" vs "Column Risers").
+
+**Collision caught:** the new field would have been `footer_copyright`, which the 2017 legacy group `group_59305cb95c705` ("Site Options") already owns — and ACF resolves option values by *name*, so it would have silently served the legacy value. Renamed to `footer_copyright_text` / `field_footer_copyright_text`. A name diff against the 371 legacy fields found this one collision in 32 new names. **Do that diff before adding any options-page field.**
+
+Also removed two dead `default_value`s on the pre-existing `field_nav_item_style` (select) and `field_nav_machines_group_column` (number) — same root cause as the standing rule. Added `field_footer_logo_alt`, and top-level `new_tab` handling for menu items and the Machines catalog link.
+
+**Verification**
+- `php -l` on all changed files.
+- **Parity:** captured the old header/footer from Local *before* syncing, then diffed rendered markup. Only three deltas, all intentional: a consistent desktop Machines column wrapper, `aria-haspopup="true"` on the ES trigger, footer `Contact` → `/contact/` (was a placeholder `/about/`).
+- **Defaults vs seeded:** zero meaningful differences, so a blank field still renders the design.
+- **Editor round-trip:** set values, clear them, confirm the defaults return, restore — no residue.
+- **Audit:** Local **311/326**, Dev **310/326** across 32 targets; every blank is a documented correct-by-design one.
+- **Browser:** 1440×900 and 390×844 — 4-column machines grid, 8 groups, mobile order/labels, `.mobile-toggle`, `.header-search` and the modal all work; no console errors. Admin options page checked with a temporary user (deleted; Local back to 8 admins).
+- **Dev:** rsync + chmod + page/CDN flush, seeder and audit re-run there. Home + 12 interior URLs 200; Dev header/footer markup token-identical to Local once host names are normalised.
+
+**Deploy note:** `scp` and `rsync` to `/tmp` and `$HOME` silently land nowhere on WP Engine. Copy eval scripts to `/nas/content/live/gerotechdev/wp-content/` and `rm` them afterwards, or run the one-shot seeder from the existing dev deploy script.
+
+Docs: `handoff/acf-spec.md` §1 rewritten (real field names, caps, the collision warning); `handoff/component-inventory.md` chrome rows now list the fields instead of "hardcoded v1".
+
+## 2026-09-29 — Session wrap: client photos + Dev/Local ACF (Cursor)
+
+MCS, Applications, Automation galleries/hero/CTA/workholding; Cell Design + EOAT expansions; home lineup + tooling + Pre-Engineered (`5ef0b4c`); **On Our Floor** eyebrows. Dev rsync + ACF; Local matched via `_local-acf-apply-once.sh` + lineup script. Matt confirmed all good. Uncommitted: `set-lineup-panel-photo.php`, deploy helper shell scripts, `.clinerules` touch.
+
 ## 2026-09-29 — Local ACF apply (Cursor)
 
 Theme synced to Local; full media pass via `scripts/_local-acf-apply-once.sh` (WP-CLI: `-d mysql.default_socket=…/VjZ_PwL-d/mysql/mysqld.sock`). Workholding #3491, MCS CTA #3492, Demo 3-up, EOAT 3-up, Cell Design 4-up, eyebrows **On Our Floor**. Hero already #3455.

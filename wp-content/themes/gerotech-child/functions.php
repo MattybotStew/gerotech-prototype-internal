@@ -21,6 +21,8 @@ require_once GEROTECH_CHILD_DIR . '/inc/helpers.php';
 require_once GEROTECH_CHILD_DIR . '/inc/enqueue.php';
 require_once GEROTECH_CHILD_DIR . '/inc/acf-fields.php';
 require_once GEROTECH_CHILD_DIR . '/inc/acf-legacy-fields.php';
+require_once GEROTECH_CHILD_DIR . '/inc/acf-global-fields.php';
+require_once GEROTECH_CHILD_DIR . '/inc/global-content.php';
 
 /**
  * Theme supports.
@@ -36,8 +38,11 @@ function gerotech_child_setup() {
 		array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' )
 	);
 
-	// Navigation is hardcoded in header.php for v1 (see implementation plan §7).
-	// Menus are registered so they can be swapped to client-editable later.
+	// The header navigation and the footer's link columns are rendered from the
+	// Site Content options page (inc/acf-global-fields.php + inc/global-content.php)
+	// rather than from WP menus: the mega panels need descriptions, a CTA button
+	// inside a column and fixed column counts, which the core menu UI cannot
+	// express. These menu locations stay registered for a future simple menu.
 	register_nav_menus(
 		array(
 			'primary' => __( 'Primary Navigation', 'gerotech-child' ),

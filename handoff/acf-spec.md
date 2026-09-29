@@ -6,23 +6,67 @@
 
 ---
 
-## 1. Global — Options page "Site Settings"
+## 1. Global — Options page "Site Content"
 
 Location: `acf_add_options_page()`. Consumed by `header.php` / `footer.php` / shared parts.
 
+**Registration:** three groups in `inc/acf-global-fields.php` (`group_site_header`, `group_site_navigation`, `group_site_footer`) plus the pre-existing `group_site_forms` / `group_site_testimonials` in `inc/acf-fields.php`. All on the same options page.
+
+**Defaults live in `inc/global-content.php`**, never in ACF `default_value` — see the standing rule in `AGENTS.md`. Every field below renders the current design when its value is blank.
+
+### 1a. Site Content — Header (`group_site_header`)
+
 | Field | Type | Notes |
 |---|---|---|
-| `alert_banner_items` | Repeater | `label` (text), `link_label` (text), `link_url` (text) — 3 phone numbers today |
-| `header_cta_label` | Text | "Get a Quote" |
-| `header_cta_url` | Text | `mailto:sales@gerotech.com?subject=…` |
-| `header_nav_items` | Repeater | `label`, `url`, `mega_nav` (select: none/machines/es) — v1 may stay hardcoded |
+| `header_banner_items` | Repeater (max 4) | `label`, `value`, `url` (link) — 3 phone numbers today. The `tel:` link is derived from `value` when `url` is empty. |
+| `header_logo` | Image | blank = theme-bundled `gerotech-logo.svg` |
+| `header_logo_alt` | Text | |
+| `header_logo_url` | Link | blank = home URL |
+| `header_cta_label` | Text | "Talk to an Engineer" — clear to hide the button |
+| `header_cta_url` | Link | |
+| `header_search_title` / `header_search_hint` / `header_search_placeholder` | Text | search modal copy |
+| `header_search_links` | Repeater | `label`, `url` — the 7 quick links in the search modal |
+
+### 1b. Site Content — Navigation (`group_site_navigation`)
+
+| Field | Type | Notes |
+|---|---|---|
+| `nav_items` | Repeater (max 8) | `label`, `url`, `new_tab`, `style` (plain / dropdown / machines-mega / es-mega), `show_mobile`, `links` (repeater: `label`, `url`, `new_tab`) |
+| `nav_machines_groups` | Repeater (max 24) | `title`, `column` (1–4), `mobile_order` (number, optional), `links` (repeater: `label`, `url`, `new_tab`) |
+| `nav_machines_help_title` / `_label` / `_url` | Text / Text / Link | the dark "not sure which machine" card in column 4 |
+| `nav_machines_footer_label` | Text | "Browse the full Haas catalog" — the full-width link under the panel |
+| `nav_machines_footer_mobile_label` | Text | "Full Haas Catalog ↗" — shorter wording for the phone menu |
+| `nav_machines_footer_url` / `_new_tab` | Link / true_false | |
+| `nav_es_col1_title` / `nav_es_col2_title` | Text | "By Category" / "All Services" |
+| `nav_es_categories` | Repeater | `heading_lead`, `heading_main`, `url`, `description`, `last` — the three category cards |
+| `nav_es_cta_label` / `nav_es_cta_mobile_label` / `nav_es_cta_url` | Text / Text / Link | the bottom-of-column button |
+| `nav_es_services` | Repeater | `heading_lead`, `heading_main`, `links` (repeater: `label`, **`mobile_label`**, `url`) |
+
+> **The phone menu is generated from the same tree** (`template-parts/site-mobile-nav.php`), not hand-written a second time — the old `header.php` repeated every link there and the two could drift. Where the design genuinely differs, it is an explicit field, not a hidden hardcoded list: machine group `mobile_order`, `nav_machines_footer_mobile_label`, `nav_es_cta_mobile_label`, and a per-link `mobile_label` on Engineered Solutions service links.
+
+### 1c. Site Content — Footer (`group_site_footer`)
+
+| Field | Type | Notes |
+|---|---|---|
+| `footer_logo` / `footer_logo_alt` | Image / Text | blank image = theme-bundled white `gerotech-logo-white.svg` |
 | `footer_tagline` | Textarea | |
-| `footer_address` | Textarea | 3 lines |
-| `footer_phone` | Text | `tel:` target separate |
-| `footer_columns` | Repeater (flattened) | `column` (select: Machines / Solutions & Support / Company), `label`, `url`, `external` (true/false) — **flattened because repeaters can't nest** |
-| `footer_socials` | Repeater | `network`, `url` (currently `#` placeholders) |
-| `footer_legal_links` | Repeater | `label`, `url` (currently placeholders) |
-| `testimonials` | Repeater | `quote`, `name`, `role` — **shared, global**; consumed by the testimonials section on every page |
+| `footer_address` | Textarea | line breaks preserved |
+| `footer_phone` | Text | `tel:` link generated from it |
+| `footer_socials` | Repeater (max 6) | `icon` (glyph), `label` (aria-label), `url`, `new_tab` |
+| `footer_columns` | Repeater (**max 3**) | `title`, `links` (repeater: `label`, `url`, `new_tab`) — Machines / Solutions & Support / Company |
+| `footer_copyright_text` | Text | year is prepended by the template |
+| `footer_legal_links` | Repeater (max 6) | `label`, `url`, `new_tab` |
+
+> **`footer_copyright_text`, not `footer_copyright`.** The 2017 legacy group `group_59305cb95c705` ("Site Options", stored as `acf-field-group` posts) already owns a field named `footer_copyright`, and its option row carries an `options_footer_copyright` reference. ACF resolves option values by field *name*, so a name collision silently serves the legacy value. When adding a new options-page field, diff its name against the 371 legacy field names first.
+
+### 1d. Existing groups on the same page
+
+| Group key | Contents |
+|---|---|
+| `group_site_forms` | `signup_email_label`, `signup_email_placeholder`, `signup_submit_label` |
+| `group_site_testimonials` | `testimonials` repeater — `quote`, `name`, `role`; **shared, global**, consumed on every page |
+
+> `testimonials` was spec'd as a flat global repeater and is implemented that way.
 
 ---
 
@@ -206,7 +250,7 @@ Verified across four states on Local: explicit values, un-migrated rows (legacy 
 
 | Group | Location rule |
 |---|---|
-| Site Settings | Options page |
+| Site Content (Header / Navigation / Footer / Forms / Testimonials) | Options page `gerotech-site-content` |
 | Homepage | `page_type == front_page` |
 | Page content | `page_template` matches the page template |
 | CTA / signup | Attached to each page group (not global) — copy differs per page |

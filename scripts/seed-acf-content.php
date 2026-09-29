@@ -58,6 +58,67 @@ function gerotech_seed_page( $slug ) {
 	return $page ? (int) $page->ID : 0;
 }
 
+/**
+ * Build a value in ACF's `link` field storage shape.
+ *
+ * ACF stores a link as title/url/target whether the editor picked a page from
+ * the picker or typed a URL — a picked page is stored as its permalink, so this
+ * is exactly what the admin UI writes. (It also means a renamed page leaves a
+ * stale URL behind, which is why the nav fields tell editors to re-pick.)
+ *
+ * @param string $title   Link text.
+ * @param string $url     Destination.
+ * @param bool   $new_tab Open in a new tab.
+ * @return array
+ */
+function gerotech_seed_link_value( $title, $url, $new_tab = false ) {
+	return array(
+		'title'  => (string) $title,
+		'url'    => (string) $url,
+		'target' => $new_tab ? '_blank' : '',
+	);
+}
+
+/**
+ * Convert one normalised link row (inc/global-content.php shape) to ACF.
+ *
+ * Use this for a bare *link* field. A repeater whose sub-fields are a plain
+ * `label` text plus a `url` link needs gerotech_seed_link_repeater_rows()
+ * instead: passing a link value straight into that repeater leaves the label
+ * blank, which is the exact "the editor control is empty" failure the audit
+ * is meant to catch.
+ *
+ * @param array $row Row with label/url/new_tab.
+ * @return array
+ */
+function gerotech_seed_link_row( $row ) {
+	return gerotech_seed_link_value( $row['label'], $row['url'], ! empty( $row['new_tab'] ) );
+}
+
+/**
+ * Convert normalised link rows to a repeater with `label` + `url` sub-fields.
+ *
+ * @param array $rows Normalised rows.
+ * @return array
+ */
+function gerotech_seed_link_repeater_rows( $rows ) {
+	$out = array();
+	foreach ( (array) $rows as $row ) {
+		if ( ! isset( $row['label'] ) || '' === trim( (string) $row['label'] ) ) {
+			continue;
+		}
+		$out[] = array(
+			'label'   => (string) $row['label'],
+			'url'     => gerotech_seed_link_row( $row ),
+			'new_tab' => ! empty( $row['new_tab'] ),
+			// Only the Engineered Solutions service links have this sub-field;
+			// ACF ignores an unknown key, so it is safe to always include it.
+			'mobile_label' => isset( $row['mobile_label'] ) ? (string) $row['mobile_label'] : '',
+		);
+	}
+	return $out;
+}
+
 echo "Seeding newly ACF-editable content…\n\n";
 
 /* ── Homepage CTA call card ───────────────────────────────────── */
@@ -219,6 +280,146 @@ gerotech_seed_once( 'field_signup_email_placeholder', 'your@email.com', 'option'
 gerotech_seed_once( 'field_signup_submit_label', 'Sign Up', 'option', 'signup button label' );
 echo "\n";
 
+/* ── Global header / navigation / footer (options) ────────────────
+ *
+ * Seeded from the theme's own default arrays (inc/global-content.php) rather
+ * than from a second copy of the copy, so the database and the code fallback
+ * can never disagree about what the site says today.
+ */
+echo "Site Content — Header (options):\n";
+$header_default = gerotech_header_defaults();
+
+$banner_rows = array();
+foreach ( $header_default['banner_items'] as $banner ) {
+	$banner_rows[] = array(
+		'label' => $banner['label'],
+		'value' => $banner['value'],
+		// Left empty on purpose: the tel: link is derived from the number.
+		'url'   => '',
+	);
+}
+gerotech_seed_once( 'field_header_banner_items', $banner_rows, 'option', 'alert banner items (3)' );
+gerotech_seed_once( 'field_header_logo_alt', $header_default['logo_alt'], 'option', 'logo alt text' );
+gerotech_seed_once( 'field_header_cta_label', $header_default['cta_label'], 'option', 'header button label' );
+gerotech_seed_once( 'field_header_cta_url', gerotech_seed_link_value( $header_default['cta_label'], gerotech_page_url( 'contact' ) ), 'option', 'header button link' );
+gerotech_seed_once( 'field_header_search_title', $header_default['search_title'], 'option', 'search modal heading' );
+gerotech_seed_once( 'field_header_search_hint', $header_default['search_hint'], 'option', 'search modal hint' );
+gerotech_seed_once( 'field_header_search_placeholder', $header_default['search_placeholder'], 'option', 'search input placeholder' );
+gerotech_seed_once( 'field_header_search_links', gerotech_seed_link_repeater_rows( $header_default['search_links'] ), 'option', 'search quick links (' . count( $header_default['search_links'] ) . ')' );
+echo "\n";
+
+echo "Site Content — Navigation (options):\n";
+$nav_defaults = gerotech_nav_defaults();
+$nav_rows     = array();
+foreach ( $nav_defaults as $item ) {
+	$sub_rows = array();
+	foreach ( $item['links'] as $link ) {
+		$sub_rows[] = array(
+			'label'   => $link['label'],
+			'url'     => gerotech_seed_link_row( $link ),
+			'new_tab' => ! empty( $link['new_tab'] ),
+		);
+	}
+
+	$nav_rows[] = array(
+		'label'       => $item['label'],
+		'url'         => gerotech_seed_link_row( $item ),
+		'new_tab'     => ! empty( $item['new_tab'] ),
+		'style'       => $item['style'],
+		'show_mobile' => ! empty( $item['show_mobile'] ),
+		'links'       => $sub_rows,
+	);
+}
+gerotech_seed_once( 'field_nav_items', $nav_rows, 'option', 'main menu (' . count( $nav_rows ) . ' items)' );
+
+$machines_default = gerotech_machines_defaults();
+$machine_rows     = array();
+foreach ( $machines_default['groups'] as $group ) {
+	$link_rows = array();
+	foreach ( $group['links'] as $link ) {
+		$link_rows[] = array(
+			'label'   => $link['label'],
+			'url'     => gerotech_seed_link_row( $link ),
+			'new_tab' => ! empty( $link['new_tab'] ),
+		);
+	}
+
+	$machine_rows[] = array(
+		'column'       => (string) $group['column'],
+		'title'        => $group['title'],
+		'mobile_order' => (string) $group['mobile_order'],
+		'links'        => $link_rows,
+	);
+}
+gerotech_seed_once( 'field_nav_machines_groups', $machine_rows, 'option', 'machines panel — machine groups (' . count( $machine_rows ) . ')' );
+gerotech_seed_once( 'field_nav_machines_help_title', $machines_default['help_title'], 'option', 'machines panel — help card title' );
+gerotech_seed_once( 'field_nav_machines_help_label', $machines_default['help_label'], 'option', 'machines panel — help card button' );
+gerotech_seed_once( 'field_nav_machines_help_url', gerotech_seed_link_value( $machines_default['help_label'], $machines_default['help_url'] ), 'option', 'machines panel — help card link' );
+gerotech_seed_once( 'field_nav_machines_footer_label', $machines_default['footer_label'], 'option', 'machines panel — full catalog link' );
+gerotech_seed_once( 'field_nav_machines_footer_mobile_label', $machines_default['footer_mobile_label'], 'option', 'machines panel — full catalog link, mobile wording' );
+gerotech_seed_once( 'field_nav_machines_footer_url', gerotech_seed_link_value( $machines_default['footer_label'], $machines_default['footer_url'], $machines_default['footer_new_tab'] ), 'option', 'machines panel — full catalog URL' );
+gerotech_seed_once( 'field_nav_machines_footer_new_tab', 1, 'option', 'machines panel — full catalog opens in new tab' );
+
+$es_default = gerotech_es_defaults();
+$cat_rows   = array();
+foreach ( $es_default['categories'] as $category ) {
+	$label = '' !== trim( $category['lead'] ) ? trim( $category['lead'] . ' ' . $category['main'] ) : $category['main'];
+	$cat_rows[] = array(
+		'heading_lead' => $category['lead'],
+		'heading_main' => $category['main'],
+		'url'          => gerotech_seed_link_value( $label, $category['url'] ),
+		'description'  => $category['description'],
+		'last'         => ! empty( $category['last'] ),
+	);
+}
+gerotech_seed_once( 'field_nav_es_col1_title', $es_default['col1_title'], 'option', 'ES panel — first column heading' );
+gerotech_seed_once( 'field_nav_es_categories', $cat_rows, 'option', 'ES panel — categories (' . count( $cat_rows ) . ')' );
+gerotech_seed_once( 'field_nav_es_cta_label', $es_default['cta_label'], 'option', 'ES panel — column button label' );
+gerotech_seed_once( 'field_nav_es_cta_mobile_label', $es_default['cta_mobile_label'], 'option', 'ES panel — column button label, mobile wording' );
+gerotech_seed_once( 'field_nav_es_cta_url', gerotech_seed_link_value( $es_default['cta_label'], $es_default['cta_url'] ), 'option', 'ES panel — column button link' );
+gerotech_seed_once( 'field_nav_es_col2_title', $es_default['col2_title'], 'option', 'ES panel — second column heading' );
+
+$service_rows = array();
+foreach ( $es_default['services'] as $service ) {
+	$service_rows[] = array(
+		'heading_lead' => $service['lead'],
+		'heading_main' => $service['main'],
+		'links'        => gerotech_seed_link_repeater_rows( $service['links'] ),
+	);
+}
+gerotech_seed_once( 'field_nav_es_services', $service_rows, 'option', 'ES panel — service groups (' . count( $service_rows ) . ')' );
+echo "\n";
+
+echo "Site Content — Footer (options):\n";
+$footer_default = gerotech_footer_defaults();
+gerotech_seed_once( 'field_footer_logo_alt', $footer_default['logo_alt'], 'option', 'logo alt text' );
+gerotech_seed_once( 'field_footer_tagline', $footer_default['tagline'], 'option', 'tagline' );
+gerotech_seed_once( 'field_footer_address', $footer_default['address'], 'option', 'address' );
+gerotech_seed_once( 'field_footer_phone', $footer_default['phone'], 'option', 'phone' );
+
+$social_rows = array();
+foreach ( $footer_default['socials'] as $social ) {
+	$social_rows[] = array(
+		'icon'    => $social['icon'],
+		'label'   => $social['label'],
+		'url'     => gerotech_seed_link_row( $social ),
+		'new_tab' => ! empty( $social['new_tab'] ),
+	);
+}
+gerotech_seed_once( 'field_footer_socials', $social_rows, 'option', 'social links (' . count( $social_rows ) . ')' );
+
+$column_rows = array();
+foreach ( $footer_default['columns'] as $column ) {
+	$column_rows[] = array(
+		'title' => $column['title'],
+		'links' => gerotech_seed_link_repeater_rows( $column['links'] ),
+	);
+}
+gerotech_seed_once( 'field_footer_columns', $column_rows, 'option', 'link columns (' . count( $column_rows ) . ')' );
+gerotech_seed_once( 'field_footer_copyright_text', $footer_default['copyright'], 'option', 'copyright line' );
+gerotech_seed_once( 'field_footer_legal_links', gerotech_seed_link_repeater_rows( $footer_default['legal_links'] ), 'option', 'legal links (' . count( $footer_default['legal_links'] ) . ')' );
+echo "\n";
+
 /* ── Verification ─────────────────────────────────────────────── */
 echo "Verification:\n";
 if ( $service_id ) {
@@ -230,4 +431,9 @@ echo '  signup submit label: ' . get_field( 'field_signup_submit_label', 'option
 if ( $careers_id ) {
 	echo '  careers column 1: ' . get_field( 'field_careers_col_job', $careers_id ) . "\n";
 }
+
+echo '  nav items: ' . count( (array) get_field( 'nav_items', 'option' ) ) . " (expect 5)\n";
+echo '  machine groups: ' . count( (array) get_field( 'nav_machines_groups', 'option' ) ) . " (expect 8)\n";
+echo '  ES categories: ' . count( (array) get_field( 'nav_es_categories', 'option' ) ) . " (expect 3)\n";
+echo '  footer columns: ' . count( (array) get_field( 'footer_columns', 'option' ) ) . " (expect 3)\n";
 echo "\nDone.\n";
