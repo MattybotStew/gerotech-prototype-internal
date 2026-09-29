@@ -97,7 +97,8 @@ $collections     = $pick(
 		array(
 			'title' => 'Pre-Engineered Solutions',
 			'meta'  => 'Control enclosure · integrated tooling',
-			'media' => "image | {$uri}/assets/images/pre-engineered-gallery.jpg | | Open dual-door control cabinet on the shop floor beside a Haas machine | Control enclosure · integrated tooling",
+			'media' => "image | {$uri}/assets/images/pre-engineered-card.jpg | | Open grey control cabinet with blue wiring, red terminals, and a VFD | Pre-Engineered Solutions · control cabinet\n"
+				. "image | {$uri}/assets/images/pre-engineered-gallery.jpg | | Open dual-door control cabinet on the shop floor beside a Haas machine | Control enclosure · shop floor",
 		),
 	)
 );

@@ -131,7 +131,7 @@ $panels          = $pick(
 			'cta2_label'  => '',
 			'cta2_url'    => '',
 			'photo_style' => 'default',
-			'photo'       => 'https://images.unsplash.com/photo-1713371398484-cc4e4f6a262a?q=80&w=1200&auto=format&fit=crop',
+			'photo'       => 'assets/images/lineup-rotaries-indexers.jpg',
 		),
 		array(
 			'tab_label'   => 'Haas Automation',
@@ -146,7 +146,7 @@ $panels          = $pick(
 			'cta2_label'  => '',
 			'cta2_url'    => '',
 			'photo_style' => 'default',
-			'photo'       => 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?q=80&w=1200&auto=format&fit=crop',
+			'photo'       => 'assets/images/lineup-haas-automation.jpg',
 		),
 		array(
 			'tab_label'   => 'Haas Tooling',

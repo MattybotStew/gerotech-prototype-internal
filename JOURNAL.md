@@ -2,6 +2,22 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-29 — Local ACF apply (Cursor)
+
+Theme synced to Local; full media pass via `scripts/_local-acf-apply-once.sh` (WP-CLI: `-d mysql.default_socket=…/VjZ_PwL-d/mysql/mysqld.sock`). Workholding #3491, MCS CTA #3492, Demo 3-up, EOAT 3-up, Cell Design 4-up, eyebrows **On Our Floor**. Hero already #3455.
+
+## 2026-09-29 — Client image batch: home lineup, Applications tooling, Automation Pre-Engineered cover (Cursor)
+
+**Homepage machine lineup tabs (proto + theme defaults):**
+- `lineup-haas-automation.jpg` — Haas UMC-750 + yellow robot cell (`index.html`, `front-page.php` Rotaries/Automation panel photos).
+- `lineup-rotaries-indexers.jpg` — three rotaries/indexers on showroom floor.
+
+**Applications — Tooling Recommendation:** replaced `app-tooling-cart.jpg` (card + gallery); alt text updated in proto + `page-unique-applications-for-standard-machines.php` gallery default.
+
+**Automation — Pre-Engineered Solutions:** gallery cover now `pre-engineered-card.jpg` (matches service card); lightbox adds `pre-engineered-gallery.jpg` as second image (`automation-integration.html`, `page-automated-system.php` `ai_collections` default).
+
+**Loose ends:** stored `lineup_panels` on home if still Unsplash URLs; Dev `app_cards` / `app_collections` / `ai_collections` rows until eval-file helpers after deploy. Automation source UUID in brief was missing on disk — used `image-89306316` (UMC + robot) from Cursor assets.
+
 ## 2026-09-29 — Automation Cell Design gallery +3 photos (Cursor)
 
 **Automation Cell Design** collection now **4 images** (cover unchanged: `automation-cell-design.jpg`).

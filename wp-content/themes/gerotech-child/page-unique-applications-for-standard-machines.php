@@ -91,7 +91,7 @@ $collections   = $pick(
 		array(
 			'title' => 'Tooling Recommendation',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/app-tooling-cart.jpg | | Haas Tooling cart with holders and pegboard | Haas Tooling cart",
+			'media' => "image | {$uri}/assets/images/app-tooling-cart.jpg | | Haas Tooling.com red mobile cart with tool holders and pegboard display | Haas Tooling.com cart",
 		),
 		array(
 			'title' => 'Demo',
