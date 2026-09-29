@@ -5,8 +5,8 @@
 ## Current Session State
 **Last Updated:** 2026-09-29 (Cursor — client image batch home/apps/automation)
 **Active Agent:** Cursor
-**Branch:** `master` — commit pending this session (image batch + journal).
-**Uncommitted:** Homepage lineup JPEGs + markup; `app-tooling-cart.jpg` replace; Pre-Engineered gallery cover (card photo + shop-floor lightbox); JOURNAL + `.clinerules`.
+**Branch:** `master` — synced with `origin/master` after push (`5ef0b4c`).
+**Uncommitted:** None from this batch (untracked `scripts/_local-acf-apply-once.sh` left out).
 **Deployed:** Theme rsync to gerotechdev (2026-09-29, this batch). Dev ACF: `app_collections` Tooling Recommendation gallery updated; `ai_collections` Pre-Engineered now 2 images (card cover + shop floor). Tooling **card** attachment #3480 file refreshed from theme `app-tooling-cart.jpg`. Homepage `lineup_panels` stored rows not scripted — update in admin if still Unsplash. Caches flushed earlier this session.
 **Local:** ACF media pass complete (2026-09-29) — matches Dev for MCS/Apps/Automation galleries + eyebrows. Homepage stored `lineup_panels` may still be Unsplash until updated in admin or scripted.
 **Popup fix (2026-09-28, opencode):** the `#mcs-modal` container was missing from the theme — cards had `aria-haspopup="dialog"` and `modal.js` was enqueued, but with no container `modal.js` bailed at its `if (modal && cards.length)` guard, so **every** card popup on MCS / Automation / Applications was dead on Local and Dev. Added the container to `footer.php`, guarded by a new `gerotech_modal_pages()` in `inc/helpers.php` (same helper now feeds `inc/enqueue.php`, so container + script can't drift). Deployed to Dev, caches flushed; popups verified opening/closing on `/automated-system/`.
