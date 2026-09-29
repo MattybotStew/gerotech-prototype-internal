@@ -2,6 +2,22 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-29 — Machine sublinks pointed at the client's live catalogue (opencode)
+
+All 41 Machines mega-panel sublinks were seeded as `#` placeholders. They now use the URLs from **https://gerotech.com/machines/**, all `target="_blank" rel="noopener noreferrer"`.
+
+**Where the URLs come from:** gerotech.com/machines/ has no pages of its own — the eight category headings and every model link resolve to `haascnc.com` (that is what the client's own live nav does). Scraped and mapped label → slug so nothing was guessed: `vertical-mills/vf-series.html`, `lathes/st.html`, `rotaries-indexers/rotary-tables.html`, `horizontal-mills/ec-series.html` (the 50-Taper), `automation-systems/haas_apls.html`, `desktop-machines/simulator-std.html`, `shop-equipment/knee-mills.html`, `fab-machines/press-brakes.html`, etc. All 41 labels mapped 1:1. Spot-checked four in a browser — all live and correctly titled. Group titles stay plain text; only the sublinks are links.
+
+The map lives in `gerotech_machines_defaults()` (`inc/global-content.php`), not in the script, so there is still one copy of it. `scripts/update-machine-links.php` just pushes those defaults into the stored ACF rows — it never invents a URL, and reports labels it does not recognise instead of guessing. Idempotent; run on Local and Dev.
+
+**Two ACF traps hit here, both silent:**
+1. **Options-page repeaters store under the field NAME, not the key.** The real option is `options_nav_machines_groups_0_links_0_url`. Writing `update_field( 'field_nav_machines_groups_0_links_0_url', …, 'option' )` creates an unread `options_field_nav_machines_groups_…` row — 82 junk rows, all "successful" writes, zero visible change. This is the same class of bug as the `field_cta_call_label` note in the standing rules, just at a nested path. Junk rows deleted; the script now uses the name path.
+2. **`url` is a Link field and stores an array** — `array( 'url' => …, 'title' => '', 'target' => '' )`. A bare string is silently discarded and the field reads back empty. And a same-request `get_field()` returns the *pre-update* rows because ACF memoises the repeater, so the first run's self-check reported "41 still blank" after a successful write. The script now flushes before verifying, and the second run confirms 41/41.
+
+**Deploy slip worth remembering:** `rsync -q src/ dst/` does **not** recurse — without `-a` it silently skips `inc/` and `template-parts/`, so `global-content.php` never landed and Dev re-seeded the old `#` values. The AGENTS.md recipe (`-avz --delete`) is the one to use; verify a changed file actually arrived with a remote `grep` before running a seeder against it.
+
+Verified: 41/41 sublinks render real URLs with `target="_blank"` on Local and Dev, 0 blank, 41 new-tab; clicking one opens a new tab on the Haas page. Audits unchanged (Local 311/326, Dev 310/326).
+
 ## 2026-09-29 — Global header / nav / footer made ACF-editable (opencode)
 
 The last hardcoded part of the site is now editable. Banner, logo/alt, header CTA, search modal, the full desktop menu tree, both mega panels, the phone menu, and the footer all come from the **Site Content** ACF Pro options page.

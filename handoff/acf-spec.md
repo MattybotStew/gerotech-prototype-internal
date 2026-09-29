@@ -32,7 +32,7 @@ Location: `acf_add_options_page()`. Consumed by `header.php` / `footer.php` / sh
 | Field | Type | Notes |
 |---|---|---|
 | `nav_items` | Repeater (max 8) | `label`, `url`, `new_tab`, `style` (plain / dropdown / machines-mega / es-mega), `show_mobile`, `links` (repeater: `label`, `url`, `new_tab`) |
-| `nav_machines_groups` | Repeater (max 24) | `title`, `column` (1–4), `mobile_order` (number, optional), `links` (repeater: `label`, `url`, `new_tab`) |
+| `nav_machines_groups` | Repeater (max 24) | `title`, `column` (1–4), `mobile_order` (number, optional), `links` (repeater: `label`, `url`, `new_tab`). Group titles are plain text, not links. The 41 sublink URLs come from **gerotech.com/machines/** (which resolves to the per-model haascnc.com pages) and all carry `new_tab`, so they open in a new tab. |
 | `nav_machines_help_title` / `_label` / `_url` | Text / Text / Link | the dark "not sure which machine" card in column 4 |
 | `nav_machines_footer_label` | Text | "Browse the full Haas catalog" — the full-width link under the panel |
 | `nav_machines_footer_mobile_label` | Text | "Full Haas Catalog ↗" — shorter wording for the phone menu |
@@ -41,6 +41,13 @@ Location: `acf_add_options_page()`. Consumed by `header.php` / `footer.php` / sh
 | `nav_es_categories` | Repeater | `heading_lead`, `heading_main`, `url`, `description`, `last` — the three category cards |
 | `nav_es_cta_label` / `nav_es_cta_mobile_label` / `nav_es_cta_url` | Text / Text / Link | the bottom-of-column button |
 | `nav_es_services` | Repeater | `heading_lead`, `heading_main`, `links` (repeater: `label`, **`mobile_label`**, `url`) |
+
+> **Writing to an options-page repeater uses the field NAME path, not the key.** The stored option for a link row is
+> `options_nav_machines_groups_0_links_0_url`, so `update_field( 'nav_machines_groups_0_links_0_url', …, 'option' )`
+> is correct and `update_field( 'field_nav_machines_groups_0_links_0_url', … )` writes an unread `options_field_…` row —
+> it reports success and the site never changes. `url` is a **Link** field and stores an array; a bare string is silently
+> discarded. A same-request `get_field()` read-back also shows pre-update values (ACF memoises the repeater), so flush
+> before verifying. `scripts/update-machine-links.php` encodes all of this and is idempotent.
 
 > **The phone menu is generated from the same tree** (`template-parts/site-mobile-nav.php`), not hand-written a second time — the old `header.php` repeated every link there and the two could drift. Where the design genuinely differs, it is an explicit field, not a hidden hardcoded list: machine group `mobile_order`, `nav_machines_footer_mobile_label`, `nav_es_cta_mobile_label`, and a per-link `mobile_label` on Engineered Solutions service links.
 

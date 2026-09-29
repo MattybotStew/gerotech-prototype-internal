@@ -3,6 +3,12 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-09-29 (opencode — machine sublinks to the live catalogue)
+**Machine sublinks (2026-09-29, opencode):** the 41 Machines mega-panel sublinks were `#` placeholders; they now use the URLs from **https://gerotech.com/machines/** (which resolves to the per-model haascnc.com pages) and all open in a new tab. The map lives in `gerotech_machines_defaults()`; `scripts/update-machine-links.php` pushes it into the stored ACF rows on either environment and is idempotent.
+**ACF trap — options-page repeaters store under the field NAME, not the key.** The stored option is `options_nav_machines_groups_0_links_0_url`; `update_field( 'field_nav_machines_groups_0_links_0_url', …, 'option' )` writes an unread `options_field_…` row and changes nothing while reporting success. Also: `url` is a **Link** field and needs an array (`array( 'url' => …, 'title' => '', 'target' => '' )`) — a bare string is discarded; and a same-request `get_field()` returns pre-update rows because ACF memoises the repeater, so flush before verifying.
+**Deploy trap:** `rsync -q src/ dst/` does not recurse — without `-a` it skips `inc/` and `template-parts/` and the change silently never lands. Always use the AGENTS.md `-avz --delete` recipe, and `grep` the remote file to confirm a changed file arrived before seeding against it.
+
+## Current Session State
 **Last Updated:** 2026-09-29 (opencode — header / nav / footer made ACF-editable)
 **Active Agent:** opencode
 **Branch:** `master`

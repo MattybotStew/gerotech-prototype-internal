@@ -437,22 +437,22 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 1,
 			'title'  => 'Vertical Mills',
 			'links'  => array(
-				'VF Series',
-				'Universal Machines',
-				'VR Series',
-				'VP-5 Prismatic',
-				'Pallet-Changing VMCs',
-				'Mini Mills',
-				'Mold Machines',
-				'High-Speed Drill Centers',
-				'Drill/Tap/Mill Series',
-				'Toolroom Mills',
-				'Pocket Mill',
-				'Compact Mills',
-				'Gantry Series',
-				'SR Sheet Routers',
-				'Extra-Large VMC',
-				'Double-Column Mills',
+				'VF Series' => 'https://www.haascnc.com/machines/vertical-mills/vf-series.html',
+				'Universal Machines' => 'https://www.haascnc.com/machines/vertical-mills/universal-machine.html',
+				'VR Series' => 'https://www.haascnc.com/machines/vertical-mills/vr-series.html',
+				'VP-5 Prismatic' => 'https://www.haascnc.com/machines/vertical-mills/vp-5.html',
+				'Pallet-Changing VMCs' => 'https://www.haascnc.com/machines/vertical-mills/vc-series.html',
+				'Mini Mills' => 'https://www.haascnc.com/machines/vertical-mills/mini-mills.html',
+				'Mold Machines' => 'https://www.haascnc.com/machines/vertical-mills/mold-machines.html',
+				'High-Speed Drill Centers' => 'https://www.haascnc.com/machines/vertical-mills/high-speed-drill-centers.html',
+				'Drill/Tap/Mill Series' => 'https://www.haascnc.com/machines/vertical-mills/drill-tap-mill.html',
+				'Toolroom Mills' => 'https://www.haascnc.com/machines/vertical-mills/toolroom-mills.html',
+				'Pocket Mill' => 'https://www.haascnc.com/machines/vertical-mills/pocket-mill.html',
+				'Compact Mills' => 'https://www.haascnc.com/machines/vertical-mills/compact-mills.html',
+				'Gantry Series' => 'https://www.haascnc.com/machines/vertical-mills/gantry.html',
+				'SR Sheet Routers' => 'https://www.haascnc.com/machines/vertical-mills/sheet-routers.html',
+				'Extra-Large VMC' => 'https://www.haascnc.com/machines/vertical-mills/extra-large-vmc.html',
+				'Double-Column Mills' => 'https://www.haascnc.com/machines/vertical-mills/double-column.html',
 			),
 		),
 		// Column 2
@@ -461,12 +461,12 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 2,
 			'title'  => 'Lathes',
 			'links'  => array(
-				'ST Series',
-				'Dual-Spindle',
-				'Box Way Series',
-				'Toolroom Lathes',
-				'Chucker Lathe',
-				'Haas Bar Feeders',
+				'ST Series' => 'https://www.haascnc.com/machines/lathes/st.html',
+				'Dual-Spindle' => 'https://www.haascnc.com/machines/lathes/dual-spindle.html',
+				'Box Way Series' => 'https://www.haascnc.com/machines/lathes/box-way-series.html',
+				'Toolroom Lathes' => 'https://www.haascnc.com/machines/lathes/toolroom-lathe.html',
+				'Chucker Lathe' => 'https://www.haascnc.com/machines/lathes/chucker-lathe.html',
+				'Haas Bar Feeders' => 'https://www.haascnc.com/machines/lathes/bar-feeders.html',
 			),
 		),
 		array(
@@ -474,10 +474,10 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 4,
 			'title'  => 'Rotaries & Indexers',
 			'links'  => array(
-				'Rotary Tables',
-				'Indexers',
-				'5-Axis Rotaries',
-				'Extra-Large Rotaries',
+				'Rotary Tables' => 'https://www.haascnc.com/machines/rotaries-indexers/rotary-tables.html',
+				'Indexers' => 'https://www.haascnc.com/machines/rotaries-indexers/indexers.html',
+				'5-Axis Rotaries' => 'https://www.haascnc.com/machines/rotaries-indexers/5-axis-rotaries.html',
+				'Extra-Large Rotaries' => 'https://www.haascnc.com/machines/rotaries-indexers/extra-large-rotaries.html',
 			),
 		),
 		// Column 3
@@ -486,8 +486,8 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 3,
 			'title'  => 'Horizontal Mills',
 			'links'  => array(
-				'50-Taper',
-				'40-Taper',
+				'50-Taper' => 'https://www.haascnc.com/machines/horizontal-mills/ec-series.html',
+				'40-Taper' => 'https://www.haascnc.com/machines/horizontal-mills/40-taper.html',
 			),
 		),
 		array(
@@ -495,10 +495,10 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 5,
 			'title'  => 'Automation Systems',
 			'links'  => array(
-				'Mill Automation',
-				'Lathe Automation',
-				'Automatic Parts Loaders',
-				'Automation Models',
+				'Mill Automation' => 'https://www.haascnc.com/machines/automation-systems/mill_automation.html',
+				'Lathe Automation' => 'https://www.haascnc.com/machines/automation-systems/lathe_automation.html',
+				'Automatic Parts Loaders' => 'https://www.haascnc.com/machines/automation-systems/haas_apls.html',
+				'Automation Models' => 'https://www.haascnc.com/machines/automation-systems/automation-models.html',
 			),
 		),
 		array(
@@ -506,10 +506,10 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 6,
 			'title'  => 'Desktop Machines',
 			'links'  => array(
-				'Desktop Mill',
-				'Desktop Lathe',
-				'Control Simulator, Standard',
-				'Control Simulator, Premium',
+				'Desktop Mill' => 'https://www.haascnc.com/machines/desktop-machines/desktop-mill.html',
+				'Desktop Lathe' => 'https://www.haascnc.com/machines/desktop-machines/desktop-lathe.html',
+				'Control Simulator, Standard' => 'https://www.haascnc.com/machines/desktop-machines/simulator-std.html',
+				'Control Simulator, Premium' => 'https://www.haascnc.com/machines/desktop-machines/simulator-premium.html',
 			),
 		),
 		// Column 4
@@ -518,9 +518,9 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 7,
 			'title'  => 'Shop Equipment',
 			'links'  => array(
-				'Knee Mill',
-				'Haas Manual Lathes',
-				'Haas Saws',
+				'Knee Mill' => 'https://www.haascnc.com/machines/shop-equipment/knee-mills.html',
+				'Haas Manual Lathes' => 'https://www.haascnc.com/machines/shop-equipment/manual-lathes.html',
+				'Haas Saws' => 'https://www.haascnc.com/machines/shop-equipment/saws.html',
 			),
 		),
 		array(
@@ -528,22 +528,23 @@ function gerotech_machines_defaults() {
 			'mobile_order' => 8,
 			'title'  => 'Fabrication Machines',
 			'links'  => array(
-				'Laser Cutting Machines',
-				'CNC Press Brakes',
+				'Laser Cutting Machines' => 'https://www.haascnc.com/machines/fab-machines/laser-cutting-machines.html',
+				'CNC Press Brakes' => 'https://www.haascnc.com/machines/fab-machines/press-brakes.html',
 			),
 		),
 	);
 
-	$groups = array_map(
-		function ( $group ) use ( $catalog ) {
+$groups = array_map(
+		function ( $group ) {
 			$links = array();
-			foreach ( $group['links'] as $label ) {
-				// The machine catalog is the client's live site; model links are
-				// placeholders until the client supplies per-model URLs.
+			foreach ( $group['links'] as $label => $url ) {
+				// Model URLs come from the client's live catalogue at
+				// gerotech.com/machines/; they open in a new tab because
+				// they leave the site.
 				$links[] = array(
 					'label'   => $label,
-					'url'     => '#',
-					'new_tab' => false,
+					'url'     => $url,
+					'new_tab' => true,
 				);
 			}
 			return array(
