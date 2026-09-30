@@ -21,13 +21,15 @@ $gerotech_logo   = $gerotech_footer['logo']
 		<div class="site-footer__inner">
 			<div class="site-footer__top">
 				<div class="site-footer__brand">
-					<img
-						class="site-footer__logo-img"
-						src="<?php echo esc_url( $gerotech_logo ); ?>"
-						alt="<?php echo esc_attr( $gerotech_footer['logo_alt'] ); ?>"
-						width="<?php echo (int) $gerotech_footer['logo_width']; ?>"
-						height="<?php echo (int) $gerotech_footer['logo_height']; ?>"
-					/>
+					<a class="site-footer__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Gerotech home', 'gerotech-child' ); ?>">
+						<img
+							class="site-footer__logo-img"
+							src="<?php echo esc_url( $gerotech_logo ); ?>"
+							alt="<?php echo esc_attr( $gerotech_footer['logo_alt'] ); ?>"
+							width="<?php echo (int) $gerotech_footer['logo_width']; ?>"
+							height="<?php echo (int) $gerotech_footer['logo_height']; ?>"
+						/>
+					</a>
 					<?php if ( '' !== trim( $gerotech_footer['tagline'] ) ) : ?>
 						<p class="site-footer__tagline">
 							<?php echo nl2br( esc_html( $gerotech_footer['tagline'] ) ); ?>
