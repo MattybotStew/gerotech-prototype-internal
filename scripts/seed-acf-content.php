@@ -107,10 +107,12 @@ function gerotech_seed_link_repeater_rows( $rows ) {
 		if ( ! isset( $row['label'] ) || '' === trim( (string) $row['label'] ) ) {
 			continue;
 		}
+		// "Open in a new tab" lives on the Link value's `target` (see
+		// gerotech_seed_link_row) — the separate new_tab toggles were removed
+		// from the editor on 2026-09-29.
 		$out[] = array(
 			'label'   => (string) $row['label'],
 			'url'     => gerotech_seed_link_row( $row ),
-			'new_tab' => ! empty( $row['new_tab'] ),
 			// Only the Engineered Solutions service links have this sub-field;
 			// ACF ignores an unknown key, so it is safe to always include it.
 			'mobile_label' => isset( $row['mobile_label'] ) ? (string) $row['mobile_label'] : '',
@@ -315,16 +317,14 @@ foreach ( $nav_defaults as $item ) {
 	$sub_rows = array();
 	foreach ( $item['links'] as $link ) {
 		$sub_rows[] = array(
-			'label'   => $link['label'],
-			'url'     => gerotech_seed_link_row( $link ),
-			'new_tab' => ! empty( $link['new_tab'] ),
+			'label' => $link['label'],
+			'url'   => gerotech_seed_link_row( $link ),
 		);
 	}
 
 	$nav_rows[] = array(
 		'label'       => $item['label'],
 		'url'         => gerotech_seed_link_row( $item ),
-		'new_tab'     => ! empty( $item['new_tab'] ),
 		'style'       => $item['style'],
 		'show_mobile' => ! empty( $item['show_mobile'] ),
 		'links'       => $sub_rows,
@@ -338,9 +338,8 @@ foreach ( $machines_default['groups'] as $group ) {
 	$link_rows = array();
 	foreach ( $group['links'] as $link ) {
 		$link_rows[] = array(
-			'label'   => $link['label'],
-			'url'     => gerotech_seed_link_row( $link ),
-			'new_tab' => ! empty( $link['new_tab'] ),
+			'label' => $link['label'],
+			'url'   => gerotech_seed_link_row( $link ),
 		);
 	}
 
@@ -358,7 +357,6 @@ gerotech_seed_once( 'field_nav_machines_help_url', gerotech_seed_link_value( $ma
 gerotech_seed_once( 'field_nav_machines_footer_label', $machines_default['footer_label'], 'option', 'machines panel — full catalog link' );
 gerotech_seed_once( 'field_nav_machines_footer_mobile_label', $machines_default['footer_mobile_label'], 'option', 'machines panel — full catalog link, mobile wording' );
 gerotech_seed_once( 'field_nav_machines_footer_url', gerotech_seed_link_value( $machines_default['footer_label'], $machines_default['footer_url'], $machines_default['footer_new_tab'] ), 'option', 'machines panel — full catalog URL' );
-gerotech_seed_once( 'field_nav_machines_footer_new_tab', 1, 'option', 'machines panel — full catalog opens in new tab' );
 
 $es_default = gerotech_es_defaults();
 $cat_rows   = array();
@@ -400,10 +398,10 @@ gerotech_seed_once( 'field_footer_phone', $footer_default['phone'], 'option', 'p
 $social_rows = array();
 foreach ( $footer_default['socials'] as $social ) {
 	$social_rows[] = array(
+		'network' => $social['network'],
 		'icon'    => $social['icon'],
 		'label'   => $social['label'],
 		'url'     => gerotech_seed_link_row( $social ),
-		'new_tab' => ! empty( $social['new_tab'] ),
 	);
 }
 gerotech_seed_once( 'field_footer_socials', $social_rows, 'option', 'social links (' . count( $social_rows ) . ')' );

@@ -97,6 +97,80 @@ function gerotech_modal_pages() {
 }
 
 /**
+ * The "Site Content" admin screens, in menu order.
+ *
+ * Shared by the options-page registration (inc/acf-fields.php), the field
+ * groups that attach to each screen, the admin polish (inc/admin.php) and the
+ * audit script, so adding a screen is a one-line change here.
+ *
+ * @return array slug => array( title, description )
+ */
+function gerotech_site_content_screens() {
+	return array(
+		'gerotech-site-header' => array(
+			'title'       => 'Header',
+			'description' => 'The black phone bar, the logo, the orange button and the search box at the top of every page.',
+		),
+		'gerotech-site-menus'  => array(
+			'title'       => 'Menus',
+			'description' => 'The main menu, the Machines panel and the Engineered Solutions panel. The phone menu is built from the same lists.',
+		),
+		'gerotech-site-footer' => array(
+			'title'       => 'Footer',
+			'description' => 'Everything in the dark band at the bottom of every page.',
+		),
+		'gerotech-site-shared' => array(
+			'title'       => 'Shared Content',
+			'description' => 'Testimonials and the mailing-list form, which appear on several pages.',
+		),
+	);
+}
+
+/**
+ * ACF location rule for one Site Content screen.
+ *
+ * @param string $slug Screen slug from gerotech_site_content_screens().
+ * @return array
+ */
+function gerotech_options_location( $slug ) {
+	return array(
+		array(
+			array(
+				'param'    => 'options_page',
+				'operator' => '==',
+				'value'    => $slug,
+			),
+		),
+	);
+}
+
+/**
+ * Whether the developer-only layout controls should be visible in the editor.
+ *
+ * The Site Content screens hide fields such as menu "Style", machine-panel
+ * "Column" and "Mobile order" behind this switch: they exist so the design can
+ * be reproduced exactly, not because an editor should ever change them. They
+ * are hidden with CSS, NOT removed from the form — a removed repeater sub-field
+ * is skipped on save and its stored value stays at the OLD row index, so a
+ * reorder would silently scramble the layout. Hidden-but-posted travels with
+ * its row.
+ *
+ * Append `&advanced=1` to any Site Content URL to show them.
+ *
+ * @return bool
+ */
+function gerotech_show_advanced_fields() {
+	$show = ! empty( $_GET['advanced'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+	/**
+	 * Filter whether developer-only layout fields render in the editor.
+	 *
+	 * @param bool $show
+	 */
+	return (bool) apply_filters( 'gerotech_show_advanced_fields', $show );
+}
+
+/**
  * Read a theme asset versioned by file mtime (cache-busting).
  *
  * @param string $rel Relative path under the theme, e.g. 'assets/css/tokens.css'.

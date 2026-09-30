@@ -6,13 +6,31 @@
 
 ---
 
-## 1. Global — Options page "Site Content"
+## 1. Global — "Site Content" admin menu (four screens)
 
-Location: `acf_add_options_page()`. Consumed by `header.php` / `footer.php` / shared parts.
+Consumed by `header.php` / `footer.php` / shared parts. Since **2026-09-29** the single options page is a parent menu with four short screens (`gerotech_site_content_screens()` in `inc/helpers.php` is the one list):
 
-**Registration:** three groups in `inc/acf-global-fields.php` (`group_site_header`, `group_site_navigation`, `group_site_footer`) plus the pre-existing `group_site_forms` / `group_site_testimonials` in `inc/acf-fields.php`. All on the same options page.
+| Screen | Slug | Groups |
+|---|---|---|
+| Header | `gerotech-site-header` | `group_site_header` |
+| Menus | `gerotech-site-menus` | `group_site_navigation` |
+| Footer | `gerotech-site-footer` | `group_site_footer` |
+| Shared Content | `gerotech-site-shared` | `group_site_testimonials`, `group_site_forms` |
+
+Values are stored by field **name** under `'option'`, so moving a group between screens never moves data. The old `admin.php?page=gerotech-site-content` URL 301s to Header (`inc/admin.php`).
+
+**Registration:** `inc/acf-global-fields.php` (three chrome groups) + `inc/acf-fields.php` (options pages, testimonials, forms). **Admin polish:** `inc/admin.php`.
 
 **Defaults live in `inc/global-content.php`**, never in ACF `default_value` — see the standing rule in `AGENTS.md`. Every field below renders the current design when its value is blank.
+
+**Editor-facing rules (2026-09-29 simplification):**
+
+- **Developer-only layout fields are hidden.** Menu `style`, `show_mobile`, machine-group `column` / `mobile_order`, ES `last`, every `*_mobile_label`, the social `icon` glyph and `header_logo_url` carry the wrapper class `gerotech-advanced`; `inc/admin.php` hides them with CSS unless the URL has **`&advanced=1`**. They stay in the form on purpose — a *removed* repeater sub-field is skipped on save and its value stays at the old row index, so a reorder would scramble the layout. Hidden-but-posted travels with its row (verified: an Update with everything hidden produced a zero-line front-end diff).
+- **One control per link.** The separate `new_tab` true/false toggles are gone. The Link field's own target is used, and **any URL on another host opens in a new tab automatically** (`gerotech_is_external_url()`; `gerotech.com` counts as this site on every environment). Old stored `new_tab` values are still honoured; `scripts/migrate-global-links.php` folded them into targets on Local + Dev.
+- **Menu style is automatic.** Blank `style` = drop-down when the item has sub-links, otherwise a plain link. The two mega styles must be chosen explicitly (advanced). The drop-down repeater is hidden by conditional logic on mega items.
+- **Socials are a picker.** `footer_socials.network` (linkedin / instagram / youtube / facebook / x / tiktok) renders an inline SVG via `gerotech_social_icon_svg()`; the typed glyph is a fallback only. `.site-footer__socials` is still `display:none` in `components.css` until the client confirms URLs.
+- The 2017 parent-theme **Site Options** menu (`acf-options`) is removed from the admin menu (`gerotech_hide_legacy_site_options` filter to restore). Nothing in this theme reads it.
+- Every screen shows a notice: blank keeps the current wording; saves are live on every page immediately.
 
 ### 1a. Site Content — Header (`group_site_header`)
 
@@ -31,12 +49,12 @@ Location: `acf_add_options_page()`. Consumed by `header.php` / `footer.php` / sh
 
 | Field | Type | Notes |
 |---|---|---|
-| `nav_items` | Repeater (max 8) | `label`, `url`, `new_tab`, `style` (plain / dropdown / machines-mega / es-mega), `show_mobile`, `links` (repeater: `label`, `url`, `new_tab`) |
-| `nav_machines_groups` | Repeater (max 24) | `title`, `column` (1–4), `mobile_order` (number, optional), `links` (repeater: `label`, `url`, `new_tab`). Group titles are plain text, not links. The 41 sublink URLs come from **gerotech.com/machines/** (which resolves to the per-model haascnc.com pages) and all carry `new_tab`, so they open in a new tab. |
+| `nav_items` | Repeater (max 8) | `label`, `url`, `links` (repeater: `label`, `url`), *advanced:* `style` (blank = automatic / plain / dropdown / machines-mega / es-mega), `show_mobile` |
+| `nav_machines_groups` | Repeater (max 24) | `title`, `links` (repeater: `label`, `url`), *advanced:* `column` (1–4), `mobile_order`. Group titles are plain text, not links. The 41 sublink URLs come from **gerotech.com/machines/** (which resolves to the per-model haascnc.com pages); being external they open in a new tab automatically. |
 | `nav_machines_help_title` / `_label` / `_url` | Text / Text / Link | the dark "not sure which machine" card in column 4 |
 | `nav_machines_footer_label` | Text | "Browse the full Haas catalog" — the full-width link under the panel |
-| `nav_machines_footer_mobile_label` | Text | "Full Haas Catalog ↗" — shorter wording for the phone menu |
-| `nav_machines_footer_url` / `_new_tab` | Link / true_false | |
+| `nav_machines_footer_mobile_label` | Text (*advanced*) | "Full Haas Catalog ↗" — shorter wording for the phone menu |
+| `nav_machines_footer_url` | Link | (`nav_machines_footer_new_tab` removed 2026-09-29; old value still read) |
 | `nav_es_col1_title` / `nav_es_col2_title` | Text | "By Category" / "All Services" |
 | `nav_es_categories` | Repeater | `heading_lead`, `heading_main`, `url`, `description`, `last` — the three category cards |
 | `nav_es_cta_label` / `nav_es_cta_mobile_label` / `nav_es_cta_url` | Text / Text / Link | the bottom-of-column button |
@@ -59,10 +77,10 @@ Location: `acf_add_options_page()`. Consumed by `header.php` / `footer.php` / sh
 | `footer_tagline` | Textarea | |
 | `footer_address` | Textarea | line breaks preserved |
 | `footer_phone` | Text | `tel:` link generated from it |
-| `footer_socials` | Repeater (max 6) | `icon` (glyph), `label` (aria-label), `url`, `new_tab` |
-| `footer_columns` | Repeater (**max 3**) | `title`, `links` (repeater: `label`, `url`, `new_tab`) — Machines / Solutions & Support / Company |
+| `footer_socials` | Repeater (max 6) | `network` (select → SVG), `url`, *advanced:* `label` (aria-label, blank = network name), `icon` (legacy glyph fallback) |
+| `footer_columns` | Repeater (**max 3**) | `title`, `links` (repeater: `label`, `url`) — Machines / Solutions & Support / Company |
 | `footer_copyright_text` | Text | year is prepended by the template |
-| `footer_legal_links` | Repeater (max 6) | `label`, `url`, `new_tab` |
+| `footer_legal_links` | Repeater (max 6) | `label`, `url` |
 
 > **`footer_copyright_text`, not `footer_copyright`.** The 2017 legacy group `group_59305cb95c705` ("Site Options", stored as `acf-field-group` posts) already owns a field named `footer_copyright`, and its option row carries an `options_footer_copyright` reference. ACF resolves option values by field *name*, so a name collision silently serves the legacy value. When adding a new options-page field, diff its name against the 371 legacy field names first.
 

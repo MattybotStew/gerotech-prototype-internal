@@ -2,6 +2,26 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-29 — Site Content editor rebuilt for the client (Cursor)
+
+Review found the header/menus/footer ACF screens were correct but built for the developer: one page with a dozen tabs, a `Style` select that could kill the whole menu, `Column 1–4` and `Mobile order` on every machine group, three ways to say one link, typed social glyphs, and a second look-alike "Site Options" menu from 2017. Nothing rendered changed in this pass — only how it is edited.
+
+**What changed**
+- **Four screens instead of one page.** Site Content → Header / Menus / Footer / Shared Content (`acf_add_options_sub_page`). `gerotech_site_content_screens()` in `inc/helpers.php` is the one list; groups attach with `gerotech_options_location()`. Values are keyed by field name under `'option'`, so no data moved. `page=gerotech-site-content` redirects to Header.
+- **Layout fields hidden.** `gerotech-advanced` wrapper class + CSS in new `inc/admin.php`; `&advanced=1` reveals them. Hidden with CSS, not removed: a removed repeater sub-field is skipped on save and its value stays at the old row index, so a reorder would scramble the layout. Table-layout repeaters also need the `<th>` hidden — `gerotech_advanced_field_keys()` walks the groups and emits those rules.
+- **One control per link.** All `new_tab` toggles removed. `gerotech_link_row()` now opens any external host in a new tab automatically (`gerotech_is_external_url()`; `gerotech.com` treated as internal everywhere). Old stored flags still read; `scripts/migrate-global-links.php` folded them into link targets on Local + Dev.
+- **Menu style automatic** when blank (sub-links ⇒ drop-down). Drop-down repeater hidden by conditional logic on the two mega items.
+- **Social network picker** → inline SVG (`gerotech_social_icon_svg()`); glyph is a fallback. Migration set `network` on the three existing rows.
+- **Legacy "Site Options" menu removed** (`remove_menu_page('acf-options')`, filterable). Notice at the top of every screen: blank keeps current wording; saves are live everywhere immediately.
+- Labels rewritten in page language ("the black phone bar", "Orange button — goes to").
+
+**Verification**
+- Local admin checked in a browser with a temp admin (deleted). Clicked **Update** on Menus with all layout fields hidden → **0-line diff** in rendered header+footer; option-row diff was only ACF re-serialising link arrays.
+- Front end Local + Dev: 41 machine links all `target=_blank`, Support drop-down, 3 SVG socials, copyright line, 0 PHP notices, interior URLs 200. Audit Local 310/325, Dev 309/325 (only logo blanks; one field fewer than before because `nav_machines_footer_new_tab` is gone).
+- Traps hit: `admin_init` is too late to redirect a removed menu slug (menu.php dies first — use `admin_menu`); ACF's `values` store must be `reset()` before a same-request read-back, `wp_cache_flush()` alone is not enough.
+
+**Left for a client/design call:** auto-deriving machine-panel columns (drops two fields but changes the phone order), merging the two-part ES titles, phone-menu group titles still `#`. Also: `header_search_hint` still says “Prototype site search — browse by section:” on both environments.
+
 ## 2026-09-29 — Machine sublinks pointed at the client's live catalogue (opencode)
 
 All 41 Machines mega-panel sublinks were seeded as `#` placeholders. They now use the URLs from **https://gerotech.com/machines/**, all `target="_blank" rel="noopener noreferrer"`.

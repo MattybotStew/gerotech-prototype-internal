@@ -818,9 +818,21 @@ acf_add_local_field_group(
 );
 
 /**
- * Global site content (options page).
+ * Global site content (options pages).
  *
- * Holds site-wide content shared across many pages — currently testimonials.
+ * One "Site Content" menu with four short screens instead of a single page
+ * that stacked every global group and a dozen tabs. Values are stored by field
+ * name under the 'option' post id, so which screen a group sits on is purely
+ * an editing concern — moving a group never moves data.
+ *
+ *   Site Content
+ *     ├── Header          gerotech-site-header   (group_site_header)
+ *     ├── Menus           gerotech-site-menus    (group_site_navigation)
+ *     ├── Footer          gerotech-site-footer   (group_site_footer)
+ *     └── Shared Content  gerotech-site-shared   (testimonials, forms)
+ *
+ * The parent slug `gerotech-site-content` is kept so old bookmarks and the
+ * journal's URLs still land somewhere (ACF redirects to the first screen).
  * Requires ACF Pro (acf_add_options_page).
  */
 if ( function_exists( 'acf_add_options_page' ) ) {
@@ -830,9 +842,23 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 			'menu_title' => 'Site Content',
 			'menu_slug'  => 'gerotech-site-content',
 			'capability' => 'edit_posts',
-			'redirect'   => false,
+			'redirect'   => true,
+			'icon_url'   => 'dashicons-layout',
+			'position'   => 3,
 		)
 	);
+
+	foreach ( gerotech_site_content_screens() as $slug => $screen ) {
+		acf_add_options_sub_page(
+			array(
+				'page_title'  => 'Site Content — ' . $screen['title'],
+				'menu_title'  => $screen['title'],
+				'menu_slug'   => $slug,
+				'parent_slug' => 'gerotech-site-content',
+				'capability'  => 'edit_posts',
+			)
+		);
+	}
 }
 
 /**
@@ -841,16 +867,9 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 acf_add_local_field_group(
 	array(
 		'key'      => 'group_site_testimonials',
-		'title'    => 'Site Content — Testimonials',
-		'location' => array(
-			array(
-				array(
-					'param'    => 'options_page',
-					'operator' => '==',
-					'value'    => 'gerotech-site-content',
-				),
-			),
-		),
+		'title'    => 'Testimonials',
+		'location' => gerotech_options_location( 'gerotech-site-shared' ),
+		'menu_order' => 10,
 		'position' => 'normal',
 		'style'    => 'default',
 		'fields'   => array(
@@ -1025,16 +1044,9 @@ acf_add_local_field_group(
 acf_add_local_field_group(
 	array(
 		'key'      => 'group_site_forms',
-		'title'    => 'Site Content — Forms',
-		'location' => array(
-			array(
-				array(
-					'param'    => 'options_page',
-					'operator' => '==',
-					'value'    => 'gerotech-site-content',
-				),
-			),
-		),
+		'title'    => 'Mailing-list Signup Form',
+		'location' => gerotech_options_location( 'gerotech-site-shared' ),
+		'menu_order' => 20,
 		'position' => 'normal',
 		'style'    => 'default',
 		'fields'   => array(

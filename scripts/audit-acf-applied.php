@@ -105,7 +105,21 @@ function gerotech_audit_targets() {
 function gerotech_audit_fields( $post_id ) {
 	$out = array();
 
-	$groups = acf_get_field_groups( 'option' === $post_id ? array( 'options_page' => 'gerotech-site-content' ) : array( 'post_id' => $post_id ) );
+	if ( 'option' === $post_id ) {
+		// Site Content is four admin screens (Header / Menus / Footer / Shared
+		// Content) since 2026-09-29; groups attach to a screen, values to 'option'.
+		$groups = array();
+		$screens = function_exists( 'gerotech_site_content_screens' )
+			? array_keys( gerotech_site_content_screens() )
+			: array( 'gerotech-site-content' );
+		foreach ( $screens as $screen ) {
+			foreach ( acf_get_field_groups( array( 'options_page' => $screen ) ) as $group ) {
+				$groups[ $group['key'] ] = $group;
+			}
+		}
+	} else {
+		$groups = acf_get_field_groups( array( 'post_id' => $post_id ) );
+	}
 
 	foreach ( $groups as $group ) {
 		// Only OUR groups. The parent theme ships its own DB-stored groups

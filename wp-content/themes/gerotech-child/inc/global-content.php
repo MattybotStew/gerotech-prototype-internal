@@ -75,11 +75,55 @@ function gerotech_link_row( $value, $fallback_label = '', $new_tab = false ) {
 		$url = '#';
 	}
 
+	// Anything that leaves the site opens in a new tab. This is the one rule
+	// an editor would otherwise have to remember per link, so it is automatic;
+	// the Link field's own "open in a new tab" still forces it for internal URLs.
+	if ( ! $new_tab && gerotech_is_external_url( $url ) ) {
+		$new_tab = true;
+	}
+
 	return array(
 		'label'   => (string) $label,
 		'url'     => $url,
 		'new_tab' => (bool) $new_tab,
 	);
+}
+
+/**
+ * Whether a URL points at another website.
+ *
+ * `mailto:`, `tel:`, anchors and relative paths are not external. The public
+ * domain is treated as this site on every environment, so a Dev/Local build
+ * does not open its own catalogue links in a new tab differently from live.
+ *
+ * @param string $url Absolute or relative URL.
+ * @return bool
+ */
+function gerotech_is_external_url( $url ) {
+	$url = trim( (string) $url );
+	if ( '' === $url || '#' === $url[0] || '/' === $url[0] || preg_match( '#^(mailto|tel|sms):#i', $url ) ) {
+		return false;
+	}
+
+	$host = wp_parse_url( $url, PHP_URL_HOST );
+	if ( ! $host ) {
+		return false;
+	}
+	$host = strtolower( preg_replace( '/^www\./', '', $host ) );
+
+	$ours = array(
+		strtolower( preg_replace( '/^www\./', '', (string) wp_parse_url( home_url( '/' ), PHP_URL_HOST ) ) ),
+		'gerotech.com',
+	);
+
+	/**
+	 * Filter the hostnames treated as "this site".
+	 *
+	 * @param string[] $ours Lower-case hostnames without a leading www.
+	 */
+	$ours = (array) apply_filters( 'gerotech_internal_hosts', $ours );
+
+	return ! in_array( $host, $ours, true );
 }
 
 /**
@@ -380,10 +424,6 @@ function gerotech_nav_items() {
 				continue;
 			}
 
-			$style = isset( $row['style'] ) && in_array( $row['style'], array( 'plain', 'dropdown', 'machines-mega', 'es-mega' ), true )
-				? $row['style']
-				: 'plain';
-
 			$links = array();
 			if ( isset( $row['links'] ) && is_array( $row['links'] ) ) {
 				foreach ( $row['links'] as $sub ) {
@@ -396,6 +436,16 @@ function gerotech_nav_items() {
 						$links[] = $sub_link;
 					}
 				}
+			}
+
+			// Style is a developer field and is blank ("Automatic") for anything
+			// an editor adds: sub-links make it a drop-down, otherwise it is a
+			// plain link. The two mega styles must be chosen explicitly.
+			$style = isset( $row['style'] ) && in_array( $row['style'], array( 'plain', 'dropdown', 'machines-mega', 'es-mega' ), true )
+				? $row['style']
+				: ( empty( $links ) ? 'plain' : 'dropdown' );
+			if ( 'dropdown' === $style && empty( $links ) ) {
+				$style = 'plain';
 			}
 
 			$items[] = array(
@@ -852,10 +902,12 @@ function gerotech_footer_defaults() {
 		'tagline'   => "Michigan's Premier CNC Machinery Distributor & Engineering Solutions Provider — serving manufacturers since 1987.",
 		'address'   => "29220 Commerce Drive\nFlat Rock, MI 48134",
 		'phone'     => '734-379-7788',
+		// Placeholder destinations until the client confirms its social URLs;
+		// the whole block is also hidden by .site-footer__socials in components.css.
 		'socials'   => array(
-			array( 'icon' => 'in', 'label' => 'LinkedIn', 'url' => '#', 'new_tab' => false ),
-			array( 'icon' => 'ig', 'label' => 'Instagram', 'url' => '#', 'new_tab' => false ),
-			array( 'icon' => '▶', 'label' => 'YouTube', 'url' => '#', 'new_tab' => false ),
+			array( 'network' => 'linkedin', 'icon' => 'in', 'label' => 'LinkedIn', 'url' => '#', 'new_tab' => false ),
+			array( 'network' => 'instagram', 'icon' => 'ig', 'label' => 'Instagram', 'url' => '#', 'new_tab' => false ),
+			array( 'network' => 'youtube', 'icon' => '▶', 'label' => 'YouTube', 'url' => '#', 'new_tab' => false ),
 		),
 		'columns'   => array(
 			array(
@@ -896,6 +948,69 @@ function gerotech_footer_defaults() {
 			array( 'label' => 'Terms of Use', 'url' => gerotech_page_url( 'about' ), 'new_tab' => false ),
 		),
 	);
+}
+
+/**
+ * Social networks the footer can show, keyed by the ACF `network` value.
+ *
+ * @return array slug => display name
+ */
+function gerotech_social_networks() {
+	return array(
+		'linkedin'  => 'LinkedIn',
+		'instagram' => 'Instagram',
+		'youtube'   => 'YouTube',
+		'facebook'  => 'Facebook',
+		'x'         => 'X',
+		'tiktok'    => 'TikTok',
+	);
+}
+
+/**
+ * Map a legacy typed glyph ("in", "ig", "▶") to a network slug.
+ *
+ * @param string $glyph Stored `icon` text.
+ * @return string Network slug or ''.
+ */
+function gerotech_social_network_from_glyph( $glyph ) {
+	$map = array(
+		'in' => 'linkedin',
+		'li' => 'linkedin',
+		'ig' => 'instagram',
+		'▶'  => 'youtube',
+		'yt' => 'youtube',
+		'f'  => 'facebook',
+		'fb' => 'facebook',
+		'x'  => 'x',
+		'tw' => 'x',
+		'tt' => 'tiktok',
+	);
+	$glyph = strtolower( trim( (string) $glyph ) );
+	return isset( $map[ $glyph ] ) ? $map[ $glyph ] : '';
+}
+
+/**
+ * Inline SVG for a social network, sized to the 36px .social-icon circle.
+ *
+ * Simple Icons-style single-path glyphs, `fill: currentColor` so the existing
+ * white / orange-on-hover colouring applies unchanged.
+ *
+ * @param string $network Network slug from gerotech_social_networks().
+ * @return string Safe SVG markup, or '' for an unknown network.
+ */
+function gerotech_social_icon_svg( $network ) {
+	$paths = array(
+		'linkedin'  => 'M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z',
+		'instagram' => 'M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z',
+		'youtube'   => 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z',
+		'facebook'  => 'M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z',
+		'x'         => 'M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z',
+		'tiktok'    => 'M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z',
+	);
+	if ( ! isset( $paths[ $network ] ) ) {
+		return '';
+	}
+	return '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="' . esc_attr( $paths[ $network ] ) . '"/></svg>';
 }
 
 /**
@@ -966,19 +1081,30 @@ function gerotech_footer_data() {
 		$columns = $d['columns'];
 	}
 
-	$socials = array();
-	$rows    = gerotech_option( 'footer_socials' );
+	$socials  = array();
+	$networks = gerotech_social_networks();
+	$rows     = gerotech_option( 'footer_socials' );
 	if ( is_array( $rows ) && ! empty( $rows ) ) {
 		foreach ( $rows as $row ) {
-			$icon  = isset( $row['icon'] ) ? trim( (string) $row['icon'] ) : '';
-			$label = isset( $row['label'] ) ? trim( (string) $row['label'] ) : '';
-			$link  = gerotech_link_row( isset( $row['url'] ) ? $row['url'] : '', $label, ! empty( $row['new_tab'] ) );
+			$network = isset( $row['network'] ) && isset( $networks[ $row['network'] ] ) ? $row['network'] : '';
+			$icon    = isset( $row['icon'] ) ? trim( (string) $row['icon'] ) : '';
+			$label   = isset( $row['label'] ) ? trim( (string) $row['label'] ) : '';
+			$link    = gerotech_link_row( isset( $row['url'] ) ? $row['url'] : '', $label, ! empty( $row['new_tab'] ) );
 
-			if ( '' === $icon && ! $link ) {
+			// Rows saved before the Network picker existed only have the glyph.
+			if ( '' === $network && '' !== $icon ) {
+				$network = gerotech_social_network_from_glyph( $icon );
+			}
+			if ( '' === $label && '' !== $network ) {
+				$label = $networks[ $network ];
+			}
+
+			if ( '' === $network && '' === $icon && ! $link ) {
 				continue;
 			}
 
 			$socials[] = array(
+				'network' => $network,
 				'icon'    => $icon,
 				'label'   => $label,
 				'url'     => $link ? $link['url'] : '#',

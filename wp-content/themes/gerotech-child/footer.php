@@ -48,7 +48,16 @@ $gerotech_logo   = $gerotech_footer['logo']
 					<?php if ( ! empty( $gerotech_footer['socials'] ) ) : ?>
 						<div class="site-footer__socials">
 							<?php foreach ( $gerotech_footer['socials'] as $social ) : ?>
-								<a class="social-icon" href="<?php echo esc_url( $social['url'] ); ?>" aria-label="<?php echo esc_attr( $social['label'] ); ?>"<?php echo gerotech_link_attrs( $social ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $social['icon'] ); ?></a>
+								<?php $social_svg = ! empty( $social['network'] ) ? gerotech_social_icon_svg( $social['network'] ) : ''; ?>
+								<a class="social-icon<?php echo '' !== $social_svg ? ' social-icon--' . esc_attr( $social['network'] ) : ''; ?>" href="<?php echo esc_url( $social['url'] ); ?>" aria-label="<?php echo esc_attr( $social['label'] ); ?>"<?php echo gerotech_link_attrs( $social ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+									<?php
+									if ( '' !== $social_svg ) {
+										echo $social_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from a fixed path table, esc_attr'd.
+									} else {
+										echo esc_html( $social['icon'] );
+									}
+									?>
+								</a>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

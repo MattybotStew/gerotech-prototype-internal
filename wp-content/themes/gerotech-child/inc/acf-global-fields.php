@@ -1,6 +1,6 @@
 <?php
 /**
- * ACF field groups — global header, navigation and footer (options page).
+ * ACF field groups — global header, navigation and footer.
  *
  * These blocks render site-wide (every template calls get_header()/get_footer()).
  * Each field therefore follows the project rule that ships in helpers.php:
@@ -10,6 +10,23 @@
  *
  * Registered in PHP (not the admin UI) so the structure is version-controlled
  * and reviewable in git alongside the markup it drives.
+ *
+ * WRITTEN FOR THE CLIENT, NOT FOR US
+ * ----------------------------------
+ * Every label and instruction below is what a Gerotech editor reads. Rules:
+ *
+ *  - Say what the thing IS on the page ("the black phone bar"), not what the
+ *    field is called in code.
+ *  - Layout decisions the design fixed (menu style, which column a machine
+ *    group sits in, phone-menu ordering) carry the wrapper class
+ *    `gerotech-advanced`. inc/admin.php hides them unless the URL has
+ *    `&advanced=1`. They stay in the form so a save still posts them — see
+ *    gerotech_show_advanced_fields() for why that matters.
+ *  - One control per idea. A link is the Link field only: its own "open in a
+ *    new tab" checkbox is used, and any link that leaves the site opens in a
+ *    new tab automatically (gerotech_link_row()). The separate `new_tab`
+ *    toggles that used to sit next to every link were removed 2026-09-29;
+ *    stored values are still honoured by the renderers for old rows.
  *
  * @package GerotechChild
  */
@@ -22,66 +39,117 @@ if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 	return;
 }
 
-$gerotech_global_options_page = array(
-	array(
-		array(
-			'param'    => 'options_page',
-			'operator' => '==',
-			'value'    => 'gerotech-site-content',
-		),
-	),
-);
+/**
+ * Wrapper that marks a field as developer-only (hidden by default).
+ *
+ * @return array
+ */
+function gerotech_acf_advanced_wrapper() {
+	return array( 'class' => 'gerotech-advanced' );
+}
 
 /**
- * Header — alert banner, logo, CTA button, search modal.
+ * A short note rendered at the top of a screen.
  *
- * Replaces the hardcoded markup in header.php. Phone numbers in the banner are
- * typed as display text; the tel: href is built from `value` (see
- * gerotech_tel_link()), so an editor can never publish a broken link.
+ * @param string $key  Field key.
+ * @param string $html Message HTML.
+ * @return array
  */
+function gerotech_acf_screen_note( $key, $html ) {
+	return array(
+		'key'     => $key,
+		'label'   => '',
+		'type'    => 'message',
+		'message' => $html,
+		'new_lines' => '',
+		'esc_html'  => 0,
+		'wrapper' => array( 'class' => 'gerotech-screen-note' ),
+	);
+}
+
+/**
+ * A "Label + Link" pair of sub-fields, used by every link list.
+ *
+ * @param string $key_prefix e.g. 'field_footer_column_link'.
+ * @param string $label_hint Instruction under the label box.
+ * @return array[]
+ */
+function gerotech_acf_link_pair( $key_prefix, $label_hint = '' ) {
+	return array(
+		array(
+			'key'          => $key_prefix . '_label',
+			'label'        => 'Text',
+			'name'         => 'label',
+			'type'         => 'text',
+			'instructions' => $label_hint,
+			'wrapper'      => array( 'width' => '40' ),
+		),
+		array(
+			'key'          => $key_prefix . '_url',
+			'label'        => 'Goes to',
+			'name'         => 'url',
+			'type'         => 'link',
+			'instructions' => 'Pick a page or paste a web address. Links to other websites open in a new tab automatically.',
+			'wrapper'      => array( 'width' => '60' ),
+		),
+	);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * HEADER — alert banner, logo, button, search
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
 acf_add_local_field_group(
 	array(
 		'key'      => 'group_site_header',
-		'title'    => 'Site Content — Header',
-		'location' => $gerotech_global_options_page,
+		'title'    => 'Header',
+		'location' => gerotech_options_location( 'gerotech-site-header' ),
 		'position' => 'normal',
 		'style'    => 'default',
 		'fields'   => array(
 
+			gerotech_acf_screen_note(
+				'field_header_note',
+				'<strong>Phone bar</strong> — the black strip at the very top. <strong>Logo &amp; Button</strong> — the white header under it. <strong>Search</strong> — the box that opens from the magnifying glass.'
+			),
+
 			/* ── Alert banner ─────────────────────────────────── */
 			array(
-				'key'          => 'field_header_banner_tab',
-				'label'        => 'Alert Banner',
-				'type'         => 'tab',
-				'placement'    => 'top',
+				'key'       => 'field_header_banner_tab',
+				'label'     => 'Phone Bar',
+				'type'      => 'tab',
+				'placement' => 'top',
 			),
 			array(
-				'key'           => 'field_header_banner_items',
-				'label'         => 'Banner items',
-				'name'          => 'header_banner_items',
-				'type'          => 'repeater',
-				'layout'        => 'block',
-				'max'           => 4,
-				'button_label'  => 'Add banner item',
-				'instructions'  => 'The black bar across the top of every page. Type the phone number as it should read; the <code>tel:</code> link is generated from it. Leave a row\'s number blank to hide that item.',
-				'sub_fields'    => array(
+				'key'          => 'field_header_banner_items',
+				'label'        => 'Phone numbers',
+				'name'         => 'header_banner_items',
+				'type'         => 'repeater',
+				'layout'       => 'table',
+				'max'          => 4,
+				'button_label' => 'Add a phone number',
+				'instructions' => 'Type each number the way it should read, e.g. <code>734-379-7788</code>. Tapping it on a phone dials it automatically.',
+				'sub_fields'   => array(
 					array(
-						'key'  => 'field_header_banner_label',
+						'key'   => 'field_header_banner_label',
 						'label' => 'Label',
-						'name' => 'label',
-						'type' => 'text',
+						'name'  => 'label',
+						'type'  => 'text',
+						'instructions' => 'e.g. Headquarters &amp; Sales:',
 					),
 					array(
-						'key'  => 'field_header_banner_value',
+						'key'   => 'field_header_banner_value',
 						'label' => 'Phone number',
-						'name' => 'value',
-						'type' => 'text',
+						'name'  => 'value',
+						'type'  => 'text',
 					),
 					array(
-						'key'  => 'field_header_banner_url',
-						'label' => 'Link (optional override)',
-						'name' => 'url',
-						'type' => 'link',
+						'key'     => 'field_header_banner_url',
+						'label'   => 'Link somewhere else instead',
+						'name'    => 'url',
+						'type'    => 'link',
+						'instructions' => 'Only if this item should open a page rather than dial.',
+						'wrapper' => gerotech_acf_advanced_wrapper(),
 					),
 				),
 			),
@@ -100,33 +168,37 @@ acf_add_local_field_group(
 				'type'          => 'image',
 				'return_format' => 'array',
 				'preview_size'  => 'medium',
-				'instructions'  => 'Leave empty to keep the Gerotech logo bundled with the theme.',
+				'instructions'  => 'Leave empty to keep the Gerotech logo that comes with the site.',
 			),
 			array(
 				'key'   => 'field_header_logo_alt',
-				'label' => 'Logo alt text',
+				'label' => 'Logo description',
 				'name'  => 'header_logo_alt',
 				'type'  => 'text',
+				'instructions' => 'Read aloud by screen readers and used by search engines. Not shown on the page.',
 			),
 			array(
 				'key'          => 'field_header_logo_url',
 				'label'        => 'Logo links to',
 				'name'         => 'header_logo_url',
 				'type'         => 'link',
-				'instructions' => 'Default: the homepage.',
+				'instructions' => 'Leave blank for the homepage.',
+				'wrapper'      => gerotech_acf_advanced_wrapper(),
 			),
 			array(
 				'key'   => 'field_header_cta_label',
-				'label' => 'Header button label',
+				'label' => 'Orange button — text',
 				'name'  => 'header_cta_label',
 				'type'  => 'text',
+				'instructions' => 'e.g. Talk to an Engineer. Also the last item in the phone menu.',
+				'wrapper' => array( 'width' => '40' ),
 			),
 			array(
 				'key'          => 'field_header_cta_url',
-				'label'        => 'Header button link',
+				'label'        => 'Orange button — goes to',
 				'name'         => 'header_cta_url',
 				'type'         => 'link',
-				'instructions' => 'Shown as the button on desktop and as the last item in the mobile menu.',
+				'wrapper'      => array( 'width' => '60' ),
 			),
 
 			/* ── Search modal ─────────────────────────────────── */
@@ -136,113 +208,114 @@ acf_add_local_field_group(
 				'type'      => 'tab',
 				'placement' => 'top',
 			),
-			array( 'key' => 'field_header_search_title', 'label' => 'Modal heading', 'name' => 'header_search_title', 'type' => 'text' ),
-			array( 'key' => 'field_header_search_hint', 'label' => 'Modal hint text', 'name' => 'header_search_hint', 'type' => 'text' ),
-			array( 'key' => 'field_header_search_placeholder', 'label' => 'Input placeholder', 'name' => 'header_search_placeholder', 'type' => 'text' ),
+			array( 'key' => 'field_header_search_title', 'label' => 'Heading', 'name' => 'header_search_title', 'type' => 'text', 'instructions' => 'e.g. Search Gerotech' ),
+			array( 'key' => 'field_header_search_hint', 'label' => 'Line under the heading', 'name' => 'header_search_hint', 'type' => 'text' ),
+			array( 'key' => 'field_header_search_placeholder', 'label' => 'Grey text inside the search box', 'name' => 'header_search_placeholder', 'type' => 'text' ),
 			array(
 				'key'          => 'field_header_search_links',
 				'label'        => 'Quick links',
 				'name'         => 'header_search_links',
 				'type'         => 'repeater',
-				'layout'       => 'block',
+				'layout'       => 'table',
 				'max'          => 10,
-				'button_label' => 'Add quick link',
-				'sub_fields'   => array(
-					array( 'key' => 'field_header_search_link_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-					array( 'key' => 'field_header_search_link_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-				),
+				'button_label' => 'Add a quick link',
+				'instructions' => 'The shortcuts shown under the search box.',
+				'sub_fields'   => gerotech_acf_link_pair( 'field_header_search_link' ),
 			),
 		),
 	)
 );
 
-/**
- * Main navigation.
- *
- * `nav_items` is the top-level menu. Three shapes are supported, matching the
- * design:
- *   - plain        — a single link (Training, About)
- *   - dropdown     — link + a flat list of sub-links (Support)
- *   - machines-mega / es-mega — the two mega panels, whose contents live in the
- *     two tabs below because each panel has its own layout.
- *
- * The mobile menu is generated from this same tree — one edit updates both.
- */
+/* ═══════════════════════════════════════════════════════════════════════════
+ * MENUS — main menu + the two mega panels
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
 acf_add_local_field_group(
 	array(
 		'key'      => 'group_site_navigation',
-		'title'    => 'Site Content — Navigation',
-		'location' => $gerotech_global_options_page,
+		'title'    => 'Menus',
+		'location' => gerotech_options_location( 'gerotech-site-menus' ),
 		'position' => 'normal',
 		'style'    => 'default',
 		'fields'   => array(
 
+			gerotech_acf_screen_note(
+				'field_nav_note',
+				'<strong>Main Menu</strong> — the row of links across the header. <strong>Machines Panel</strong> and <strong>Engineered Solutions Panel</strong> — the large drop-downs that open from those two menu items. Drag rows to reorder. The phone menu updates by itself.'
+			),
+
+			/* ── Main menu ───────────────────────────────────── */
 			array(
-				'key'          => 'field_nav_items_tab',
-				'label'        => 'Main Menu',
-				'type'         => 'tab',
-				'placement'    => 'top',
+				'key'       => 'field_nav_items_tab',
+				'label'     => 'Main Menu',
+				'type'      => 'tab',
+				'placement' => 'top',
 			),
 			array(
 				'key'          => 'field_nav_items',
-				'label'        => 'Top-level items',
+				'label'        => 'Menu items',
 				'name'         => 'nav_items',
 				'type'         => 'repeater',
 				'layout'       => 'block',
 				'max'          => 8,
-				'button_label' => 'Add top-level item',
-				'instructions'  => 'The main menu, in order. Pick any page in <em>Link</em>, or type an external URL. The mega-panel contents live on the next two tabs — set an item\'s <em>Style</em> to <code>machines-mega</code> or <code>es-mega</code> to show that panel, and <strong>only one item may use each mega style</strong>.',
-				'sub_fields'    => array(
-					array( 'key' => 'field_nav_item_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-					array( 'key' => 'field_nav_item_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
+				'button_label' => 'Add a menu item',
+				'instructions' => 'Give an item <em>Drop-down links</em> and it becomes a drop-down. The two big panels (Machines, Engineered Solutions) are edited on the next two tabs — those two items stay as they are.',
+				'sub_fields'   => array_merge(
+					gerotech_acf_link_pair( 'field_nav_item' ),
 					array(
-						'key'    => 'field_nav_item_new_tab',
-						'label'  => 'Open in a new tab',
-						'name'   => 'new_tab',
-						'type'   => 'true_false',
-					),
-					array(
-						'key'           => 'field_nav_item_style',
-						'label'         => 'Style',
-						'name'          => 'style',
-						'type'          => 'select',
-						'choices'       => array(
-							'plain'        => 'Simple link',
-							'dropdown'     => 'Dropdown list',
-							'machines-mega' => 'Machines mega panel',
-							'es-mega'      => 'Engineered Solutions mega panel',
+						array(
+							'key'          => 'field_nav_item_links',
+							'label'        => 'Drop-down links',
+							'name'         => 'links',
+							'type'         => 'repeater',
+							'layout'       => 'table',
+							'max'          => 20,
+							'button_label' => 'Add a drop-down link',
+							'instructions' => 'Optional. Leave empty for a plain link.',
+							'sub_fields'   => gerotech_acf_link_pair( 'field_nav_item_link' ),
+							// The two mega-panel items get their contents from the
+							// next tabs; an empty drop-down table under them only
+							// invites edits that the panel would ignore.
+							'conditional_logic' => array(
+								array(
+									array( 'field' => 'field_nav_item_style', 'operator' => '!=', 'value' => 'machines-mega' ),
+									array( 'field' => 'field_nav_item_style', 'operator' => '!=', 'value' => 'es-mega' ),
+								),
+							),
 						),
-						'allow_null' => 0,
-						'instructions' => 'Leave blank for a simple link.',
-					),
-					array(
-						'key'          => 'field_nav_item_show_mobile',
-						'label'        => 'Show in the mobile menu',
-						'name'         => 'show_mobile',
-						'type'         => 'true_false',
-						'instructions' => 'Uncheck to hide this item on phones and tablets only.',
-					),
-					array(
-						'key'          => 'field_nav_item_links',
-						'label'        => 'Sub-links',
-						'name'         => 'links',
-						'type'         => 'repeater',
-						'layout'       => 'block',
-						'max'          => 20,
-						'button_label' => 'Add sub-link',
-						'instructions'  => 'Used when the style above is <em>Dropdown list</em>.',
-						'sub_fields'   => array(
-							array( 'key' => 'field_nav_item_link_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-							array( 'key' => 'field_nav_item_link_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-							array( 'key' => 'field_nav_item_link_new_tab', 'label' => 'Open in a new tab', 'name' => 'new_tab', 'type' => 'true_false' ),
+						array(
+							'key'          => 'field_nav_item_style',
+							'label'        => 'Style',
+							'name'         => 'style',
+							'type'         => 'select',
+							'choices'      => array(
+								'plain'         => 'Simple link',
+								'dropdown'      => 'Drop-down list',
+								'machines-mega' => 'Machines mega panel',
+								'es-mega'       => 'Engineered Solutions mega panel',
+							),
+							'allow_null'   => 1,
+							'placeholder'  => 'Automatic',
+							'instructions' => 'Automatic = a drop-down when the item has drop-down links, otherwise a simple link. Only one item may use each mega panel.',
+							'wrapper'      => gerotech_acf_advanced_wrapper(),
 						),
-					),
+						array(
+							'key'          => 'field_nav_item_show_mobile',
+							'label'        => 'Show in the phone menu',
+							'name'         => 'show_mobile',
+							'type'         => 'true_false',
+							'ui'           => 1,
+							'instructions' => 'Off hides this item on phones and tablets only.',
+							'wrapper'      => gerotech_acf_advanced_wrapper(),
+						),
+					)
 				),
 			),
 
+			/* ── Machines panel ──────────────────────────────── */
 			array(
 				'key'       => 'field_nav_machines_tab',
-				'label'     => 'Machines Mega Panel',
+				'label'     => 'Machines Panel',
 				'type'      => 'tab',
 				'placement' => 'top',
 			),
@@ -253,119 +326,135 @@ acf_add_local_field_group(
 				'type'         => 'repeater',
 				'layout'       => 'block',
 				'max'          => 24,
-				'button_label' => 'Add machine group',
-				'instructions'  => 'These fill the Haas catalog panel, which is a four-column grid. Put each group in the column it should appear in; rows are otherwise kept in the order you add them.',
-				'sub_fields'    => array(
-					array( 'key' => 'field_nav_machines_group_title', 'label' => 'Group title', 'name' => 'title', 'type' => 'text' ),
+				'button_label' => 'Add a machine group',
+				'instructions' => 'Each group is a heading (e.g. Vertical Mills) with the machine links under it. Machine links go to the Haas catalogue and open in a new tab.',
+				'sub_fields'   => array(
+					array( 'key' => 'field_nav_machines_group_title', 'label' => 'Group heading', 'name' => 'title', 'type' => 'text', 'wrapper' => array( 'width' => '50' ) ),
 					array(
-						'key'           => 'field_nav_machines_group_column',
-						'label'         => 'Column',
-						'name'          => 'column',
-						'type'          => 'select',
-						'choices'       => array(
+						'key'          => 'field_nav_machines_group_column',
+						'label'        => 'Column',
+						'name'         => 'column',
+						'type'         => 'select',
+						'choices'      => array(
 							'1' => 'Column 1',
 							'2' => 'Column 2',
 							'3' => 'Column 3',
 							'4' => 'Column 4',
 						),
-						'allow_null'    => 0,
-						'instructions'  => 'Leave blank for column 1.',
+						'allow_null'   => 1,
+						'placeholder'  => 'Column 1',
+						'instructions' => 'The panel is a four-column grid; the design places groups unevenly.',
+						'wrapper'      => array_merge( gerotech_acf_advanced_wrapper(), array( 'width' => '25' ) ),
 					),
 					array(
 						'key'          => 'field_nav_machines_group_mobile_order',
-						'label'        => 'Mobile order',
+						'label'        => 'Phone-menu order',
 						'name'         => 'mobile_order',
 						'type'         => 'number',
 						'min'          => 1,
 						'max'          => 99,
-						'instructions' => 'Optional. The phone menu is a single short list, so it can be ordered differently from the desktop columns. Blank keeps the row order.',
+						'instructions' => 'Optional. Blank keeps the row order.',
+						'wrapper'      => array_merge( gerotech_acf_advanced_wrapper(), array( 'width' => '25' ) ),
 					),
 					array(
 						'key'          => 'field_nav_machines_group_links',
 						'label'        => 'Machine links',
 						'name'         => 'links',
 						'type'         => 'repeater',
-						'layout'       => 'block',
+						'layout'       => 'table',
 						'max'          => 40,
-						'button_label' => 'Add machine link',
-						'sub_fields'   => array(
-							array( 'key' => 'field_nav_machine_link_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-							array( 'key' => 'field_nav_machine_link_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-							array( 'key' => 'field_nav_machine_link_new_tab', 'label' => 'Open in a new tab', 'name' => 'new_tab', 'type' => 'true_false' ),
-						),
+						'button_label' => 'Add a machine link',
+						'sub_fields'   => gerotech_acf_link_pair( 'field_nav_machine_link' ),
 					),
 				),
 			),
-			array( 'key' => 'field_nav_machines_help_title', 'label' => 'Help card — title', 'name' => 'nav_machines_help_title', 'type' => 'text', 'instructions' => 'The dark "not sure which machine" card in the last column. Clear both this and the button label to hide it.' ),
-			array( 'key' => 'field_nav_machines_help_label', 'label' => 'Help card — button label', 'name' => 'nav_machines_help_label', 'type' => 'text' ),
-			array( 'key' => 'field_nav_machines_help_url', 'label' => 'Help card — button link', 'name' => 'nav_machines_help_url', 'type' => 'link' ),
-			array( 'key' => 'field_nav_machines_footer_label', 'label' => 'Footer link — label', 'name' => 'nav_machines_footer_label', 'type' => 'text', 'instructions' => 'The full-width link under the panel, e.g. “Browse the full Haas catalog”. Clear to hide.' ),
-			array( 'key' => 'field_nav_machines_footer_mobile_label', 'label' => 'Footer link — mobile label', 'name' => 'nav_machines_footer_mobile_label', 'type' => 'text', 'instructions' => 'Shorter wording for the phone menu, e.g. “Full Haas Catalog ↗”.' ),
-			array( 'key' => 'field_nav_machines_footer_url', 'label' => 'Footer link — URL', 'name' => 'nav_machines_footer_url', 'type' => 'link' ),
-			array( 'key' => 'field_nav_machines_footer_new_tab', 'label' => 'Footer link — open in a new tab', 'name' => 'nav_machines_footer_new_tab', 'type' => 'true_false' ),
+			array( 'key' => 'field_nav_machines_help_title', 'label' => 'Dark card — heading', 'name' => 'nav_machines_help_title', 'type' => 'text', 'instructions' => 'The dark “Not sure which machine…” card in the last column. Clear both boxes to hide the card.', 'wrapper' => array( 'width' => '50' ) ),
+			array( 'key' => 'field_nav_machines_help_label', 'label' => 'Dark card — button text', 'name' => 'nav_machines_help_label', 'type' => 'text', 'wrapper' => array( 'width' => '50' ) ),
+			array( 'key' => 'field_nav_machines_help_url', 'label' => 'Dark card — button goes to', 'name' => 'nav_machines_help_url', 'type' => 'link' ),
+			array( 'key' => 'field_nav_machines_footer_label', 'label' => 'Bottom link — text', 'name' => 'nav_machines_footer_label', 'type' => 'text', 'instructions' => 'The full-width link under the panel, e.g. “Browse the full Haas catalog”. Clear to hide.', 'wrapper' => array( 'width' => '50' ) ),
+			array( 'key' => 'field_nav_machines_footer_url', 'label' => 'Bottom link — goes to', 'name' => 'nav_machines_footer_url', 'type' => 'link', 'wrapper' => array( 'width' => '50' ) ),
+			array( 'key' => 'field_nav_machines_footer_mobile_label', 'label' => 'Bottom link — phone wording', 'name' => 'nav_machines_footer_mobile_label', 'type' => 'text', 'instructions' => 'Shorter wording for the phone menu, e.g. “Full Haas Catalog ↗”. Blank reuses the text above.', 'wrapper' => gerotech_acf_advanced_wrapper() ),
 
+			/* ── Engineered Solutions panel ──────────────────── */
 			array(
 				'key'       => 'field_nav_es_tab',
-				'label'     => 'Engineered Solutions Mega Panel',
+				'label'     => 'Engineered Solutions Panel',
 				'type'      => 'tab',
 				'placement' => 'top',
 			),
-			array( 'key' => 'field_nav_es_col1_title', 'label' => 'First column — heading', 'name' => 'nav_es_col1_title', 'type' => 'text', 'instructions' => 'Default: “By Category”.' ),
+			array( 'key' => 'field_nav_es_col1_title', 'label' => 'Left column — heading', 'name' => 'nav_es_col1_title', 'type' => 'text', 'instructions' => 'e.g. By Category', 'wrapper' => array( 'width' => '50' ) ),
+			array( 'key' => 'field_nav_es_col2_title', 'label' => 'Right column — heading', 'name' => 'nav_es_col2_title', 'type' => 'text', 'instructions' => 'e.g. All Services', 'wrapper' => array( 'width' => '50' ) ),
 			array(
 				'key'          => 'field_nav_es_categories',
-				'label'        => 'First column — categories',
+				'label'        => 'Left column — the three categories',
 				'name'         => 'nav_es_categories',
 				'type'         => 'repeater',
 				'layout'       => 'block',
 				'max'          => 6,
-				'button_label' => 'Add category',
-				'sub_fields'    => array(
+				'button_label' => 'Add a category',
+				'sub_fields'   => array(
 					array(
-						'key'           => 'field_nav_es_category_lead',
-						'label'         => 'Title — first part',
-						'name'          => 'heading_lead',
-						'type'          => 'text',
-						'instructions'  => 'Plain text, e.g. “Machine”. Leave empty for a single-line title.',
+						'key'          => 'field_nav_es_category_lead',
+						'label'        => 'Title — first word(s)',
+						'name'         => 'heading_lead',
+						'type'         => 'text',
+						'instructions' => 'e.g. “Machine”. The title is shown in two tones; leave this empty for a one-tone title.',
+						'wrapper'      => array( 'width' => '50' ),
 					),
 					array(
 						'key'          => 'field_nav_es_category_main',
-						'label'        => 'Title — second part',
+						'label'        => 'Title — rest',
 						'name'         => 'heading_main',
 						'type'         => 'text',
-						'instructions' => 'Optional. Renders as the emphasised half of a two-tone title.',
+						'instructions' => 'e.g. “Custom Solutions”.',
+						'wrapper'      => array( 'width' => '50' ),
 					),
-					array( 'key' => 'field_nav_es_category_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-					array( 'key' => 'field_nav_es_category_desc', 'label' => 'Description', 'name' => 'description', 'type' => 'textarea', 'rows' => 2 ),
-					array( 'key' => 'field_nav_es_category_last', 'label' => 'Last item (removes the extra gap above the button)', 'name' => 'last', 'type' => 'true_false' ),
+					array( 'key' => 'field_nav_es_category_url', 'label' => 'Goes to', 'name' => 'url', 'type' => 'link' ),
+					array( 'key' => 'field_nav_es_category_desc', 'label' => 'One-line description', 'name' => 'description', 'type' => 'textarea', 'rows' => 2 ),
+					array(
+						'key'     => 'field_nav_es_category_last',
+						'label'   => 'Last item (removes the extra gap above the button)',
+						'name'    => 'last',
+						'type'    => 'true_false',
+						'ui'      => 1,
+						'wrapper' => gerotech_acf_advanced_wrapper(),
+					),
 				),
 			),
-			array( 'key' => 'field_nav_es_cta_label', 'label' => 'First column — button label', 'name' => 'nav_es_cta_label', 'type' => 'text', 'instructions' => 'Clear to hide the button at the bottom of the first column.' ),
-			array( 'key' => 'field_nav_es_cta_mobile_label', 'label' => 'First column — mobile button label', 'name' => 'nav_es_cta_mobile_label', 'type' => 'text', 'instructions' => 'Shorter wording for the phone menu, e.g. “Talk to an Engineer”. A “→” is added automatically.' ),
-			array( 'key' => 'field_nav_es_cta_url', 'label' => 'First column — button link', 'name' => 'nav_es_cta_url', 'type' => 'link' ),
-			array( 'key' => 'field_nav_es_col2_title', 'label' => 'Second column — heading', 'name' => 'nav_es_col2_title', 'type' => 'text', 'instructions' => 'Default: “All Services”.' ),
+			array( 'key' => 'field_nav_es_cta_label', 'label' => 'Left column — button text', 'name' => 'nav_es_cta_label', 'type' => 'text', 'instructions' => 'Clear to hide the button.', 'wrapper' => array( 'width' => '40' ) ),
+			array( 'key' => 'field_nav_es_cta_url', 'label' => 'Left column — button goes to', 'name' => 'nav_es_cta_url', 'type' => 'link', 'wrapper' => array( 'width' => '60' ) ),
+			array( 'key' => 'field_nav_es_cta_mobile_label', 'label' => 'Left column — button phone wording', 'name' => 'nav_es_cta_mobile_label', 'type' => 'text', 'instructions' => 'Shorter wording for the phone menu; a “→” is added automatically.', 'wrapper' => gerotech_acf_advanced_wrapper() ),
 			array(
 				'key'          => 'field_nav_es_services',
-				'label'        => 'Second column — service groups',
+				'label'        => 'Right column — service lists',
 				'name'         => 'nav_es_services',
 				'type'         => 'repeater',
 				'layout'       => 'block',
 				'max'          => 12,
-				'button_label' => 'Add service group',
-				'sub_fields'    => array(
-					array( 'key' => 'field_nav_es_service_lead', 'label' => 'Group title — first part', 'name' => 'heading_lead', 'type' => 'text' ),
-					array( 'key' => 'field_nav_es_service_main', 'label' => 'Group title — second part', 'name' => 'heading_main', 'type' => 'text' ),
+				'button_label' => 'Add a service list',
+				'sub_fields'   => array(
+					array( 'key' => 'field_nav_es_service_lead', 'label' => 'List heading — first word(s)', 'name' => 'heading_lead', 'type' => 'text', 'wrapper' => array( 'width' => '50' ) ),
+					array( 'key' => 'field_nav_es_service_main', 'label' => 'List heading — rest', 'name' => 'heading_main', 'type' => 'text', 'wrapper' => array( 'width' => '50' ) ),
 					array(
 						'key'          => 'field_nav_es_service_links',
 						'label'        => 'Links',
 						'name'         => 'links',
 						'type'         => 'repeater',
-						'layout'       => 'block',
+						'layout'       => 'table',
 						'max'          => 20,
-						'button_label' => 'Add link',
-						'sub_fields'   => array(
-							array( 'key' => 'field_nav_es_service_link_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-							array( 'key' => 'field_nav_es_service_link_mobile_label', 'label' => 'Mobile label', 'name' => 'mobile_label', 'type' => 'text', 'instructions' => 'Optional shorter wording for the phone menu, e.g. “Column Risers”. Blank reuses the label above.' ),
-							array( 'key' => 'field_nav_es_service_link_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
+						'button_label' => 'Add a link',
+						'sub_fields'   => array_merge(
+							gerotech_acf_link_pair( 'field_nav_es_service_link' ),
+							array(
+								array(
+									'key'          => 'field_nav_es_service_link_mobile_label',
+									'label'        => 'Phone wording',
+									'name'         => 'mobile_label',
+									'type'         => 'text',
+									'instructions' => 'Optional shorter text for the phone menu.',
+									'wrapper'      => gerotech_acf_advanced_wrapper(),
+								),
+							)
 						),
 					),
 				),
@@ -374,25 +463,27 @@ acf_add_local_field_group(
 	)
 );
 
-/**
- * Footer — brand block, link columns, bottom bar.
- *
- * The link columns are independent of the main menu on purpose: the footer
- * groups links differently (and points at the external Haas catalog), so the
- * two are edited separately.
- */
+/* ═══════════════════════════════════════════════════════════════════════════
+ * FOOTER — brand block, link columns, bottom bar
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
 acf_add_local_field_group(
 	array(
 		'key'      => 'group_site_footer',
-		'title'    => 'Site Content — Footer',
-		'location' => $gerotech_global_options_page,
+		'title'    => 'Footer',
+		'location' => gerotech_options_location( 'gerotech-site-footer' ),
 		'position' => 'normal',
 		'style'    => 'default',
 		'fields'   => array(
 
+			gerotech_acf_screen_note(
+				'field_footer_note',
+				'<strong>Company Block</strong> — the logo, tagline, address and social icons on the left. <strong>Link Columns</strong> — the three lists of links. <strong>Bottom Line</strong> — the copyright and legal links.'
+			),
+
 			array(
 				'key'       => 'field_footer_brand_tab',
-				'label'     => 'Brand Block',
+				'label'     => 'Company Block',
 				'type'      => 'tab',
 				'placement' => 'top',
 			),
@@ -403,31 +494,48 @@ acf_add_local_field_group(
 				'type'          => 'image',
 				'return_format' => 'array',
 				'preview_size'  => 'medium',
-				'instructions'  => 'Leave empty to keep the white Gerotech logo bundled with the theme.',
+				'instructions'  => 'Leave empty to keep the white Gerotech logo that comes with the site.',
 			),
-			array( 'key' => 'field_footer_logo_alt', 'label' => 'Logo alt text', 'name' => 'footer_logo_alt', 'type' => 'text', 'instructions' => 'Describes the logo for screen readers and search engines.' ),
+			array( 'key' => 'field_footer_logo_alt', 'label' => 'Logo description', 'name' => 'footer_logo_alt', 'type' => 'text', 'instructions' => 'Read aloud by screen readers. Not shown on the page.', 'wrapper' => gerotech_acf_advanced_wrapper() ),
 			array( 'key' => 'field_footer_tagline', 'label' => 'Tagline', 'name' => 'footer_tagline', 'type' => 'textarea', 'rows' => 3 ),
-			array( 'key' => 'field_footer_address', 'label' => 'Address', 'name' => 'footer_address', 'type' => 'textarea', 'rows' => 3, 'instructions' => 'Line breaks are preserved.' ),
-			array( 'key' => 'field_footer_phone', 'label' => 'Phone', 'name' => 'footer_phone', 'type' => 'text', 'instructions' => 'Shown under the address; the <code>tel:</code> link is generated from it.' ),
+			array( 'key' => 'field_footer_address', 'label' => 'Address', 'name' => 'footer_address', 'type' => 'textarea', 'rows' => 3, 'instructions' => 'Press Enter for a new line.', 'wrapper' => array( 'width' => '60' ) ),
+			array( 'key' => 'field_footer_phone', 'label' => 'Phone number', 'name' => 'footer_phone', 'type' => 'text', 'instructions' => 'Shown under the address. Tapping it dials.', 'wrapper' => array( 'width' => '40' ) ),
 			array(
 				'key'          => 'field_footer_socials',
-				'label'        => 'Social links',
+				'label'        => 'Social media',
 				'name'         => 'footer_socials',
 				'type'         => 'repeater',
-				'layout'       => 'block',
+				'layout'       => 'table',
 				'max'          => 6,
-				'button_label' => 'Add social link',
+				'button_label' => 'Add a social network',
+				'instructions' => 'Pick the network and paste the address of your page there.',
 				'sub_fields'   => array(
 					array(
-						'key'           => 'field_footer_social_icon',
-						'label'         => 'Icon glyph',
-						'name'          => 'icon',
-						'type'          => 'text',
-						'instructions'  => 'Short character(s) shown in the circle, e.g. “in”, “ig”, “f”.',
+						'key'         => 'field_footer_social_network',
+						'label'       => 'Network',
+						'name'        => 'network',
+						'type'        => 'select',
+						'choices'     => array(
+							'linkedin'  => 'LinkedIn',
+							'instagram' => 'Instagram',
+							'youtube'   => 'YouTube',
+							'facebook'  => 'Facebook',
+							'x'         => 'X (Twitter)',
+							'tiktok'    => 'TikTok',
+						),
+						'allow_null'  => 1,
+						'placeholder' => 'Choose…',
 					),
-					array( 'key' => 'field_footer_social_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text', 'instructions' => 'Read by screen readers.' ),
-					array( 'key' => 'field_footer_social_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-					array( 'key' => 'field_footer_social_new_tab', 'label' => 'Open in a new tab', 'name' => 'new_tab', 'type' => 'true_false' ),
+					array( 'key' => 'field_footer_social_url', 'label' => 'Your page', 'name' => 'url', 'type' => 'link', 'instructions' => 'e.g. https://www.linkedin.com/company/gerotech' ),
+					array( 'key' => 'field_footer_social_label', 'label' => 'Description', 'name' => 'label', 'type' => 'text', 'instructions' => 'Read aloud by screen readers. Blank uses the network name.', 'wrapper' => gerotech_acf_advanced_wrapper() ),
+					array(
+						'key'          => 'field_footer_social_icon',
+						'label'        => 'Fallback letters',
+						'name'         => 'icon',
+						'type'         => 'text',
+						'instructions' => 'Only used when no network is chosen, e.g. “in”.',
+						'wrapper'      => gerotech_acf_advanced_wrapper(),
+					),
 				),
 			),
 
@@ -444,39 +552,35 @@ acf_add_local_field_group(
 				'type'         => 'repeater',
 				'layout'       => 'block',
 				'max'          => 3,
-				'button_label' => 'Add column',
-				'instructions'  => 'The design fits three columns beside the brand block; removing one leaves an empty gap in the layout.',
-				'sub_fields'    => array(
-					array( 'key' => 'field_footer_column_title', 'label' => 'Column title', 'name' => 'title', 'type' => 'text' ),
+				'button_label' => 'Add a column',
+				'instructions' => 'The design has room for three columns beside the company block.',
+				'sub_fields'   => array(
+					array( 'key' => 'field_footer_column_title', 'label' => 'Column heading', 'name' => 'title', 'type' => 'text' ),
 					array(
 						'key'          => 'field_footer_column_links',
 						'label'        => 'Links',
 						'name'         => 'links',
 						'type'         => 'repeater',
-						'layout'       => 'block',
+						'layout'       => 'table',
 						'max'          => 20,
-						'button_label' => 'Add link',
-						'sub_fields'   => array(
-							array( 'key' => 'field_footer_column_link_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-							array( 'key' => 'field_footer_column_link_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-							array( 'key' => 'field_footer_column_link_new_tab', 'label' => 'Open in a new tab', 'name' => 'new_tab', 'type' => 'true_false' ),
-						),
+						'button_label' => 'Add a link',
+						'sub_fields'   => gerotech_acf_link_pair( 'field_footer_column_link' ),
 					),
 				),
 			),
 
 			array(
 				'key'       => 'field_footer_bottom_tab',
-				'label'     => 'Bottom Bar',
+				'label'     => 'Bottom Line',
 				'type'      => 'tab',
 				'placement' => 'top',
 			),
 			array(
 				'key'          => 'field_footer_copyright_text',
-				'label'        => 'Copyright line',
+				'label'        => 'Copyright wording',
 				'name'         => 'footer_copyright_text',
 				'type'         => 'text',
-				'instructions' => 'The year is added automatically, so write only the wording. Leave blank to keep the default wording.',
+				'instructions' => 'The “© 2026” part is added automatically — write only what follows it, e.g. “Gerotech, Inc. All rights reserved.”',
 				'note'         => 'Named <code>footer_copyright_text</code>, not <code>footer_copyright</code>: the 2017 legacy group “Site Options” already stores a field under <code>footer_copyright</code>, and ACF resolves option values by name, so the older value would win.',
 			),
 			array(
@@ -484,14 +588,11 @@ acf_add_local_field_group(
 				'label'        => 'Legal links',
 				'name'         => 'footer_legal_links',
 				'type'         => 'repeater',
-				'layout'       => 'block',
+				'layout'       => 'table',
 				'max'          => 6,
-				'button_label' => 'Add legal link',
-				'sub_fields'   => array(
-					array( 'key' => 'field_footer_legal_label', 'label' => 'Label', 'name' => 'label', 'type' => 'text' ),
-					array( 'key' => 'field_footer_legal_url', 'label' => 'Link', 'name' => 'url', 'type' => 'link' ),
-					array( 'key' => 'field_footer_legal_new_tab', 'label' => 'Open in a new tab', 'name' => 'new_tab', 'type' => 'true_false' ),
-				),
+				'button_label' => 'Add a legal link',
+				'instructions' => 'e.g. Privacy Policy, Terms of Use.',
+				'sub_fields'   => gerotech_acf_link_pair( 'field_footer_legal' ),
 			),
 		),
 	)

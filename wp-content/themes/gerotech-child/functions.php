@@ -23,6 +23,7 @@ require_once GEROTECH_CHILD_DIR . '/inc/acf-fields.php';
 require_once GEROTECH_CHILD_DIR . '/inc/acf-legacy-fields.php';
 require_once GEROTECH_CHILD_DIR . '/inc/acf-global-fields.php';
 require_once GEROTECH_CHILD_DIR . '/inc/global-content.php';
+require_once GEROTECH_CHILD_DIR . '/inc/admin.php';
 
 /**
  * Theme supports.
