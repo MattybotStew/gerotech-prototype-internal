@@ -2,6 +2,14 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-30 — ES mega-menu anchors Dev deploy recovered (Cursor)
+
+Shell 316338 failed after theme rsync: **scp** hit WPE `subsystem request failed on channel 0`, so `wp eval-file` never ran; inline `wp eval` with parentheses also broke bash quoting.
+
+**Fix:** re-rsync theme `-avz --delete` + chmod; upload `scripts/update-es-service-anchors.php` via **rsync over ssh** to `/nas/content/live/gerotechdev/_gerotech-scripts/`; `wp eval-file` that path (not inline eval). Result: **0 updated, 15 already correct** (ACF already hashed — likely from an earlier Local/Dev seed pass). Page + CDN caches flushed.
+
+**Verified on Dev** (PHP panel + homepage HTML): Auto Doors → `/modification-of-standard-machine-tools/#auto-doors`; Specialty Machine → `#specialty-machine`; Part Programming → `/unique-applications-for-standard-machines/#part-programming`; HMI Design → `/automated-system/#hmi-design`; Electrical – Controls Solutions → `#layered-controls-solutions`.
+
 ## 2026-09-30 — ES mega-menu scroll-to-card anchors (Cursor)
 
 Engineered Solutions **All Services** sublinks (mega + mobile in proto) now land on the matching `.mcs-card` via `#id` from `gerotech_card_id()` (WP templates) and hand-set ids in proto HTML. Defaults in `gerotech_es_defaults()`; `scripts/update-es-service-anchors.php` pushes into stored `nav_es_services`. `.mcs-card { scroll-margin-top: 120px; }` for sticky header. Local + Dev theme deployed; anchor script verified 15/15 on Local.

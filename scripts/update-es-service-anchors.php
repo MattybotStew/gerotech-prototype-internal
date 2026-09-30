@@ -19,8 +19,10 @@
  *     --path="$HOME/Local Sites/gerotech/app/public" --url=https://gerotech.local \
  *     eval-file scripts/update-es-service-anchors.php
  *
- * Usage (Dev): rsync this file to /nas/content/live/gerotechdev/wp-content/,
- * then `wp eval-file wp-content/update-es-service-anchors.php` and delete it.
+ * Usage (Dev): rsync over ssh (not scp — WPE often rejects scp "subsystem request
+ * failed on channel 0") to e.g. /nas/content/live/gerotechdev/_gerotech-scripts/,
+ * then `wp eval-file` that absolute path. Do not use inline `wp eval` with
+ * parentheses over ssh (bash quoting breaks).
  *
  * @package GerotechScripts
  */

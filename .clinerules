@@ -3,12 +3,13 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-09-30 (Cursor — ES mega-menu card anchors)
+**Last Updated:** 2026-09-30 (Cursor — ES mega-menu card anchors Dev recover)
 **Active Agent:** Cursor
 **Branch:** `master`
-**What changed:** ES “All Services” links → page `#card-id`; `gerotech_card_id()` on MCS/Apps/Automation cards; `scroll-margin-top` on `.mcs-card`; proto header partial + `gerotech_es_defaults()` + `scripts/update-es-service-anchors.php`.
-**Deployed:** Theme rsync Dev + Local sync; `update-es-service-anchors.php` on Local (15/15 hashed) and Dev. Caches flushed on Dev.
-**Note:** WP header/mobile nav read stored `nav_es_services` — proto `partials/site-header.html` updated for static preview only.
+**What changed:** Finished Dev for ES All Services `#card-id` anchors after failed shell 316338 (scp subsystem failure + broken `wp eval` quoting). Theme re-rsynced; updater via rsync → `_gerotech-scripts/`; caches flushed. Local work was already complete (`gerotech_card_id`, defaults, proto header, CSS scroll-margin).
+**Deployed:** Dev theme + ACF verify **15/15** hashed; sample hrefs confirmed in rendered homepage nav. Script left at `/nas/content/live/gerotechdev/_gerotech-scripts/update-es-service-anchors.php`.
+**Note:** Prefer rsync-over-ssh for one-shot WP scripts on WPE; never scp or inline `wp eval` with `(…)` over ssh.
+
 
 ---
 ## Previous Session State
