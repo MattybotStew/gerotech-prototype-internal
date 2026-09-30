@@ -60,7 +60,7 @@ $slides = $pick(
 			'image'           => 'assets/images/hero-automation-cell.jpg',
 			'image_position'  => 'right',
 			'peek_eyebrow'    => 'Engineered Solutions',
-			'peek_title'      => 'Automation for Michigan',
+			'peek_title'      => 'On Our Floor',
 		),
 	)
 );

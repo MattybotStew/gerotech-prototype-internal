@@ -3,10 +3,10 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-09-30 (Cursor — Haas Automation lineup tab photo)
+**Last Updated:** 2026-09-30 (Cursor — Peek 03 On Our Floor)
 **Active Agent:** Cursor
 **Branch:** `master`
-**What changed:** Machine Lineup **Haas Automation** panel photo swapped to the new UMC-750 + yellow robot cell JPEG at `assets/images/lineup-haas-automation.jpg` (1024×682). Script `set-lineup-panel-photo.php` now accepts `force` to re-import when the basename is unchanged. **Dev live:** attachment #3509, caches flushed. Theme asset synced into Local's child theme; **Local ACF not updated** — Local site was stopped (no MySQL sock). After starting Local: `wp eval-file scripts/set-lineup-panel-photo.php "Haas Automation" assets/images/lineup-haas-automation.jpg force`. Same commit also lands `gerotech_image_alt()` + `gerotech_tel_link()` template wiring that was already on Dev from the rsync.
+**What changed:** Homepage peek **03** title only: `Automation for Michigan` → **On Our Floor**. Peek **01** remains **A Division of Gerotech**; peek **02** **In-Stock & Ready**. Proto + `front-page.php` defaults + docs. Local + Dev ACF `home_hero_slides` row index **2** only. Dev theme rsync + chmod + page/CDN flush. First Dev `wp eval` attempt exited 2 (bash mangled parentheses); fixed with `wp eval-file` via rsync upload.
 
 ---
 ## Previous Session State

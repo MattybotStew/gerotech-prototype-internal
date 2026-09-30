@@ -10,7 +10,7 @@ Read `.clinerules` at the start of every session. It contains current project st
 
 Desktop home is Gerotech-Design canvas `6573:406` → frame **`7306:1063`**. Keep proto + WP homepage on this frame unless new Figma/client direction says otherwise.
 
-- Peek hero **min-height 500px** at `min-width: 901px`, grows with the active slide's content (set in both `components.css` and `elevated.css`). Peek 02 `In-Stock & Ready`, peek 03 `Automation for Michigan`. Slide 2 **headline** stays “Our Showroom Machines Are Ready To Ship”.
+- Peek hero **min-height 500px** at `min-width: 901px`, grows with the active slide's content (set in both `components.css` and `elevated.css`). Peek 01 `A Division of Gerotech`, peek 02 `In-Stock & Ready`, peek 03 `On Our Floor`. Slide 2 **headline** stays “Our Showroom Machines Are Ready To Ship”.
 - Haas Relationship: watermark + F1 lockup + intro **only** — no 4-column features band on this handoff. F1 brand image: `assets/images/haas-f1-team.jpg` (not the `.png`).
 - Homepage CTA: `assets/images/cta-home-figma.jpg`, no phone lockup.
 - Proto Training / Support / About have page hrefs. WP Support remains a service dropdown.

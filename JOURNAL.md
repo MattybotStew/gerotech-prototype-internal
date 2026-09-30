@@ -2,6 +2,14 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-30 — Peek 03 title → On Our Floor (Cursor)
+
+Homepage peek **03** only: `Automation for Michigan` → **On Our Floor**. Peek **01** stays **A Division of Gerotech**; peek **02** unchanged (**In-Stock & Ready**).
+
+- Proto `index.html` slide 3 `data-peek-title`; theme `front-page.php` row-2 default; docs `AGENTS.md` / `design-spec.md`.
+- Local: theme synced; stored ACF `home_hero_slides[2].peek_title` updated (row 0 untouched).
+- Dev: rsync `-avz --delete` + chmod; ACF row 2 via `wp eval-file` (inline `wp eval` shell-escaping failed earlier — exit 2); page + CDN caches flushed.
+
 ## 2026-09-30 — Haas Automation homepage tab photo (Cursor)
 
 Replaced the Machine Lineup **Haas Automation** panel photo with the new client UMC-750 + yellow robot cell shot (was a different yellow-robot/safety-fence cell).

@@ -124,11 +124,11 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 
 | Slide | Eyebrow | Headline | Peek title | CTA | Image |
 |-------|---------|----------|------------|-----|-------|
-| 1 | A Division of Gerotech | Haas Factory Outlet | (active — not in peek row) | Explore the Haas Line → `#machine-browse` | `assets/images/hero-slide-1.jpg` |
+| 1 | A Division of Gerotech | Haas Factory Outlet | A Division of Gerotech | Explore the Haas Line → `#machine-browse` | `assets/images/hero-slide-1.jpg` |
 | 2 | New Arrivals | Our Showroom Machines Are Ready To Ship | In-Stock & Ready | Browse Inventory → Haas showroom | `assets/images/hero-showroom.jpg` |
-| 3 | Engineered Solutions | Automation Built for Your Shop Floor | Automation for Michigan | Explore Solutions | `assets/images/hero-automation-cell.jpg` |
+| 3 | Engineered Solutions | Automation Built for Your Shop Floor | On Our Floor | Explore Solutions | `assets/images/hero-automation-cell.jpg` |
 
-Peek cards read `data-peek-eyebrow` / `data-peek-title` from each `.slide`. Peek titles match Figma `7306:1063`; slide 2 **headline** is the later client line.
+Peek cards read `data-peek-eyebrow` / `data-peek-title` from each `.slide`. Peek 01 stays `A Division of Gerotech`; peek 03 is `On Our Floor` (Figma PM 2026-09-30); slide 2 **headline** is the later client line.
 
 ### Haas Relationship capability grid (Figma `7080:2240` — inverted light band)
 
