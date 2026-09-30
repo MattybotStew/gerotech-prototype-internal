@@ -197,8 +197,9 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 			// gerotech_image_url() just resolves a theme-relative path or URL, so it works
 			// for the video asset too (it is not image-specific despite the name).
 			$card_video = empty( $card['video'] ) ? '' : gerotech_image_url( $card['video'] );
+			$card_id    = gerotech_card_id( isset( $card['title'] ) ? $card['title'] : '' );
 			?>
-          <article class="mcs-card" role="button" tabindex="0" aria-haspopup="dialog">
+          <article class="mcs-card"<?php echo $card_id ? ' id="' . esc_attr( $card_id ) . '"' : ''; ?> role="button" tabindex="0" aria-haspopup="dialog">
             <?php if ( $card_video ) : ?>
             <video class="mcs-card__image" data-card-video src="<?php echo esc_url( $card_video ); ?>" poster="<?php echo esc_url( $card_image ); ?>" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
             <?php else : ?>

@@ -71,6 +71,22 @@ function gerotech_page_link( $slug ) {
 }
 
 /**
+ * Stable fragment id for an Engineered Solutions service card.
+ *
+ * Mega-menu "All Services" sublinks use page URL + this hash so they scroll
+ * to the matching `.mcs-card` (e.g. Auto Doors → …/#auto-doors). Derives from
+ * the card title via WordPress sanitize_title(), so ACF title edits keep the
+ * id in sync without a separate slug field.
+ *
+ * @param string $title Card title (may include entities or en-dashes).
+ * @return string Kebab-case id, or empty string if the title is blank.
+ */
+function gerotech_card_id( $title ) {
+	$id = sanitize_title( wp_strip_all_tags( html_entity_decode( (string) $title, ENT_QUOTES, 'UTF-8' ) ) );
+	return is_string( $id ) ? $id : '';
+}
+
+/**
  * Shared sales quote mailto used by header/footer/CTAs.
  *
  * @param string $subject Optional subject line.

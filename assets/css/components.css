@@ -2826,6 +2826,8 @@
     box-shadow var(--ease),
     transform var(--ease);
   cursor: pointer;
+  /* Sticky site-header clearance for mega-menu #hash arrivals */
+  scroll-margin-top: 120px;
 }
 .mcs-card:hover {
   box-shadow: var(--shadow-card-hover);

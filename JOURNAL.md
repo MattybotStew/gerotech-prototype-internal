@@ -2,6 +2,10 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-30 — ES mega-menu scroll-to-card anchors (Cursor)
+
+Engineered Solutions **All Services** sublinks (mega + mobile in proto) now land on the matching `.mcs-card` via `#id` from `gerotech_card_id()` (WP templates) and hand-set ids in proto HTML. Defaults in `gerotech_es_defaults()`; `scripts/update-es-service-anchors.php` pushes into stored `nav_es_services`. `.mcs-card { scroll-margin-top: 120px; }` for sticky header. Local + Dev theme deployed; anchor script verified 15/15 on Local.
+
 ## 2026-09-30 — Peek 03 title → On Our Floor (Cursor)
 
 Homepage peek **03** only: `Automation for Michigan` → **On Our Floor**. Peek **01** stays **A Division of Gerotech**; peek **02** unchanged (**In-Stock & Ready**).

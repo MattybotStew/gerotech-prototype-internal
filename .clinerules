@@ -3,10 +3,12 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-09-30 (Cursor — Peek 03 On Our Floor)
+**Last Updated:** 2026-09-30 (Cursor — ES mega-menu card anchors)
 **Active Agent:** Cursor
 **Branch:** `master`
-**What changed:** Homepage peek **03** title only: `Automation for Michigan` → **On Our Floor**. Peek **01** remains **A Division of Gerotech**; peek **02** **In-Stock & Ready**. Proto + `front-page.php` defaults + docs. Local + Dev ACF `home_hero_slides` row index **2** only. Dev theme rsync + chmod + page/CDN flush. First Dev `wp eval` attempt exited 2 (bash mangled parentheses); fixed with `wp eval-file` via rsync upload.
+**What changed:** ES “All Services” links → page `#card-id`; `gerotech_card_id()` on MCS/Apps/Automation cards; `scroll-margin-top` on `.mcs-card`; proto header partial + `gerotech_es_defaults()` + `scripts/update-es-service-anchors.php`.
+**Deployed:** Theme rsync Dev + Local sync; `update-es-service-anchors.php` on Local (15/15 hashed) and Dev. Caches flushed on Dev.
+**Note:** WP header/mobile nav read stored `nav_es_services` — proto `partials/site-header.html` updated for static preview only.
 
 ---
 ## Previous Session State

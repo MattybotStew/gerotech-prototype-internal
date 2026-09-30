@@ -160,8 +160,11 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
         <div class="mcs-grid">
 
           <?php foreach ( $cards as $card ) : ?>
-          <?php $card_image = gerotech_image_url( isset( $card['image'] ) ? $card['image'] : '' ); ?>
-          <article class="mcs-card" role="button" tabindex="0" aria-haspopup="dialog">
+          <?php
+			$card_image = gerotech_image_url( isset( $card['image'] ) ? $card['image'] : '' );
+			$card_id    = gerotech_card_id( isset( $card['title'] ) ? $card['title'] : '' );
+			?>
+          <article class="mcs-card"<?php echo $card_id ? ' id="' . esc_attr( $card_id ) . '"' : ''; ?> role="button" tabindex="0" aria-haspopup="dialog">
             <img class="mcs-card__image" src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( $card['title'] ); ?>" loading="lazy" />
             <div class="mcs-card__content"><h3 class="mcs-card__title"><?php echo esc_html( $card['title'] ); ?></h3><span class="mcs-card__cue">View Details →</span></div>
             <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">Talk to an Engineer</a></div></template>
