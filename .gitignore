@@ -19,3 +19,6 @@ node_modules/
 
 # local client image drops (raw Figma exports, not committed)
 geroTech-images/
+
+# stray `git init` with no commits
+Untitled/

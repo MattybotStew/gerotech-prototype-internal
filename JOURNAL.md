@@ -2,6 +2,23 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-30 — Local admin access, first-login gates, and an audit recount (opencode)
+
+No rendering changes and no ACF field changes. This was local access plumbing plus a correction to two numbers that had been recorded wrong.
+
+**Local-only admin `matt.local`.** Added user ID 28 (`matt@local.test`, display `Matt (Local)`) on the **Local database only** so wp-admin could be driven without touching a client admin account. The 8 client admins are unchanged; Local now has 9. `.test` is RFC 2606 reserved, so a password-reset mail can never deliver anywhere. **A user row is data, not code — it cannot ride a theme rsync. Never create this account on Dev or Production.** The password is not written down in this repo (it was removed from `.clinerules`); reset it with `wp user update` against Local if it is ever needed.
+
+**Three first-login gates, all Local-only, all worked around:**
+1. **Better WP Security 10.0.4** shows a one-time "Setup Two-Factor" on-boarding screen (`#itsec-2fa-on-board`) on first login, with Skip / Continue. 2FA itself is *off* (`itsec_enable_2fa` = false, no per-user meta) — this is a prompt, not enforcement.
+2. The same plugin enforces a **strong-password policy at that step** and rejects anything not rating "Strong" ("Due to site rules, a strong password is required"). So `wp_check_password()` passing does **not** mean the login flow completes — test the actual flow.
+3. WP core's **`confirm_admin_email`** gate then blocks the dashboard, and it cannot be satisfied by email here. Fix: set `admin_email_lifespan` to a **future** timestamp (`time() + 6 * MONTH_IN_SECONDS`, which is what `wp-login.php` itself writes). **`0` does not suppress it** — the redirect fires when `time() > $admin_email_lifespan` (`wp-login.php:1391-1400`), so zero guarantees the redirect. Read the condition before guessing at this one.
+
+**Audit recount.** `.clinerules` said Local 311/326 and Dev 310/326. Those totals could not be reproduced. Re-measured by dumping every target's field-name list on both environments: the lists are **byte-identical**, and the real total is **325** (Local 310/325, Dev 309/325) — the summary line prints "32 targets" because it counts the internal `__dupes__` key, which is cosmetic. `inc/acf-global-fields.php` is unchanged and clean in git, so this is a bad count rather than a regression. **All 15 Local blanks were re-checked against the documented correct-by-design list and all 15 are on it** (filtering for anything outside that list returns empty). Treat 325 as the real total; don't chase the 326 as a lost field.
+
+**Also committed:** `scripts/set-lineup-panel-photo.php`, `scripts/_dev-update-batch.sh`, `scripts/_local-acf-apply-once.sh`; `Untitled/` (a stray `git init` with no commits) added to `.gitignore`.
+
+**Sync verified clean before committing:** origin/master ↔ repo 0/0, `sync-theme-assets.sh --check` OK, `sync-theme-to-local.sh --check` OK, and an rsync dry-run against gerotechdev reported 163 files with zero differences and nothing to delete. Repo, Local and Dev all carry identical theme code. (Dev still carries the known Local↔Dev *content* drift, which lives in the DB, not the theme.)
+
 ## 2026-09-29 — Site Content editor rebuilt for the client (Cursor)
 
 Review found the header/menus/footer ACF screens were correct but built for the developer: one page with a dozen tabs, a `Style` select that could kill the whole menu, `Column 1–4` and `Mobile order` on every machine group, three ways to say one link, typed social glyphs, and a second look-alike "Site Options" menu from 2017. Nothing rendered changed in this pass — only how it is edited.
