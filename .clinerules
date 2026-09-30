@@ -79,6 +79,16 @@ Cards take their photo from the **stored `mcs_cards` ACF rows**, not the templat
 ### Portrait artwork in landscape cards
 The MCS cards are 275px tall and landscape (~2.15), so `object-fit: cover` shows only a **~26% centred vertical band** of a portrait source. Preview the crop before assuming it works — `sips -c <h> <w>` reproduces it exactly (e.g. `sips -c 472 1012` for a 1012-wide asset).
 
+### STANDING RULE — Site Content editor stays client-safe (2026-09-29)
+The header / menus / footer ACF screens are built for a Gerotech editor, not for us. Full plan + the 11-item list (6 done, 5 blocked on client/design) is in `AGENTS.md` → "Site Content editor". Short form:
+- Four screens (Header / Menus / Footer / Shared Content). One list: `gerotech_site_content_screens()`.
+- Layout-only fields get `gerotech_acf_advanced_wrapper()` and are CSS-hidden; `&advanced=1` reveals. **Never remove a repeater sub-field to hide it** — ACF skips it on save and the value stays at the old row index; a reorder scrambles the layout.
+- No new-tab toggles. `gerotech_link_row()` auto new-tabs any external host. Use `gerotech_acf_link_pair()` for every link list.
+- Menu `style` blank = automatic. Socials = `network` picker → SVG.
+- Labels name the thing on the page, not the field.
+- After a change: sync → seed → `scripts/migrate-global-links.php` (if link shape changed) → audit → Dev rsync + chmod + flush → seed/migrate/audit on Dev → click Update with fields hidden and diff rendered header+footer (expect 0 lines).
+- Items 7–11 (auto columns, merged ES titles, phone group `#` links, "Prototype site search" copy, Dev→Production content path) **wait for Matt/the client**.
+
 ### STANDING RULE — ACF fields must be APPLIED, not just defined
 Registering a field only makes the **front end** render its template default; the **editor** still shows an empty control. Nothing looks broken, which is why this gets missed. After any ACF add/rename/change:
 

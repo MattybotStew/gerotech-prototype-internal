@@ -97,6 +97,63 @@ The audit prints these categories; read its output rather than only the counts.
 all still exist as children of Service (#20) and resolve under `/service/…`. They run
 `page-service.php`. Do not delete them without checking with the client.
 
+## Site Content editor — header / menus / footer (plan as of 2026-09-29)
+
+**Goal:** the client edits the global chrome without a developer and without being able to
+break it. Rendering is finished and must not change in this work; only the editing surface.
+
+**Done (commit `7277717`, live on Local + Dev):**
+
+1. **Four screens**, not one page: Site Content → Header / Menus / Footer / Shared Content.
+   `gerotech_site_content_screens()` in `inc/helpers.php` is the single list; attach groups
+   with `gerotech_options_location( $slug )`. Data is keyed by field name under `'option'`, so
+   moving a group between screens moves no data.
+2. **Layout-only fields are hidden**, not removed: wrapper class `gerotech-advanced` +
+   CSS in `inc/admin.php`. Reveal with **`&advanced=1`** on any Site Content URL.
+   *Never delete a repeater sub-field to hide it* — ACF skips a missing sub-field on save and
+   its stored value stays at the OLD row index, so a reorder scrambles the layout. Hidden but
+   posted travels with its row. Table-layout repeaters also need the `<th>` hidden;
+   `gerotech_advanced_field_keys()` emits those rules from the field definitions.
+3. **One control per link.** No `new_tab` toggles. Any URL on another host opens in a new
+   tab automatically (`gerotech_is_external_url()`; `gerotech.com` counts as this site on
+   every environment). The Link field's own target still forces it for internal URLs.
+4. **Menu `style` blank = automatic** (sub-links ⇒ drop-down, else plain). Mega styles are
+   explicit and advanced; the drop-down table is hidden on mega items by conditional logic.
+5. **Socials** use a `network` picker → inline SVG (`gerotech_social_icon_svg()`). Glyph text
+   is a fallback for old rows.
+6. **2017 "Site Options" menu removed** (`gerotech_hide_legacy_site_options` filter restores).
+   Old `page=gerotech-site-content` URL redirects to Header — hooked on `admin_menu`, because
+   `menu.php` dies before `admin_init`.
+
+**Rules for anyone touching these screens:**
+
+- Labels and instructions are written for the client: name the thing on the page ("the black
+  phone bar"), not the field. Keep it that way.
+- New layout/design-only field ⇒ give it `gerotech_acf_advanced_wrapper()`.
+- New link list ⇒ use `gerotech_acf_link_pair()`; do not add a new-tab toggle.
+- New options-page field name ⇒ diff against the 371 legacy names first (see `footer_copyright`).
+- After any change: `sync-theme-to-local.sh` → seed → `migrate-global-links.php` if links
+  changed shape → audit → rsync Dev `-avz --delete` + chmod + flush → seed/migrate/audit on
+  Dev. Verify a save round-trip: click Update with fields hidden, diff the rendered
+  header+footer, expect 0 lines.
+- Verify ACF read-backs in scripts after `acf_get_store( 'values' )->reset()`; `wp_cache_flush()`
+  alone returns stale rows.
+
+**Not done — needs a client or design decision before anyone starts:**
+
+7. Auto-derive machine-panel columns from group order (drops `column` + `mobile_order`, but the
+   phone menu would then follow desktop order: Rotaries before Horizontal).
+8. Merge the two-part ES titles (`heading_lead` / `heading_main`) into one field with an accent
+   convention like the hero `<em>`.
+9. Phone-menu machine group titles render `href="#"` (`site-mobile-nav.php`) — decide where
+   they should go.
+10. `header_search_hint` on Local and Dev still says "Prototype site search — browse by
+    section:" — client-facing copy; stored value, so fix in both DBs, not just the default.
+11. Client edits on Dev live only in the Dev DB. Before launch: agree how values move to
+    Production (seeder + migrate scripts, or a content export).
+
+Spec: `handoff/acf-spec.md` §1. Journal entry: 2026-09-29 "Site Content editor rebuilt".
+
 ## Stack
 
 - Pure HTML5 / CSS3 (custom properties) / vanilla JS (ES6)

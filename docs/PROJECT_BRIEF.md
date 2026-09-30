@@ -6,7 +6,7 @@
 
 Static HTML/CSS/JS **presentation prototype** for **Gerotech, Inc.** — Michigan-based CNC machinery distributor & engineering solutions provider (serving manufacturers since 1987). Built for the **July 7, 2026** client presentation.
 
-**Current stage: WP child theme live on Dev (2026-09-18).** `gerotechdev.wpenginepowered.com` runs **Gerotech Child**. Git `master` @ `ba259ca`. Homepage Figma **`7306:1063`**. F1 card `haas-f1-team.jpg`. **Always read `.clinerules` → Next session — pickup here.**
+**Current stage: WP child theme live on Dev; global chrome ACF-editable (2026-09-29).** `gerotechdev.wpenginepowered.com` runs **Gerotech Child**. Header, menus and footer are edited on the four **Site Content** screens (client-safe editor, plan in `AGENTS.md`). Git `master` @ `7277717`. Homepage Figma **`7306:1063`**. F1 card `haas-f1-team.jpg`. **Always read `.clinerules` → Current Session State.**
 
 **Live site:** https://gerotech.com/ (WordPress — reference only; prototype is ahead of live ES hub)
 
@@ -71,7 +71,7 @@ gerotech-prototype/
 Machines ↗ | Engineered Solutions ▼ | Training | Support ▼ | About ▼ | [Get a Quote] [Search]
 ```
 
-- **Machines** — mega-menu (Haas catalog links still `#` pending); external catalog link
+- **Machines** — mega-menu; 41 model links point at the Haas catalogue (via gerotech.com/machines) and open in a new tab. In WP the whole tree is ACF (Site Content → Menus); the prototype partial still carries `#` placeholders
 - **Engineered Solutions** — mega-menu with MCS / Application / Automation + CTA
 - **Training** — standalone link → `training.html`
 - **Support** — dropdown: Service, Parts, Documentation

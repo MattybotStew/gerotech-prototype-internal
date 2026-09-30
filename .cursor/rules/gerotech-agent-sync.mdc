@@ -31,6 +31,7 @@ Also useful: `AGENTS.md`, `design-spec.md`, `docs/PROJECT_BRIEF.md`, `cline-proj
 - Interior heroes: all sub-pages **`.page-hero`** (homepage slide pattern); per-page `<img class="slide__bg">` in HTML
 - Never guess open client decisions
 - **WP Engine Dev:** theme-only push to `gerotechdev`; never Production; never Local DB. F1 image `haas-f1-team.jpg`. Read `.clinerules` pickup block.
+- **Site Content editor (header/menus/footer ACF):** four screens; layout fields hidden via `gerotech-advanced` (reveal with `&advanced=1`), **never removed** — a removed repeater sub-field scrambles on reorder. No new-tab toggles: external hosts auto new-tab. Labels written for the client. Items 7–11 in `AGENTS.md` are **blocked on client/design decisions** — don't start them. Full plan: `AGENTS.md` → "Site Content editor".
 
 ## Design directions (2026-08-17 — do not drift)
 
