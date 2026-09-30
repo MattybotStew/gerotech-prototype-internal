@@ -23,7 +23,8 @@ $hero_cta_color = $pick( 'careers_hero_cta_color', 'orange' );   // Hero button 
 $hero_body = $pick( 'careers_hero_body', "We're not just a workplace; we're a family of dynamic individuals committed to pushing the boundaries of excellence. We pride ourselves in our family-like culture where every member of our team is committed to providing customers with the best machines, solutions, and support in the industry." );
 $hero_cta_label = $pick( 'careers_hero_cta_label', 'View open positions' );
 $hero_cta_url = $pick( 'careers_hero_cta_url', '#open-positions' );
-$hero_image = gerotech_image_url( $pick( 'careers_hero_image', 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1920&auto=format&fit=crop' ) );
+$hero_image_value = $pick( 'careers_hero_image', 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1920&auto=format&fit=crop' );
+$hero_image = gerotech_image_url( $hero_image_value );
 $hero_stats = $pick(
 	'careers_hero_stats',
 	array(
@@ -41,7 +42,8 @@ $culture_body = $pick( 'careers_culture_body', 'We have the experience to back i
 $culture_body2 = $pick( 'careers_culture_body2', "So if you're ready to launch your career working with some of the best people and companies in the industry, let's talk." );
 $culture_cta_label = $pick( 'careers_culture_cta_label', 'Contact our team →' );
 $culture_cta_url = $pick( 'careers_culture_cta_url', 'mailto:sales@gerotech.com?subject=Gerotech%20Careers%20Inquiry' );
-$culture_image = gerotech_image_url( $pick( 'careers_culture_image', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop' ) );
+$culture_image_value = $pick( 'careers_culture_image', 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop' );
+$culture_image = gerotech_image_url( $culture_image_value );
 
 /* ── Open positions ───────────────────────────────────────── */
 $positions_eyebrow = $pick( 'careers_positions_eyebrow', 'Opportunities' );
@@ -85,7 +87,8 @@ $cta_primary_label = $pick( 'careers_cta_primary_label', 'View open positions' )
 $cta_primary_url = $pick( 'careers_cta_primary_url', '#open-positions' );
 $cta_secondary_label = $pick( 'careers_cta_secondary_label', "Let's talk" );
 $cta_secondary_url = $pick( 'careers_cta_secondary_url', 'mailto:sales@gerotech.com?subject=Gerotech%20Careers%20Inquiry' );
-$cta_image = gerotech_image_url( $pick( 'careers_cta_image', 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?q=80&w=1920&auto=format&fit=crop' ) );
+$cta_image_value = $pick( 'careers_cta_image', 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?q=80&w=1920&auto=format&fit=crop' );
+$cta_image = gerotech_image_url( $cta_image_value );
 
 /* ── Mailing list ─────────────────────────────────────────── */
 $signup_title = $pick( 'careers_signup_title', 'Join Our <em>Mailing List</em>' );
@@ -101,7 +104,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 
 	<!-- Trust-integrated hero (About page pattern) -->
 	<section class="page-hero-trust" aria-label="Careers at Gerotech">
-		<img class="page-hero-trust__bg" src="<?php echo esc_url( $hero_image ); ?>" alt="Engineering team collaborating in a manufacturing environment" loading="eager" fetchpriority="high" decoding="async" />
+		<img class="page-hero-trust__bg" src="<?php echo esc_url( $hero_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $hero_image_value, 'Engineering team collaborating in a manufacturing environment' ) ); ?>" loading="eager" fetchpriority="high" decoding="async" />
 		<div class="page-hero-trust__overlay" aria-hidden="true"></div>
 		<div class="page-hero-trust__content">
 			<div class="page-hero-trust__copy">
@@ -133,7 +136,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 					<p class="section-body section-body--spaced"><?php echo wp_kses_post( $culture_body2 ); ?></p>
 					<a class="btn btn--outline-dark" href="<?php echo esc_url( $culture_cta_url ); ?>"><?php echo esc_html( $culture_cta_label ); ?></a>
 				</div>
-				<img class="about-photo" src="<?php echo esc_url( $culture_image ); ?>" alt="Engineer working with CNC equipment on the shop floor" loading="lazy" decoding="async" />
+				<img class="about-photo" src="<?php echo esc_url( $culture_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $culture_image_value, 'Engineer working with CNC equipment on the shop floor' ) ); ?>" loading="lazy" decoding="async" />
 			</div>
 		</div>
 	</section>
@@ -199,7 +202,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 	<?php get_template_part( 'template-parts/sections/testimonials' ); ?>
 
 	<section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="Call to action">
-		<img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="Factory engineer inspecting industrial machinery" loading="lazy" />
+		<img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $cta_image_value, 'Factory engineer inspecting industrial machinery' ) ); ?>" loading="lazy" />
 		<div class="cta-band__overlay" aria-hidden="true"></div>
 		<div class="cta-band__content">
 			<div class="cta-band__copy">

@@ -19,7 +19,8 @@ $uri = GEROTECH_CHILD_URI;
 /* ── Hero ─────────────────────────────────────────────────── */
 $hero_headline = $pick( 'app_hero_headline', 'Applications <em>Solutions</em>' );
 $hero_accent   = $pick( 'app_hero_accent_color', 'orange' ); // Blank (no stored choice) keeps the design colour.
-$hero_image    = gerotech_image_url( $pick( 'app_hero_image', 'assets/images/app-hero.jpg' ) );
+$hero_image_value = $pick( 'app_hero_image', 'assets/images/app-hero.jpg' );
+$hero_image    = gerotech_image_url( $hero_image_value, 'assets/images/app-hero.jpg' );
 
 /* ── Services grid ────────────────────────────────────────── */
 $grid_eyebrow = $pick( 'app_grid_eyebrow', 'What We Offer' );
@@ -120,7 +121,8 @@ $cta_button_label = $pick( 'app_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'app_cta_button_url', gerotech_quote_mailto() );
 // Client (2026-09-22): "use the same picture that we have for the page header,
 // the same for this footer" — so the CTA band intentionally shares app-hero.jpg.
-$cta_image        = gerotech_image_url( $pick( 'app_cta_image', 'assets/images/app-hero.jpg' ) );
+$cta_image_value  = $pick( 'app_cta_image', 'assets/images/app-hero.jpg' );
+$cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/app-hero.jpg' );
 $cta_call_label   = $pick( 'app_cta_call_label', 'Prefer to talk it through?' );
 $cta_call_number  = $pick( 'app_cta_call_number', '(734) 379-7788' );
 $cta_call_note    = $pick( 'app_cta_call_note', 'Talk to a person, not a form.' );
@@ -137,7 +139,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 
 <main id="main">
     <section class="page-hero" aria-labelledby="app-hero-headline">
-      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>" alt="CNC machining application" loading="eager" decoding="async" />
+      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $hero_image_value, 'CNC machining application' ) ); ?>" loading="eager" decoding="async" />
       <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
       <div class="slide__content slide__content--left">
         <nav class="page-hero__breadcrumb" aria-label="Breadcrumb">
@@ -161,7 +163,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           <article class="mcs-card" role="button" tabindex="0" aria-haspopup="dialog">
             <img class="mcs-card__image" src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( $card['title'] ); ?>" loading="lazy" />
             <div class="mcs-card__content"><h3 class="mcs-card__title"><?php echo esc_html( $card['title'] ); ?></h3><span class="mcs-card__cue">View Details →</span></div>
-            <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div></template>
+            <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">Talk to an Engineer</a></div></template>
           </article>
           <?php endforeach; ?>
         </div>
@@ -222,7 +224,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
     <?php get_template_part( 'template-parts/sections/testimonials' ); ?>
 
     <section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="Call to action">
-      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="CNC machining and applications" loading="lazy" />
+      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $cta_image_value, 'CNC machining and applications' ) ); ?>" loading="lazy" />
       <div class="cta-band__overlay" aria-hidden="true"></div>
       <div class="cta-band__content">
         <div class="cta-band__copy">
@@ -239,7 +241,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
-        <a class="cta-band__call" href="tel:+17343797788">
+        <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>

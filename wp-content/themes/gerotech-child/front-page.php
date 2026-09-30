@@ -80,7 +80,9 @@ $haas_eyebrow_color = gerotech_accent_choice( $pick( 'haas_eyebrow_color', 'haas
 $haas_headline = $pick( 'haas_headline', "Proud to Be Michigan's\n<em>Haas Factory Outlet</em>" );
 $haas_accent_color = $pick( 'haas_accent_color', 'haas' );
 $haas_lede     = $pick( 'haas_lede', "Gerotech is proud to serve as Michigan's Haas Factory Outlet, bringing together Haas CNC technology with the local expertise, engineering, service, training, and support manufacturers need. Since 1987, we've worked alongside manufacturers to understand their challenges and deliver solutions that make sense for their operation—from CNC machinery and automation to engineered solutions and ongoing support." );
-$haas_logo     = gerotech_image_url( $pick( 'haas_brand_logo', '' ), 'assets/images/haas-f1-team.jpg' );
+$haas_logo_value = $pick( 'haas_brand_logo', '' );
+$haas_logo     = gerotech_image_url( $haas_logo_value, 'assets/images/haas-f1-team.jpg' );
+$haas_logo_alt = gerotech_image_alt( $haas_logo_value, 'Haas Automation, Official Machine Tool of Haas F1 Team' );
 
 /* ── Machine lineup ────────────────────────────────────────── */
 $lineup_eyebrow  = $pick( 'lineup_eyebrow', 'Haas Factory Outlet' );
@@ -172,7 +174,9 @@ $cta_headline = $pick( 'cta_headline', 'Put Gerotech to work on your project.' )
 $cta_body     = $pick( 'cta_body', "From Haas CNC machines to Engineered Solutions — tell us about your project and we'll connect you with the right expert." );
 $cta_btn_lbl  = $pick( 'cta_button_label', 'Engage with us today' );
 $cta_btn_url  = $pick( 'cta_button_url', gerotech_quote_mailto( 'Gerotech Expert Inquiry' ) );
-$cta_image    = gerotech_image_url( $pick( 'cta_image', '' ), 'assets/images/cta-home-figma.jpg' );
+$cta_image_value = $pick( 'cta_image', '' );
+$cta_image    = gerotech_image_url( $cta_image_value, 'assets/images/cta-home-figma.jpg' );
+$cta_image_alt = gerotech_image_alt( $cta_image_value, 'Orange industrial robot arms on a factory line' );
 $cta_call_label  = $pick( 'cta_call_label', 'Prefer to talk it through?' );
 $cta_call_number = $pick( 'cta_call_number', '(734) 379-7788' );
 $cta_call_note   = $pick( 'cta_call_note', 'Talk to a person, not a form.' );
@@ -308,7 +312,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 							<p class="haas-relationship__lede"><?php echo esc_html( $haas_lede ); ?></p>
 						</div>
 						<div class="haas-relationship__brand">
-							<img class="haas-relationship__brand-logo" src="<?php echo esc_url( $haas_logo ); ?>" alt="Haas Automation, Official Machine Tool of Haas F1 Team" width="1738" height="500" loading="lazy" decoding="async" />
+							<img class="haas-relationship__brand-logo" src="<?php echo esc_url( $haas_logo ); ?>" alt="<?php echo esc_attr( $haas_logo_alt ); ?>" width="1738" height="500" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				</div>
@@ -412,7 +416,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 		 CTA Band
 		 ============================================================ -->
 	<section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="<?php esc_attr_e( 'Call to action', 'gerotech-child' ); ?>">
-		<img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="Orange industrial robot arms on a factory line" loading="lazy" decoding="async" />
+		<img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="<?php echo esc_attr( $cta_image_alt ); ?>" loading="lazy" decoding="async" />
 		<div class="cta-band__overlay" aria-hidden="true"></div>
 		<div class="cta-band__content">
 			<div class="cta-band__copy">
@@ -427,7 +431,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 					<a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_btn_url ); ?>"><?php echo esc_html( $cta_btn_lbl ); ?></a>
 				</div>
 			</div>
-			<a class="cta-band__call" href="tel:+17343797788">
+			<a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
 				<span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
 				<span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
 				<span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>

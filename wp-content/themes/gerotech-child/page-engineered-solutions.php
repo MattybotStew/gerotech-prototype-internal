@@ -71,7 +71,8 @@ $fanuc_cta1_label = $pick( 'es_fanuc_cta1_label', 'Talk to an Engineer' );
 $fanuc_cta1_url   = $pick( 'es_fanuc_cta1_url', 'tel:+17343797788' );
 $fanuc_cta2_label = $pick( 'es_fanuc_cta2_label', 'Explore Automation' );
 $fanuc_cta2_url   = $pick( 'es_fanuc_cta2_url', gerotech_page_url( 'automation-integration' ) );
-$fanuc_badge      = gerotech_image_url( $pick( 'es_fanuc_badge', 'assets/images/fanuc-asi-seal.png' ) );
+$fanuc_badge_value = $pick( 'es_fanuc_badge', 'assets/images/fanuc-asi-seal.png' );
+$fanuc_badge      = gerotech_image_url( $fanuc_badge_value );
 
 /* ── Technology Partners ──────────────────────────────────── */
 $partners_eyebrow   = $pick( 'es_partners_eyebrow', 'Our Technology Ecosystem' );
@@ -179,7 +180,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
          SECTION 3: ES Hero
          ============================================================ -->
     <section class="page-hero" aria-label="Engineered Solutions hero">
-      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>"<?php echo $hero_srcset ? ' srcset="' . esc_attr( $hero_srcset ) . '" sizes="100vw"' : ''; ?> alt="Engineering-driven manufacturing on the shop floor" loading="eager" fetchpriority="high" decoding="async" />
+      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>"<?php echo $hero_srcset ? ' srcset="' . esc_attr( $hero_srcset ) . '" sizes="100vw"' : ''; ?> alt="<?php echo esc_attr( gerotech_image_alt( $es_hero_value, 'Engineering-driven manufacturing on the shop floor' ) ); ?>" loading="eager" fetchpriority="high" decoding="async" />
       <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
       <div class="slide__content slide__content--left">
         <p class="slide__eyebrow"><?php echo esc_html( $hero_eyebrow ); ?></p>
@@ -246,7 +247,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           <img
             class="credential-band__badge-img"
             src="<?php echo esc_url( $fanuc_badge ); ?>"
-            alt="FANUC Authorized System Integrator"
+            alt="<?php echo esc_attr( gerotech_image_alt( $fanuc_badge_value, 'FANUC Authorized System Integrator' ) ); ?>"
             width="196"
             height="196"
           />
@@ -421,7 +422,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
          SECTION 13: CTA Band
          ============================================================ -->
     <section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="Call to action">
-      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>"<?php echo $cta_image_srcset ? ' srcset="' . esc_attr( $cta_image_srcset ) . '" sizes="100vw"' : ''; ?> alt="yellow FANUC robot tending a Midaco cell" loading="lazy" decoding="async" />
+      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>"<?php echo $cta_image_srcset ? ' srcset="' . esc_attr( $cta_image_srcset ) . '" sizes="100vw"' : ''; ?> alt="<?php echo esc_attr( gerotech_image_alt( $cta_image_value, 'yellow FANUC robot tending a Midaco cell' ) ); ?>" loading="lazy" decoding="async" />
       <div class="cta-band__overlay" aria-hidden="true"></div>
       <div class="cta-band__content">
         <div class="cta-band__copy">
@@ -436,7 +437,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
-        <a class="cta-band__call" href="tel:+17343797788">
+        <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>

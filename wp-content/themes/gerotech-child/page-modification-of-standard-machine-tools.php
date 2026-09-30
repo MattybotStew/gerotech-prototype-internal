@@ -132,7 +132,8 @@ $cta_headline     = $pick( 'mcs_cta_headline', 'Need a <em>custom solution</em> 
 $cta_body         = $pick( 'mcs_cta_body', '' );
 $cta_button_label = $pick( 'mcs_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'mcs_cta_button_url', gerotech_quote_mailto() );
-$cta_image        = gerotech_image_url( $pick( 'mcs_cta_image', 'assets/images/cta-mcs-cell.jpg' ) );
+$cta_image_value  = $pick( 'mcs_cta_image', 'assets/images/cta-mcs-cell.jpg' );
+$cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-mcs-cell.jpg' );
 $cta_call_label   = $pick( 'mcs_cta_call_label', 'Prefer to talk it through?' );
 $cta_call_number  = $pick( 'mcs_cta_call_number', '(734) 379-7788' );
 $cta_call_note    = $pick( 'mcs_cta_call_note', 'Talk to a person, not a form.' );
@@ -153,7 +154,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
          SECTION 3: Page Hero (Detail page — Figma node 6227:289)
          ============================================================ -->
     <section class="page-hero" aria-labelledby="mcs-hero-headline">
-      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>"<?php echo $hero_srcset ? ' srcset="' . esc_attr( $hero_srcset ) . '" sizes="100vw"' : ''; ?> alt="Interior of a 5-axis machining center with a custom trunnion fixture holding a large workpiece" loading="eager" fetchpriority="high" decoding="async" />
+      <img class="slide__bg slide__bg--right" src="<?php echo esc_url( $hero_image ); ?>"<?php echo $hero_srcset ? ' srcset="' . esc_attr( $hero_srcset ) . '" sizes="100vw"' : ''; ?> alt="<?php echo esc_attr( gerotech_image_alt( $hero_image_value, 'Interior of a 5-axis machining center with a custom trunnion fixture holding a large workpiece' ) ); ?>" loading="eager" fetchpriority="high" decoding="async" />
       <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
       <div class="slide__content slide__content--left">
         <nav class="page-hero__breadcrumb" aria-label="Breadcrumb">
@@ -207,7 +208,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
               <h3 class="mcs-card__title"><?php echo esc_html( $card['title'] ); ?></h3>
               <span class="mcs-card__cue">View Details →</span>
             </div>
-            <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div></template>
+            <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">Talk to an Engineer</a></div></template>
           </article>
           <?php endforeach; ?>
         </div>
@@ -276,7 +277,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
          SECTION 6: CTA Band (Detail-specific)
          ============================================================ -->
     <section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="Call to action">
-      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="Haas VF-2SS and a yellow robot inside a Gerotech automation cell" loading="lazy" />
+      <img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $cta_image_value, 'Haas VF-2SS and a yellow robot inside a Gerotech automation cell' ) ); ?>" loading="lazy" />
       <div class="cta-band__overlay" aria-hidden="true"></div>
       <div class="cta-band__content">
         <div class="cta-band__copy">
@@ -293,7 +294,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
-        <a class="cta-band__call" href="tel:+17343797788">
+        <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>

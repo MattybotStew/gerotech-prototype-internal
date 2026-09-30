@@ -47,7 +47,8 @@ $news_lead_tag   = gerotech_field( 'es_news_lead_tag', 'Project' );
 $news_lead_date  = gerotech_field( 'es_news_lead_date', 'June 2025' );
 $news_lead_title = gerotech_field( 'es_news_lead_title', 'Automated Robotic Cell Delivered to a Tier-1 Automotive Supplier' );
 $news_lead_excerpt = gerotech_field( 'es_news_lead_excerpt', 'Gerotech engineers designed and integrated a complete FANUC robotic automation cell, reducing cycle times by 38% for a major Michigan supplier.' );
-$news_lead_image   = gerotech_image_url( gerotech_field( 'es_news_lead_image', 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?q=80&w=1400&auto=format&fit=crop' ) );
+$news_lead_value   = gerotech_field( 'es_news_lead_image', 'https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?q=80&w=1400&auto=format&fit=crop' );
+$news_lead_image   = gerotech_image_url( $news_lead_value );
 $news_lead_stats   = gerotech_field(
 	'es_news_lead_stats',
 	array(
@@ -96,7 +97,7 @@ $news_items = gerotech_field(
         <div class="news-editorial">
           <!-- Lead story — photo card, left gradient (matches hero + CTA treatment) -->
           <article class="news-feature">
-            <img class="news-feature__bg" src="<?php echo esc_url( $news_lead_image ); ?>" alt="FANUC robotic automation cell on a Michigan production floor" loading="lazy" decoding="async" />
+            <img class="news-feature__bg" src="<?php echo esc_url( $news_lead_image ); ?>" alt="<?php echo esc_attr( gerotech_image_alt( $news_lead_value, 'FANUC robotic automation cell on a Michigan production floor' ) ); ?>" loading="lazy" decoding="async" />
             <span class="news-feature__overlay" aria-hidden="true"></span>
             <div class="news-feature__content">
               <div class="news-feature__meta">

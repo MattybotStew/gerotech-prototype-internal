@@ -339,6 +339,41 @@ function gerotech_image_url( $value, $fallback_rel = '' ) {
 	return $fallback_rel ? GEROTECH_CHILD_URI . '/' . ltrim( $fallback_rel, '/' ) : '';
 }
 
+/**
+ * Alt text for an image field, taken from the Media Library entry.
+ *
+ * Editors type alt text where they upload — in the Media Library — so there is
+ * no alt field to keep in sync beside every image control. Returns that alt when
+ * the field holds an uploaded attachment, and the passed design string when it
+ * holds a theme-bundled path (which has no attachment and therefore no alt), so
+ * swapping in a photo and filling in its alt is all that is ever needed.
+ *
+ * Pair with gerotech_image_url() and pass the same value.
+ *
+ * @param mixed  $value    ACF image value (ID/array/URL) or theme-relative path.
+ * @param string $fallback Design alt text, used when the image carries none.
+ * @return string Alt text — escape with esc_attr() at output.
+ */
+function gerotech_image_alt( $value, $fallback = '' ) {
+	$id = 0;
+	if ( is_array( $value ) && ! empty( $value['ID'] ) ) {
+		$id = (int) $value['ID'];
+	} elseif ( is_numeric( $value ) ) {
+		$id = (int) $value;
+	}
+
+	if ( $id ) {
+		// An alt typed in the Media Library wins; the attachment's own caption,
+		// title and filename are deliberately NOT used — a filename is not a
+		// description, and a wrong alt is worse than the design string.
+		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
+		if ( is_string( $alt ) && '' !== trim( $alt ) ) {
+			return trim( $alt );
+		}
+	}
+
+	return $fallback;
+}
 
 /**
  * Build a `srcset` for an ACF image field or a theme-relative asset.

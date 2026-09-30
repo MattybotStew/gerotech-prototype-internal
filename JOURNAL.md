@@ -2,6 +2,18 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-09-30 — Haas Automation homepage tab photo (Cursor)
+
+Replaced the Machine Lineup **Haas Automation** panel photo with the new client UMC-750 + yellow robot cell shot (was a different yellow-robot/safety-fence cell).
+
+- Proto + theme asset: `assets/images/lineup-haas-automation.jpg` (1024×682, 156 KB) — same path, new pixels.
+- `scripts/set-lineup-panel-photo.php` gained an optional third arg `force` so a same-basename replace re-imports instead of no-opping.
+- Synced to Local theme dir. **Local WP was stopped** (no mysqld sock), so ACF on Local was not re-pointed — start Local and run:  
+  `wp eval-file scripts/set-lineup-panel-photo.php "Haas Automation" assets/images/lineup-haas-automation.jpg force`
+- Dev: theme rsync + chmod; forced import → attachment **#3509** (`lineup-haas-automation-1.jpg`); page + CDN caches flushed. Front panel serves the new shot.
+
+Proto `index.html` already pointed at this filename; alt still fits. Also committing the same-day `gerotech_image_alt()` + `gerotech_tel_link()` template wiring (Media Library alts; CTA call `href` from the phone field) that was already live on Dev from the theme rsync.
+
 ## 2026-09-30 — Local admin access, first-login gates, and an audit recount (opencode)
 
 No rendering changes and no ACF field changes. This was local access plumbing plus a correction to two numbers that had been recorded wrong.

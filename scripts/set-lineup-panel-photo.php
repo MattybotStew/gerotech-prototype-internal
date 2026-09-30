@@ -2,7 +2,10 @@
 /**
  * Point a homepage machine-lineup panel photo at a bundled theme asset.
  *
- *   wp eval-file scripts/set-lineup-panel-photo.php "<tab label>" "assets/images/<file>.jpg"
+ *   wp eval-file scripts/set-lineup-panel-photo.php "<tab label>" "assets/images/<file>.jpg" [force]
+ *
+ * Pass a third argument of "force" to re-import even when the attachment
+ * basename already matches (e.g. the JPEG was replaced in place).
  *
  * @package GerotechChild
  */
@@ -15,9 +18,10 @@ if ( ! function_exists( 'get_field' ) || ! function_exists( 'update_field' ) ) {
 $args      = is_array( $args ) ? array_values( $args ) : array();
 $tab_label = isset( $args[0] ) ? trim( (string) $args[0], " \t\n\r\0\x0B\"'" ) : '';
 $asset_rel = isset( $args[1] ) ? trim( (string) $args[1], " \t\n\r\0\x0B\"'" ) : '';
+$force     = isset( $args[2] ) && in_array( strtolower( trim( (string) $args[2], " \t\n\r\0\x0B\"'" ) ), array( 'force', '1', 'true', '--force' ), true );
 
 if ( '' === $tab_label || '' === $asset_rel ) {
-	echo "Usage: wp eval-file scripts/set-lineup-panel-photo.php \"<tab label>\" \"assets/images/<file>.jpg\"\n";
+	echo "Usage: wp eval-file scripts/set-lineup-panel-photo.php \"<tab label>\" \"assets/images/<file>.jpg\" [force]\n";
 	return;
 }
 
@@ -65,10 +69,10 @@ if ( is_array( $current_id ) && isset( $current_id['ID'] ) ) {
 }
 $current_id = (int) $current_id;
 
-if ( $current_id ) {
+if ( $current_id && ! $force ) {
 	$attached = (string) get_post_meta( $current_id, '_wp_attached_file', true );
 	if ( basename( $attached ) === basename( $asset_rel ) ) {
-		printf( "  '%s' already uses attachment #%d (%s) — nothing to do.\n", $tab_label, $current_id, $attached );
+		printf( "  '%s' already uses attachment #%d (%s) — nothing to do (pass force to re-import).\n", $tab_label, $current_id, $attached );
 		return;
 	}
 }
