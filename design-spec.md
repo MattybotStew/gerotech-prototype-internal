@@ -111,10 +111,10 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 |---|---------|-----------------|-------|
 | 1 | Alert banner | `.alert-banner` | Dark bar, 3 click-to-call numbers; collapses on scroll |
 | 2 | Sticky header | `partials/site-header.html` | Logo · Machines + · Engineered Solutions + · Training · Support · About · Get a Quote · Search. WP Support is a service dropdown. |
-| 3 | Peek hero | `.hero-slider--peek` | **min-height 500px** desktop (`min-width: 901px`); grows with the active slide's content. 3 slides. Figma `7306:1155` / slide 1 photo `7046:872` |
+| 3 | Peek hero | `.hero-slider--peek` | **min-height 500px**; slides share one grid cell so the hero matches the tallest slide (no page shift on rotate). 3 slides. Figma `7306:1155` / slide 1 photo `7046:872` |
 | 4 | Stat counter | `.stat-counter` | **39+** Years in Michigan, **14,000** Machines Placed |
 | 5 | Haas Relationship | `.haas-relationship` | Eyebrow + intro + watermark + F1 lockup. **No** 4-col features band on `7306:1063` |
-| 6 | Machine lineup | `.machine-lineup` `#machine-browse` | Dark section — 5 tabs + split panel. Default tab: Vertical Mills |
+| 6 | Machine lineup | `.machine-lineup` `#machine-browse` | Dark section — 5 tabs + split panel. Default tab: Vertical Mills. Panels share one grid cell (`.machine-lineup__panels`) so the section is as tall as the tallest panel and tab switching does not shift the page |
 | 7 | Testimonials | `partials/testimonials-block.html` | `.testimonial-grid` — Rudisill / Ford / Kingbury |
 | 8 | CTA band | `.cta-band--cinema-lockup` | Copy-left, **no phone lockup**. Photo `assets/images/cta-home-figma.jpg` |
 | 9 | Email signup | `.email-signup` | Prototype thanks state on submit (`nav.js`) |

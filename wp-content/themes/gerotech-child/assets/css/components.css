@@ -257,6 +257,9 @@
   padding: var(--sp-8);
   font-size: 22px;
   line-height: 1;
+  /* 44px minimum touch target (Apple HIG) */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 /* Mobile nav */
@@ -572,24 +575,20 @@
     min-height: 500px;
   }
 }
+/* All slides share one grid cell, so the hero is always as tall as the
+   tallest slide and the page no longer jumps when the active slide changes. */
 .hero-slider--peek .hero-slider__track {
-  display: block;
+  display: grid;
   position: relative;
   height: auto;
+  min-height: 500px;
   transform: none !important;
 }
-@media (min-width: 901px) {
-  .hero-slider--peek .hero-slider__track {
-    height: auto;
-    min-height: 500px;
-  }
-}
 .hero-slider--peek .slide {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
+  position: relative;
   flex: none;
   width: 100%;
-  height: 100%;
   min-height: 500px;
   align-items: stretch;
   justify-content: flex-start;
@@ -601,20 +600,10 @@
     visibility 0.45s;
 }
 .hero-slider--peek .slide.is-active {
-  position: relative;
-  inset: auto;
-  height: auto;
-  min-height: 500px;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   z-index: 1;
-}
-@media (min-width: 901px) {
-  .hero-slider--peek .slide.is-active {
-    height: auto;
-    min-height: 500px;
-  }
 }
 .hero-slider--peek .slide__content--left {
   width: 100%;
@@ -2650,6 +2639,17 @@
 .mobile-nav__sublink--external {
   color: var(--clr-orange);
 }
+/* External-link arrow sits inside client-editable labels. Rendered as an
+   inline SVG (.ext-arrow) so iOS does not swap the glyph for a colour emoji;
+   inherits the label colour via currentColor and scales with the text. */
+svg.ext-arrow {
+  width: 1.05em;
+  height: 1.05em;
+  display: inline-block;
+  vertical-align: -0.18em;
+  margin-left: 0.18em;
+  flex: none;
+}
 .mobile-nav__sublabel {
   color: var(--clr-orange);
   font-size: 12px;
@@ -4492,7 +4492,14 @@ img.mcs-gallery-card__image {
   height: 2px;
   background: var(--clr-orange);
 }
+/* Every panel shares one grid cell so the lineup is always as tall as the
+   tallest panel — switching tabs must not shift the page. Inactive panels
+   stay in the layout but are hidden from view and assistive tech. */
+.machine-lineup__panels {
+  display: grid;
+}
 .machine-panel--lineup {
+  grid-area: 1 / 1;
   display: none;
   grid-template-columns: 7fr 5fr;
   min-height: 440px;
@@ -4501,8 +4508,15 @@ img.mcs-gallery-card__image {
   overflow: hidden;
   box-shadow: none;
 }
+.machine-panel--lineup[hidden] {
+  display: grid;
+  visibility: hidden;
+  pointer-events: none;
+}
 .machine-panel--lineup.is-active {
   display: grid;
+  visibility: visible;
+  pointer-events: auto;
 }
 .machine-panel--lineup .machine-panel__photo {
   position: relative;
@@ -4751,6 +4765,8 @@ img.mcs-gallery-card__image {
   .machine-panel--lineup,
   .machine-panel--lineup.is-active {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    align-content: start;
   }
   .machine-panel--lineup .machine-panel__photo {
     min-height: 280px;

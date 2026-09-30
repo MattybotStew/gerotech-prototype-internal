@@ -10,7 +10,8 @@ Read `.clinerules` at the start of every session. It contains current project st
 
 Desktop home is Gerotech-Design canvas `6573:406` → frame **`7306:1063`**. Keep proto + WP homepage on this frame unless new Figma/client direction says otherwise.
 
-- Peek hero **min-height 500px** at `min-width: 901px`, grows with the active slide's content (set in both `components.css` and `elevated.css`). Peek 01 `A Division of Gerotech`, peek 02 `In-Stock & Ready`, peek 03 `On Our Floor`. Slide 2 **headline** stays “Our Showroom Machines Are Ready To Ship”.
+- Peek hero **min-height 500px** (`hero-slider--peek .hero-slider__track`). All slides sit in one CSS grid cell (`grid-area: 1 / 1`), so the hero is always as tall as the tallest slide and the page does **not** shift when the active slide changes. Do not go back to sizing to the active slide (`position: relative` on `.is-active`). Peek 01 `A Division of Gerotech`, peek 02 `In-Stock & Ready`, peek 03 `On Our Floor`. Slide 2 **headline** stays “Our Showroom Machines Are Ready To Ship”.
+- Machine lineup (`#machine-browse`): the five `.machine-panel--lineup` panels share one grid cell (`.machine-lineup__panels { display: grid }` + `grid-area: 1 / 1`), so the section is always as tall as the tallest panel and switching tabs does **not** shift the page. Inactive panels use `[hidden]` → `display: grid; visibility: hidden`, not `display: none`. Mobile uses `grid-template-rows: auto 1fr` so the photo stays 280px.
 - Haas Relationship: watermark + F1 lockup + intro **only** — no 4-column features band on this handoff. F1 brand image: `assets/images/haas-f1-team.jpg` (not the `.png`).
 - Homepage CTA: `assets/images/cta-home-figma.jpg`, no phone lockup.
 - Proto Training / Support / About have page hrefs. WP Support remains a service dropdown.

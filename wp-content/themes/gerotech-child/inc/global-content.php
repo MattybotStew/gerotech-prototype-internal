@@ -188,6 +188,33 @@ function gerotech_split_title( $lead, $main = '' ) {
 }
 
 /**
+ * Inline external-link arrow.
+ *
+ * The ↗ is stored inside the client-editable label text, but the site font
+ * has no glyph for it, so iOS falls back to Apple Color Emoji and paints a
+ * blue emoji box. An inline SVG draws a plain arrow in the label's own colour
+ * on every platform.
+ *
+ * @return string SVG markup.
+ */
+function gerotech_ext_arrow() {
+	return '<svg class="ext-arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="16.5" y2="7.5" /><polyline points="8.5 7.5 16.5 7.5 16.5 15.5" /></svg>';
+}
+
+/**
+ * Render a label, swapping any external-link arrow for the inline SVG.
+ *
+ * Both the plain glyph (↗) and the emoji variant (↗️) are replaced.
+ *
+ * @param string $label Label text, optionally containing an arrow.
+ * @return string Safe HTML.
+ */
+function gerotech_label( $label ) {
+	$label = esc_html( (string) $label );
+	return str_replace( array( '↗️', '↗' ), gerotech_ext_arrow(), $label );
+}
+
+/**
  * Read a global (options-page) field.
  *
  * Thin wrapper over gerotech_field() so this file is safe on a site where ACF

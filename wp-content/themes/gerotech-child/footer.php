@@ -71,7 +71,7 @@ $gerotech_logo   = $gerotech_footer['logo']
 						<?php if ( ! empty( $column['links'] ) ) : ?>
 							<ul class="site-footer__links">
 								<?php foreach ( $column['links'] as $link ) : ?>
-									<li><a href="<?php echo esc_url( $link['url'] ); ?>"<?php echo gerotech_link_attrs( $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $link['label'] ); ?></a></li>
+									<li><a href="<?php echo esc_url( $link['url'] ); ?>"<?php echo gerotech_link_attrs( $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo gerotech_label( $link['label'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?></a></li>
 								<?php endforeach; ?>
 							</ul>
 						<?php endif; ?>

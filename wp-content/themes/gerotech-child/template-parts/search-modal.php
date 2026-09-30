@@ -26,7 +26,7 @@ $gerotech_header = gerotech_header_data();
 			<?php if ( ! empty( $gerotech_header['search_links'] ) ) : ?>
 				<nav class="search-modal__links" aria-label="<?php esc_attr_e( 'Quick links', 'gerotech-child' ); ?>">
 					<?php foreach ( $gerotech_header['search_links'] as $link ) : ?>
-						<a class="search-modal__link" href="<?php echo esc_url( $link['url'] ); ?>"<?php echo gerotech_link_attrs( $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $link['label'] ); ?></a>
+						<a class="search-modal__link" href="<?php echo esc_url( $link['url'] ); ?>"<?php echo gerotech_link_attrs( $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo gerotech_label( $link['label'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?></a>
 					<?php endforeach; ?>
 				</nav>
 			<?php endif; ?>

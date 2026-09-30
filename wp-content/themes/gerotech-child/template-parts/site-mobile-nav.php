@@ -132,7 +132,7 @@ $gerotech_header    = gerotech_header_data();
 					<?php if ( ! empty( $child['is_label'] ) ) : ?>
 						<p class="mobile-nav__sublink mobile-nav__sublabel"><?php echo gerotech_split_title( $child['lead'], $child['main'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 					<?php else : ?>
-						<a class="mobile-nav__sublink<?php echo '' !== $child['class'] ? ' ' . esc_attr( $child['class'] ) : ''; ?>" href="<?php echo esc_url( $child['url'] ); ?>"<?php echo ! empty( $child['new_tab'] ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo esc_html( $child['label'] ); ?></a>
+						<a class="mobile-nav__sublink<?php echo '' !== $child['class'] ? ' ' . esc_attr( $child['class'] ) : ''; ?>" href="<?php echo esc_url( $child['url'] ); ?>"<?php echo ! empty( $child['new_tab'] ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo gerotech_label( $child['label'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?></a>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</div>

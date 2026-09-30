@@ -90,7 +90,7 @@ $gerotech_nav_item_attrs = function ( $item ) {
 
 							<?php if ( '' !== trim( $machines_panel['footer']['label'] ) ) : ?>
 								<div class="mega-nav__machines-footer">
-									<a class="mega-nav__machines-footer-link" href="<?php echo esc_url( $machines_panel['footer']['url'] ); ?>"<?php echo $machines_panel['footer']['new_tab'] ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo esc_html( $machines_panel['footer']['label'] ); ?> <span aria-hidden="true">↗</span></a>
+									<a class="mega-nav__machines-footer-link" href="<?php echo esc_url( $machines_panel['footer']['url'] ); ?>"<?php echo $machines_panel['footer']['new_tab'] ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo esc_html( $machines_panel['footer']['label'] ); ?> <?php echo gerotech_ext_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed SVG markup. ?></a>
 								</div>
 							<?php endif; ?>
 
