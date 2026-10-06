@@ -3,6 +3,38 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — ES mega-nav "All Services" = full parity with the page cards)
+**Active Agent:** opencode
+**Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted).
+**What changed:** the ES mega-panel "All Services" list (desktop + mobile) was a stale subset in a different order. It now mirrors the on-page cards exactly — same items, same order, correct `#card` anchors. **MCS 7→8** (adds *Safety & Environmental Modifications*, moves Sheet Metal/Auto Doors/Hydraulic into card order), **Applications 4→6** (adds *Process Troubleshooting* + *Demo*), **Automation 4→6** (adds *Layered Controls Solutions* + *Robot EOAT – Ancillary Material Handling*; reorders to HMI → Electrical → Layered → Cell → EOAT → Pre-Engineered) and **fixes the stale Electrical anchor** (`#layered-controls-solutions` → `#electrical-controls-solutions`). 20 links total.
+**Where:** prototype `partials/site-header.html` (desktop + mobile ES groups); theme `inc/global-content.php` `gerotech_es_defaults()` (the single source; stale "Menu still says Electrical" comment removed); new idempotent `scripts/update-es-nav-order.php` which **fully replaces** the stored `nav_es_services` options repeater from those defaults (adds/removes/reorders — unlike `update-es-service-anchors.php` which only rewrites known labels' URLs). The `update_field('field_nav_es_services', $rows, 'option')` full-replace works for options repeaters; rows are keyed by sub-field NAME and `url` is a Link array.
+**Verified:** Local DB + render path (`gerotech_es_panel()`) = 20 links, exact order; Dev stored rows, homepage desktop **and** mobile, and all **20 anchors resolve to real `.mcs-card` ids** on `/modification-of-standard-machine-tools/`, `/unique-applications-for-standard-machines/`, `/automated-system/`. Theme rsync + chmod + page/CDN flush on Dev.
+**Local gotcha:** Local's MySQL was **not running** — started it by hand from `lightning-services/mysql-8.4.0+2/bin/darwin-arm64/bin/mysqld --defaults-file=…/conf/mysql/my.cnf`. **The gerotech runtime is `VjZ_PwL-d` (port 10004); `Rg1VtCBT9` is the goodshepherd site** — connecting to the wrong socket silently loads `astra`/goodshepherd. Both were stopped again afterwards.
+**Not committed.**
+
+---
+## Previous Session State
+**Last Updated:** 2026-10-06 (opencode — prototype content parity with Dev on the 6 built pages)
+**Active Agent:** opencode
+**Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted).
+**What changed:** aligned the prototype's *visible* content with the WPE Dev build on the six built pages (Home, Engineered Solutions, Machine Custom Solutions, Applications, Automation & Controls, Careers). The Cursor `f270dc0` CSS-glyph change (`→` via `.mcs-card__cue::after`, `/` via `.page-hero__crumb-sep::before`) had been synced to the theme but the **prototype markup still carried the literals**, so the prototype double-rendered **20 card-cue arrows** and **6 breadcrumb slashes**; removed the literals (plus the 4 ES FAQ `+` literals the theme had already dropped — they were hidden by `font-size:0`). Replaced the footer social glyph text (`in`/`ig`/`▶`) with the same inline SVGs the theme renders (`social-icon--linkedin/instagram/youtube`). Set each page `<title>` to the exact Dev string (incl. the slug-based MCS/Applications titles). **Deferred by client choice:** the Dev-only Support nav dropdown (the prototype header stays a plain link).
+**Verified:** full-document word diff (comments stripped, `data-include` partials resolved) is now **99.1–99.7%** on all six pages; the **only** residual is that Support dropdown. Images compared by alt/download — remaining diffs are alt-text only or upload-dedup filenames; the two hash-mismatched uploads (`gerotech-16165c2a07.jpg` = `app-hero.jpg`; `*-1`/`-2` variants) are visually/byte identical.
+**No CSS/JS/image changes** → no `sync-theme-assets.sh` needed. No ACF fields. Not committed.
+
+---
+## Previous Session State
+**Last Updated:** 2026-10-06 (Cursor — Pre-Engineered gallery row on Dev)
+**Active Agent:** Cursor
+**What changed:** Automation **Pre-Engineered Solutions** gallery is one image: `pre-engineered-card.jpg` (Figma `7635:4888` photo; same file as the existing cabinet JPEG). Prototype data spans + `ai_collections` default. Dev stored row updated to that single line; theme rsync + chmod 755/644; page + CDN flush. Live last gallery has one `data-src`. Card thumbnail stays `pre-engineered-automation.jpg`. Electrical card was not edited (Dev HTML currently shows `pre-engineered-card-2.jpg` on that card). Local stored `ai_collections` not updated. Not committed.
+
+---
+## Previous Session State
+**Last Updated:** 2026-10-06 (Cursor — Pre-Engineered Solutions card image)
+**Active Agent:** Cursor
+**What changed:** Automation **Pre-Engineered Solutions** card thumbnail is `assets/images/pre-engineered-automation.jpg`. Prototype `automation-integration.html` and the template default in `page-automated-system.php`. Electrical – Controls Solutions still uses `pre-engineered-card.jpg` in the template. **Deployed to Dev:** rsync + chmod, `set-card-images-2026-10.php` (Pre-Engineered Solutions → attachment #3516), page + CDN flush.
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-06 (opencode — ACF-ify card cue / card CTA / breadcrumbs on the new pages)
 **Active Agent:** opencode
 **What changed (new pages: MCS, Applications, Automation):** removed the last hardcoded copy.

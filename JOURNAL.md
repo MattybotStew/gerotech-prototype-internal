@@ -2,6 +2,36 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — ES mega-nav "All Services" now mirrors the page cards (opencode)
+
+The Engineered Solutions mega panel's "All Services" column was a stale subset in a different order (e.g. MCS listed 7 cards, Automation led with Electrical and omitted Layered/EOAT). It now matches the on-page cards exactly — same items, same order, correct `#card` anchors. 20 links total.
+
+- **MCS 7→8:** + Safety & Environmental Modifications; order → Column Risers, Safety & Environmental, Sheet Metal, Auto Doors, Hydraulic–Pneumatics, Custom Workholding, Process Engineering, Specialty Machine.
+- **Applications 4→6:** + Process Troubleshooting, + Demo (card order).
+- **Automation 4→6:** + Layered Controls Solutions, + Robot EOAT – Ancillary Material Handling; order → HMI Design, Electrical–Controls Solutions, Layered Controls, Automation Cell Design, Robot EOAT, Pre-Engineered. Fixed the stale Electrical anchor (`#layered-controls-solutions` → `#electrical-controls-solutions`).
+- **Where:** prototype `partials/site-header.html` (desktop **and** mobile ES groups); theme `inc/global-content.php` `gerotech_es_defaults()` (single source; removed the stale "Menu still says Electrical…" comment); new idempotent `scripts/update-es-nav-order.php`, which **fully replaces** the stored `nav_es_services` options repeater from the defaults (adds/removes/reorders, unlike `update-es-service-anchors.php`).
+- **Deployed + verified:** Local DB and render path (`gerotech_es_panel()`) = 20 links in exact order; Dev theme rsync + chmod, script run, page + CDN flush. Dev homepage desktop **and** mobile show all 20; every one of the 20 anchors resolves to a real `.mcs-card` id on the three pages.
+- **Local gotcha recorded:** Local's MySQL was down; started it manually from Local's `mysql-8.4.0+2` binary. **Gerotech's runtime is `VjZ_PwL-d` (port 10004); `Rg1VtCBT9` is goodshepherd** — the wrong socket loads `astra`/goodshepherd and looks like "theme not active". Not committed.
+
+## 2026-10-06 — Prototype content parity with Dev on the six built pages (opencode)
+
+Compared every prototype page against its WPE Dev counterpart (comments stripped, `data-include` partials resolved, word-level diff) for Home, Engineered Solutions, Machine Custom Solutions, Applications, Automation & Controls, Careers. The page bodies already matched; the drift was in decoration and chrome.
+
+- **Double glyphs (the real bug):** commit `f270dc0` moved the card-cue arrow and breadcrumb separator to CSS (`::after`/`::before`) in the shared `components.css`, but the prototype HTML still contained the literal characters, so the prototype rendered each **twice**. Removed the literals: `View Details →` → `View Details` (20 card cues across MCS 8 / Apps 6 / Automation 6) and the breadcrumb ` / ` text (6 seps). Also dropped the 4 ES FAQ `+` literals the theme had already removed (they were invisible anyway — `font-size:0`).
+- **Footer socials:** the prototype partial still used glyph text (`in` / `ig` / `▶`); Dev renders inline SVGs via the `network` picker. Replaced with the same three SVGs + `social-icon--linkedin/instagram/youtube` classes. Footer is now 100% identical.
+- **Tab titles:** set each of the six pages' `<title>` to the exact Dev string (including the slug-based `Modification of Standard Machine Tools - …` / `Unique Applications for Standard Machines - …`).
+- **Left as-is (client choice):** the Dev **Support** dropdown (Service Request Forms / Rotary Repair / Planned Maintenance) — the prototype header stays a plain Support link, since those pages don't exist in the prototype.
+- **Verification:** full-document word diff now 99.1–99.7% on all six; the only residual is that Support dropdown. Remaining image-list differences are alt text only or upload-dedup filenames — the two hash-mismatched uploads (`gerotech-16165c2a07.jpg` vs `app-hero.jpg`, and the `*-1`/`-2` variants) are byte/visually identical.
+- No CSS/JS/image changes, so no asset sync; no ACF. Not committed.
+
+## 2026-10-06 — Pre-Engineered gallery is one image on Dev (Cursor)
+
+Automation gallery collection **Pre-Engineered Solutions** is a single photo, `pre-engineered-card.jpg`. Figma `7635:4888` photo fill matches that file byte-for-byte (the shop-floor second shot was dropped from the prototype spans and the `ai_collections` default). Dev stored row updated to one item; theme rsync + chmod 755/644; page + CDN cache flushed. Confirmed on https://gerotechdev.wpenginepowered.com/automated-system/ — last gallery has one `data-src`. Card thumbnail `pre-engineered-automation.jpg` left alone. Loose end: Local stored `ai_collections` not updated. Not committed.
+
+## 2026-10-06 — Pre-Engineered Solutions card image (Cursor)
+
+Automation **Pre-Engineered Solutions** card now uses `assets/images/pre-engineered-automation.jpg`. Prototype + template default updated; Electrical card and the gallery collection still use the cabinet photos. Theme image synced. Deployed to Dev 2026-10-06: theme rsync + chmod, `set-card-images-2026-10.php` set Pre-Engineered Solutions to attachment #3516, page + CDN cache flushed. Live HTML includes `pre-engineered-automation.jpg`.
+
 ## 2026-10-06 — Process Troubleshooting gallery uses the in-cut photo (Cursor)
 
 The Applications gallery collection (cover + lightbox) was still `app-troubleshooting-cabinet.jpg`. It now uses `assets/images/app-troubleshooting.jpg`, same photo as the card thumbnail. Prototype `application.html` and the template default updated. Stored `app_collections` still wins, so `scripts/set-troubleshooting-gallery.php` must run on Local and Dev.
