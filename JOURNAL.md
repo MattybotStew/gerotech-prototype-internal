@@ -2,6 +2,15 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — Every external link opens in a new tab (opencode)
+
+The header/nav/footer already auto-targeted external links through `gerotech_link_row()`, but links rendered directly by page templates (hero and CTA buttons, course flyers, job postings) and inside legacy post content did not.
+
+- **New `inc/external-links.php`** — one `template_redirect` (priority 20) output-buffer pass over the finished front-end document. `gerotech_external_links_filter()` walks anchors with `WP_HTML_Tag_Processor`, and for any `gerotech_is_external_url()` match sets `target="_blank"` and merges `noopener noreferrer` into `rel` (existing tokens preserved). `mailto:`/`tel:`/anchors/relative and the Gerotech hosts are left alone; anchors inside `<script>` are skipped. A regex fallback covers pre-WP 6.2. Edits nothing in admin/feeds/REST/embeds. Required in `functions.php`.
+- **Prototype:** already compliant — an HTML-parser audit of every root/partial/case-study page found 0 external anchors missing `target`. No HTML edits.
+- **Verification:** unit-tested the filter against WP 7.0.5's real `WP_HTML_Tag_Processor` (internal/`nofollow`/`_self`/`script` cases). Live Local: homepage hero CTA (`front-page.php:260`, template has no target) renders `rel="noopener noreferrer" target="_blank"`; 328 external anchors across 9 pages, 0 missing, 0 internal over-applied.
+- **Deployed to Dev:** rsync `-avz --delete` + remote chmod + page/CDN flush. Dev: 188 external anchors across 4 pages, 0 missing, 0 self over-applied.
+
 ## 2026-09-30 — ES mega-menu anchors Dev deploy recovered (Cursor)
 
 Shell 316338 failed after theme rsync: **scp** hit WPE `subsystem request failed on channel 0`, so `wp eval-file` never ran; inline `wp eval` with parentheses also broke bash quoting.
