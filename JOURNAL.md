@@ -2,6 +2,10 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — Process Troubleshooting gallery uses the in-cut photo (Cursor)
+
+The Applications gallery collection (cover + lightbox) was still `app-troubleshooting-cabinet.jpg`. It now uses `assets/images/app-troubleshooting.jpg`, same photo as the card thumbnail. Prototype `application.html` and the template default updated. Stored `app_collections` still wins, so `scripts/set-troubleshooting-gallery.php` must run on Local and Dev.
+
 ## 2026-10-06 — Mobile ES menu links the main subpages (opencode)
 
 The phone menu's Engineered Solutions group only listed the col-2 "All Services" anchor links; the desktop "By Category" pages had no mobile link, and the group heading (`<summary>`) isn't clickable, so the ES landing page wasn't reachable from the group either.

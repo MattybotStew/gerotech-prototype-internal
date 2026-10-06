@@ -82,7 +82,7 @@ $collections   = $pick(
 		array(
 			'title' => 'Process Troubleshooting',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/app-troubleshooting-cabinet.jpg | | Open electrical cabinet with terminal blocks, relays, VFD, and e-stop | Process Troubleshooting · electrical cabinet",
+			'media' => "image | {$uri}/assets/images/app-troubleshooting.jpg | | Coolant blasting a part while a tool cuts inside a CNC | Process Troubleshooting · in the cut",
 		),
 		array(
 			'title' => 'Process Optimization',

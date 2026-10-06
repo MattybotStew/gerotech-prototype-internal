@@ -52,7 +52,7 @@ Changed prototype `engineered-solutions.html`, `page-engineered-solutions.php` d
 
 ---
 ## Previous Session State
-**Last Updated:** 2026-10-06 (Cursor — CTA phone cards)
+**Last Updated:** 2026-10-06 (Cursor — Process Troubleshooting gallery)
 **Active Agent:** Cursor
 **Branch:** `cursor/process-engineering-thumbnail`
 **What changed:** Applications Process Troubleshooting card thumbnail is `assets/images/app-troubleshooting.jpg`. Prototype `application.html` + theme default in `page-unique-applications-for-standard-machines.php`. Gallery still uses `app-troubleshooting-cabinet.jpg`. Not deployed. A stored ACF `app_cards` image on Local/Dev still wins over the template default.
