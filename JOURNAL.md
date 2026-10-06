@@ -2,6 +2,24 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — MCS gallery grey subtitles removed (opencode)
+
+Machine Custom Solutions was the last gallery still printing the grey `.gallery-collection__meta` line under each collection (others — ES/Apps/Automation — had already dropped theirs). Removed all five: Safety & Environmental, Sheet Metal, Auto Doors, Hydraulic/Pneumatics, Custom Workholding.
+
+- **Prototype:** dropped the 5 `<p class="gallery-collection__meta">…</p>` elements in `machine-custom-solutions.html` (lightbox `data-caption`s untouched).
+- **Theme:** `page-modification-of-standard-machine-tools.php` default `$collections[*]['meta']` set to `''`; the template only prints the `<p>` when `meta` is non-empty, so this is enough for the default path.
+- **DB:** new idempotent `scripts/clear-gallery-meta.php "<slug>" "<repeater>"` cleared the stored `mcs_collections` rows on Local and Dev (stored rows beat template defaults).
+- **Verified:** Dev `/modification-of-standard-machine-tools/` renders 0 `gallery-collection__meta`; prototype ↔ Dev MCS text still 100% identical. Dev rsync + chmod + script + page/CDN flush. Not committed.
+
+## 2026-10-06 — Automation Controls Solutions now leads with Electrical (opencode)
+
+New order, applied everywhere: **Electrical – Controls Solutions → HMI Design → Layered Controls Solutions → Automation Cell Design → Robot EOAT – Ancillary Material Handling → Pre-Engineered Solutions** (Electrical moved ahead of HMI). Labels unchanged.
+
+- **Prototype:** `automation-integration.html` (Electrical `<article>` block moved ahead of HMI; CARD comments renumbered) and `partials/site-header.html` (desktop + mobile ES groups).
+- **Theme:** `page-automated-system.php` `$card_order` usort → `array( 'electrical', 'hmi design', … )`. The default `$cards` array was already Electrical-first, so only the sort key changed — **no `ai_cards` DB edit needed**. `inc/global-content.php` `gerotech_es_defaults()` automation links reordered; `scripts/update-es-nav-order.php` re-run to rebuild stored `nav_es_services`.
+- **Deployed/verified on Dev:** `/automated-system/` card ids and the homepage desktop + mobile ES menus all read electrical, hmi, layered, automation-cell, robot-eoat, pre-engineered; all six anchors resolve. Local theme synced + script run. Dev rsync + chmod + page/CDN flush.
+- Not committed.
+
 ## 2026-10-06 — ES mega-nav "All Services" now mirrors the page cards (opencode)
 
 The Engineered Solutions mega panel's "All Services" column was a stale subset in a different order (e.g. MCS listed 7 cards, Automation led with Electrical and omitted Layered/EOAT). It now matches the on-page cards exactly — same items, same order, correct `#card` anchors. 20 links total.

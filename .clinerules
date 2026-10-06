@@ -3,6 +3,26 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — MCS gallery grey subtitles removed)
+**Active Agent:** opencode
+**Branch:** `master` == `cursor/process-engineering-thumbnail` (both pushed at `c26f961`; this change uncommitted).
+**What changed:** Machine Custom Solutions was the last gallery still printing the grey `.gallery-collection__meta` subtitle under each collection (Safety & Environmental, Sheet Metal, Auto Doors, Hydraulic/Pneumatics, Custom Workholding). Removed all 5.
+**Where:** prototype `machine-custom-solutions.html` (dropped the 5 `<p class="gallery-collection__meta">` elements); theme `page-modification-of-standard-machine-tools.php` default `$collections[*]['meta']` all set to `''` (the template already prints the `<p>` only when non-empty, line ~268); new idempotent `scripts/clear-gallery-meta.php "<slug>" "<repeater>"` cleared the stored `mcs_collections` rows on Local **and** Dev (stored rows beat defaults).
+**Verified:** Dev `/modification-of-standard-machine-tools/` renders **0** `gallery-collection__meta`; prototype↔Dev MCS still 100% word-identical. Dev theme rsync + chmod + script + page/CDN flush; Local theme synced + script run.
+**Not committed.**
+
+---
+## Previous Session State
+**Last Updated:** 2026-10-06 (opencode — Automation Controls Solutions leads with Electrical everywhere)
+**Active Agent:** opencode
+**Branch:** `master` == `cursor/process-engineering-thumbnail` (both pushed at `c26f961`; this change uncommitted).
+**What changed:** the Automation Controls Solutions order is now **Electrical – Controls Solutions → HMI Design → Layered Controls Solutions → Automation Cell Design → Robot EOAT – Ancillary Material Handling → Pre-Engineered Solutions** (Electrical moved ahead of HMI). Labels unchanged; only the order moved.
+**Where:** prototype `automation-integration.html` (the Electrical `<article>` block physically swapped ahead of HMI; comments renumbered) and `partials/site-header.html` (desktop + mobile ES groups); theme `page-automated-system.php` **`$card_order`** usort now `array( 'electrical', 'hmi design', … )` — the default `$cards` array was already Electrical-first, so only the sort key changed and **no `ai_cards` DB change was needed**; theme `inc/global-content.php` `gerotech_es_defaults()` automation links reordered, then `scripts/update-es-nav-order.php` re-run to rebuild stored `nav_es_services`.
+**Verified on Dev:** `/automated-system/` card ids = electrical, hmi, layered, automation-cell, robot-eoat, pre-engineered; homepage desktop ES nav and mobile ES anchors both in that order; all 6 anchors still resolve. Local theme synced + script run. Dev rsync + chmod + page/CDN flush.
+**Not committed.**
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-06 (opencode — ES mega-nav "All Services" = full parity with the page cards)
 **Active Agent:** opencode
 **Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted).
