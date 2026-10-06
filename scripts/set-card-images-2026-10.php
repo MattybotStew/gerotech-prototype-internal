@@ -133,5 +133,6 @@ gx_set_card_image( 'modification-of-standard-machine-tools', 'mcs_cards', 'Proce
 // Figma #297: the new Electrical – Controls Solutions card uses the Pre-Engineered
 // image until the client supplies a dedicated one (sheet: "Need Image").
 gx_set_card_image( 'automated-system', 'ai_cards', 'Electrical – Controls Solutions', 'assets/images/pre-engineered-card.jpg' );
+gx_set_card_image( 'automated-system', 'ai_cards', 'Pre-Engineered Solutions', 'assets/images/pre-engineered-automation.jpg' );
 
 echo "Done.\n";
