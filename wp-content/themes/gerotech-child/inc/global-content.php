@@ -835,8 +835,8 @@ function gerotech_es_defaults() {
 				'lead'  => 'Automation',
 				'main'  => 'Controls Solutions',
 				'links' => array(
-					array( 'label' => 'HMI Design', 'url' => $acs . '#hmi-design' ),
 					array( 'label' => 'Electrical – Controls Solutions', 'url' => $acs . '#electrical-controls-solutions' ),
+					array( 'label' => 'HMI Design', 'url' => $acs . '#hmi-design' ),
 					array( 'label' => 'Layered Controls Solutions', 'url' => $acs . '#layered-controls-solutions' ),
 					array( 'label' => 'Automation Cell Design', 'url' => $acs . '#automation-cell-design' ),
 					array( 'label' => 'Robot EOAT – Ancillary Material Handling', 'url' => $acs . '#robot-eoat-ancillary-material-handling' ),

@@ -68,9 +68,9 @@ $cards        = $pick(
 	)
 );
 
-// Figma #297 (2026-10-06): "Electrical – Controls Solutions" sits directly after
-// HMI Design. Enforce the client's card order regardless of stored row order.
-$card_order = array( 'hmi design', 'electrical', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
+// 2026-10-06: "Electrical – Controls Solutions" leads, then HMI Design.
+// Enforce the client's card order regardless of stored row order.
+$card_order = array( 'electrical', 'hmi design', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
 usort(
 	$cards,
 	function ( $a, $b ) use ( $card_order ) {
