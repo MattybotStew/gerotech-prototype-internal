@@ -70,7 +70,7 @@ $fanuc_body       = $pick( 'es_fanuc_body', "Gerotech is a FANUC Authorized Syst
 $fanuc_benefits   = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $pick( 'es_fanuc_benefits', "Factory-trained FANUC robotics engineers on staff\nDirect access to FANUC technical resources\nComplete cell design, integration, and production support" ) ) ) ) );
 $fanuc_cta1_label = $pick( 'es_fanuc_cta1_label', 'Talk to an Engineer' );
 $fanuc_cta1_url   = $pick( 'es_fanuc_cta1_url', 'tel:+17343797788' );
-$fanuc_cta2_label = $pick( 'es_fanuc_cta2_label', 'Explore Automation' );
+$fanuc_cta2_label = $pick( 'es_fanuc_cta2_label', 'Explore Capabilities' );
 $fanuc_cta2_url   = $pick( 'es_fanuc_cta2_url', gerotech_page_url( 'automation-integration' ) );
 $fanuc_badge_value = $pick( 'es_fanuc_badge', 'assets/images/fanuc-asi-seal.png' );
 $fanuc_badge      = gerotech_image_url( $fanuc_badge_value );
@@ -112,7 +112,7 @@ $cap_cta2_url   = $pick( 'es_cap_cta2_url', '#why-headline' );
 $cap_cards      = $pick(
 	'es_cap_cards',
 	array(
-		array( 'text' => 'Any make, any control — we engineer to your existing equipment' ),
+		array( 'text' => 'Any machine, any control — we engineer to your existing equipment' ),
 		array( 'text' => 'In-house design, programming, and integration' ),
 		array( 'text' => 'From a single modification to a full automation cell' ),
 	)

@@ -3,7 +3,23 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-06 (Cursor — Process Troubleshooting thumbnail)
+**Last Updated:** 2026-10-06 (opencode — ES approved-content audit + FANUC CTA2 / Feature-01 fixes)
+**Active Agent:** opencode
+**Branch:** ⚠️ the shared working tree is currently on **`cursor/process-engineering-thumbnail`** (another agent's branch), **not `master`**. My ES fixes are **uncommitted** here.
+**What changed (ES approved-content audit):** applied the client's approved ES sheet to Local + Dev. Fixed the two genuine mismatches:
+- **FANUC CTA2** "Explore Automation" → **"Explore Capabilities"** (`es_fanuc_cta2_label`; link stays `/automated-system/`).
+- **Solutions-Grid Feature 01** "Any make" → **"Any machine"** (`es_cap_cards[0].text`).
+Changed prototype `engineered-solutions.html`, `page-engineered-solutions.php` defaults, and stored ACF via `scripts/update-es-content-2026-10.php`. Verified rendering on Local **and** Dev. Everything else already matched (hero/why updated wording; 3 CTAs removed; FAQ 1 reworded + FAQ 3 removed; "Our Technology Partners"; all CTAs "Talk to an Engineer").
+**Flags / NOT changed — need the client:**
+1. Bottom-CTA header: sheet says "**Enigineering** Solutions…" (typo, marked "APPROVED As Is"); site keeps the correct "Engineering". Confirm which ships.
+2. Sheet is internally inconsistent: Solutions-Grid **subhead** = "any **make** and any control", but **Feature 01** = "Any **machine**". I set Feature 01 = "Any machine" per its row; confirm subhead/feature should agree.
+3. Cosmetic: sheet uses a hyphen ("customers - backed", "Integration - Certified"); site uses em dash "—". Left as design.
+4. Testimonials: site shows eyebrow "What Customers Say" + role "Gerotech Customer" (shared partial, every page); not in the ES sheet rows. Left.
+**Deploy side-effect (flag):** the Dev `rsync -avz --delete` pushes the **whole** theme tree, so it also carried the concurrent Cursor thumbnail changes (`application.html`, `page-unique-applications-for-standard-machines.php`, `page-automated-system.php`, `page-careers.php`, `page-modification-of-standard-machine-tools.php` + `app-troubleshooting.jpg`, `process-engineering.jpg`, `cta-mcs-cell.jpg`) to Dev, even though that branch's own entry says "Not deployed".
+
+---
+## Previous Session State
+**Last Updated:** 2026-10-06 (Cursor — CTA phone cards)
 **Active Agent:** Cursor
 **Branch:** `cursor/process-engineering-thumbnail`
 **What changed:** Applications Process Troubleshooting card thumbnail is `assets/images/app-troubleshooting.jpg`. Prototype `application.html` + theme default in `page-unique-applications-for-standard-machines.php`. Gallery still uses `app-troubleshooting-cabinet.jpg`. Not deployed. A stored ACF `app_cards` image on Local/Dev still wins over the template default.

@@ -142,7 +142,7 @@ $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-rai
 $cta_image_srcset = gerotech_image_srcset( $cta_image_value, 'assets/images/cta-rail-robot.jpg' );
 // Content doc (2026): the phone call card is removed — blank number hides it.
 $cta_call_label   = $pick( 'ai_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'ai_cta_call_number', '' );
+$cta_call_number  = $pick( 'ai_cta_call_number', '(734) 379-7788' );
 $cta_call_note    = $pick( 'ai_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */

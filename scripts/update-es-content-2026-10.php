@@ -133,6 +133,16 @@ gx_set( $ids['es'], 'field_es_why_cta_label', 'Talk to an Engineer', 'Why CTA la
 gx_set( $ids['es'], 'field_es_cap_cta1_label', 'Talk to an Engineer', 'Capability CTA1 label' );
 gx_set( $ids['es'], 'field_es_cta_button_label', 'Talk to an Engineer', 'CTA band button label' );
 
+// Content doc: FANUC secondary CTA reads "Explore Capabilities" (was "Explore Automation").
+gx_set( $ids['es'], 'field_es_fanuc_cta2_label', 'Explore Capabilities', 'FANUC CTA2 label' );
+
+// Content doc Feature 01 reads "Any machine…" (was "Any make…").
+gx_set( $ids['es'], 'field_es_cap_cards', array(
+	array( 'field_es_cap_card_text' => 'Any machine, any control — we engineer to your existing equipment' ),
+	array( 'field_es_cap_card_text' => 'In-house design, programming, and integration' ),
+	array( 'field_es_cap_card_text' => 'From a single modification to a full automation cell' ),
+), 'Capability cards' );
+
 // FAQ: reword #1, drop the downtime item (now 4 items).
 gx_set( $ids['es'], 'field_es_faq_items', array(
 	array(
@@ -220,7 +230,7 @@ gx_set( $ids['mcs'], 'field_mcs_collections', array(
 gx_set( $ids['mcs'], 'field_mcs_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['mcs'], 'field_mcs_cta_body', $CTA_BODY, 'CTA body' );
 gx_set( $ids['mcs'], 'field_mcs_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
-gx_set( $ids['mcs'], 'field_mcs_cta_call_number', '', 'CTA call number (remove)' );
+gx_set( $ids['mcs'], 'field_mcs_cta_call_number', '(734) 379-7788', 'CTA call number' );
 
 /* ── Applications ────────────────────────────────────────── */
 
@@ -267,7 +277,7 @@ gx_set( $ids['app'], 'field_app_cta_eyebrow', 'Application', 'CTA eyebrow' );
 gx_set( $ids['app'], 'field_app_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['app'], 'field_app_cta_body', $CTA_BODY, 'CTA body' );
 gx_set( $ids['app'], 'field_app_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
-gx_set( $ids['app'], 'field_app_cta_call_number', '', 'CTA call number (remove)' );
+gx_set( $ids['app'], 'field_app_cta_call_number', '(734) 379-7788', 'CTA call number' );
 
 /* ── Automation & Controls ───────────────────────────────── */
 
@@ -392,7 +402,7 @@ if ( is_array( $ai_cols ) ) {
 gx_set( $ids['ai'], 'field_ai_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['ai'], 'field_ai_cta_body', $CTA_BODY, 'CTA body' );
 gx_set( $ids['ai'], 'field_ai_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
-gx_set( $ids['ai'], 'field_ai_cta_call_number', '', 'CTA call number (remove)' );
+gx_set( $ids['ai'], 'field_ai_cta_call_number', '(734) 379-7788', 'CTA call number' );
 
 /* ── Flush caches ────────────────────────────────────────── */
 

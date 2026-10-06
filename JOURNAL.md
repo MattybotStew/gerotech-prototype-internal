@@ -2,6 +2,10 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — Phone card on every cinema CTA (Cursor)
+
+Bottom callouts on Machine Custom Solutions, Applications, Automation, and Careers were missing the phone lockup. Defaults are now `(734) 379-7788` (label “Prefer to talk it through?”, note “Talk to a person, not a form.”), matching Home and Engineered Solutions. Prototype HTML updated too. Theme synced to Local and verified on those six pages. Not deployed.
+
 ## 2026-10-06 — Process Troubleshooting card uses the in-cut photo (Cursor)
 
 Applications **Process Troubleshooting** thumbnail is now `assets/images/app-troubleshooting.jpg` (coolant and a tool in the cut). Prototype `application.html` and the template default in `page-unique-applications-for-standard-machines.php`. Gallery collection still uses `app-troubleshooting-cabinet.jpg`. Theme image copied. Not deployed. A stored ACF `app_cards` image still wins over the template default.
