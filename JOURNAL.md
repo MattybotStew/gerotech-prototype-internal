@@ -2,6 +2,10 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — Process Troubleshooting card uses the in-cut photo (Cursor)
+
+Applications **Process Troubleshooting** thumbnail is now `assets/images/app-troubleshooting.jpg` (coolant and a tool in the cut). Prototype `application.html` and the template default in `page-unique-applications-for-standard-machines.php`. Gallery collection still uses `app-troubleshooting-cabinet.jpg`. Theme image copied. Not deployed. A stored ACF `app_cards` image still wins over the template default.
+
 ## 2026-10-06 — Process Engineering card uses the client process diagram (Cursor)
 
 The MCS **Process Engineering** service-card thumbnail was the last Unsplash stand-in on that grid. Replaced with `assets/images/process-engineering.jpg` (circular Gerotech Engineering process wheel) in `machine-custom-solutions.html` and the template default in `page-modification-of-standard-machine-tools.php`. Theme image copied via `sync-theme-assets.sh`. Gallery collection still uses `mcs-gallery/custom-fixtures.jpg`. Not seeded (image is a template default, not stored content) and not deployed. Local WordPress will keep a previously saved ACF card image if one is already stored.
