@@ -20,7 +20,7 @@ $uri = GEROTECH_CHILD_URI;
 $hero_lead    = $pick( 'ai_hero_lead', 'Automation' );
 $hero_main    = $pick( 'ai_hero_main', 'and <em>Controls Solutions</em>' );
 $hero_accent  = $pick( 'ai_hero_accent_color', 'orange' ); // Blank (no stored choice) keeps the design colour.
-$hero_body    = $pick( 'ai_hero_body', 'From electrical controls and HMI design to full automation cells and pre-engineered packages, Gerotech delivers complete integration solutions — any make, any control, built around your production reality.' );
+$hero_body    = $pick( 'ai_hero_body', '' );
 $hero_image_value = $pick( 'ai_hero_image', 'assets/images/automation-hero.jpg' );
 $hero_image   = gerotech_image_url( $hero_image_value, 'assets/images/automation-hero.jpg' );
 
@@ -31,24 +31,29 @@ $cards        = $pick(
 	'ai_cards',
 	array(
 		array(
+			'title'  => 'Electrical – Controls Solutions',
+			'image'  => 'assets/images/pre-engineered-card.jpg',
+			'detail' => '<p>From concept development to long-term production support, we provide complete electrical and controls engineering services for industrial automation systems. Whether you\'re upgrading a single machine or implementing a fully integrated manufacturing cell, we deliver solutions that are designed for performance, reliability, and maintainability.</p><details open><summary>Concept &amp; System Design</summary><p>Every successful automation project begins with a solid foundation. We work with customers to understand their manufacturing objectives, evaluate technical requirements, and develop practical automation concepts that balance performance, reliability, and cost.</p><ul><li>System concept development</li><li>Automation feasibility studies</li><li>Control system architecture</li><li>Safety system design</li><li>Hardware selection</li><li>Electrical power distribution</li><li>Network architecture</li></ul></details><details><summary>Electrical Engineering</summary><p>Our electrical engineering services transform concepts into complete manufacturing-ready documentation packages.</p><ul><li>Electrical schematics</li><li>Control panel design</li><li>I/O layouts</li><li>Bill of materials (BOM)</li><li>Device selection</li><li>Network layouts</li><li>Documentation packages</li></ul></details><details><summary>Panel Build &amp; System Integration</summary><p>From component procurement to final assembly, we build reliable control systems designed for long-term operation in demanding industrial environments.</p><ul><li>Control panel assembly</li><li>Electrical wiring</li><li>Hardware integration</li><li>FAT testing</li></ul></details><details><summary>PLC &amp; HMI Development</summary><p>Our controls engineers develop robust PLC and HMI software using standardized design practices and proven software frameworks to deliver reliable, maintainable automation systems.</p><ul><li>PLC programming</li><li>HMI development</li><li>Motion control</li><li>Industrial networking</li><li>Robot integration</li><li>Vision integration</li><li>Data collection</li><li>Process control</li></ul></details><details><summary>Commissioning &amp; Production Support</summary><p>Successful projects don\'t end when the equipment ships. We provide on-site commissioning, production startup, and ongoing technical support to ensure your automation system performs as intended.</p><ul><li>System commissioning</li><li>Startup assistance</li><li>Production support</li><li>System debugging</li><li>Performance optimization</li><li>Operator training</li><li>Troubleshooting</li><li>Remote support</li></ul></details><details><summary>Control Platform Options</summary><p>We develop automation solutions using a variety of industrial control platforms to meet the technical requirements, standards, and budget of each application. Our experience spans multiple manufacturers, allowing us to recommend and implement the solution that best fits your project.</p><p><strong>Common control platforms include:</strong></p><ul><li>Allen-Bradley</li><li>Siemens</li><li>Automation Direct</li></ul></details>',
+		),
+		array(
 			'title'  => 'HMI Design',
 			'image'  => 'assets/images/hmi-design.jpg',
-			'detail' => '<p>Every application is different, and the operator interface should reflect the needs of the people using it. Our HMI is fully configurable, providing a centralized location for the information and functions required for efficient day-to-day operation.</p><p>Our software library provides extensive I/O and Ethernet diagnostics directly on the HMI — giving operators and maintenance technicians clear visibility into machine status without a programming laptop. Where supported, device-specific diagnostics include fault codes, descriptions, and recommended corrective actions for faster troubleshooting and reduced downtime.</p>',
+			'detail' => '<details open><summary>Customizable Operator Screens</summary><p>Every application is different, and the operator interface should reflect the needs of the people using it. Our HMI is fully configurable, providing a centralized location for the information and functions required for efficient day-to-day operation.</p></details><details><summary>HMI – Ethernet Diagnostics</summary><p>When implemented on Allen-Bradley control platforms, our software library utilizes native EtherNet/IP diagnostic capabilities to provide operators and maintenance personnel with detailed device diagnostics directly from the HMI. Access to fault codes, device status, fault descriptions, and manufacturer diagnostic information helps reduce troubleshooting time while minimizing the need for a programming laptop.</p></details><details><summary>HMI – I/O Diagnostics</summary><p>When implemented on Allen-Bradley control platforms, our software library provides extensive I/O diagnostics directly on the HMI, giving operators and maintenance technicians clear visibility into machine status without the need for a programming laptop. Where supported, device-specific diagnostics include manufacturer fault information, descriptions, and recommended corrective actions, enabling faster troubleshooting and reduced downtime.</p></details><details><summary>HMI – Device Specific Diagnostics</summary><p>Where applicable, our library components include device-level diagnostics, providing immediate access to fault codes, fault descriptions, and manufacturer-recommended corrective actions.</p></details><details><summary>HMI – Device Centric Control / Feedback</summary><p>Our device-centric PLC and HMI design provides a consistent, intuitive, and flexible operator experience throughout the entire system. Every device utilizes a standardized interface that presents the information, diagnostics, and controls needed for efficient operation and maintenance.</p><p><strong>Typical device interface items:</strong></p><ul><li>Current operating status and operating mode</li><li>Manual operation and jog functions</li><li>Clear indication of manual operation inhibits and the conditions preventing device operation</li><li>Runtime statistics and performance information</li><li>Device configuration and setup parameters</li><li>Maintenance and service functions</li><li>Device health and communication status</li></ul></details><details><summary>HMI – Cell Automation – Overview</summary><p>The Cell Overview screen serves as the primary operational dashboard, presenting the most critical information required to monitor and operate the cell at a glance. Key production metrics, including part counts, cycle times, and active part status, are displayed alongside a high-level summary of the machine\'s safety system that corresponds directly with the detailed Safety Diagnostics screen. By consolidating essential production and safety information into a single interface, operators can quickly assess machine status, identify production bottlenecks, and respond to abnormal conditions without navigating through multiple screens.</p></details><details><summary>HMI – Cell Automation – Station</summary><p>Each station includes a dedicated detail screen that consolidates all relevant information into a single, easy-to-navigate interface. Operators and maintenance personnel can view and control the station operating mode, monitor active interlocks and permissives, access station-specific I/O diagnostics, review part tracking data, and interact with device-specific functions without navigating between areas of the HMI. By centralizing these tools in one location, troubleshooting is simplified, operator training is reduced, and critical machine information is always readily accessible.</p></details><details><summary>HMI – Cell Automation – Part Program</summary><p>The integrated Part Program system provides the flexibility to accommodate multiple product variants, manufacturing requirements, and configurable process options without requiring software modifications. Part Programs define the parameters and processing requirements for each product, allowing the automation system to automatically adjust machine behavior based on the selected part configuration. A guided Program Load screen simplifies changeovers by walking operators through the program selection and loading process. This streamlined workflow reduces setup time, minimizes the risk of operator error, and enables fast, repeatable product changeovers with minimal training.</p></details><details><summary>HMI – Cell Automation – Part Data View</summary><p>The cell-level Part Data screen provides a centralized view of the current status of each part as it progresses through the manufacturing process. Operators can quickly identify required and completed operations, review process-specific data, monitor part tracking information. By consolidating critical production data into a single interface, the system improves traceability, simplifies troubleshooting, and provides clear visibility into the overall health and progress of each part throughout the cell.</p></details><details><summary>HMI – Cell Automation – Safety Devices</summary><p>The Safety Diagnostics screen provides a comprehensive view of the machine\'s safety system, allowing operators and maintenance personnel to quickly identify the status of all safety inputs, outputs, and safety functions. Each safety device includes contextual diagnostics and detailed status information to clearly indicate the current operating condition, fault state, or reason for a safety stop. By presenting meaningful diagnostic information alongside each device, the system reduces troubleshooting time, improves maintenance efficiency, and helps restore the machine to operation safely and quickly.</p></details>',
 		),
 		array(
 			'title'  => 'Layered Controls Solutions',
 			'image'  => 'assets/images/layered-controls.jpg',
-			'detail' => '<p>Our Layered Controls approach organizes automation into three integrated levels, each building on the last to deliver a complete, coordinated manufacturing system.</p><details open><summary>Layer 1 — Machine Tool</summary><p>The OEM CNC control remains responsible for the machine\'s core manufacturing functions, including axis motion, spindle control, tool changes, and machining cycles. For applications requiring additional functionality, we specialize in implementing targeted enhancements to the existing control system, extending the machine\'s capabilities while preserving the OEM control architecture.</p></details><details><summary>Layer 2 — Machine Tool Automation</summary><p>Our Machine Automation package extends the capabilities of the CNC machine with features that are specific to your manufacturing process.</p><p><strong>Typical extended capabilities include:</strong></p><ul><li>Automatic door control</li><li>Part presence verification</li><li>Machine status monitoring</li><li>Custom I/O integration</li><li>Safety interfaces</li><li>Pneumatic and hydraulic systems</li><li>Coolant and chip management</li><li>Operator interfaces</li><li>Process-specific automation</li></ul><p><strong>Machine Tool Control Packages:</strong> Rather than designing every system from the ground up, we offer a family of pre-engineered automation solutions that can be configured to match your application\'s requirements. From cost-effective machine automation packages to fully featured control systems, each solution is designed to provide the right balance of functionality, performance, and investment.</p><p>Every platform is built on proven software, standardized engineering practices, and years of real-world manufacturing experience, allowing us to deliver custom solutions with reduced engineering time, lower project risk, and faster implementation.</p><ul><li>Reduced engineering time</li><li>Faster project delivery</li><li>Lower project risk</li><li>Proven, reliable software</li><li>Consistent operator experience</li><li>Flexible architecture that adapts to a wide range of machine types and applications</li><li>Simplified future enhancements and support</li></ul></details><details><summary>Layer 3 — Automation Cells</summary><p>The Cell Controller coordinates the entire manufacturing system by managing communication between machines, robots, conveyors, vision systems, and peripheral equipment.</p><p><strong>Responsibilities include:</strong></p><ul><li>Robot coordination</li><li>Part routing</li><li>Cell sequencing</li><li>Production scheduling</li><li>Vision integration</li><li>Data collection</li><li>Fault recovery</li><li>System diagnostics</li></ul></details>',
+			'detail' => '<p>Our Layered Controls approach organizes automation into three integrated levels, each building on the last to deliver a complete, coordinated manufacturing system.</p><details open><summary>Layer 1 — Machine Tool</summary><p>The OEM CNC control remains responsible for the machine\'s core manufacturing functions, including axis motion, spindle control, tool changes, and machining cycles. For applications requiring additional functionality, we specialize in implementing targeted enhancements to the existing control system, extending the machine\'s capabilities while preserving the OEM control architecture.</p></details><details><summary>Layer 2 — Machine Tool Automation</summary><p>Our Machine Automation package extends the capabilities of the CNC machine with features that are specific to your manufacturing process.</p><p><strong>Typical extended capabilities include:</strong></p><ul><li>Automatic door control</li><li>Part presence verification</li><li>Machine status monitoring</li><li>Custom I/O integration</li><li>Safety interfaces</li><li>Pneumatic and hydraulic systems</li><li>Coolant and chip management</li><li>Operator interfaces</li><li>Process-specific automation</li></ul><p><strong>Machine Tool Control Packages:</strong> Rather than designing every system from the ground up, we offer a family of pre-engineered automation solutions that can be configured to match your application\'s requirements. From cost-effective machine automation packages to fully featured control systems, each solution is designed to provide the right balance of functionality, performance, and investment.</p><p>Every platform is built on proven software, standardized engineering practices, and years of real-world manufacturing experience, allowing us to deliver custom solutions with reduced engineering time, lower project risk, and faster implementation.</p><ul><li>Reduced engineering time</li><li>Faster project delivery</li><li>Lower project risk</li><li>Proven, reliable software</li><li>Consistent operator experience</li><li>Flexible architecture that adapts to a wide range of machine types and applications</li><li>Simplified future enhancements and support</li></ul></details><details><summary>Layer 3 — Automation Cells</summary><p>The Cell Controller coordinates the entire manufacturing system by managing communication between machines, robots, conveyors, vision systems, and peripheral equipment.</p><p><strong>Responsibilities include:</strong></p><ul><li>Robot coordination</li><li>Part routing</li><li>Cell sequencing</li><li>Production scheduling</li><li>Vision integration</li><li>Data collection</li><li>Fault recovery</li><li>System diagnostics</li></ul></details><details><summary>Standardized Software Design Methodology</summary><p>Our automation solutions are developed using a standardized software design methodology that has been refined through years of real-world manufacturing applications. This proven approach provides a consistent programming structure, operator experience, and diagnostic philosophy across our automation platforms.</p><p>By developing from a common software foundation and adapting it to the selected control platform, we can deliver custom automation solutions more efficiently while maintaining proven functionality, consistent operation, and high-quality software.</p><p><strong>Key Benefits:</strong></p><ul><li>Proven software foundation</li><li>Standardized programming methodology</li><li>Consistent HMI navigation and operator experience</li><li>Common alarms, diagnostics, and fault recovery</li><li>Faster project development</li><li>Reduced project risk</li><li>Simplified troubleshooting and maintenance</li><li>Easier operator training</li><li>Flexible deployment across multiple control platforms</li><li>Scalable design for future expansion</li></ul></details>',
 		),
 		array(
 			'title'  => 'Automation Cell Design',
 			'image'  => 'assets/images/automation-cell-design.jpg',
-			'detail' => '<p>The Cell Controller coordinates the entire manufacturing system by managing communication between machines, robots, conveyors, vision systems, and peripheral equipment.</p><p><strong>Responsibilities include:</strong></p><ul><li>Robot coordination</li><li>Part routing</li><li>Cell sequencing</li><li>Production scheduling</li><li>Vision integration</li><li>Data collection</li><li>Fault recovery</li><li>System diagnostics</li></ul>',
+			'detail' => '<p>We design every automation cell in SolidWorks and validate it in RoboGuide. SolidWorks lets us model the robot, the machine, the workholding, and EOAT as one integrated assembly so interference, reach, and cycle time concerns are identified in the design phase. RoboGuide then simulates the full motion path confirming the robot path prior to build.</p>',
 		),
 		array(
 			'title'  => 'Robot EOAT – Ancillary Material Handling',
 			'image'  => 'assets/images/robot-eoat.jpg',
-			'detail' => '<p>Custom end-of-arm tooling and ancillary material handling solutions engineered to match your part geometry, cycle time requirements, and production environment.</p>',
+			'detail' => '<p>Our end-of-arm tools are engineered for your robot\'s payload, reach, and duty cycle. Whether it\'s multiple jaws on a Schunk gripper, Servo Onrobot gripper, vacuum, or magnetic, we design, build, and integrate the complete package around your process.</p>',
 		),
 		array(
 			'title'  => 'Pre-Engineered Solutions',
@@ -58,15 +63,34 @@ $cards        = $pick(
 	)
 );
 
+// Figma #297 (2026-10-06): "Electrical – Controls Solutions" sits directly after
+// HMI Design. Enforce the client's card order regardless of stored row order.
+$card_order = array( 'hmi design', 'electrical', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
+usort(
+	$cards,
+	function ( $a, $b ) use ( $card_order ) {
+		$rank = function ( $card ) use ( $card_order ) {
+			$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
+			foreach ( $card_order as $i => $needle ) {
+				if ( false !== strpos( $title, $needle ) ) {
+					return $i;
+				}
+			}
+			return PHP_INT_MAX;
+		};
+		return $rank( $a ) <=> $rank( $b );
+	}
+);
+
 /* ── Gallery ──────────────────────────────────────────────── */
-$gallery_eyebrow = $pick( 'ai_gallery_eyebrow', 'On Our Floor' );
-$gallery_title   = $pick( 'ai_gallery_title', 'Installed Automation <em>Gallery</em>' );
+$gallery_eyebrow = $pick( 'ai_gallery_eyebrow', '' );
+$gallery_title   = $pick( 'ai_gallery_title', 'Automation &amp; Controls <em>Gallery</em>' );
 $collections     = $pick(
 	'ai_collections',
 	array(
 		array(
 			'title' => 'HMI Design',
-			'meta'  => 'Operator screens · cell overview · diagnostics',
+			'meta'  => '',
 			'media' => implode( "\n", array(
 				"image | {$uri}/assets/images/automation-gallery/hmi-operator-1.jpg | | Gerotech operator screen showing part complete and fixture presence | Operator screen · part complete",
 				"image | {$uri}/assets/images/automation-gallery/hmi-operator-2.jpg | | Gerotech operator screen, closer view of part complete | Operator screen · part complete (close view)",
@@ -77,12 +101,12 @@ $collections     = $pick(
 		),
 		array(
 			'title' => 'Layered Controls Solutions',
-			'meta'  => 'Machine tool · controls · automation cells',
+			'meta'  => '',
 			'media' => "image | {$uri}/assets/images/automation-gallery/layered-controls-diagram.jpg | | Layered controls diagram: machine tool, machine tool controls, and automation cells | Layer 01 machine tool · Layer 02 controls · Layer 03 cells",
 		),
 		array(
 			'title' => 'Automation Cell Design',
-			'meta'  => 'FANUC M-20iD/25 · Haas ST-10',
+			'meta'  => '',
 			'media' => "image | {$uri}/assets/images/automation-cell-design.jpg | | FANUC M-20iD/25 tending a Haas ST-10 in a guarded cell | FANUC M-20iD/25 · Haas ST-10\n"
 				. "image | {$uri}/assets/images/automation-gallery/automation-cell-lab.jpg | | Automation training lab with control cabinet, teach pendant, dual yellow robots on pedestals, EOAT tree, and CNC machines in the background | Training lab · dual robots · EOAT tree\n"
 				. "image | {$uri}/assets/images/automation-gallery/automation-cell-guarded.jpg | | Guarded yellow robot cell with wire-mesh safety enclosure, vertical control cabinet with HMI, and floor controller | Guarded robot cell · control cabinet\n"
@@ -90,14 +114,14 @@ $collections     = $pick(
 		),
 		array(
 			'title' => 'Robot EOAT – Ancillary Material Handling',
-			'meta'  => 'Custom end-of-arm tooling',
+			'meta'  => '',
 			'media' => "image | {$uri}/assets/images/robot-eoat.jpg | | Custom dual-gripper end-of-arm tooling | Custom end-of-arm tooling\n"
 				. "image | {$uri}/assets/images/automation-gallery/eoat-vacuum-suction.jpg | | Vacuum suction end-of-arm tooling with orange cups on an aluminum frame | Vacuum EOAT · suction cups\n"
 				. "image | {$uri}/assets/images/automation-gallery/eoat-gripper-pair.jpg | | Custom dual end-of-arm gripper tooling with pneumatic fittings on a workbench | Dual gripper EOAT",
 		),
 		array(
 			'title' => 'Pre-Engineered Solutions',
-			'meta'  => 'Control enclosure · integrated tooling',
+			'meta'  => '',
 			'media' => "image | {$uri}/assets/images/pre-engineered-card.jpg | | Open grey control cabinet with blue wiring, red terminals, and a VFD | Pre-Engineered Solutions · control cabinet\n"
 				. "image | {$uri}/assets/images/pre-engineered-gallery.jpg | | Open dual-door control cabinet on the shop floor beside a Haas machine | Control enclosure · shop floor",
 		),
@@ -107,7 +131,8 @@ $collections     = $pick(
 /* ── CTA band ─────────────────────────────────────────────── */
 $cta_eyebrow      = $pick( 'ai_cta_eyebrow', 'Automation &amp; Controls' );
 $cta_headline     = $pick( 'ai_cta_headline', 'Need a <em>custom solution</em> for your machine?' );
-$cta_body         = $pick( 'ai_cta_body', "Robot cells, workholding, and controls — designed, built, and installed by Gerotech's in-house engineering team." );
+$cta_subhead      = $pick( 'ai_cta_subhead', "Let's Talk Through It. Prefer Email?" );
+$cta_body         = $pick( 'ai_cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
 $cta_button_label = $pick( 'ai_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'ai_cta_button_url', gerotech_quote_mailto() );
 // Client (2026-09-22): use the FANUC rail-robot photo for this CTA band too — the
@@ -115,8 +140,9 @@ $cta_button_url   = $pick( 'ai_cta_button_url', gerotech_quote_mailto() );
 $cta_image_value  = $pick( 'ai_cta_image', 'assets/images/cta-rail-robot.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-rail-robot.jpg' );
 $cta_image_srcset = gerotech_image_srcset( $cta_image_value, 'assets/images/cta-rail-robot.jpg' );
+// Content doc (2026): the phone call card is removed — blank number hides it.
 $cta_call_label   = $pick( 'ai_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'ai_cta_call_number', '(734) 379-7788' );
+$cta_call_number  = $pick( 'ai_cta_call_number', '' );
 $cta_call_note    = $pick( 'ai_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */
@@ -181,7 +207,9 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
     <section class="mcs-gallery-section" aria-labelledby="ai-gallery-headline">
       <div class="container container--es">
         <div class="section-header">
+          <?php if ( $gallery_eyebrow ) : ?>
           <p class="eyebrow"><?php echo esc_html( $gallery_eyebrow ); ?></p>
+          <?php endif; ?>
           <h2 class="section-title" id="ai-gallery-headline"><?php echo gerotech_accent( $gallery_title, 'accent--deep' ); ?></h2>
           <span class="headline-rule headline-rule--deep" aria-hidden="true"></span>
         </div>
@@ -240,6 +268,9 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           </div>
           <h2 class="cta-band__headline"><?php echo gerotech_accent( $cta_headline, 'cta-band__accent' ); ?></h2>
           <span class="cta-band__rule" aria-hidden="true"></span>
+          <?php if ( $cta_subhead ) : ?>
+          <p class="cta-band__subhead"><?php echo esc_html( $cta_subhead ); ?></p>
+          <?php endif; ?>
           <?php if ( $cta_body ) : ?>
           <p class="cta-band__body"><?php echo esc_html( $cta_body ); ?></p>
           <?php endif; ?>
@@ -247,11 +278,13 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
+        <?php if ( $cta_call_number ) : ?>
         <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>
         </a>
+        <?php endif; ?>
       </div>
     </section>
 

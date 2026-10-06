@@ -19,10 +19,11 @@ $hero_eyebrow    = $pick( 'es_hero_eyebrow', 'Engineering-Driven Manufacturing S
 $hero_headline   = $pick( 'es_hero_headline', 'Your Manufacturing <em>Solutions</em> Partner' );
 $hero_accent     = $pick( 'es_hero_accent_color', 'orange' ); // Blank (no stored choice) keeps the design colour.
 $hero_cta_color  = $pick( 'es_hero_cta_color', 'orange' );    // Controls the primary hero button only.
-$hero_body       = $pick( 'es_hero_body', "From machine modification and customization to full automation cells, Gerotech engineers solutions that keep manufacturers running faster, safer, and smarter — backed by decades of application expertise." );
+$hero_body       = $pick( 'es_hero_body', 'From machine modification and customization to full automation cells, Gerotech engineers are solution driven to provide creative, robust, most efficient process for its customers — backed by decades of engineering experience.' );
 $hero_cta1_label = $pick( 'es_hero_cta1_label', 'Talk to an Engineer' );
 $hero_cta1_url   = $pick( 'es_hero_cta1_url', gerotech_quote_mailto() );
-$hero_cta2_label = $pick( 'es_hero_cta2_label', 'Explore Capabilities' );
+// Content doc (2026): hero secondary "Explore Capabilities" button removed — blank hides it.
+$hero_cta2_label = $pick( 'es_hero_cta2_label', '' );
 $hero_cta2_url   = $pick( 'es_hero_cta2_url', '#why-headline' );
 $es_hero_value   = $pick( 'es_hero_image', 'assets/images/es-hero.jpg' );
 $hero_image      = gerotech_image_url( $es_hero_value, 'assets/images/es-hero.jpg' );
@@ -30,7 +31,7 @@ $hero_srcset     = gerotech_image_srcset( $es_hero_value, 'assets/images/es-hero
 
 /* ── Why Gerotech ─────────────────────────────────────────── */
 $why_headline  = $pick( 'es_why_headline', 'Why Manufacturers <em>Trust Gerotech</em>' );
-$why_body      = $pick( 'es_why_body', "Every manufacturing operation is unique. That's why our engineers don't start with a standard solution—they start by understanding your process. We work alongside your team to solve manufacturing challenges and develop practical solutions built around your operation." );
+$why_body      = $pick( 'es_why_body', "Every manufacturing operation is unique. That's why our engineers start by understanding your process. We work alongside your team to solve manufacturing challenges and develop practical solutions built around your operation." );
 $why_cta_label = $pick( 'es_why_cta_label', 'Talk to an Engineer' );
 $why_cta_url   = $pick( 'es_why_cta_url', gerotech_quote_mailto() );
 $why_features  = $pick(
@@ -75,10 +76,11 @@ $fanuc_badge_value = $pick( 'es_fanuc_badge', 'assets/images/fanuc-asi-seal.png'
 $fanuc_badge      = gerotech_image_url( $fanuc_badge_value );
 
 /* ── Technology Partners ──────────────────────────────────── */
-$partners_eyebrow   = $pick( 'es_partners_eyebrow', 'Our Technology Ecosystem' );
+$partners_eyebrow   = $pick( 'es_partners_eyebrow', 'Our Technology Partners' );
 $partners_headline  = $pick( 'es_partners_headline', 'The Right Technology for <em>Every Application</em>' );
 $partners_body      = $pick( 'es_partners_body', "Beyond our FANUC ASI credential, we work with leading automation and controls manufacturers to source the right components for every solution — engineering judgment matched to your application, not brand allegiance." );
-$partners_cta_label = $pick( 'es_partners_cta_label', 'Explore Capabilities' );
+// Content doc (2026): partner CTA removed — blank hides it.
+$partners_cta_label = $pick( 'es_partners_cta_label', '' );
 $partners_cta_url   = $pick( 'es_partners_cta_url', '#why-headline' );
 $partners_wordmarks = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $pick( 'es_partners_wordmarks', "FANUC\nMidaco\nOnRobot\nRenishaw\nKeyence\nRollon\nSCHUNK\nServax\nVecteck\nMFP\nRoyal Products\n5th Axis" ) ) ) ) );
 
@@ -104,7 +106,8 @@ $cap_headline   = $pick( 'es_cap_headline', "Your Machine.\nOur Solution." );
 $cap_body       = $pick( 'es_cap_body', 'Whatever sits on your floor, any make and any control, our engineers modify, customize, and automate around it.' );
 $cap_cta1_label = $pick( 'es_cap_cta1_label', 'Talk to an Engineer' );
 $cap_cta1_url   = $pick( 'es_cap_cta1_url', gerotech_quote_mailto() );
-$cap_cta2_label = $pick( 'es_cap_cta2_label', 'Explore Capabilities' );
+// Content doc (2026): capability secondary CTA removed — blank hides it.
+$cap_cta2_label = $pick( 'es_cap_cta2_label', '' );
 $cap_cta2_url   = $pick( 'es_cap_cta2_url', '#why-headline' );
 $cap_cards      = $pick(
 	'es_cap_cards',
@@ -121,16 +124,12 @@ $faq_items    = $pick(
 	'es_faq_items',
 	array(
 		array(
-			'question' => 'Do you work on machines from brands other than Haas?',
+			'question' => 'Do you automate machines other than Haas?',
 			'answer'   => 'Yes. Our engineering team modifies, retrofits, and automates equipment from any OEM and any control platform — not just the machines we sell.',
 		),
 		array(
 			'question' => 'Can Gerotech handle design through installation in-house?',
 			'answer'   => 'We provide concept development, electrical and mechanical design, controls programming, panel build, on-site commissioning, and production support — all under one roof in Michigan.',
-		),
-		array(
-			'question' => 'How quickly can your service team respond to downtime?',
-			'answer'   => 'Factory-trained technicians at three Michigan locations support same-day response for critical production issues. Call the Service line for immediate dispatch.',
 		),
 		array(
 			'question' => 'What does FANUC Authorized System Integrator mean for my project?',

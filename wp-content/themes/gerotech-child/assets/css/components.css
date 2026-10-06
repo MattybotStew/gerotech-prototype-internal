@@ -1502,6 +1502,15 @@
   height: 3px;
   background: var(--clr-orange);
 }
+.cta-band--cinema-lockup .cta-band__subhead {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--clr-orange);
+  margin: 0;
+}
 .cta-band--cinema-lockup .cta-band__body {
   max-width: 52ch;
 }

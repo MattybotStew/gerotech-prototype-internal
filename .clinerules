@@ -3,6 +3,18 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — ES content doc applied to ES / MCS / Applications / Automation)
+**Active Agent:** opencode
+**Branch:** `master` — synced with `origin/master` (uncommitted: prototype + theme edits below).
+**What changed:** the client's **final** content doc for the 4 visible tabs (Engineered Solutions, Machine Custom Solutions, Applications, Automation & Controls) was applied.
+- **Prototype (source of truth):** `engineered-solutions.html`, `machine-custom-solutions.html`, `application.html`, `automation-integration.html` edited and verified in-browser (cards, galleries, CTA bands render; no console errors beyond favicon 404). New CSS class `.cta-band--cinema-lockup .cta-band__subhead` in `assets/css/components.css`.
+- **Theme:** the 4 matching `page-*.php` templates' defaults updated; `inc/acf-fields.php` gained `field_{app,mcs,ai}_cta_subhead`; PHP lint clean (Local's PHP 8.2); `sync-theme-assets.sh` + `sync-theme-to-local.sh` run.
+- **Content summary:** ES hero CTA2 + partner CTA + capability CTA2 removed (blank label hides them), FAQ 1 reworded, FAQ 3 removed, "Technology Ecosystem"→"Technology Partners", hero/why bodies reworded. MCS 5 card details reworded, gallery header→"Machine Custom Solutions Gallery", eyebrow removed, gallery set remapped (Fire Suppression→Safety & Environmental w/ mist merged; +Process Engineering, Specialty Machine). Applications all 6 card details reworded, gallery title→"Applications Product Gallery", Part-Programming gray subtext removed. Automation **Electrical – Controls Solutions added** (Figma #297: it sits **directly after HMI Design**, not first — HMI, Electrical, Layered, Cell, EOAT, Pre-Engineered; card image = the Pre-Engineered Solutions photo `pre-engineered-card.jpg`). Card order is enforced in `page-automated-system.php` via a small `usort` after `$cards = $pick(...)` and in the migration. HMI expanded to a 10-block accordion, Standardized Software added under Layer 3, Cell/EOAT reworded, hero + gallery paragraph/eyebrow removed, gallery→"Automation & Controls Gallery", gray subtexts removed. All three interior CTA bands: phone card removed, subhead "Let's Talk Through It. Prefer Email?" + new body added (ES keeps its phone card per the doc).
+**Deployed to Dev (2026-10-06):** theme rsync `-avz --delete` + remote chmod + `wp eval-file -` < `scripts/update-es-content-2026-10.php` + page/CDN flush. All 4 pages 200 and render the final copy; Automation card order confirmed **HMI Design → Electrical – Controls Solutions → Layered → Cell → EOAT → Pre-Engineered**. The `DISALLOW_FILE_EDIT already defined` warning during `wp` is pre-existing/harmless. Local and Dev now match for these 4 pages.
+**Open flags:** (1) Automation "Electrical – Controls Solutions" card reversed a prior "removed" decision — confirm with client (doc says ADD; the nav mega-menu already lists it). (2) Obvious doc typos corrected silently ("Enigineering", "applcation", "Troublshooting", "out our your", "accomodate", "vaccum") — list for client proofing. (3) Process Engineering card + gallery still use stand-in images pending client art.
+
+---
+## Previous Session State
 **Last Updated:** 2026-09-30 (Cursor — ES mega-menu card anchors Dev recover)
 **Active Agent:** Cursor
 **Branch:** `master`

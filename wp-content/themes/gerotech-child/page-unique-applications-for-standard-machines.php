@@ -31,44 +31,44 @@ $cards        = $pick(
 		array(
 			'title'  => 'Part Programming',
 			'image'  => 'assets/images/app-gallery-umc750.jpg',
-			'detail' => '<p>Custom part programs and CNC code development to get the most from your equipment, optimized for your specific materials, operations, and machine control.</p>',
+			'detail' => '<p>We write programs that get the most out of your machine. From simple 2-axis turning and 3-axis milling work to complex multi-axis solutions, our application engineers handle the full range — G-code, conversational programming, and CAM-generated toolpaths.</p><p>Whether you need a one-off program or high-volume production, we will deliver a reliable toolpath that is right for your part.</p>',
 		),
 		array(
 			'title'  => 'Process Troubleshooting',
 			'image'  => 'assets/images/app-troubleshooting-cabinet.jpg',
-			'detail' => '<p>Hands-on diagnosis of machining process problems — tool life, surface finish, dimensional variation, and cycle inefficiencies resolved by experienced application engineers.</p>',
+			'detail' => '<p>When you\'re struggling to resolve a tool path issue, our talented team of Application Engineers is here to assist.</p><p>If the root cause is not obvious from looking at the program, we can take your program and run it through our simulators or, when necessary, trial it on one of our showroom machines depending on the model fit.</p><p>Reach out at applications@gerotech.com with a brief description of your issue along with the necessary tooling and program information.</p>',
 		),
 		array(
 			'title'  => 'Process Optimization',
 			'image'  => 'assets/images/app-optimization.jpg',
-			'detail' => '<p>Systematic analysis and improvement of existing processes to reduce cycle time, extend tool life, and increase overall throughput without new equipment investment.</p>',
+			'detail' => '<p>Every program is optimized for cycle time, tool life, and part quality. We handle custom probing and macro programming when the standard available routines don\'t meet your needs.</p>',
 		),
 		array(
 			'title'  => 'Tooling Recommendation',
 			'image'  => 'assets/images/app-tooling-cart.jpg',
-			'detail' => '<p>Expert tooling selection matched to your material, machine, and application — ensuring the right tool is always in the spindle for optimal performance and tool life.</p>',
+			'detail' => '<p>Our Application Engineers utilize Mfg Engineering backgrounds to help select tooling matched to your material, machine, and process — selected for your job, not the catalog. From standard tooling to custom tooling, we can help you optimize process performance on your shop floor.</p>',
 		),
 		array(
 			'title'  => 'Demo',
 			'image'  => 'assets/images/app-demo-showroom.jpg',
-			'detail' => '<p>Live demonstrations of application capabilities, software, and processes at your facility or at a Gerotech-supported location — see the solution before you commit.</p>',
+			'detail' => '<p>We can run machine demos for any machine in the showroom.</p><p>If you have a specific part you would like to see demoed, with a shared approach for materials and tooling we can accommodate it provided the machine model is the right fit to our showroom equipment.</p>',
 		),
 		array(
 			'title'  => 'Training',
 			'image'  => 'assets/images/app-training.jpg',
-			'detail' => '<p>Instructor-led operator and programming training tailored to your team\'s skill level and equipment — available at your facility or at a Gerotech-supported location.</p>',
+			'detail' => '<p>Gerotech offers, at no cost to our customers, instructor-led operator training for basic lathe/mill, VPS, Intro to G&amp;M code, and programming classes for both Mill and Lathe at our Grand Rapids location and our Macomb Community College partner.</p><p>If you need onsite training, our application engineers can tailor training to your needs for a fee. Contact your Account Manager to discuss.</p>',
 		),
 	)
 );
 
 /* ── Gallery ──────────────────────────────────────────────── */
-$gallery_title = $pick( 'app_gallery_title', 'Applications — Product <em>Gallery</em>' );
+$gallery_title = $pick( 'app_gallery_title', 'Applications Product <em>Gallery</em>' );
 $collections   = $pick(
 	'app_collections',
 	array(
 		array(
 			'title' => 'Part Programming',
-			'meta'  => 'Milling · turning · high-pressure coolant',
+			'meta'  => '',
 			// One media item per line. The collection `meta` is a static label describing
 			// the whole set — the photo/video count is a separate badge the JS computes.
 			'media' => "image | {$uri}/assets/images/app-gallery-umc750.jpg | | Haas UMC-750 5-axis machining | UMC-750 · 5-axis machining\n"
@@ -114,17 +114,19 @@ $collections   = $pick(
 );
 
 /* ── CTA band ─────────────────────────────────────────────── */
-$cta_eyebrow      = $pick( 'app_cta_eyebrow', 'Applications' );
+$cta_eyebrow      = $pick( 'app_cta_eyebrow', 'Application' );
 $cta_headline     = $pick( 'app_cta_headline', 'Need <em>application support</em> for your shop floor?' );
-$cta_body         = $pick( 'app_cta_body', '' );
+$cta_subhead      = $pick( 'app_cta_subhead', "Let's Talk Through It. Prefer Email?" );
+$cta_body         = $pick( 'app_cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
 $cta_button_label = $pick( 'app_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'app_cta_button_url', gerotech_quote_mailto() );
 // Client (2026-09-22): "use the same picture that we have for the page header,
 // the same for this footer" — so the CTA band intentionally shares app-hero.jpg.
 $cta_image_value  = $pick( 'app_cta_image', 'assets/images/app-hero.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/app-hero.jpg' );
+// Content doc (2026): the phone call card is removed — blank number hides it.
 $cta_call_label   = $pick( 'app_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'app_cta_call_number', '(734) 379-7788' );
+$cta_call_number  = $pick( 'app_cta_call_number', '' );
 $cta_call_note    = $pick( 'app_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */
@@ -237,6 +239,9 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           </div>
           <h2 class="cta-band__headline"><?php echo gerotech_accent( $cta_headline, 'cta-band__accent' ); ?></h2>
           <span class="cta-band__rule" aria-hidden="true"></span>
+          <?php if ( $cta_subhead ) : ?>
+          <p class="cta-band__subhead"><?php echo esc_html( $cta_subhead ); ?></p>
+          <?php endif; ?>
           <?php if ( $cta_body ) : ?>
           <p class="cta-band__body"><?php echo esc_html( $cta_body ); ?></p>
           <?php endif; ?>
@@ -244,11 +249,13 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
+        <?php if ( $cta_call_number ) : ?>
         <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>
         </a>
+        <?php endif; ?>
       </div>
     </section>
 

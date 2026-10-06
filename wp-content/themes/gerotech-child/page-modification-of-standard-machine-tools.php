@@ -37,7 +37,7 @@ $cards        = $pick(
 		array(
 			'title'  => 'Machine Column Risers',
 			'image'  => 'assets/images/mcs-gallery/column-riser.jpg',
-			'detail' => '<p>A Mill column riser is a precision ground block installed between the machine base and the column along with custom sheet metal to accommodate the change in height. Column riser will increase the clearance height of the machine between the spindle and table. This can be beneficial when machining taller parts, adding 4th/5th rotary tables, that may limit access to part features or restrict tooling options. Additional advantage — avoid the need for larger machines that only require Z axis clearance.</p>',
+			'detail' => '<p>A Mill column riser is a precision ground block installed between the machine base and the column along with custom sheet metal to accommodate the change in height. Column riser will increase the clearance height of the machine between the spindle and table. This can be beneficial when machining taller parts, adding 4th/5th rotary tables, that may limit access to part features or restrict tooling options. Additional advantage — avoid the need for larger machines that only require additional Z axis clearance.</p>',
 		),
 		array(
 			'title'  => 'Safety &amp; Environmental Modifications',
@@ -56,60 +56,60 @@ $cards        = $pick(
 			// photo. `image` is still used as the video poster (no blank frame on load,
 			// and reduced-motion users keep the still).
 			'video'  => 'assets/videos/auto-door-540.mp4',
-			'detail' => '<p><strong>Horizontal Door:</strong> We offer a custom Servax door drive solution that provide enhanced safety and reliability. Fully integrated with your machine tool. This solution is ideal for single or double door machines. The intelligent self-monitoring feature reliable, integrated safety functions. Position, speed and torque are constantly monitored. Automatic reacts to obstacles immediately changing directions. Light curtains and two-hand buttons are not required.</p><p><strong>Vertical Door:</strong> Vertical doors are a great option for machine tending robot cells. They allow for operator full access into the primary door without having to enter the robot cell. Door is fully integrated with machine and output provided to robot cell.</p>',
+			'detail' => '<p><strong>Horizontal Door:</strong> We offer a custom Servax door drive solution that provide enhanced safety and reliability. Fully integrated with your machine tool. This solution is ideal for single or double door machines. The intelligent self-monitoring features reliable, integrated safety functions. Position, speed and torque are constantly monitored. Automatically reacts to obstacles immediately changing directions. Light curtains and two-hand buttons are not required with this solution.</p><p><strong>Vertical Door:</strong> Vertical doors are a great option for machine tending robot cells. They allow for operator full access into the primary door without having to enter the robot cell. Door is fully integrated with machine and outputs provided to robot cell.</p>',
 		),
 		array(
 			'title'  => 'Hydraulic – Pneumatics',
 			'image'  => 'assets/images/mcs-gallery/hydraulic-rotary.jpg',
-			'detail' => '<p>Hydraulic and pneumatic circuit integration for workholding, clamping, actuators, and other production-enhancing machine functions.</p>',
+			'detail' => '<p>Hydraulic solutions can be custom designed to accommodate your machine workholding. We can determine the power unit to ensure it achieves the PSI and flow rate required to provide the necessary clamping force, and the valves to meet the desired sequencing requirements.</p><p>Pneumatic circuit integration can be added for cylinders, actuators, and part blow-offs — just a few examples of enhancements.</p>',
 		),
 		array(
 			'title'  => 'Custom Workholding',
 			'image'  => 'assets/images/custom-workholding.jpg',
-			'detail' => '<p>Purpose-built fixtures designed for your specific part — improving repeatability, reducing setup time, and enabling automation-ready production.</p>',
+			'detail' => '<p>When you need more than off the shelf vises and chucks, our mechanical design team can provide a custom solution built around your parts to optimize your process. Whether it\'s a hydraulic fixture, trunnion fixture, tombstone fixture, or custom chuck for a complex part, we engineer it to your machine, your process, and your production goals.</p>',
 		),
 		array(
 			'title'  => 'Process Engineering',
 			'image'  => 'https://images.unsplash.com/photo-1666634157070-6fd830fb5672?q=80&w=800&auto=format&fit=crop',
-			'detail' => '<p>On-site process development and engineering analysis to optimize your machining workflow, reduce cycle time, and improve part quality.</p>',
+			'detail' => '<p>Gerotech has a fully staffed engineering department that can take your drawings and models and deliver an engineered solution, from one machine to a completely automated machining line. One partner, one accountable team, from concept through production.</p>',
 		),
 		array(
 			'title'  => 'Specialty Machine',
 			'image'  => 'assets/images/mcs-gallery/specialty-machine.jpg',
-			'detail' => '<p>One-off machine builds and custom engineering for unique production requirements where off-the-shelf equipment will not do.</p>',
+			'detail' => '<p><strong>5 Axis Grinding:</strong> Gerotech has provided specialty 5-axis grinding machines for over 20 years to many customers in the Aerospace Industry.</p><p><strong>Spin Forming:</strong> Gerotech has converted our standard lathe into a special purpose spin forming machine to contour cylindrical parts.</p>',
 		),
 	)
 );
 
 /* ── Gallery ──────────────────────────────────────────────── */
-$gallery_eyebrow = $pick( 'mcs_gallery_eyebrow', 'On Our Floor' );
-$gallery_title   = $pick( 'mcs_gallery_title', 'Installed <em>Gallery</em>' );
+$gallery_eyebrow = $pick( 'mcs_gallery_eyebrow', '' );
+$gallery_title   = $pick( 'mcs_gallery_title', 'Machine Custom Solutions <em>Gallery</em>' );
 $gallery_body    = $pick( 'mcs_gallery_body', 'Recent customization and retrofit work from Gerotech engineers.' );
 $collections     = $pick(
 	'mcs_collections',
 	array(
 		array(
-			'title' => 'Column Riser',
-			'meta'  => 'Machine column risers',
+			'title' => 'Machine Column Risers',
+			'meta'  => '',
 			'media' => "image | {$uri}/assets/images/mcs-gallery/column-riser.jpg | | Machine column riser between base and column | Column riser · increased Z-axis clearance",
 		),
 		array(
-			'title' => 'Fire Suppression',
-			'meta'  => 'Machine-integrated fire protection',
-			'media' => "image | {$uri}/assets/images/mcs-gallery/fire-suppression.jpg | | Kidde machine-integrated fire suppression | Kidde system · machine-integrated",
+			'title' => 'Safety & Environmental Modifications',
+			'meta'  => 'Fire protection · mist collection · air quality',
+			'media' => "image | {$uri}/assets/images/mcs-gallery/fire-suppression.jpg | | Kidde machine-integrated fire suppression | Kidde system · machine-integrated\nimage | {$uri}/assets/images/mcs-gallery/mist-torit.jpg | | Donaldson Torit mist collector on a mill | Donaldson Torit mist collector\nimage | {$uri}/assets/images/mcs-gallery/mist-lina.jpg | | LINA3nine mist collector on a mill | LINA3nine mist collector",
 		),
 		array(
-			'title' => 'Sheet Metal Modification',
+			'title' => 'Sheet Metal Modifications',
 			'meta'  => 'Guards · enclosures · fabrication',
 			'media' => "image | {$uri}/assets/images/mcs-gallery/sheet-metal-stainless.jpg | | Custom stainless sheet metal guards and covers | Stainless guards and covers\nimage | {$uri}/assets/images/mcs-gallery/sheet-metal-enclosure.jpg | | Painted sheet metal enclosure wrap on a machine column | Painted enclosure fabrication\nimage | {$uri}/assets/images/mcs-gallery/sheet-metal-machine.jpg | | Custom sheet metal enclosure wrapping a machining center | Full enclosure fabrication",
 		),
 		array(
-			'title' => 'Auto Door Integration',
+			'title' => 'Auto Doors',
 			'meta'  => 'Servak · vertical doors',
 			'media' => "image | {$uri}/assets/images/mcs-gallery/auto-door-haas.jpg | | Servak auto door on a Haas mill | Servak auto door · Haas mill\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-closed.jpg | | Vertical auto door closed on a mill | Vertical door · closed\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-window.jpg | | Vertical auto door with window on a mill | Vertical door · windowed\nimage | {$uri}/assets/images/mcs-gallery/vertical-door-drive.jpg | | Vertical auto door drive assembly | Vertical door · drive\nimage | {$uri}/assets/images/mcs-gallery/auto-door-vf2yt.jpg | | Haas VF-2YT with both auto doors open and control pendant on the right | Haas VF-2YT · doors open\nimage | {$uri}/assets/images/mcs-gallery/auto-door-servax.jpg | | Servax Drives actuator on top of a Haas VF-2YT enclosure | Servax Drives actuator · VF-2YT\nimage | {$uri}/assets/images/mcs-gallery/auto-door-pendant.jpg | | Auto door control pendant with DOOR MANUAL / DOOR AUTO switch and status lights | Door control pendant\nvideo | {$uri}/assets/videos/auto-door-540.mp4 | {$uri}/assets/images/mcs-gallery/auto-door-haas.jpg | Auto door cycling video | Auto door cycling · bench test",
 		),
 		array(
-			'title' => 'Hydraulic / Pneumatic',
+			'title' => 'Hydraulic/Pneumatics',
 			'meta'  => 'Rotary and workholding',
 			'media' => "image | {$uri}/assets/images/mcs-gallery/hydraulic-rotary.jpg | | Hydraulic rotary and workholding integration | Rotary and workholding integration",
 		),
@@ -119,9 +119,14 @@ $collections     = $pick(
 			'media' => "image | {$uri}/assets/images/mcs-gallery/workholding-p2.jpg | | Serrated tombstone fixture plate marked P2 | Tombstone plate · P2\nimage | {$uri}/assets/images/mcs-gallery/workholding-tombstone.jpg | | Dark tombstone fixture marked 259-300-15 | Tombstone fixture · 259-300-15\nimage | {$uri}/assets/images/mcs-gallery/workholding-gtd-11962.jpg | | Gerotech fixture GTD-11962 marked 1B | GTD-11962 · 1B\nimage | {$uri}/assets/images/mcs-gallery/workholding-gtd-11961.jpg | | Gerotech fixture GTD-11961 holding a part marked 1A | GTD-11961 · 1A",
 		),
 		array(
-			'title' => 'Safety &amp; Environmental Modifications',
-			'meta'  => 'Mist collection · air quality',
-			'media' => "image | {$uri}/assets/images/mcs-gallery/mist-torit.jpg | | Donaldson Torit mist collector on a mill | Donaldson Torit mist collector\nimage | {$uri}/assets/images/mcs-gallery/mist-lina.jpg | | LINA3nine mist collector on a mill | LINA3nine mist collector",
+			'title' => 'Process Engineering',
+			'meta'  => '',
+			'media' => "image | {$uri}/assets/images/mcs-gallery/custom-fixtures.jpg | | Process engineering fixture on a machining center | Process Engineering · engineered solution",
+		),
+		array(
+			'title' => 'Specialty Machine',
+			'meta'  => '',
+			'media' => "image | {$uri}/assets/images/mcs-gallery/specialty-machine.jpg | | Haas ST-45 lathe with bar feeder on the shop floor | Specialty machine · Haas ST-45",
 		),
 	)
 );
@@ -129,13 +134,15 @@ $collections     = $pick(
 /* ── CTA band ─────────────────────────────────────────────── */
 $cta_eyebrow      = $pick( 'mcs_cta_eyebrow', 'Machine Custom Solutions' );
 $cta_headline     = $pick( 'mcs_cta_headline', 'Need a <em>custom solution</em> for your machine?' );
-$cta_body         = $pick( 'mcs_cta_body', '' );
+$cta_subhead      = $pick( 'mcs_cta_subhead', "Let's Talk Through It. Prefer Email?" );
+$cta_body         = $pick( 'mcs_cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
 $cta_button_label = $pick( 'mcs_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'mcs_cta_button_url', gerotech_quote_mailto() );
 $cta_image_value  = $pick( 'mcs_cta_image', 'assets/images/cta-mcs-cell.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-mcs-cell.jpg' );
+// Content doc (2026): the phone call card is removed — blank number hides it.
 $cta_call_label   = $pick( 'mcs_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'mcs_cta_call_number', '(734) 379-7788' );
+$cta_call_number  = $pick( 'mcs_cta_call_number', '' );
 $cta_call_note    = $pick( 'mcs_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */
@@ -222,7 +229,9 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
     <section class="mcs-gallery-section" aria-labelledby="gallery-headline">
       <div class="container container--es">
         <div class="section-header">
+          <?php if ( $gallery_eyebrow ) : ?>
           <p class="eyebrow"><?php echo esc_html( $gallery_eyebrow ); ?></p>
+          <?php endif; ?>
           <h2 class="section-title" id="gallery-headline"><?php echo gerotech_accent( $gallery_title, 'accent--deep' ); ?></h2>
           <span class="headline-rule headline-rule--deep" aria-hidden="true"></span>
           <?php if ( $gallery_body ) : ?>
@@ -288,6 +297,9 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           </div>
           <h2 class="cta-band__headline"><?php echo gerotech_accent( $cta_headline, 'cta-band__accent' ); ?></h2>
           <span class="cta-band__rule" aria-hidden="true"></span>
+          <?php if ( $cta_subhead ) : ?>
+          <p class="cta-band__subhead"><?php echo esc_html( $cta_subhead ); ?></p>
+          <?php endif; ?>
           <?php if ( $cta_body ) : ?>
           <p class="cta-band__body"><?php echo esc_html( $cta_body ); ?></p>
           <?php endif; ?>
@@ -295,11 +307,13 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
+        <?php if ( $cta_call_number ) : ?>
         <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>
         </a>
+        <?php endif; ?>
       </div>
     </section>
 

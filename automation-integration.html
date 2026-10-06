@@ -34,7 +34,6 @@
             <span class="mcs-name-split__main">and <span class="accent">Controls Solutions</span></span>
           </span>
         </h1>
-        <p class="slide__body">From electrical controls and HMI design to full automation cells and pre-engineered packages, Gerotech delivers complete integration solutions — any make, any control, built around your production reality.</p>
       </div>
     </section>
 
@@ -44,11 +43,96 @@
         <div class="section-header"><p class="eyebrow">What We Offer</p><h2 class="section-title" id="ai-grid-headline">Automation and Controls <span class="accent--deep">Solutions</span> Services</h2><span class="headline-rule headline-rule--deep" aria-hidden="true"></span></div>
         <div class="mcs-grid">
 
-          <!-- CARD 1: HMI Design (Electrical – Controls Solutions removed per content doc) -->
+          <!-- CARD 1: HMI Design -->
           <article class="mcs-card" id="hmi-design" role="button" tabindex="0" aria-haspopup="dialog">
             <img class="mcs-card__image" src="assets/images/hmi-design.jpg" alt="Gerotech operator HMI screen showing a completed part with fixture presence indicators" loading="lazy" /><!-- Client photo: Gerotech HMI operator screen (Figma node 7196:4292) -->
             <div class="mcs-card__content"><h3 class="mcs-card__title">HMI Design</h3><span class="mcs-card__cue">View Details →</span></div>
-            <template><p>Every application is different, and the operator interface should reflect the needs of the people using it. Our HMI is fully configurable, providing a centralized location for the information and functions required for efficient day-to-day operation.</p><p>Our software library provides extensive I/O and Ethernet diagnostics directly on the HMI — giving operators and maintenance technicians clear visibility into machine status without a programming laptop. Where supported, device-specific diagnostics include fault codes, descriptions, and recommended corrective actions for faster troubleshooting and reduced downtime.</p><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div></template>
+            <template>
+              <details open>
+                <summary>Customizable Operator Screens</summary>
+                <p>Every application is different, and the operator interface should reflect the needs of the people using it. Our HMI is fully configurable, providing a centralized location for the information and functions required for efficient day-to-day operation.</p>
+              </details>
+              <details>
+                <summary>HMI – Ethernet Diagnostics</summary>
+                <p>When implemented on Allen-Bradley control platforms, our software library utilizes native EtherNet/IP diagnostic capabilities to provide operators and maintenance personnel with detailed device diagnostics directly from the HMI. Access to fault codes, device status, fault descriptions, and manufacturer diagnostic information helps reduce troubleshooting time while minimizing the need for a programming laptop.</p>
+              </details>
+              <details>
+                <summary>HMI – I/O Diagnostics</summary>
+                <p>When implemented on Allen-Bradley control platforms, our software library provides extensive I/O diagnostics directly on the HMI, giving operators and maintenance technicians clear visibility into machine status without the need for a programming laptop. Where supported, device-specific diagnostics include manufacturer fault information, descriptions, and recommended corrective actions, enabling faster troubleshooting and reduced downtime.</p>
+              </details>
+              <details>
+                <summary>HMI – Device Specific Diagnostics</summary>
+                <p>Where applicable, our library components include device-level diagnostics, providing immediate access to fault codes, fault descriptions, and manufacturer-recommended corrective actions.</p>
+              </details>
+              <details>
+                <summary>HMI – Device Centric Control / Feedback</summary>
+                <p>Our device-centric PLC and HMI design provides a consistent, intuitive, and flexible operator experience throughout the entire system. Every device utilizes a standardized interface that presents the information, diagnostics, and controls needed for efficient operation and maintenance.</p>
+                <p><strong>Typical device interface items:</strong></p>
+                <ul><li>Current operating status and operating mode</li><li>Manual operation and jog functions</li><li>Clear indication of manual operation inhibits and the conditions preventing device operation</li><li>Runtime statistics and performance information</li><li>Device configuration and setup parameters</li><li>Maintenance and service functions</li><li>Device health and communication status</li></ul>
+              </details>
+              <details>
+                <summary>HMI – Cell Automation – Overview</summary>
+                <p>The Cell Overview screen serves as the primary operational dashboard, presenting the most critical information required to monitor and operate the cell at a glance. Key production metrics, including part counts, cycle times, and active part status, are displayed alongside a high-level summary of the machine's safety system that corresponds directly with the detailed Safety Diagnostics screen. By consolidating essential production and safety information into a single interface, operators can quickly assess machine status, identify production bottlenecks, and respond to abnormal conditions without navigating through multiple screens.</p>
+              </details>
+              <details>
+                <summary>HMI – Cell Automation – Station</summary>
+                <p>Each station includes a dedicated detail screen that consolidates all relevant information into a single, easy-to-navigate interface. Operators and maintenance personnel can view and control the station operating mode, monitor active interlocks and permissives, access station-specific I/O diagnostics, review part tracking data, and interact with device-specific functions without navigating between areas of the HMI. By centralizing these tools in one location, troubleshooting is simplified, operator training is reduced, and critical machine information is always readily accessible.</p>
+              </details>
+              <details>
+                <summary>HMI – Cell Automation – Part Program</summary>
+                <p>The integrated Part Program system provides the flexibility to accommodate multiple product variants, manufacturing requirements, and configurable process options without requiring software modifications. Part Programs define the parameters and processing requirements for each product, allowing the automation system to automatically adjust machine behavior based on the selected part configuration. A guided Program Load screen simplifies changeovers by walking operators through the program selection and loading process. This streamlined workflow reduces setup time, minimizes the risk of operator error, and enables fast, repeatable product changeovers with minimal training.</p>
+              </details>
+              <details>
+                <summary>HMI – Cell Automation – Part Data View</summary>
+                <p>The cell-level Part Data screen provides a centralized view of the current status of each part as it progresses through the manufacturing process. Operators can quickly identify required and completed operations, review process-specific data, monitor part tracking information. By consolidating critical production data into a single interface, the system improves traceability, simplifies troubleshooting, and provides clear visibility into the overall health and progress of each part throughout the cell.</p>
+              </details>
+              <details>
+                <summary>HMI – Cell Automation – Safety Devices</summary>
+                <p>The Safety Diagnostics screen provides a comprehensive view of the machine's safety system, allowing operators and maintenance personnel to quickly identify the status of all safety inputs, outputs, and safety functions. Each safety device includes contextual diagnostics and detailed status information to clearly indicate the current operating condition, fault state, or reason for a safety stop. By presenting meaningful diagnostic information alongside each device, the system reduces troubleshooting time, improves maintenance efficiency, and helps restore the machine to operation safely and quickly.</p>
+              </details>
+              <div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div>
+            </template>
+          </article>
+
+          <!-- CARD 2: Electrical – Controls Solutions (Figma #297 — after HMI Design, uses the Pre-Engineered Solutions image) -->
+          <article class="mcs-card" id="electrical-controls-solutions" role="button" tabindex="0" aria-haspopup="dialog">
+            <img class="mcs-card__image" src="assets/images/pre-engineered-card.jpg" alt="Open grey control cabinet with blue wiring, red terminals, and a VFD" loading="lazy" /><!-- Figma #297: reuse the Pre-Engineered Solutions image -->
+            <div class="mcs-card__content"><h3 class="mcs-card__title">Electrical – Controls Solutions</h3><span class="mcs-card__cue">View Details →</span></div>
+            <template>
+              <p>From concept development to long-term production support, we provide complete electrical and controls engineering services for industrial automation systems. Whether you're upgrading a single machine or implementing a fully integrated manufacturing cell, we deliver solutions that are designed for performance, reliability, and maintainability.</p>
+              <details open>
+                <summary>Concept &amp; System Design</summary>
+                <p>Every successful automation project begins with a solid foundation. We work with customers to understand their manufacturing objectives, evaluate technical requirements, and develop practical automation concepts that balance performance, reliability, and cost.</p>
+                <ul><li>System concept development</li><li>Automation feasibility studies</li><li>Control system architecture</li><li>Safety system design</li><li>Hardware selection</li><li>Electrical power distribution</li><li>Network architecture</li></ul>
+              </details>
+              <details>
+                <summary>Electrical Engineering</summary>
+                <p>Our electrical engineering services transform concepts into complete manufacturing-ready documentation packages.</p>
+                <ul><li>Electrical schematics</li><li>Control panel design</li><li>I/O layouts</li><li>Bill of materials (BOM)</li><li>Device selection</li><li>Network layouts</li><li>Documentation packages</li></ul>
+              </details>
+              <details>
+                <summary>Panel Build &amp; System Integration</summary>
+                <p>From component procurement to final assembly, we build reliable control systems designed for long-term operation in demanding industrial environments.</p>
+                <ul><li>Control panel assembly</li><li>Electrical wiring</li><li>Hardware integration</li><li>FAT testing</li></ul>
+              </details>
+              <details>
+                <summary>PLC &amp; HMI Development</summary>
+                <p>Our controls engineers develop robust PLC and HMI software using standardized design practices and proven software frameworks to deliver reliable, maintainable automation systems.</p>
+                <ul><li>PLC programming</li><li>HMI development</li><li>Motion control</li><li>Industrial networking</li><li>Robot integration</li><li>Vision integration</li><li>Data collection</li><li>Process control</li></ul>
+              </details>
+              <details>
+                <summary>Commissioning &amp; Production Support</summary>
+                <p>Successful projects don't end when the equipment ships. We provide on-site commissioning, production startup, and ongoing technical support to ensure your automation system performs as intended.</p>
+                <ul><li>System commissioning</li><li>Startup assistance</li><li>Production support</li><li>System debugging</li><li>Performance optimization</li><li>Operator training</li><li>Troubleshooting</li><li>Remote support</li></ul>
+              </details>
+              <details>
+                <summary>Control Platform Options</summary>
+                <p>We develop automation solutions using a variety of industrial control platforms to meet the technical requirements, standards, and budget of each application. Our experience spans multiple manufacturers, allowing us to recommend and implement the solution that best fits your project.</p>
+                <p><strong>Common control platforms include:</strong></p>
+                <ul><li>Allen-Bradley</li><li>Siemens</li><li>Automation Direct</li></ul>
+              </details>
+              <div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div>
+            </template>
           </article>
 
           <!-- CARD 3: Layered Controls Solutions (Slides 10-14) -->
@@ -81,6 +165,14 @@
                 <ul><li>Robot coordination</li><li>Part routing</li><li>Cell sequencing</li><li>Production scheduling</li><li>Vision integration</li><li>Data collection</li><li>Fault recovery</li><li>System diagnostics</li></ul>
               </details>
 
+              <details>
+                <summary>Standardized Software Design Methodology</summary>
+                <p>Our automation solutions are developed using a standardized software design methodology that has been refined through years of real-world manufacturing applications. This proven approach provides a consistent programming structure, operator experience, and diagnostic philosophy across our automation platforms.</p>
+                <p>By developing from a common software foundation and adapting it to the selected control platform, we can deliver custom automation solutions more efficiently while maintaining proven functionality, consistent operation, and high-quality software.</p>
+                <p><strong>Key Benefits:</strong></p>
+                <ul><li>Proven software foundation</li><li>Standardized programming methodology</li><li>Consistent HMI navigation and operator experience</li><li>Common alarms, diagnostics, and fault recovery</li><li>Faster project development</li><li>Reduced project risk</li><li>Simplified troubleshooting and maintenance</li><li>Easier operator training</li><li>Flexible deployment across multiple control platforms</li><li>Scalable design for future expansion</li></ul>
+              </details>
+
               <div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div>
             </template>
           </article>
@@ -90,18 +182,7 @@
             <img class="mcs-card__image" src="assets/images/automation-cell-design.jpg" alt="FANUC M-20iD/25 tending a Haas ST-10 in a guarded cell" loading="lazy" /><!-- Client photo: automation cell (Figma node 7196:4308) -->
             <div class="mcs-card__content"><h3 class="mcs-card__title">Automation Cell Design</h3><span class="mcs-card__cue">View Details →</span></div>
             <template>
-              <p>The Cell Controller coordinates the entire manufacturing system by managing communication between machines, robots, conveyors, vision systems, and peripheral equipment.</p>
-              <p><strong>Responsibilities include:</strong></p>
-              <ul>
-                <li>Robot coordination</li>
-                <li>Part routing</li>
-                <li>Cell sequencing</li>
-                <li>Production scheduling</li>
-                <li>Vision integration</li>
-                <li>Data collection</li>
-                <li>Fault recovery</li>
-                <li>System diagnostics</li>
-              </ul>
+              <p>We design every automation cell in SolidWorks and validate it in RoboGuide. SolidWorks lets us model the robot, the machine, the workholding, and EOAT as one integrated assembly so interference, reach, and cycle time concerns are identified in the design phase. RoboGuide then simulates the full motion path confirming the robot path prior to build.</p>
               <div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div>
             </template>
           </article>
@@ -110,8 +191,7 @@
           <article class="mcs-card" id="robot-eoat-ancillary-material-handling" role="button" tabindex="0" aria-haspopup="dialog">
             <img class="mcs-card__image" src="assets/images/robot-eoat.jpg" alt="Custom dual-gripper end-of-arm tooling" loading="lazy" /><!-- Client photo: EOAT (Figma node 7196:4316) -->
             <div class="mcs-card__content"><h3 class="mcs-card__title">Robot EOAT – Ancillary Material Handling</h3><span class="mcs-card__cue">View Details →</span></div>
-            <!-- Client provides final copy -->
-            <template><p>Custom end-of-arm tooling and ancillary material handling solutions engineered to match your part geometry, cycle time requirements, and production environment.</p><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div></template>
+            <template><p>Our end-of-arm tools are engineered for your robot's payload, reach, and duty cycle. Whether it's multiple jaws on a Schunk gripper, Servo Onrobot gripper, vacuum, or magnetic, we design, build, and integrate the complete package around your process.</p><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="tel:+17343797788">Talk to an Engineer</a></div></template>
           </article>
 
           <!-- CARD 6: Pre-Engineered Solutions (Slide 13 + Slide 15) -->
@@ -162,8 +242,7 @@
     <section class="mcs-gallery-section" aria-labelledby="ai-gallery-headline">
       <div class="container container--es">
         <div class="section-header">
-          <p class="eyebrow">On Our Floor</p>
-          <h2 class="section-title" id="ai-gallery-headline">Installed Automation <span class="accent--deep">Gallery</span></h2>
+          <h2 class="section-title" id="ai-gallery-headline">Automation &amp; Controls <span class="accent--deep">Gallery</span></h2>
           <span class="headline-rule headline-rule--deep" aria-hidden="true"></span>
         </div>
         <div class="gallery-collections" data-gallery>
@@ -177,7 +256,6 @@
             </span>
             <div class="gallery-collection__label">
               <h3><button type="button" class="gallery-collection__trigger" aria-haspopup="dialog">HMI Design</button></h3>
-              <p class="gallery-collection__meta">Operator screens · cell overview · diagnostics</p>
             </div>
             <template class="gallery-collection__data">
               <span data-type="image" data-src="assets/images/automation-gallery/hmi-operator-1.jpg" data-alt="Gerotech operator screen showing part complete and fixture presence" data-caption="Operator screen · part complete"></span>
@@ -197,7 +275,6 @@
             </span>
             <div class="gallery-collection__label">
               <h3><button type="button" class="gallery-collection__trigger" aria-haspopup="dialog">Layered Controls Solutions</button></h3>
-              <p class="gallery-collection__meta">Machine tool · controls · automation cells</p>
             </div>
             <template class="gallery-collection__data">
               <span data-type="image" data-src="assets/images/automation-gallery/layered-controls-diagram.jpg" data-alt="Layered controls diagram: machine tool, machine tool controls, and automation cells" data-caption="Layer 01 machine tool · Layer 02 controls · Layer 03 cells"></span>
@@ -213,7 +290,6 @@
             </span>
             <div class="gallery-collection__label">
               <h3><button type="button" class="gallery-collection__trigger" aria-haspopup="dialog">Automation Cell Design</button></h3>
-              <p class="gallery-collection__meta">FANUC M-20iD/25 · Haas ST-10</p>
             </div>
             <template class="gallery-collection__data">
               <span data-type="image" data-src="assets/images/automation-cell-design.jpg" data-alt="FANUC M-20iD/25 tending a Haas ST-10 in a guarded cell" data-caption="FANUC M-20iD/25 · Haas ST-10"></span>
@@ -232,7 +308,6 @@
             </span>
             <div class="gallery-collection__label">
               <h3><button type="button" class="gallery-collection__trigger" aria-haspopup="dialog">Robot EOAT – Ancillary Material Handling</button></h3>
-              <p class="gallery-collection__meta">Custom end-of-arm tooling</p>
             </div>
             <template class="gallery-collection__data">
               <span data-type="image" data-src="assets/images/robot-eoat.jpg" data-alt="Custom dual-gripper end-of-arm tooling" data-caption="Custom end-of-arm tooling"></span>
@@ -250,7 +325,6 @@
             </span>
             <div class="gallery-collection__label">
               <h3><button type="button" class="gallery-collection__trigger" aria-haspopup="dialog">Pre-Engineered Solutions</button></h3>
-              <p class="gallery-collection__meta">Control enclosure · integrated tooling</p>
             </div>
             <template class="gallery-collection__data">
               <span data-type="image" data-src="assets/images/pre-engineered-card.jpg" data-alt="Open grey control cabinet with blue wiring, red terminals, and a VFD" data-caption="Pre-Engineered Solutions · control cabinet"></span>
@@ -277,16 +351,12 @@
           </div>
           <h2 class="cta-band__headline">Need a <span class="cta-band__accent">custom solution</span> for your machine?</h2>
           <span class="cta-band__rule" aria-hidden="true"></span>
-          <p class="cta-band__body">Robot cells, workholding, and controls — designed, built, and installed by Gerotech's in-house engineering team.</p>
+          <p class="cta-band__subhead">Let's Talk Through It. Prefer Email?</p>
+          <p class="cta-band__body">Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.</p>
           <div class="cta-band__actions">
             <a class="btn btn--primary btn--lg" href="mailto:sales@gerotech.com?subject=Gerotech%20Quote%20Request">Talk to an Engineer</a>
           </div>
         </div>
-        <a class="cta-band__call" href="tel:+17343797788">
-          <span class="cta-band__call-label">Prefer to talk it through?</span>
-          <span class="cta-band__call-number">(734) 379-7788</span>
-          <span class="cta-band__call-note">Talk to a person, not a form.</span>
-        </a>
       </div>
     </section>
 
