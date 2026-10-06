@@ -2677,6 +2677,18 @@ svg.ext-arrow {
 .mobile-nav__sublabel:hover {
   color: var(--clr-orange);
 }
+/* Group headings that double as links (e.g. the main ES subpages). The base
+   .mobile-nav__sublabel disables pointer events; this re-enables them. */
+.mobile-nav__sublabel.mobile-nav__sublabel--link {
+  cursor: pointer;
+  pointer-events: auto;
+  text-decoration: none;
+  transition: color var(--ease);
+}
+.mobile-nav__sublabel.mobile-nav__sublabel--link:hover {
+  color: var(--clr-orange-light);
+  text-decoration: underline;
+}
 .mobile-nav__sublink--cta {
   color: var(--clr-orange);
   font-weight: var(--fw-bold);

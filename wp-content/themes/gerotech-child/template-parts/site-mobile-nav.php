@@ -82,12 +82,38 @@ $gerotech_header    = gerotech_header_data();
 				);
 			}
 		} elseif ( 'es-mega' === $item['style'] ) {
-			foreach ( $es_panel['services'] as $service ) {
+			// Mirror the desktop panel's "By Category" column: the ES landing
+			// page first, then each service-group heading links to its own page.
+			$children[] = array(
+				'label' => __( 'Overview', 'gerotech-child' ),
+				'url'   => $item['url'],
+				'class' => 'mobile-nav__sublabel mobile-nav__sublabel--link',
+			);
+
+			$categories      = array_values( $es_panel['categories'] );
+			$category_by_key = array();
+			foreach ( $categories as $category ) {
+				$key = gerotech_heading_key( $category['lead'], $category['main'] );
+				if ( '' !== $key ) {
+					$category_by_key[ $key ] = $category;
+				}
+			}
+
+			foreach ( $es_panel['services'] as $i => $service ) {
+				// Match the group to its category page by heading; fall back to
+				// position when an editor has renamed one side of the pair.
+				$key      = gerotech_heading_key( $service['lead'], $service['main'] );
+				$category = isset( $category_by_key[ $key ] )
+					? $category_by_key[ $key ]
+					: ( isset( $categories[ $i ] ) ? $categories[ $i ] : null );
+
 				$children[] = array(
 					'label'    => '',
 					'lead'     => $service['lead'],
 					'main'     => $service['main'],
 					'is_label' => true,
+					'url'      => $category ? $category['url'] : '',
+					'new_tab'  => $category ? ! empty( $category['new_tab'] ) : false,
 				);
 
 				foreach ( $service['links'] as $link ) {
@@ -129,8 +155,10 @@ $gerotech_header    = gerotech_header_data();
 			<summary class="mobile-nav__link mobile-nav__summary"><?php echo esc_html( $item['label'] ); ?> <span class="arrow" aria-hidden="true">+</span></summary>
 			<div class="mobile-nav__sublinks">
 				<?php foreach ( $children as $child ) : ?>
-					<?php if ( ! empty( $child['is_label'] ) ) : ?>
+					<?php if ( ! empty( $child['is_label'] ) && empty( $child['url'] ) ) : ?>
 						<p class="mobile-nav__sublink mobile-nav__sublabel"><?php echo gerotech_split_title( $child['lead'], $child['main'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+					<?php elseif ( ! empty( $child['is_label'] ) ) : ?>
+						<a class="mobile-nav__sublink mobile-nav__sublabel mobile-nav__sublabel--link" href="<?php echo esc_url( $child['url'] ); ?>"<?php echo ! empty( $child['new_tab'] ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo gerotech_split_title( $child['lead'], $child['main'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
 					<?php else : ?>
 						<a class="mobile-nav__sublink<?php echo '' !== $child['class'] ? ' ' . esc_attr( $child['class'] ) : ''; ?>" href="<?php echo esc_url( $child['url'] ); ?>"<?php echo ! empty( $child['new_tab'] ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo gerotech_label( $child['label'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?></a>
 					<?php endif; ?>

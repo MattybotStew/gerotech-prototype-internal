@@ -2,6 +2,15 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — Mobile ES menu links the main subpages (opencode)
+
+The phone menu's Engineered Solutions group only listed the col-2 "All Services" anchor links; the desktop "By Category" pages had no mobile link, and the group heading (`<summary>`) isn't clickable, so the ES landing page wasn't reachable from the group either.
+
+- **Overview** link → ES landing page, then each service-group heading is now a link to its category page (Machine Custom Solutions / Applications / Automation Controls Solutions); service anchor links unchanged.
+- **Prototype** `partials/site-header.html` + `assets/css/components.css` (new `.mobile-nav__sublabel--link` re-enables `pointer-events` and adds a hover underline — the base `.mobile-nav__sublabel` disables pointer events).
+- **Theme** `template-parts/site-mobile-nav.php` `es-mega` branch pairs each group with `gerotech_es_panel()['categories']` by heading (new `gerotech_heading_key()` in `inc/global-content.php`; positional fallback), rendering the label as a link when a URL resolves.
+- **No ACF fields** touched. Verified Local + Dev (4 category pages 200; Dev HTML shows Overview + 3 links). Deployed Dev via rsync + chmod + page/CDN flush.
+
 ## 2026-10-06 — Phone card on every cinema CTA (Cursor)
 
 Bottom callouts on Machine Custom Solutions, Applications, Automation, and Careers were missing the phone lockup. Defaults are now `(734) 379-7788` (label “Prefer to talk it through?”, note “Talk to a person, not a form.”), matching Home and Engineered Solutions. Prototype HTML updated too. Theme synced to Local and verified on those six pages. Not deployed.

@@ -24,7 +24,7 @@ $hero_image    = gerotech_image_url( $hero_image_value, 'assets/images/app-hero.
 
 /* ── Services grid ────────────────────────────────────────── */
 $grid_eyebrow = $pick( 'app_grid_eyebrow', 'What We Offer' );
-$grid_title   = $pick( 'app_grid_title', '<em>Application</em> Services' );
+$grid_title   = $pick( 'app_grid_title', '<em>Applications</em> Services' );
 $cards        = $pick(
 	'app_cards',
 	array(

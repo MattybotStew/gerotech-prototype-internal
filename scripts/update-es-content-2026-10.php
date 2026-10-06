@@ -252,6 +252,7 @@ gx_set_card_detail( $ids['app'], 'field_app_cards', 'Demo',
 gx_set_card_detail( $ids['app'], 'field_app_cards', 'Training',
 	'<p>Gerotech offers, at no cost to our customers, instructor-led operator training for basic lathe/mill, VPS, Intro to G&amp;M code, and programming classes for both Mill and Lathe at our Grand Rapids location and our Macomb Community College partner.</p><p>If you need onsite training, our application engineers can tailor training to your needs for a fee. Contact your Account Manager to discuss.</p>' );
 
+gx_set( $ids['app'], 'field_app_grid_title', '<em>Applications</em> Services', 'Grid title' );
 gx_set( $ids['app'], 'field_app_gallery_title', 'Applications Product <em>Gallery</em>', 'Gallery title' );
 
 // Clear the Part Programming gray subtext, keep every other collection row.

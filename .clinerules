@@ -3,6 +3,22 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — mobile ES subpage links)
+**Active Agent:** opencode
+**Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted — prototype + theme below).
+**What changed:** the **mobile** Engineered Solutions group had no link to the main ES subpages. Desktop's ES mega already links its "By Category" column (Machine Custom Solutions / Applications / Automation Controls Solutions), but the phone menu only rendered the col-2 "All Services" groups, whose headings were non-clickable `<p class="mobile-nav__sublabel">` (and `.mobile-nav__sublabel { pointer-events: none }`). The mobile ES group now shows:
+- **Overview** → the Engineered Solutions landing page (the `<summary>` only expands, so the page was otherwise unreachable from this group).
+- Each service-group heading is now a **link** to its category page (MCS / Applications / Automation), service anchor links unchanged beneath.
+**Files:**
+- Prototype: `partials/site-header.html` (ES `<details>`), `assets/css/components.css` (new `.mobile-nav__sublabel--link` modifier re-enabling pointer events + hover underline).
+- Theme: `template-parts/site-mobile-nav.php` (`es-mega` branch pairs each service group with `gerotech_es_panel()['categories']` by heading via new `gerotech_heading_key()` in `inc/global-content.php`, positional fallback; renders the label as a link when a URL resolves), plus the synced CSS.
+**No new ACF fields** (categories already exist), so no seed/audit.
+**Verified:** Local homepage ES mobile block renders Overview + 3 category links + anchors; all four Dev pages 200 (`/engineered-solutions/`, `/modification-of-standard-machine-tools/`, `/unique-applications-for-standard-machines/`, `/automated-system/`); Dev homepage HTML shows the 4 `mobile-nav__sublabel--link` anchors and the CSS modifier.
+**Deployed to Dev (2026-10-06):** rsync `-avz --delete` + remote chmod + page/CDN flush.
+**Open:** the **Machines** mobile group titles are still `href="#"` (separate, still undecided); "Overview" is a code label — easy to rename. Not committed on this branch yet.
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-06 (opencode — consolidate Cursor work, deploy Local + Dev, commit + push)
 **Active Agent:** opencode
 **Branch:** `cursor/process-engineering-thumbnail` == `master` == `99621ff` (both pushed). This branch now supersedes the earlier `cursor/…` split.
@@ -15,7 +31,8 @@
 1. Card 5 title = "Hydraulic – Pneumatics" (en dash, matches nav) vs approved "Hydraulic-Pneumatics" (hyphen).
 2. Gallery card = "Specialty Machine" (corrected) vs approved ADD "Speciality Machine" (misspelling).
 **Copy rule (client, 2026-10-06):** where the approved sheets conflict with correct grammar/spelling, **ship the correct form** — e.g. "Specialty Machine" (not "Speciality"), "working envelopes" + "Here are a few" (not "envelops"/"Here are few"), and the earlier "accommodate/necessary/pneumatic" fixes. Sheet typos are not shipped.
-**Open:** only the stylistic "Hydraulic – Pneumatics" en dash (matches nav) vs the sheet's hyphen — left as the nav-consistent form.
+**Applications audit vs the approved sheet:** grid header → **"Applications Services"** (was "Application Services"); applied to prototype, template default and stored `app_grid_title`. Everything else matched: gallery eyebrow + paragraph removed, Part Programming gray subtext removed, gallery header "Applications Product Gallery", all six card details (grammar-corrected), CTA subhead/body + phone removed. **Still open:** gallery "Process Troubleshooting — Replace Image" is still the old cabinet shot (no replacement asset supplied; image comments were ignored).
+**Open:** only the stylistic "Hydraulic – Pneumatics" en dash (matches nav) vs the sheet's hyphen — left as the nav-consistent form; and the Applications gallery image above.
 
 ---
 ## Previous Session State

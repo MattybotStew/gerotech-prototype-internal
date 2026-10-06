@@ -188,6 +188,24 @@ function gerotech_split_title( $lead, $main = '' ) {
 }
 
 /**
+ * Case/space-insensitive key for a two-tone heading.
+ *
+ * Lets the mobile menu pair a service group with the category page that shares
+ * its heading ("Machine Custom Solutions" etc.) without caring about casing or
+ * run-together whitespace.
+ *
+ * @param string $lead First part.
+ * @param string $main Optional second part.
+ * @return string
+ */
+function gerotech_heading_key( $lead, $main = '' ) {
+	$title = trim( (string) $lead . ' ' . (string) $main );
+	$title = preg_replace( '/\s+/', ' ', $title );
+
+	return strtolower( trim( (string) $title ) );
+}
+
+/**
  * Inline external-link arrow.
  *
  * The ↗ is stored inside the client-editable label text, but the site font
