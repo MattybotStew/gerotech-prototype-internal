@@ -536,6 +536,7 @@ acf_add_local_field_group(
 			// page, copy the ES hero eyebrow markup + field rather than re-adding a dead field.
 			array( 'key' => 'field_mcs_hero_lead', 'label' => 'Headline lead (gray)', 'name' => 'mcs_hero_lead', 'type' => 'text', 'instructions' => 'e.g. Machine' ),
 			array( 'key' => 'field_mcs_hero_main', 'label' => 'Headline main (primary)', 'name' => 'mcs_hero_main', 'type' => 'text', 'instructions' => 'e.g. Custom Solutions. Wrap words in &lt;em&gt;…&lt;/em&gt; to colour them with the accent colour below.' ),
+			array( 'key' => 'field_mcs_hero_breadcrumb', 'label' => 'Breadcrumb — current page', 'name' => 'mcs_hero_breadcrumb', 'type' => 'text', 'instructions' => 'The last crumb in the hero breadcrumb. Default: “Machine Custom Solutions”.' ),
 			array(
 				'key'           => 'field_mcs_hero_accent_color',
 				'label'         => 'Accent colour',
@@ -648,6 +649,7 @@ acf_add_local_field_group(
 			// nothing. Removed 2026-09-22. If the design ever gains a hero eyebrow for this
 			// page, copy the ES hero eyebrow markup + field rather than re-adding a dead field.
 			array( 'key' => 'field_app_hero_headline', 'label' => 'Headline', 'name' => 'app_hero_headline', 'type' => 'textarea', 'rows' => 1, 'instructions' => 'Wrap the accent phrase in &lt;em&gt;…&lt;/em&gt;.' ),
+			array( 'key' => 'field_app_hero_breadcrumb', 'label' => 'Breadcrumb — current page', 'name' => 'app_hero_breadcrumb', 'type' => 'text', 'instructions' => 'The last crumb in the hero breadcrumb. Default: “Applications”.' ),
 			array(
 				'key'           => 'field_app_hero_accent_color',
 				'label'         => 'Accent colour',
@@ -745,6 +747,7 @@ acf_add_local_field_group(
 			// page, copy the ES hero eyebrow markup + field rather than re-adding a dead field.
 			array( 'key' => 'field_ai_hero_lead', 'label' => 'Headline lead (gray)', 'name' => 'ai_hero_lead', 'type' => 'text' ),
 			array( 'key' => 'field_ai_hero_main', 'label' => 'Headline main (primary)', 'name' => 'ai_hero_main', 'type' => 'text' ),
+			array( 'key' => 'field_ai_hero_breadcrumb', 'label' => 'Breadcrumb — current page', 'name' => 'ai_hero_breadcrumb', 'type' => 'text', 'instructions' => 'The last crumb in the hero breadcrumb. Default: “Automation and Controls Solutions”.' ),
 			array(
 				'key'           => 'field_ai_hero_accent_color',
 				'label'         => 'Accent colour',
@@ -1056,6 +1059,32 @@ acf_add_local_field_group(
 			array( 'key' => 'field_signup_email_label', 'label' => 'Signup — email field label', 'name' => 'signup_email_label', 'type' => 'text', 'instructions' => 'Visually hidden; read by screen readers. Default: “Email address”.' ),
 			array( 'key' => 'field_signup_email_placeholder', 'label' => 'Signup — email placeholder', 'name' => 'signup_email_placeholder', 'type' => 'text', 'instructions' => 'Default: “your@email.com”.' ),
 			array( 'key' => 'field_signup_submit_label', 'label' => 'Signup — button label', 'name' => 'signup_submit_label', 'type' => 'text', 'instructions' => 'Default: “Sign Up”.' ),
+		),
+	)
+);
+
+/**
+ * Shared UI copy — service-card cue/button and breadcrumb labels.
+ *
+ * These strings were hardcoded in the rebuilt page templates. They read the same
+ * everywhere the components appear, so they live once on Site Content →
+ * Shared Content. Defaults live in the templates / gerotech_shared_ui_defaults(),
+ * never in `default_value` (ACF injects a default on read; a plain save persists it).
+ */
+acf_add_local_field_group(
+	array(
+		'key'        => 'group_site_shared_ui',
+		'title'      => 'Cards & Breadcrumbs',
+		'location'   => gerotech_options_location( 'gerotech-site-shared' ),
+		'menu_order' => 30,
+		'position'   => 'normal',
+		'style'      => 'default',
+		'fields'     => array(
+			array( 'key' => 'field_card_cue_label', 'label' => 'Service card — link cue', 'name' => 'card_cue_label', 'type' => 'text', 'instructions' => 'The small cue on every service card. The arrow is drawn by CSS. Default: “View Details”.' ),
+			array( 'key' => 'field_card_cta_label', 'label' => 'Service card — button label', 'name' => 'card_cta_label', 'type' => 'text', 'instructions' => 'The button inside a service card’s pop-up. Default: “Talk to an Engineer”.' ),
+			array( 'key' => 'field_card_cta_url', 'label' => 'Service card — button link', 'name' => 'card_cta_url', 'type' => 'text', 'instructions' => 'Where the card pop-up button points. Default: the quote email.' ),
+			array( 'key' => 'field_breadcrumb_home_label', 'label' => 'Breadcrumb — first item', 'name' => 'breadcrumb_home_label', 'type' => 'text', 'instructions' => 'Default: “Home”.' ),
+			array( 'key' => 'field_breadcrumb_engineered_label', 'label' => 'Breadcrumb — second item', 'name' => 'breadcrumb_engineered_label', 'type' => 'text', 'instructions' => 'Default: “Engineered Solutions”.' ),
 		),
 	)
 );

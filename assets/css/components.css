@@ -2911,6 +2911,11 @@ video.mcs-card__image {
   color: var(--clr-orange-deep);
   margin-top: var(--sp-4);
 }
+/* The cue arrow is decoration, not copy — the editable label stays pure text. */
+.mcs-card__cue::after {
+  content: "\2192";
+  margin-left: 0.35em;
+}
 
 /* ── Product Card Modal ─────────────────────────────────────── */
 .mcs-modal {
@@ -3684,6 +3689,10 @@ img.mcs-gallery-card__image {
 }
 .page-hero__crumb-sep {
   color: rgba(255, 255, 255, 0.35);
+}
+/* Separator is decoration — the span holds no text. */
+.page-hero__crumb-sep::before {
+  content: "/";
 }
 .page-hero__crumb-current {
   color: var(--clr-white);

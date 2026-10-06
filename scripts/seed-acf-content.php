@@ -140,6 +140,21 @@ if ( $mcs_id ) {
 	gerotech_seed_once( 'field_mcs_hero_lead', 'Machine', $mcs_id, 'hero lead' );
 	// The <em> is what colours "Solutions" orange (blank accent colour = Brand Orange).
 	gerotech_seed_once( 'field_mcs_hero_main', 'Custom <em>Solutions</em>', $mcs_id, 'hero main (accent on Solutions)' );
+	gerotech_seed_once( 'field_mcs_hero_breadcrumb', 'Machine Custom Solutions', $mcs_id, 'hero breadcrumb (current page)' );
+	echo "\n";
+}
+
+/* ── Applications + Automation & Controls hero breadcrumb ─────── */
+$app_id = gerotech_seed_page( 'unique-applications-for-standard-machines' );
+if ( $app_id ) {
+	echo "Applications (ID {$app_id}):\n";
+	gerotech_seed_once( 'field_app_hero_breadcrumb', 'Applications', $app_id, 'hero breadcrumb (current page)' );
+	echo "\n";
+}
+$auto_id = gerotech_seed_page( 'automated-system' );
+if ( $auto_id ) {
+	echo "Automation & Controls (ID {$auto_id}):\n";
+	gerotech_seed_once( 'field_ai_hero_breadcrumb', 'Automation and Controls Solutions', $auto_id, 'hero breadcrumb (current page)' );
 	echo "\n";
 }
 
@@ -280,6 +295,15 @@ echo "Site Content — Forms (options):\n";
 gerotech_seed_once( 'field_signup_email_label', 'Email address', 'option', 'signup email label' );
 gerotech_seed_once( 'field_signup_email_placeholder', 'your@email.com', 'option', 'signup email placeholder' );
 gerotech_seed_once( 'field_signup_submit_label', 'Sign Up', 'option', 'signup button label' );
+echo "\n";
+
+/* ── Shared UI copy (cards + breadcrumbs) ─────────────────────── */
+echo "Site Content — Shared Content (options):\n";
+gerotech_seed_once( 'field_card_cue_label', 'View Details', 'option', 'service card cue' );
+gerotech_seed_once( 'field_card_cta_label', 'Talk to an Engineer', 'option', 'service card button label' );
+gerotech_seed_once( 'field_card_cta_url', gerotech_quote_mailto(), 'option', 'service card button link' );
+gerotech_seed_once( 'field_breadcrumb_home_label', 'Home', 'option', 'breadcrumb — first item' );
+gerotech_seed_once( 'field_breadcrumb_engineered_label', 'Engineered Solutions', 'option', 'breadcrumb — second item' );
 echo "\n";
 
 /* ── Global header / navigation / footer (options) ────────────────

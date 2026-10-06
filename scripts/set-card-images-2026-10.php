@@ -130,5 +130,8 @@ function gx_set_card_image( $slug, $field, $title, $asset_rel ) {
 
 gx_set_card_image( 'unique-applications-for-standard-machines', 'app_cards', 'Process Troubleshooting', 'assets/images/app-troubleshooting.jpg' );
 gx_set_card_image( 'modification-of-standard-machine-tools', 'mcs_cards', 'Process Engineering', 'assets/images/process-engineering.jpg' );
+// Figma #297: the new Electrical – Controls Solutions card uses the Pre-Engineered
+// image until the client supplies a dedicated one (sheet: "Need Image").
+gx_set_card_image( 'automated-system', 'ai_cards', 'Electrical – Controls Solutions', 'assets/images/pre-engineered-card.jpg' );
 
 echo "Done.\n";

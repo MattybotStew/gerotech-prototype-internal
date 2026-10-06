@@ -379,7 +379,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           <details class="trust-item">
             <summary class="trust-item__q">
               <?php echo esc_html( $item['question'] ); ?>
-              <span class="trust-item__icon" aria-hidden="true">+</span>
+              <span class="trust-item__icon" aria-hidden="true"></span>
             </summary>
             <div class="trust-item__a"><p><?php echo esc_html( $item['answer'] ); ?></p></div>
           </details>

@@ -1189,3 +1189,33 @@ function gerotech_footer_data() {
 	 */
 	return apply_filters( 'gerotech_footer_data', $data );
 }
+
+/**
+ * Defaults for the shared UI copy (Site Content → Shared Content).
+ *
+ * Kept here, not in ACF `default_value`: ACF injects a default on read, so a
+ * plain editor save would persist it. The templates render these when blank.
+ *
+ * @return array<string,string>
+ */
+function gerotech_shared_ui_defaults() {
+	return array(
+		'card_cue_label'              => 'View Details',
+		'card_cta_label'              => 'Talk to an Engineer',
+		'card_cta_url'                => gerotech_quote_mailto(),
+		'breadcrumb_home_label'       => 'Home',
+		'breadcrumb_engineered_label' => 'Engineered Solutions',
+	);
+}
+
+/**
+ * Read a shared UI string, falling back to its default when the field is blank.
+ *
+ * @param string $name Field name.
+ * @return string
+ */
+function gerotech_shared_ui( $name ) {
+	$defaults = gerotech_shared_ui_defaults();
+	$default  = isset( $defaults[ $name ] ) ? $defaults[ $name ] : '';
+	return gerotech_field( $name, $default, 'option' );
+}

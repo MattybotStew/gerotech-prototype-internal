@@ -19,6 +19,11 @@ $uri = GEROTECH_CHILD_URI;
 /* ── Hero ─────────────────────────────────────────────────── */
 $hero_lead    = $pick( 'ai_hero_lead', 'Automation' );
 $hero_main    = $pick( 'ai_hero_main', 'and <em>Controls Solutions</em>' );
+$hero_breadcrumb = $pick( 'ai_hero_breadcrumb', 'Automation and Controls Solutions' );
+// The breadcrumb keeps the design's two-tone split (gray lead + primary rest).
+$crumb_bits  = explode( ' ', (string) $hero_breadcrumb, 2 );
+$crumb_lead  = $crumb_bits[0];
+$crumb_main  = isset( $crumb_bits[1] ) ? $crumb_bits[1] : '';
 $hero_accent  = $pick( 'ai_hero_accent_color', 'orange' ); // Blank (no stored choice) keeps the design colour.
 $hero_body    = $pick( 'ai_hero_body', '' );
 $hero_image_value = $pick( 'ai_hero_image', 'assets/images/automation-hero.jpg' );
@@ -161,11 +166,11 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
       <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
       <div class="slide__content slide__content--left">
         <nav class="page-hero__breadcrumb" aria-label="Breadcrumb">
-          <a class="page-hero__crumb-link" href="<?php gerotech_page_link( 'home' ); ?>">Home</a>
-          <span class="page-hero__crumb-sep" aria-hidden="true">/</span>
-          <a class="page-hero__crumb-link" href="<?php gerotech_page_link( 'engineered-solutions' ); ?>">Engineered Solutions</a>
-          <span class="page-hero__crumb-sep" aria-hidden="true">/</span>
-          <span class="page-hero__crumb-current"><span class="mcs-name-split__lead"><?php echo esc_html( $hero_lead ); ?></span> <span class="mcs-name-split__main"><?php echo esc_html( strip_tags( $hero_main ) ); ?></span></span>
+          <a class="page-hero__crumb-link" href="<?php gerotech_page_link( 'home' ); ?>"><?php echo esc_html( gerotech_shared_ui( 'breadcrumb_home_label' ) ); ?></a>
+          <span class="page-hero__crumb-sep" aria-hidden="true"></span>
+          <a class="page-hero__crumb-link" href="<?php gerotech_page_link( 'engineered-solutions' ); ?>"><?php echo esc_html( gerotech_shared_ui( 'breadcrumb_engineered_label' ) ); ?></a>
+          <span class="page-hero__crumb-sep" aria-hidden="true"></span>
+          <span class="page-hero__crumb-current"><span class="mcs-name-split__lead"><?php echo esc_html( $crumb_lead ); ?></span><?php if ( '' !== $crumb_main ) : ?> <span class="mcs-name-split__main"><?php echo esc_html( $crumb_main ); ?></span><?php endif; ?></span>
         </nav>
         <h1 class="slide__headline" id="ai-hero-headline">
           <span class="mcs-name-split mcs-name-split--hero">
@@ -192,8 +197,8 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 			?>
           <article class="mcs-card"<?php echo $card_id ? ' id="' . esc_attr( $card_id ) . '"' : ''; ?> role="button" tabindex="0" aria-haspopup="dialog">
             <img class="mcs-card__image" src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( $card['title'] ); ?>" loading="lazy" />
-            <div class="mcs-card__content"><h3 class="mcs-card__title"><?php echo esc_html( $card['title'] ); ?></h3><span class="mcs-card__cue">View Details →</span></div>
-            <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">Talk to an Engineer</a></div></template>
+            <div class="mcs-card__content"><h3 class="mcs-card__title"><?php echo esc_html( $card['title'] ); ?></h3><span class="mcs-card__cue"><?php echo esc_html( gerotech_shared_ui( 'card_cue_label' ) ); ?></span></div>
+            <template><?php echo wp_kses_post( $card['detail'] ); ?><div class="mcs-modal__actions"><a class="btn btn--outline-orange" href="<?php echo esc_url( gerotech_shared_ui( 'card_cta_url' ) ); ?>"><?php echo esc_html( gerotech_shared_ui( 'card_cta_label' ) ); ?></a></div></template>
           </article>
           <?php endforeach; ?>
 

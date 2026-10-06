@@ -3,6 +3,19 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — ACF-ify card cue / card CTA / breadcrumbs on the new pages)
+**Active Agent:** opencode
+**What changed (new pages: MCS, Applications, Automation):** removed the last hardcoded copy.
+- New **Site Content → Shared Content** group `group_site_shared_ui` (`Cards & Breadcrumbs`): `card_cue_label`, `card_cta_label`, `card_cta_url`, `breadcrumb_home_label`, `breadcrumb_engineered_label`; defaults in new `gerotech_shared_ui_defaults()` / `gerotech_shared_ui()` in `inc/global-content.php`.
+- New per-page hero breadcrumb fields: `mcs_hero_breadcrumb`, `app_hero_breadcrumb`, `ai_hero_breadcrumb` (last crumb; MCS/Auto keep the two-tone split by splitting on the first space). App crumb was the only one previously hardcoded.
+- Templates now read those fields. Glyphs are **CSS**: `→` via `.mcs-card__cue::after`, `/` via `.page-hero__crumb-sep::before`; the ES FAQ `+` literal was removed (it was already CSS-drawn).
+- **Bug fixed:** the card-modal CTA `href` was built from `*_cta_call_number` (blanked when the phone was removed) → linked to `""`. It now uses `card_cta_url` (quote mailto).
+- **Bug fixed:** Automation "Electrical – Controls Solutions" card had an empty stored image → set to the Pre-Engineered image (`scripts/set-card-images-2026-10.php`, now 3 cards) on Local + Dev.
+**Deploy gotcha (repeat of a known one):** I edited the **prototype** `assets/css/components.css` but forgot `sync-theme-assets.sh`, so the theme + Dev lacked the new CSS (breadcrumb `/` and cue `→` disappeared). Always run `sync-theme-assets.sh` before `sync-theme-to-local.sh` / Dev rsync. Also: WPE serves theme CSS from CDN — a same-named file needs `wp cdn-cache flush` before the new rules appear.
+**Verified:** Local + Dev breadcrumbs unchanged, cue "View Details", card CTA → quote mailto, Electrical card image present. Audit **314/336** applied (the +8 are the new shared + breadcrumb fields).
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-06 (opencode — mobile ES subpage links)
 **Active Agent:** opencode
 **Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted — prototype + theme below).
