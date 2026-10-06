@@ -3,6 +3,21 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — consolidate Cursor work, deploy Local + Dev, commit + push)
+**Active Agent:** opencode
+**Branch:** `cursor/process-engineering-thumbnail` == `master` == `99621ff` (both pushed). This branch now supersedes the earlier `cursor/…` split.
+**What changed / deployed (Local + Dev, verified):**
+- **CTA phone cards** on MCS / Applications / Automation / Careers are **restored** (prototype markup, `page-careers.php`, `*_cta_call_number` template defaults) — kept per the client's "commit all cursor fixes". ⚠️ This **contradicts** the approved content sheets for MCS/Applications/Automation, which say "Contact Info (734) 379-7788 — Being Removed". Decision pending; removing again is a one-line change + migration rerun.
+- **ES approved content:** FANUC CTA2 → "Explore Capabilities"; Feature 01 → "Any machine…" (prototype + template + stored ACF via `scripts/update-es-content-2026-10.php`).
+- **Card images:** Applications "Process Troubleshooting" → `app-troubleshooting.jpg`; MCS "Process Engineering" → `process-engineering.jpg`, applied to the stored repeaters on Local and Dev via new `scripts/set-card-images-2026-10.php` (space-safe, idempotent — the earlier `wp eval-file -` arg form word-split and failed on Dev).
+- **Card-image deploy gotcha:** running `set-card-image.php` over SSH word-splits a title with a space ("Process Troubleshooting" → "Process" + "Troubleshooting"). Use `scripts/set-card-images-2026-10.php` (no args) instead.
+**MCS audit vs the approved sheet (Local):** all card details / gallery / headings already matched. Only cosmetic diffs left, unchanged pending the client:
+1. Card 5 title = "Hydraulic – Pneumatics" (en dash, matches nav) vs approved "Hydraulic-Pneumatics" (hyphen).
+2. Gallery card = "Specialty Machine" (corrected) vs approved ADD "Speciality Machine" (misspelling).
+**Open:** (a) phone-card sheet conflict above; (b) the two MCS cosmetic strings; (c) the Sheets' own typos are corrected on the site, not shipped (per ES precedent).
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-06 (opencode — ES approved-content audit + FANUC CTA2 / Feature-01 fixes)
 **Active Agent:** opencode
 **Branch:** ⚠️ the shared working tree is currently on **`cursor/process-engineering-thumbnail`** (another agent's branch), **not `master`**. My ES fixes are **uncommitted** here.
