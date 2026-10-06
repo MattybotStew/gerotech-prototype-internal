@@ -2,6 +2,14 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-06 — Process Engineering card uses the client process diagram (Cursor)
+
+The MCS **Process Engineering** service-card thumbnail was the last Unsplash stand-in on that grid. Replaced with `assets/images/process-engineering.jpg` (circular Gerotech Engineering process wheel) in `machine-custom-solutions.html` and the template default in `page-modification-of-standard-machine-tools.php`. Theme image copied via `sync-theme-assets.sh`. Gallery collection still uses `mcs-gallery/custom-fixtures.jpg`. Not seeded (image is a template default, not stored content) and not deployed. Local WordPress will keep a previously saved ACF card image if one is already stored.
+
+## 2026-10-06 — Why Gerotech stroke sits closer to the headline (Cursor)
+
+On Engineered Solutions, the orange rule under “Why Manufacturers Trust Gerotech” was flush with the paragraph (the headline’s 20px bottom margin collapsed into the space *above* the stroke). Scoped to `.why-section` only: headline bottom margin `0`, rule `margin-top: 12px` / `margin-bottom: 24px`. Measured on the prototype: 12px from headline to stroke, 24px from stroke to body. Theme `layout.css` synced via `sync-theme-assets.sh`. Other pages’ `.headline-rule` unchanged. Not deployed.
+
 ## 2026-10-06 — Every external link opens in a new tab (opencode)
 
 The header/nav/footer already auto-targeted external links through `gerotech_link_row()`, but links rendered directly by page templates (hero and CTA buttons, course flyers, job postings) and inside legacy post content did not.

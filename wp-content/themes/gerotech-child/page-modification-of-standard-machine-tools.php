@@ -70,7 +70,7 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Process Engineering',
-			'image'  => 'https://images.unsplash.com/photo-1666634157070-6fd830fb5672?q=80&w=800&auto=format&fit=crop',
+			'image'  => 'assets/images/process-engineering.jpg',
 			'detail' => '<p>Gerotech has a fully staffed engineering department that can take your drawings and models and deliver an engineered solution, from one machine to a completely automated machining line. One partner, one accountable team, from concept through production.</p>',
 		),
 		array(

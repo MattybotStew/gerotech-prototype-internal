@@ -344,7 +344,11 @@ button { cursor: pointer; }
   line-height: var(--lh-h2);
   letter-spacing: var(--ls-h2);
   text-wrap: balance;
-  margin: var(--sp-8) 0 var(--sp-20);
+  margin: var(--sp-8) 0 0;
+}
+.why-section .headline-rule {
+  margin-top: var(--sp-12);
+  margin-bottom: var(--sp-24);
 }
 .why-section__copy-body {
   font-size: 15px;
