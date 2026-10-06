@@ -230,7 +230,7 @@ gx_set( $ids['mcs'], 'field_mcs_collections', array(
 gx_set( $ids['mcs'], 'field_mcs_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['mcs'], 'field_mcs_cta_body', $CTA_BODY, 'CTA body' );
 gx_set( $ids['mcs'], 'field_mcs_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
-gx_set( $ids['mcs'], 'field_mcs_cta_call_number', '(734) 379-7788', 'CTA call number' );
+gx_set( $ids['mcs'], 'field_mcs_cta_call_number', '', 'CTA call number (removed per sheet)' );
 
 /* ── Applications ────────────────────────────────────────── */
 
@@ -277,7 +277,7 @@ gx_set( $ids['app'], 'field_app_cta_eyebrow', 'Application', 'CTA eyebrow' );
 gx_set( $ids['app'], 'field_app_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['app'], 'field_app_cta_body', $CTA_BODY, 'CTA body' );
 gx_set( $ids['app'], 'field_app_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
-gx_set( $ids['app'], 'field_app_cta_call_number', '(734) 379-7788', 'CTA call number' );
+gx_set( $ids['app'], 'field_app_cta_call_number', '', 'CTA call number (removed per sheet)' );
 
 /* ── Automation & Controls ───────────────────────────────── */
 
@@ -402,7 +402,7 @@ if ( is_array( $ai_cols ) ) {
 gx_set( $ids['ai'], 'field_ai_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['ai'], 'field_ai_cta_body', $CTA_BODY, 'CTA body' );
 gx_set( $ids['ai'], 'field_ai_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
-gx_set( $ids['ai'], 'field_ai_cta_call_number', '(734) 379-7788', 'CTA call number' );
+gx_set( $ids['ai'], 'field_ai_cta_call_number', '', 'CTA call number (removed per sheet)' );
 
 /* ── Flush caches ────────────────────────────────────────── */
 

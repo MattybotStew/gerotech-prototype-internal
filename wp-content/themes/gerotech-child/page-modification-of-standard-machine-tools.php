@@ -141,7 +141,8 @@ $cta_button_url   = $pick( 'mcs_cta_button_url', gerotech_quote_mailto() );
 $cta_image_value  = $pick( 'mcs_cta_image', 'assets/images/cta-mcs-cell.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-mcs-cell.jpg' );
 $cta_call_label   = $pick( 'mcs_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'mcs_cta_call_number', '(734) 379-7788' );
+// Content doc (2026): the phone call card is removed — blank number hides it.
+$cta_call_number  = $pick( 'mcs_cta_call_number', '' );
 $cta_call_note    = $pick( 'mcs_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */

@@ -126,7 +126,7 @@ $cta_image_value  = $pick( 'app_cta_image', 'assets/images/app-hero.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/app-hero.jpg' );
 // Content doc (2026): the phone call card is removed — blank number hides it.
 $cta_call_label   = $pick( 'app_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'app_cta_call_number', '(734) 379-7788' );
+$cta_call_number  = $pick( 'app_cta_call_number', '' );
 $cta_call_note    = $pick( 'app_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */

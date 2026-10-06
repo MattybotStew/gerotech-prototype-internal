@@ -218,11 +218,6 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 					<a class="btn btn--outline-white" href="<?php echo esc_url( $cta_secondary_url ); ?>"><?php echo esc_html( $cta_secondary_label ); ?></a>
 				</div>
 			</div>
-			<a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( '(734) 379-7788' ) ); ?>">
-				<span class="cta-band__call-label">Prefer to talk it through?</span>
-				<span class="cta-band__call-number">(734) 379-7788</span>
-				<span class="cta-band__call-note">Talk to a person, not a form.</span>
-			</a>
 		</div>
 	</section>
 
