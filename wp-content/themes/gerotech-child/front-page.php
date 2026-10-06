@@ -38,7 +38,7 @@ $slides = $pick(
 		),
 		array(
 			'eyebrow'         => 'New Arrivals',
-			'headline'        => "Our Showroom Machines\nAre <em>Ready To Ship</em>",
+			'headline'        => "Our Showroom Machines Are\n<em>Ready To Ship</em>",
 			'accent_color'    => 'orange',
 			'body'            => 'Showroom Machines Are Backed By Our 1-Year Warranty. Confidence Comes Standard.',
 			'cta_label'       => 'Browse Inventory',

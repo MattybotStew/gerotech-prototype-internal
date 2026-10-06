@@ -126,6 +126,13 @@ gx_set( $ids['es'], 'field_es_partners_eyebrow', 'Our Technology Partners', 'Par
 gx_set( $ids['es'], 'field_es_partners_cta_label', '', 'Partners CTA (remove)' );
 gx_set( $ids['es'], 'field_es_cap_cta2_label', '', 'Capability CTA2 (remove)' );
 
+// The content doc has every ES CTA read "Talk to an Engineer"; stored rows still
+// carried "Get a Quote" / "Get A Quote" (the template defaults were already right).
+gx_set( $ids['es'], 'field_es_hero_cta1_label', 'Talk to an Engineer', 'Hero CTA1 label' );
+gx_set( $ids['es'], 'field_es_why_cta_label', 'Talk to an Engineer', 'Why CTA label' );
+gx_set( $ids['es'], 'field_es_cap_cta1_label', 'Talk to an Engineer', 'Capability CTA1 label' );
+gx_set( $ids['es'], 'field_es_cta_button_label', 'Talk to an Engineer', 'CTA band button label' );
+
 // FAQ: reword #1, drop the downtime item (now 4 items).
 gx_set( $ids['es'], 'field_es_faq_items', array(
 	array(
@@ -212,6 +219,7 @@ gx_set( $ids['mcs'], 'field_mcs_collections', array(
 
 gx_set( $ids['mcs'], 'field_mcs_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['mcs'], 'field_mcs_cta_body', $CTA_BODY, 'CTA body' );
+gx_set( $ids['mcs'], 'field_mcs_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
 gx_set( $ids['mcs'], 'field_mcs_cta_call_number', '', 'CTA call number (remove)' );
 
 /* ── Applications ────────────────────────────────────────── */
@@ -258,6 +266,7 @@ if ( is_array( $app_cols ) ) {
 gx_set( $ids['app'], 'field_app_cta_eyebrow', 'Application', 'CTA eyebrow' );
 gx_set( $ids['app'], 'field_app_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['app'], 'field_app_cta_body', $CTA_BODY, 'CTA body' );
+gx_set( $ids['app'], 'field_app_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
 gx_set( $ids['app'], 'field_app_cta_call_number', '', 'CTA call number (remove)' );
 
 /* ── Automation & Controls ───────────────────────────────── */
@@ -382,6 +391,7 @@ if ( is_array( $ai_cols ) ) {
 
 gx_set( $ids['ai'], 'field_ai_cta_subhead', $CTA_SUB, 'CTA subhead' );
 gx_set( $ids['ai'], 'field_ai_cta_body', $CTA_BODY, 'CTA body' );
+gx_set( $ids['ai'], 'field_ai_cta_button_label', 'Talk to an Engineer', 'CTA button label' );
 gx_set( $ids['ai'], 'field_ai_cta_call_number', '', 'CTA call number (remove)' );
 
 /* ── Flush caches ────────────────────────────────────────── */

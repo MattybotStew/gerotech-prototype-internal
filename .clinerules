@@ -3,6 +3,28 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-06 (opencode — ES CTAs + home hero slide-2 line break)
+**Active Agent:** opencode
+**Branch:** `master` (uncommitted: `index.html`, `front-page.php`, `scripts/update-es-content-2026-10.php`, new `scripts/update-home-hero-slide2-break.php`).
+**What changed:**
+- **All "Get a Quote" CTAs → "Talk to an Engineer"** site-wide. The template defaults were already correct; the stale strings lived in **stored ACF**. `scripts/update-es-content-2026-10.php` now also sets `es_hero_cta1_label` / `es_why_cta_label` / `es_cap_cta1_label` / `es_cta_button_label` and `{mcs,app,ai}_cta_button_label` to "Talk to an Engineer". Verified **0 "Get a Quote" on all 30 Local pages and on Dev** (ES, MCS, Applications, Automation, home + legacy clean). Prototype had none.
+- **Home hero slide 2 line break** (Figma `7329:2900`): break after "Are" → *Our Showroom Machines Are / Ready To Ship*. Changed `index.html`, the `front-page.php` default, and the stored `home_hero_slides` row via new `scripts/update-home-hero-slide2-break.php`.
+**Deployed to Dev (2026-10-06):** `front-page.php` rsynced; both migrations run via `wp eval-file -`; page + CDN flushed. Verified Dev: 0 "Get a Quote", slide 2 break correct.
+**Note:** the concurrent links work (`inc/external-links.php`, `functions.php`, `JOURNAL.md`) is **not** touched or committed here.
+
+---
+## Previous Session State
+**Last Updated:** 2026-10-06 (opencode — all external links open in a new tab)
+**Active Agent:** opencode
+**Branch:** `master` (uncommitted: new `inc/external-links.php` + `functions.php` require). Prototype unchanged.
+**What changed:** a site-wide guarantee that **every external link opens in a new tab**. The chrome (header/nav/footer/search) already did this via `gerotech_link_row()`, but links rendered directly by page templates (hero + CTA buttons, course flyers, job postings) and legacy `the_content` did not. New **`inc/external-links.php`**: a single `template_redirect` (priority 20) output-buffer pass runs `gerotech_external_links_filter()` over the finished front-end document — `WP_HTML_Tag_Processor` walks anchors, and for each `gerotech_is_external_url()` match sets `target="_blank"` and merges `noopener noreferrer` into `rel` (existing tokens like `nofollow` preserved). `mailto:`/`tel:`/anchors/relative and the Gerotech hosts stay untouched; anchors inside `<script>` are skipped; admin/feeds/REST/embeds excluded. A regex fallback covers pre-WP 6.2. Required at the top of `functions.php`.
+**Prototype:** already compliant — parsed every root/partial/case-study page and found 0 external anchors missing `target`. **No HTML edits.**
+**Verified:** unit-tested against WP 7.0.5's real `WP_HTML_Tag_Processor` (internal, `nofollow`, `_self`, `script` cases). Local: homepage hero CTA (`front-page.php:260` — template has **no** target) renders `rel="noopener noreferrer" target="_blank"`; **328 external anchors / 9 pages, 0 missing, 0 internal over-applied**. Dev: **188 external / 4 pages, 0 missing, 0 self over-applied**.
+**Deployed to Dev (2026-10-06):** rsync `-avz --delete` + remote chmod + `wp page-cache flush` + `wp cdn-cache flush`. `external-links.php` present at mode 644. (The `DISALLOW_FILE_EDIT already defined` warning during `wp` is pre-existing/harmless.)
+**Open:** none for this change. A committed source push is still pending (not committed here).
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-06 (opencode — ES content doc applied to ES / MCS / Applications / Automation)
 **Active Agent:** opencode
 **Branch:** `master` — synced with `origin/master` (uncommitted: prototype + theme edits below).
