@@ -14,7 +14,8 @@
 **MCS audit vs the approved sheet (Local):** all card details / gallery / headings already matched. Only cosmetic diffs left, unchanged pending the client:
 1. Card 5 title = "Hydraulic – Pneumatics" (en dash, matches nav) vs approved "Hydraulic-Pneumatics" (hyphen).
 2. Gallery card = "Specialty Machine" (corrected) vs approved ADD "Speciality Machine" (misspelling).
-**Open:** (a) the two MCS cosmetic strings (Hydraulic dash, Speciality/Specialty); (b) the sheets' own typos are corrected on the site, not shipped (per client OK on ES).
+**Copy rule (client, 2026-10-06):** where the approved sheets conflict with correct grammar/spelling, **ship the correct form** — e.g. "Specialty Machine" (not "Speciality"), "working envelopes" + "Here are a few" (not "envelops"/"Here are few"), and the earlier "accommodate/necessary/pneumatic" fixes. Sheet typos are not shipped.
+**Open:** only the stylistic "Hydraulic – Pneumatics" en dash (matches nav) vs the sheet's hyphen — left as the nav-consistent form.
 
 ---
 ## Previous Session State
