@@ -496,6 +496,7 @@ acf_add_local_field_group(
 			array( 'key' => 'field_es_cta_tab', 'label' => 'CTA Band', 'type' => 'tab', 'placement' => 'top' ),
 			array( 'key' => 'field_es_cta_eyebrow', 'label' => 'Eyebrow', 'name' => 'es_cta_eyebrow', 'type' => 'text' ),
 			array( 'key' => 'field_es_cta_headline', 'label' => 'Headline', 'name' => 'es_cta_headline', 'type' => 'textarea', 'rows' => 2, 'instructions' => '&lt;em&gt; accent supported.' ),
+			array( 'key' => 'field_es_cta_subhead', 'label' => 'Subhead', 'name' => 'es_cta_subhead', 'type' => 'text' ),
 			array( 'key' => 'field_es_cta_body', 'label' => 'Body', 'name' => 'es_cta_body', 'type' => 'textarea', 'rows' => 3 ),
 			array( 'key' => 'field_es_cta_button_label', 'label' => 'Button label', 'name' => 'es_cta_button_label', 'type' => 'text' ),
 			array( 'key' => 'field_es_cta_button_url', 'label' => 'Button URL', 'name' => 'es_cta_button_url', 'type' => 'text' ),

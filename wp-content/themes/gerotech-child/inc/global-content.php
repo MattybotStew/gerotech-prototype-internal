@@ -536,7 +536,6 @@ function gerotech_machines_defaults() {
 				'Universal Machines' => 'https://www.haascnc.com/machines/vertical-mills/universal-machine.html',
 				'VR Series' => 'https://www.haascnc.com/machines/vertical-mills/vr-series.html',
 				'VP-5 Prismatic' => 'https://www.haascnc.com/machines/vertical-mills/vp-5.html',
-				'Pallet-Changing VMCs' => 'https://www.haascnc.com/machines/vertical-mills/vc-series.html',
 				'Mini Mills' => 'https://www.haascnc.com/machines/vertical-mills/mini-mills.html',
 				'Mold Machines' => 'https://www.haascnc.com/machines/vertical-mills/mold-machines.html',
 				'High-Speed Drill Centers' => 'https://www.haascnc.com/machines/vertical-mills/high-speed-drill-centers.html',

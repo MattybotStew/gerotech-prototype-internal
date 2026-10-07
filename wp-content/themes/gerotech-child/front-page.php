@@ -37,7 +37,7 @@ $slides = $pick(
 			'peek_title'      => 'A Division of Gerotech',
 		),
 		array(
-			'eyebrow'         => 'New Arrivals',
+			'eyebrow'         => 'Floor Inventory',
 			'headline'        => "Our Showroom Machines Are\n<em>Ready To Ship</em>",
 			'accent_color'    => 'orange',
 			'body'            => 'Showroom Machines Are Backed By Our 1-Year Warranty. Confidence Comes Standard.',
@@ -46,7 +46,7 @@ $slides = $pick(
 			'cta_color'       => 'orange',
 			'image'           => 'assets/images/hero-showroom.jpg',
 			'image_position'  => 'default',
-			'peek_eyebrow'    => 'New Arrivals',
+			'peek_eyebrow'    => 'Floor Inventory',
 			'peek_title'      => 'In-Stock & Ready',
 		),
 		array(
@@ -70,7 +70,7 @@ $stats = $pick(
 	'home_stats',
 	array(
 		array( 'value' => '39+', 'count' => 39, 'suffix' => '+', 'label' => 'Years in Michigan' ),
-		array( 'value' => '14,000', 'count' => 14000, 'suffix' => '', 'label' => 'Machines Placed' ),
+		array( 'value' => '14,000+', 'count' => 14000, 'suffix' => '+', 'label' => 'Machines Placed' ),
 	)
 );
 
@@ -142,7 +142,7 @@ $panels          = $pick(
 			'title'       => 'Haas Automation',
 			'description' => 'Explore Haas automation solutions, including robotic systems, pallet changers, bar feeders, and other options designed to maximize machine productivity.',
 			'tags_label'  => 'Featured products',
-			'tags'        => "Automation Models | https://www.haascnc.com/machines/automation-systems/automation-models.html#gsc.tab=0\nPallet Changers | https://www.haascnc.com/machines/automation-systems/automation-models.html#pp\nBar Feeders | https://www.haascnc.com/machines/automation-systems/automation-models.html#barfeeder\nCobots | https://www.haascnc.com/machines/automation-systems/automation-models.html#robot",
+			'tags'        => "Automation Models | https://www.haascnc.com/machines/automation-systems/automation-models.html#gsc.tab=0\nBar Feeders | https://www.haascnc.com/machines/automation-systems/automation-models.html#barfeeder\nCobots | https://www.haascnc.com/machines/automation-systems/automation-models.html#robot",
 			'cta_label'   => 'View Automation →',
 			'cta_url'     => 'https://www.haascnc.com/machines/automation-systems.html#gsc.tab=0',
 			'cta2_label'  => '',

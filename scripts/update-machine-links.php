@@ -54,6 +54,41 @@ if ( ! is_array( $rows ) || empty( $rows ) ) {
 	return;
 }
 
+/* ── Prune labels the client has removed from the catalogue ────────────────
+ * The update loop below only ever rewrites labels it still knows about and
+ * deliberately leaves unrecognised labels alone. A label dropped from
+ * gerotech_machines_defaults() therefore has to be removed explicitly, or the
+ * stored row would keep rendering it forever. This runs BEFORE the update loop
+ * so the loop then writes url + new_tab back for every surviving link (the
+ * full replace above drops new_tab, so it must be re-applied by the loop). */
+$prune = array( 'Pallet-Changing VMCs' );
+$pruned = 0;
+foreach ( $rows as $i => $group ) {
+	if ( empty( $group['links'] ) || ! is_array( $group['links'] ) ) {
+		continue;
+	}
+	$kept_links = array();
+	foreach ( $group['links'] as $link ) {
+		$label = isset( $link['label'] ) ? trim( (string) $link['label'] ) : '';
+		if ( in_array( $label, $prune, true ) ) {
+			printf( "  rm   %-16s %s\n", isset( $group['title'] ) ? $group['title'] : '', $label );
+			$pruned++;
+			continue;
+		}
+		$kept_links[] = $link;
+	}
+	$rows[ $i ]['links'] = $kept_links;
+}
+if ( $pruned > 0 ) {
+	// Full replace by field NAME (the stored options path), not key.
+	update_field( $name, $rows, 'option' );
+	echo "Pruned {$pruned} removed label(s) from the stored nav.\n";
+	wp_cache_flush();
+	if ( function_exists( 'acf_flush_cache' ) ) {
+		acf_flush_cache();
+	}
+}
+
 $updated = 0;
 $kept    = 0;
 $unknown = array();

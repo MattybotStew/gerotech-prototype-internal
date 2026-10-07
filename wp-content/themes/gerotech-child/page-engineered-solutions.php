@@ -152,6 +152,7 @@ $faq_items    = $pick(
 /* ── CTA band ─────────────────────────────────────────────── */
 $cta_eyebrow     = $pick( 'es_cta_eyebrow', 'Engineered Solutions' );
 $cta_headline    = $pick( 'es_cta_headline', 'Engineering Solutions Built Around <em>Your Operation</em>' );
+$cta_subhead     = $pick( 'es_cta_subhead', "Let's Talk Through It. Prefer Email?" );
 $cta_body        = $pick( 'es_cta_body', "Whether you're automating a manual process, modifying existing equipment, integrating robotics, or developing a custom manufacturing solution, our engineering team is ready to help. Tell us about your application, and we'll work with you to develop a practical solution built around your operation." );
 $cta_button_label = $pick( 'es_cta_button_label', 'Talk to an Engineer' );
 $cta_button_url   = $pick( 'es_cta_button_url', gerotech_quote_mailto() );
@@ -159,7 +160,7 @@ $cta_image_value  = $pick( 'es_cta_image', 'assets/images/cta-es-cell.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-es-cell.jpg' );
 $cta_image_srcset = gerotech_image_srcset( $cta_image_value, 'assets/images/cta-es-cell.jpg' );
 $cta_call_label   = $pick( 'es_cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number  = $pick( 'es_cta_call_number', '(734) 379-7788' );
+$cta_call_number  = $pick( 'es_cta_call_number', '' );
 $cta_call_note    = $pick( 'es_cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ─────────────────────────────────────────── */
@@ -431,16 +432,23 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           </div>
           <h2 class="cta-band__headline"><?php echo gerotech_accent( $cta_headline, 'cta-band__accent' ); ?></h2>
           <span class="cta-band__rule" aria-hidden="true"></span>
+          <?php if ( $cta_subhead ) : ?>
+          <p class="cta-band__subhead"><?php echo esc_html( $cta_subhead ); ?></p>
+          <?php endif; ?>
+          <?php if ( $cta_body ) : ?>
           <p class="cta-band__body"><?php echo esc_html( $cta_body ); ?></p>
+          <?php endif; ?>
           <div class="cta-band__actions">
             <a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_button_url ); ?>"><?php echo esc_html( $cta_button_label ); ?></a>
           </div>
         </div>
+        <?php if ( $cta_call_number ) : ?>
         <a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
           <span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
           <span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
           <span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>
         </a>
+        <?php endif; ?>
       </div>
     </section>
 

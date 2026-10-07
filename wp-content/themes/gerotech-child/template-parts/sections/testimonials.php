@@ -26,7 +26,7 @@ $testimonials         = gerotech_field(
 		),
 		array(
 			'quote' => 'The quality of service that Gerotech provided us with. I had the privilege, in a rough situation, to work with Don on our machine issue. What a knowledgeable and diligent technician. He was able to work through our difficult situation with software to machine function issues and I wanted to make sure he was recognized for his great work. Thank you.',
-			'name'  => 'Kingbury Professional Services',
+			'name'  => 'Kingsbury Professional Services',
 			'sub'   => 'Gerotech Customer',
 		),
 	),

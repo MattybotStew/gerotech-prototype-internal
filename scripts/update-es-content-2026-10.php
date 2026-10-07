@@ -132,6 +132,9 @@ gx_set( $ids['es'], 'field_es_hero_cta1_label', 'Talk to an Engineer', 'Hero CTA
 gx_set( $ids['es'], 'field_es_why_cta_label', 'Talk to an Engineer', 'Why CTA label' );
 gx_set( $ids['es'], 'field_es_cap_cta1_label', 'Talk to an Engineer', 'Capability CTA1 label' );
 gx_set( $ids['es'], 'field_es_cta_button_label', 'Talk to an Engineer', 'CTA band button label' );
+// Footer CTA now matches the other engineering pages: subhead added, phone card removed.
+gx_set( $ids['es'], 'field_es_cta_subhead', $CTA_SUB, 'CTA subhead' );
+gx_set( $ids['es'], 'field_es_cta_call_number', '', 'CTA call number (removed)' );
 
 // Content doc: FANUC secondary CTA reads "Explore Capabilities" (was "Explore Automation").
 gx_set( $ids['es'], 'field_es_fanuc_cta2_label', 'Explore Capabilities', 'FANUC CTA2 label' );
@@ -326,7 +329,7 @@ if ( is_array( $ai_cards ) ) {
 			$ai_cards[ $i ]['image'] = 'assets/images/pre-engineered-card.jpg';
 		}
 	}
-	$card_order = array( 'hmi design', 'electrical', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
+	$card_order = array( 'electrical', 'hmi design', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
 	usort( $ai_cards, function ( $a, $b ) use ( $card_order ) {
 		$rank = function ( $card ) use ( $card_order ) {
 			$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
@@ -340,7 +343,7 @@ if ( is_array( $ai_cards ) ) {
 		return $rank( $a ) <=> $rank( $b );
 	} );
 	update_field( 'field_ai_cards', $ai_cards, $ids['ai'] );
-	echo "  ~ Card order: HMI Design, Electrical, Layered, Cell, EOAT, Pre-Engineered\n";
+	echo "  ~ Card order: Electrical – Controls Solutions, HMI Design, Layered, Cell, EOAT, Pre-Engineered\n";
 } else {
 	echo "  ! ai_cards empty\n";
 }

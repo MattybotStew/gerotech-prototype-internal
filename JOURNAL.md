@@ -2,6 +2,23 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-07 — Tristien Basecamp copy/link corrections (opencode)
+
+Applied the client's (Tristien Bridges) Basecamp round to the prototype, the theme defaults, and the Local DB. **Image replacements skipped — the thread attachments were not supplied (nothing matching on disk).**
+
+- **Floor Inventory:** homepage hero slide 2 eyebrow + peek eyebrow `New Arrivals` → `Floor Inventory` (`index.html`, `front-page.php` default, stored `home_hero_slides[1]` via new `scripts/apply-tristien-2026-10.php`).
+- **14,000+:** homepage "Machines Placed" stat → `14,000+` with `data-suffix="+"` (`index.html`, `front-page.php` default, stored `home_stats[1]`).
+- **Kingsbury:** testimonial 3 name `Kingbury` → `Kingsbury` (`partials/testimonials-block.html`, `testimonials.php` default, stored `testimonials` option).
+- **Engineered Solutions footer CTA** now matches the other engineering pages: added subhead *"Let's Talk Through It. Prefer Email?"* and removed the phone call card. New ACF field `field_es_cta_subhead` + template default; the call card is now conditional on `es_cta_call_number` (default blanked). Applied on Local via `scripts/update-es-content-2026-10.php`.
+- **Pallet Changes removed (both locations):** homepage Machine Lineup › Haas Automation `Pallet Changers` tag removed (`index.html`, `front-page.php` default, stored `lineup_panels` via new `scripts/remove-lineup-pallet-tag.php`); Machines mega-menu `Pallet-Changing VMCs` removed (`partials/site-header.html`, `gerotech_machines_defaults()`), and `scripts/update-machine-links.php` gained a `$prune` step (runs **before** the update loop) to drop it from the stored `nav_machines_groups` options row. Nav now **40** links.
+- **Deploy-script hygiene:** `update-es-content-2026-10.php`'s internal `$card_order` was stale (HMI-first) and re-sorted the stored `ai_cards` against the latest Electrical-first decision; fixed to Electrical-first and re-applied on Local (stored order now Electrical → HMI → Layered → Cell → EOAT → Pre-Engineered).
+
+**Deferred / open**
+- **Images (skipped, no assets):** FR building homepage CTA photo, Custom Workholding block, Automation Cell – Controls block, the 14 HMI gallery images, and the Electrical – Controls Solutions gallery card (needs the block image).
+- **Awaiting client confirmation:** "Talk to an Engineer" email target (currently `sales@gerotech.com`), BAR FEEDERS re-link, Applications › Training service-card edit.
+- **Figma:** the MCP available here is **read-only** — the prototype reflects every change; Figma needs a manual pass.
+- **Deployed to Dev (2026-10-07):** theme rsync `-avz --delete` + remote chmod 755/644; scripts uploaded to `_gerotech-scripts/` and run via `wp eval-file` (`apply-tristien-2026-10.php`, `remove-lineup-pallet-tag.php`, `update-machine-links.php`), then page + CDN cache flushed and the one-shot scripts removed. **Deliberately did NOT run the full `update-es-content-2026-10.php` on Dev** — the ES subhead/call-card change is done by the targeted `apply-tristien` script so client edits elsewhere on Dev survive. Verified on Dev HTML: home = Floor Inventory / 14,000+ / Kingsbury, 0 Pallet links; `/engineered-solutions/` = subhead present, no phone card; `/automated-system/` = Electrical-first cards; nav = 40 links.
+
 ## 2026-10-06 — MCS gallery grey subtitles removed (opencode)
 
 Machine Custom Solutions was the last gallery still printing the grey `.gallery-collection__meta` line under each collection (others — ES/Apps/Automation — had already dropped theirs). Removed all five: Safety & Environmental, Sheet Metal, Auto Doors, Hydraulic/Pneumatics, Custom Workholding.

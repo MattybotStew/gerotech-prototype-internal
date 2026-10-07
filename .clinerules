@@ -3,12 +3,20 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-06 (opencode — MCS gallery grey subtitles removed)
+**Last Updated:** 2026-10-07 (opencode — Tristien Basecamp copy/link round; images skipped)
 **Active Agent:** opencode
-**Branch:** `master` == `cursor/process-engineering-thumbnail` (both pushed at `c26f961`; this change uncommitted).
-**What changed:** Machine Custom Solutions was the last gallery still printing the grey `.gallery-collection__meta` subtitle under each collection (Safety & Environmental, Sheet Metal, Auto Doors, Hydraulic/Pneumatics, Custom Workholding). Removed all 5.
-**Where:** prototype `machine-custom-solutions.html` (dropped the 5 `<p class="gallery-collection__meta">` elements); theme `page-modification-of-standard-machine-tools.php` default `$collections[*]['meta']` all set to `''` (the template already prints the `<p>` only when non-empty, line ~268); new idempotent `scripts/clear-gallery-meta.php "<slug>" "<repeater>"` cleared the stored `mcs_collections` rows on Local **and** Dev (stored rows beat defaults).
-**Verified:** Dev `/modification-of-standard-machine-tools/` renders **0** `gallery-collection__meta`; prototype↔Dev MCS still 100% word-identical. Dev theme rsync + chmod + script + page/CDN flush; Local theme synced + script run.
+**Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted changes below).
+**What changed:** applied the client's (Tristien Bridges) Basecamp round to the prototype + theme defaults + Local DB. **Images skipped — the thread attachments were not on disk.**
+- **Floor Inventory:** homepage hero slide 2 eyebrow + peek eyebrow `New Arrivals` → `Floor Inventory` (proto `index.html`, `front-page.php` default, stored `home_hero_slides[1]`).
+- **14,000+:** homepage "Machines Placed" stat `14,000` → `14,000+` + `data-suffix="+"` (proto, template default, stored `home_stats[1]`).
+- **Kingsbury:** testimonial 3 `Kingbury` → `Kingsbury` (proto partial, `testimonials.php` default, stored `testimonials` option).
+- **ES footer CTA:** now matches the other engineering pages — added subhead *"Let's Talk Through It. Prefer Email?"*, phone card removed. New ACF field `field_es_cta_subhead`; ES call card markup now conditional on `es_cta_call_number` (default blanked).
+- **Pallet Changes removed (both locations):** homepage Machine Lineup › Haas Automation `Pallet Changers` tag, and Machines mega-menu `Pallet-Changing VMCs` (proto header + `gerotech_machines_defaults()`), plus stored `lineup_panels` / `nav_machines_groups`.
+**Where:** proto `index.html`, `engineered-solutions.html`, `partials/site-header.html`, `partials/testimonials-block.html`; theme `front-page.php`, `page-engineered-solutions.php`, `inc/acf-fields.php` (+`field_es_cta_subhead`), `inc/global-content.php`, `template-parts/sections/testimonials.php`; scripts `apply-tristien-2026-10.php` (new), `remove-lineup-pallet-tag.php` (new), `update-es-content-2026-10.php` (ES subhead + Electrical-first `$card_order` fix), `update-machine-links.php` (`$prune` step).
+**Verified on Local:** stored `home_hero_slides[1]`/`home_stats[1]`/`testimonials` all updated; ES CTA stored subhead set + call number blank; `lineup_panels` Haas Automation tags = Automation Models / Bar Feeders / Cobots; nav = 40 links, 0 `Pallet-Changing VMCs`; audit **314/337** applied (blanks all documented-correct). Scripts idempotent on second run. PHP lint clean (Local PHP 8.2).
+**Gotcha:** the nav `new_tab` sub-field is deprecated (removed by the "one control per link" refactor) — `update-machine-links.php`'s `new_tab` write is a no-op and the verify line always reads 0; external auto new-tab handles it. The `$prune` full-replace must run **before** the update loop (it drops `new_tab`, so the loop must re-apply URLs after).
+**Deferred:** all image work (FR building, Custom Workholding block, Automation Cell block, 14 HMI gallery images, Electrical gallery card); "Talk to an Engineer" email target, BAR FEEDERS re-link, Applications › Training card (awaiting client); **Figma is not writable** from this environment (MCP read-only) — prototype is authoritative.
+**Deployed to Dev (2026-10-07):** theme rsync `-avz --delete` + chmod; `_gerotech-scripts/` one-shots `apply-tristien-2026-10.php` / `remove-lineup-pallet-tag.php` / `update-machine-links.php` run via `wp eval-file`, then page + CDN flush, scripts removed. Did **not** run the full `update-es-content-2026-10.php` on Dev (targeted `apply-tristien` handles the ES CTA so client Dev edits survive). Verified Dev HTML + DB: Floor Inventory, 14,000+, Kingsbury, ES subhead no phone card, Electrical-first AI cards, 40 nav links / 0 Pallet.
 **Not committed.**
 
 ---
