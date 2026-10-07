@@ -142,7 +142,7 @@ $panels          = $pick(
 			'title'       => 'Haas Automation',
 			'description' => 'Explore Haas automation solutions, including robotic systems, pallet changers, bar feeders, and other options designed to maximize machine productivity.',
 			'tags_label'  => 'Featured products',
-			'tags'        => "Automation Models | https://www.haascnc.com/machines/automation-systems/automation-models.html#gsc.tab=0\nBar Feeders | https://www.haascnc.com/machines/automation-systems/automation-models.html#barfeeder\nCobots | https://www.haascnc.com/machines/automation-systems/automation-models.html#robot",
+			'tags'        => "Automation Models | https://www.haascnc.com/machines/automation-systems/automation-models.html#gsc.tab=0\nBar Feeders | https://haascnc.com/machines/lathes/bar-feeders\nCobots | https://www.haascnc.com/machines/automation-systems/automation-models.html#robot",
 			'cta_label'   => 'View Automation →',
 			'cta_url'     => 'https://www.haascnc.com/machines/automation-systems.html#gsc.tab=0',
 			'cta2_label'  => '',
@@ -171,14 +171,15 @@ $panels          = $pick(
 /* ── CTA band ──────────────────────────────────────────────── */
 $cta_eyebrow  = $pick( 'cta_eyebrow', 'Get Started' );
 $cta_headline = $pick( 'cta_headline', 'Put Gerotech to work on your project.' );
-$cta_body     = $pick( 'cta_body', "From Haas CNC machines to Engineered Solutions — tell us about your project and we'll connect you with the right expert." );
-$cta_btn_lbl  = $pick( 'cta_button_label', 'Engage with us today' );
-$cta_btn_url  = $pick( 'cta_button_url', gerotech_quote_mailto( 'Gerotech Expert Inquiry' ) );
+$cta_subhead  = $pick( 'cta_subhead', "Let's Talk Through It. Prefer Email?" );
+$cta_body     = $pick( 'cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
+$cta_btn_lbl  = $pick( 'cta_button_label', 'Talk to an Engineer' );
+$cta_btn_url  = $pick( 'cta_button_url', gerotech_engineering_mailto() );
 $cta_image_value = $pick( 'cta_image', '' );
-$cta_image    = gerotech_image_url( $cta_image_value, 'assets/images/cta-home-figma.jpg' );
-$cta_image_alt = gerotech_image_alt( $cta_image_value, 'Orange industrial robot arms on a factory line' );
+$cta_image    = gerotech_image_url( $cta_image_value, 'assets/images/cta-home-building.jpg' );
+$cta_image_alt = gerotech_image_alt( $cta_image_value, 'Gerotech headquarters in Flat Rock, brick building and sign' );
 $cta_call_label  = $pick( 'cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number = $pick( 'cta_call_number', '(734) 379-7788' );
+$cta_call_number = $pick( 'cta_call_number', '' );
 $cta_call_note   = $pick( 'cta_call_note', 'Talk to a person, not a form.' );
 
 /* ── Email signup ──────────────────────────────────────────── */
@@ -426,16 +427,21 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 				</div>
 				<h2 class="cta-band__headline"><?php echo esc_html( $cta_headline ); ?></h2>
 				<span class="cta-band__rule" aria-hidden="true"></span>
+				<?php if ( $cta_subhead ) : ?>
+				<p class="cta-band__subhead"><?php echo esc_html( $cta_subhead ); ?></p>
+				<?php endif; ?>
 				<p class="cta-band__body"><?php echo esc_html( $cta_body ); ?></p>
 				<div class="cta-band__actions">
 					<a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_btn_url ); ?>"><?php echo esc_html( $cta_btn_lbl ); ?></a>
 				</div>
 			</div>
+			<?php if ( $cta_call_number ) : ?>
 			<a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
 				<span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
 				<span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
 				<span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>
 			</a>
+			<?php endif; ?>
 		</div>
 	</section>
 

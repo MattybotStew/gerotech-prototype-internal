@@ -560,7 +560,7 @@ function gerotech_machines_defaults() {
 				'Box Way Series' => 'https://www.haascnc.com/machines/lathes/box-way-series.html',
 				'Toolroom Lathes' => 'https://www.haascnc.com/machines/lathes/toolroom-lathe.html',
 				'Chucker Lathe' => 'https://www.haascnc.com/machines/lathes/chucker-lathe.html',
-				'Haas Bar Feeders' => 'https://www.haascnc.com/machines/lathes/bar-feeders.html',
+				'Haas Bar Feeders' => 'https://haascnc.com/machines/lathes/bar-feeders',
 			),
 		),
 		array(
@@ -810,10 +810,10 @@ function gerotech_es_defaults() {
 					// match gerotech_card_id( title ) on each page's .mcs-card.
 					array( 'label' => 'Machine Column Risers', 'url' => $mcs . '#machine-column-risers', 'mobile_label' => 'Column Risers' ),
 					array( 'label' => 'Safety & Environmental Modifications', 'url' => $mcs . '#safety-environmental-modifications' ),
-					array( 'label' => 'Sheet Metal Modifications', 'url' => $mcs . '#sheet-metal-modifications' ),
 					array( 'label' => 'Auto Doors', 'url' => $mcs . '#auto-doors' ),
 					array( 'label' => 'Hydraulic – Pneumatics', 'url' => $mcs . '#hydraulic-pneumatics' ),
 					array( 'label' => 'Custom Workholding', 'url' => $mcs . '#custom-workholding' ),
+					array( 'label' => 'Sheet Metal Modifications', 'url' => $mcs . '#sheet-metal-modifications' ),
 					array( 'label' => 'Process Engineering', 'url' => $mcs . '#process-engineering' ),
 					array( 'label' => 'Specialty Machine', 'url' => $mcs . '#specialty-machine' ),
 				),
@@ -823,8 +823,8 @@ function gerotech_es_defaults() {
 				'main'  => 'Applications',
 				'links' => array(
 					array( 'label' => 'Part Programming', 'url' => $app . '#part-programming' ),
-					array( 'label' => 'Process Troubleshooting', 'url' => $app . '#process-troubleshooting' ),
 					array( 'label' => 'Process Optimization', 'url' => $app . '#process-optimization' ),
+					array( 'label' => 'Process Troubleshooting', 'url' => $app . '#process-troubleshooting' ),
 					array( 'label' => 'Tooling Recommendation', 'url' => $app . '#tooling-recommendation' ),
 					array( 'label' => 'Demo', 'url' => $app . '#demo' ),
 					array( 'label' => 'Training', 'url' => $app . '#training' ),
@@ -836,7 +836,6 @@ function gerotech_es_defaults() {
 				'links' => array(
 					array( 'label' => 'Electrical – Controls Solutions', 'url' => $acs . '#electrical-controls-solutions' ),
 					array( 'label' => 'HMI Design', 'url' => $acs . '#hmi-design' ),
-					array( 'label' => 'Layered Controls Solutions', 'url' => $acs . '#layered-controls-solutions' ),
 					array( 'label' => 'Automation Cell Design', 'url' => $acs . '#automation-cell-design' ),
 					array( 'label' => 'Robot EOAT – Ancillary Material Handling', 'url' => $acs . '#robot-eoat-ancillary-material-handling' ),
 					array( 'label' => 'Pre-Engineered Solutions', 'url' => $acs . '#pre-engineered-solutions' ),

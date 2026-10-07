@@ -329,7 +329,16 @@ if ( is_array( $ai_cards ) ) {
 			$ai_cards[ $i ]['image'] = 'assets/images/pre-engineered-card.jpg';
 		}
 	}
-	$card_order = array( 'electrical', 'hmi design', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
+	$ai_cards = array_values(
+		array_filter(
+			$ai_cards,
+			function ( $card ) {
+				$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
+				return false === strpos( $title, 'layered' );
+			}
+		)
+	);
+	$card_order = array( 'electrical', 'hmi design', 'automation cell', 'robot eoat', 'pre-engineered' );
 	usort( $ai_cards, function ( $a, $b ) use ( $card_order ) {
 		$rank = function ( $card ) use ( $card_order ) {
 			$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
@@ -343,7 +352,7 @@ if ( is_array( $ai_cards ) ) {
 		return $rank( $a ) <=> $rank( $b );
 	} );
 	update_field( 'field_ai_cards', $ai_cards, $ids['ai'] );
-	echo "  ~ Card order: Electrical – Controls Solutions, HMI Design, Layered, Cell, EOAT, Pre-Engineered\n";
+	echo "  ~ Card order: Electrical – Controls Solutions, HMI Design, Cell, EOAT, Pre-Engineered (Layered removed)\n";
 } else {
 	echo "  ! ai_cards empty\n";
 }
@@ -355,31 +364,8 @@ gx_set_card_detail( $ids['ai'], 'field_ai_cards', 'Robot EOAT – Ancillary Mate
 gx_set_card_detail( $ids['ai'], 'field_ai_cards', 'HMI Design',
 	'<details open><summary>Customizable Operator Screens</summary><p>Every application is different, and the operator interface should reflect the needs of the people using it. Our HMI is fully configurable, providing a centralized location for the information and functions required for efficient day-to-day operation.</p></details><details><summary>HMI – Ethernet Diagnostics</summary><p>When implemented on Allen-Bradley control platforms, our software library utilizes native EtherNet/IP diagnostic capabilities to provide operators and maintenance personnel with detailed device diagnostics directly from the HMI. Access to fault codes, device status, fault descriptions, and manufacturer diagnostic information helps reduce troubleshooting time while minimizing the need for a programming laptop.</p></details><details><summary>HMI – I/O Diagnostics</summary><p>When implemented on Allen-Bradley control platforms, our software library provides extensive I/O diagnostics directly on the HMI, giving operators and maintenance technicians clear visibility into machine status without the need for a programming laptop. Where supported, device-specific diagnostics include manufacturer fault information, descriptions, and recommended corrective actions, enabling faster troubleshooting and reduced downtime.</p></details><details><summary>HMI – Device Specific Diagnostics</summary><p>Where applicable, our library components include device-level diagnostics, providing immediate access to fault codes, fault descriptions, and manufacturer-recommended corrective actions.</p></details><details><summary>HMI – Device Centric Control / Feedback</summary><p>Our device-centric PLC and HMI design provides a consistent, intuitive, and flexible operator experience throughout the entire system. Every device utilizes a standardized interface that presents the information, diagnostics, and controls needed for efficient operation and maintenance.</p><p><strong>Typical device interface items:</strong></p><ul><li>Current operating status and operating mode</li><li>Manual operation and jog functions</li><li>Clear indication of manual operation inhibits and the conditions preventing device operation</li><li>Runtime statistics and performance information</li><li>Device configuration and setup parameters</li><li>Maintenance and service functions</li><li>Device health and communication status</li></ul></details><details><summary>HMI – Cell Automation – Overview</summary><p>The Cell Overview screen serves as the primary operational dashboard, presenting the most critical information required to monitor and operate the cell at a glance. Key production metrics, including part counts, cycle times, and active part status, are displayed alongside a high-level summary of the machine\'s safety system that corresponds directly with the detailed Safety Diagnostics screen. By consolidating essential production and safety information into a single interface, operators can quickly assess machine status, identify production bottlenecks, and respond to abnormal conditions without navigating through multiple screens.</p></details><details><summary>HMI – Cell Automation – Station</summary><p>Each station includes a dedicated detail screen that consolidates all relevant information into a single, easy-to-navigate interface. Operators and maintenance personnel can view and control the station operating mode, monitor active interlocks and permissives, access station-specific I/O diagnostics, review part tracking data, and interact with device-specific functions without navigating between areas of the HMI. By centralizing these tools in one location, troubleshooting is simplified, operator training is reduced, and critical machine information is always readily accessible.</p></details><details><summary>HMI – Cell Automation – Part Program</summary><p>The integrated Part Program system provides the flexibility to accommodate multiple product variants, manufacturing requirements, and configurable process options without requiring software modifications. Part Programs define the parameters and processing requirements for each product, allowing the automation system to automatically adjust machine behavior based on the selected part configuration. A guided Program Load screen simplifies changeovers by walking operators through the program selection and loading process. This streamlined workflow reduces setup time, minimizes the risk of operator error, and enables fast, repeatable product changeovers with minimal training.</p></details><details><summary>HMI – Cell Automation – Part Data View</summary><p>The cell-level Part Data screen provides a centralized view of the current status of each part as it progresses through the manufacturing process. Operators can quickly identify required and completed operations, review process-specific data, monitor part tracking information. By consolidating critical production data into a single interface, the system improves traceability, simplifies troubleshooting, and provides clear visibility into the overall health and progress of each part throughout the cell.</p></details><details><summary>HMI – Cell Automation – Safety Devices</summary><p>The Safety Diagnostics screen provides a comprehensive view of the machine\'s safety system, allowing operators and maintenance personnel to quickly identify the status of all safety inputs, outputs, and safety functions. Each safety device includes contextual diagnostics and detailed status information to clearly indicate the current operating condition, fault state, or reason for a safety stop. By presenting meaningful diagnostic information alongside each device, the system reduces troubleshooting time, improves maintenance efficiency, and helps restore the machine to operation safely and quickly.</p></details>' );
 
-// Layered Controls: append the Standardized Software block under Layer 3 if absent.
-$store = acf_get_store( 'values' );
-if ( $store ) {
-	$store->reset();
-}
-$ai_rows = get_field( 'field_ai_cards', $ids['ai'] );
-if ( is_array( $ai_rows ) ) {
-	$std = '<details><summary>Standardized Software Design Methodology</summary><p>Our automation solutions are developed using a standardized software design methodology that has been refined through years of real-world manufacturing applications. This proven approach provides a consistent programming structure, operator experience, and diagnostic philosophy across our automation platforms.</p><p>By developing from a common software foundation and adapting it to the selected control platform, we can deliver custom automation solutions more efficiently while maintaining proven functionality, consistent operation, and high-quality software.</p><p><strong>Key Benefits:</strong></p><ul><li>Proven software foundation</li><li>Standardized programming methodology</li><li>Consistent HMI navigation and operator experience</li><li>Common alarms, diagnostics, and fault recovery</li><li>Faster project development</li><li>Reduced project risk</li><li>Simplified troubleshooting and maintenance</li><li>Easier operator training</li><li>Flexible deployment across multiple control platforms</li><li>Scalable design for future expansion</li></ul></details>';
-	$changed = false;
-	foreach ( $ai_rows as $i => $row ) {
-		if ( isset( $row['title'] ) && 'layered controls solutions' === gx_norm( $row['title'] ) ) {
-			if ( false === strpos( isset( $row['detail'] ) ? $row['detail'] : '', 'Standardized Software Design Methodology' ) ) {
-				$ai_rows[ $i ]['detail'] = rtrim( isset( $row['detail'] ) ? $row['detail'] : '' ) . $std;
-				$changed = true;
-			}
-			break;
-		}
-	}
-	if ( $changed ) {
-		update_field( 'field_ai_cards', $ai_rows, $ids['ai'] );
-		echo "  ~ Layered Controls Solutions: Standardized Software added\n";
-	} else {
-		echo "  = Layered Controls Solutions: unchanged\n";
-	}
-}
+// 2026-10-07 client markup: Layered Controls Solutions is removed from the card list.
+echo "  = Layered Controls Solutions: removed from card order\n";
 
 gx_set( $ids['ai'], 'field_ai_gallery_eyebrow', '', 'Gallery eyebrow (remove)' );
 gx_set( $ids['ai'], 'field_ai_gallery_title', 'Automation &amp; Controls <em>Gallery</em>', 'Gallery title' );

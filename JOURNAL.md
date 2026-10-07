@@ -2,6 +2,73 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-07 — Tristien round 2 synced to Local + Dev (opencode)
+
+Pushed the Cursor pass (images, ES/MCS/Applications/Automation re-orders, engineering mailto, homepage Flat Rock CTA, Bar Feeders URL) out of the repo/theme and into the stored ACF on **Local and Dev**, and deployed the theme. `scripts/update-es-nav-order.php` was then run, so stored `nav_es_services` no longer overrides the new order.
+
+- **New `scripts/apply-tristien-round2-2026-10.php`** (idempotent): imports + sets the new card images — MCS Custom Workholding `custom-workholding-block.jpg`, Process Engineering `process-engineering-workflow.jpg`; Applications Process Troubleshooting `lathe-turning.jpg`; Automation Electrical `pre-engineered-card.jpg`, Automation Cell `automation-cell-controls.jpg`, Pre-Engineered `human-robot-automation-interface.jpg`. Removes Layered Controls Solutions from `ai_cards`. Sets the ES/MCS/Applications/Automation footer + homepage CTA button URLs to `gerotech_engineering_mailto()`. Sets the homepage CTA subhead/body/label and blanks the phone number. Updates the Haas Automation lineup Bar Feeders URL. Rewrites the Applications gallery Process Troubleshooting media and the whole `ai_collections` (Electrical first, 13-image HMI set, new covers; Layered collection kept).
+- `scripts/update-es-nav-order.php` → stored `nav_es_services` = **19** links (Sheet Metal sixth, Optimization before Troubleshooting, no Layered). `scripts/update-machine-links.php` → Haas Bar Feeders `https://haascnc.com/machines/lathes/bar-feeders` (**40** links).
+- Dev: theme rsync `-avz --delete` + chmod 755/644, targeted scripts via `wp eval-file`, page + CDN flush, one-shot scripts removed. **Not committed.**
+- **Verified Local + Dev HTML:** homepage building CTA + subhead + engineering mailto + no phone card; MCS/Applications new card images; Automation cards Electrical→HMI→Cell→EOAT→Pre-Engineered (no Layered) and gallery Electrical→HMI→Layered→Cell→EOAT→Pre-Engineered. Audit Local **314/338** (only documented-correct blanks).
+- Round 1 (Floor Inventory, 14,000+, Kingsbury, ES subhead, Pallet removal) was seeded + deployed earlier the same day.
+
+## 2026-10-07 — Tristien Bridges Basecamp round, QA snapshot (Cursor)
+
+One pass over the uncommitted working tree on `cursor/process-engineering-thumbnail` (HEAD `55c1f9f Apply Tristien Basecamp copy/link round`). Not committed. Not deployed. Check the files named here. A saved WordPress options row still wins over a theme default until it is seeded. `scripts/update-es-nav-order.php` was not run, so stored `nav_es_services` on Local and Dev was not rebuilt.
+
+**Menu and card order** (header desktop + mobile, page cards, `gerotech_es_defaults()`, page-template defaults):
+- MCS: Column Risers, Safety & Environmental, Auto Doors, Hydraulic – Pneumatics, Custom Workholding, Sheet Metal, Process Engineering, Specialty Machine. Sheet Metal is sixth.
+- Applications: Process Optimization before Process Troubleshooting. The Training card content was not changed.
+- Automation cards and nav: Electrical, HMI, Automation Cell, Robot EOAT, Pre-Engineered. Layered Controls Solutions is removed from nav and from service cards. `page-automated-system.php` filters a stored `ai_cards` title that contains “layered”. The gallery collection named Layered Controls Solutions was left.
+
+**Homepage:**
+- Slide 2 and peek 02 eyebrow: Floor Inventory. Peek title stays In-Stock & Ready. Headline stays Our Showroom Machines Are Ready To Ship.
+- Stat: 14,000+.
+- Testimonial: Kingsbury Professional Services (shared partial, every page that includes it).
+- Haas Automation tags: Automation Models, Bar Feeders → `https://haascnc.com/machines/lathes/bar-feeders`, Cobots. Pallet Changers is gone from that list. Mega-menu Haas Bar Feeders uses the same URL. Pallet-Changing VMCs was removed earlier.
+- CTA photo: `assets/images/cta-home-building.jpg` (Flat Rock building). Subhead “Let's Talk Through It. Prefer Email?”, drawings/photos paragraph, no phone card. Mailto `Engineeringproposals@gerotech.com` on the homepage engineering CTA and on the ES, MCS, Applications, and Automation footers. Support, About, Careers, and Training were not retargeted (they still use `sales@gerotech.com`).
+
+**Images** (prototype + theme defaults; synced into the child theme assets):
+- Custom Workholding: `custom-workholding-block.jpg`.
+- Process Engineering: `process-engineering-workflow.jpg`.
+- Process Troubleshooting card and gallery: `lathe-turning.jpg`.
+- Automation Cell Design card and matching gallery cover: `automation-cell-controls.jpg`.
+- Electrical card and a new gallery card first, before HMI, same cabinet photo: `pre-engineered-card.jpg`.
+- Pre-Engineered card and gallery: `human-robot-automation-interface.jpg`.
+- HMI gallery: 13 of 14 client screens, in attachment order. One HMI image never arrived.
+
+**Still open:** Dev does not have this later pass (the earlier 2026-10-07 Dev deploy was the copy/link round only, and that Automation order still included Layered). Stored ACF (`cta_image`, card images, `nav_es_services`, a hero eyebrow that still says New Arrivals) overrides defaults until seeded. Figma frame `7665:1228` still had the robot CTA photo and was not edited. Preview the prototype on port 8081. Port 8080 is CFHF.
+
+## 2026-10-07 — Tristien photos and engineering footers (Cursor)
+
+Prototype + theme defaults only. Not committed. Not deployed. Stored ACF still overrides these defaults until seeded.
+
+- Homepage engineering CTA matches MCS: subhead "Let's Talk Through It. Prefer Email?", drawings/photos paragraph, button "Talk to an Engineer" → `Engineeringproposals@gerotech.com`, no phone card. Building photo kept. Same mailto on ES, MCS, Applications, and Automation footers.
+- Haas Automation lineup has no Pallet Changers tag. Bar Feeders and Haas Bar Feeders → `https://haascnc.com/machines/lathes/bar-feeders`. Floor Inventory was already on slide 2 and peek 02.
+- Custom Workholding card = clean fixture (`custom-workholding-block.jpg`). Process Engineering card = workflow infographic. Process Troubleshooting card + gallery = lathe turning. Automation Cell Design card + matching gallery cover = CAD cell render. Electrical card + first gallery item = cabinet. Pre-Engineered card + gallery = human-robot AUTOMATION graphic. HMI gallery = 13 supplied screens (14th never arrived). Layered Controls card stays removed; its gallery thumbnail was left.
+- Applications Training card was not edited.
+
+## 2026-10-07 — Client markup: ES menu and card order (Cursor)
+
+Read the sideways printed footer/mega menu. Applied only the diffs.
+
+- **MCS order** is now Column Risers, Safety & Environmental, Auto Doors, Hydraulic – Pneumatics, Custom Workholding, Sheet Metal, Process Engineering, Specialty Machine. Desktop + mobile nav, prototype cards, theme defaults, and a render-time sort so a stored `mcs_cards` row follows the same order.
+- **Applications:** Process Optimization now sits before Process Troubleshooting (nav, prototype cards, theme defaults, render-time sort). The other four already matched.
+- **Layered Controls Solutions** is marked Remove. Dropped from desktop + mobile ES nav, the Automation card grid, theme `ai_cards` defaults, and the render path (a stored row is filtered out). Anchors for the five remaining cards are unchanged. The Automation **gallery** collection of the same name was not on the print and was left in place.
+- `scripts/update-es-content-2026-10.php` no longer writes Layered back into `ai_cards` if re-run.
+- **Not run:** `update-es-nav-order.php`. Stored `nav_es_services` on Local/Dev still overrides `gerotech_es_defaults()` until that script runs. Not deployed. Not committed.
+
+## 2026-10-07 — Homepage CTA is the Flat Rock building (Cursor)
+
+The deferred “FR building” photo is the homepage footer CTA background (`.cta-band`), not a hero slide.
+
+- Saved `assets/images/cta-home-building.jpg` (895×613, JPEG q82) from the client photo: brick headquarters, tree, GEROTECH sign.
+- Prototype `index.html` and theme fallback `front-page.php` now use that file. Alt: “Gerotech headquarters in Flat Rock, brick building and sign”.
+- Synced into the child theme via `sync-theme-assets.sh`. Not seeded into Local/Dev ACF (`cta_image` blank still means the bundled default). Not deployed. Not committed.
+- **Figma** frame `7665:1228` node `7665:1743` is still “Orange industrial robot arms on a factory line”. Copy updates on that frame (Floor Inventory, 14,000+, Kingsbury, no Pallet Changers) were already in. Do not write Figma from here.
+
+**Still deferred:** Custom Workholding block, Automation Cell – Controls block, 14 HMI gallery images, Electrical gallery card.
+
 ## 2026-10-07 — Tristien Basecamp copy/link corrections (opencode)
 
 Applied the client's (Tristien Bridges) Basecamp round to the prototype, the theme defaults, and the Local DB. **Image replacements skipped — the thread attachments were not supplied (nothing matching on disk).**

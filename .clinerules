@@ -3,21 +3,42 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-07 (opencode — Tristien Basecamp copy/link round; images skipped)
-**Active Agent:** opencode
-**Branch:** `cursor/process-engineering-thumbnail` (shared working tree; uncommitted changes below).
-**What changed:** applied the client's (Tristien Bridges) Basecamp round to the prototype + theme defaults + Local DB. **Images skipped — the thread attachments were not on disk.**
-- **Floor Inventory:** homepage hero slide 2 eyebrow + peek eyebrow `New Arrivals` → `Floor Inventory` (proto `index.html`, `front-page.php` default, stored `home_hero_slides[1]`).
-- **14,000+:** homepage "Machines Placed" stat `14,000` → `14,000+` + `data-suffix="+"` (proto, template default, stored `home_stats[1]`).
-- **Kingsbury:** testimonial 3 `Kingbury` → `Kingsbury` (proto partial, `testimonials.php` default, stored `testimonials` option).
-- **ES footer CTA:** now matches the other engineering pages — added subhead *"Let's Talk Through It. Prefer Email?"*, phone card removed. New ACF field `field_es_cta_subhead`; ES call card markup now conditional on `es_cta_call_number` (default blanked).
-- **Pallet Changes removed (both locations):** homepage Machine Lineup › Haas Automation `Pallet Changers` tag, and Machines mega-menu `Pallet-Changing VMCs` (proto header + `gerotech_machines_defaults()`), plus stored `lineup_panels` / `nav_machines_groups`.
-**Where:** proto `index.html`, `engineered-solutions.html`, `partials/site-header.html`, `partials/testimonials-block.html`; theme `front-page.php`, `page-engineered-solutions.php`, `inc/acf-fields.php` (+`field_es_cta_subhead`), `inc/global-content.php`, `template-parts/sections/testimonials.php`; scripts `apply-tristien-2026-10.php` (new), `remove-lineup-pallet-tag.php` (new), `update-es-content-2026-10.php` (ES subhead + Electrical-first `$card_order` fix), `update-machine-links.php` (`$prune` step).
-**Verified on Local:** stored `home_hero_slides[1]`/`home_stats[1]`/`testimonials` all updated; ES CTA stored subhead set + call number blank; `lineup_panels` Haas Automation tags = Automation Models / Bar Feeders / Cobots; nav = 40 links, 0 `Pallet-Changing VMCs`; audit **314/337** applied (blanks all documented-correct). Scripts idempotent on second run. PHP lint clean (Local PHP 8.2).
-**Gotcha:** the nav `new_tab` sub-field is deprecated (removed by the "one control per link" refactor) — `update-machine-links.php`'s `new_tab` write is a no-op and the verify line always reads 0; external auto new-tab handles it. The `$prune` full-replace must run **before** the update loop (it drops `new_tab`, so the loop must re-apply URLs after).
-**Deferred:** all image work (FR building, Custom Workholding block, Automation Cell block, 14 HMI gallery images, Electrical gallery card); "Talk to an Engineer" email target, BAR FEEDERS re-link, Applications › Training card (awaiting client); **Figma is not writable** from this environment (MCP read-only) — prototype is authoritative.
-**Deployed to Dev (2026-10-07):** theme rsync `-avz --delete` + chmod; `_gerotech-scripts/` one-shots `apply-tristien-2026-10.php` / `remove-lineup-pallet-tag.php` / `update-machine-links.php` run via `wp eval-file`, then page + CDN flush, scripts removed. Did **not** run the full `update-es-content-2026-10.php` on Dev (targeted `apply-tristien` handles the ES CTA so client Dev edits survive). Verified Dev HTML + DB: Floor Inventory, 14,000+, Kingsbury, ES subhead no phone card, Electrical-first AI cards, 40 nav links / 0 Pallet.
-**Not committed.**
+**Last Updated:** 2026-10-07 (Cursor — Tristien Bridges Basecamp round, Oct 1–7, whole working tree)
+**Active Agent:** Cursor
+**Branch:** `cursor/process-engineering-thumbnail` (tracks `origin/cursor/process-engineering-thumbnail`). HEAD `55c1f9f Apply Tristien Basecamp copy/link round`. Everything after that commit is uncommitted in this working tree.
+**SYNCED (2026-10-07, opencode):** this later pass was seeded into stored ACF on **Local and Dev** and the theme deployed. `scripts/update-es-nav-order.php` **was run**, so stored `nav_es_services` now matches `gerotech_es_defaults()` (19 links). New `scripts/apply-tristien-round2-2026-10.php` carries the images / galleries / engineering mailto / homepage CTA / Bar Feeders URL. Dev verified. **Nothing is committed.**
+
+QA checks the files below. A saved WordPress options row still beats a theme default, so re-run the seeders after any DB pull. Audit Local **314/338**.
+
+**Engineered Solutions order** (prototype header `partials/site-header.html` desktop + mobile, page cards, theme defaults in `inc/global-content.php` `gerotech_es_defaults()` and the page templates):
+- MCS: Machine Column Risers, Safety & Environmental Modifications, Auto Doors, Hydraulic – Pneumatics, Custom Workholding, Sheet Metal Modifications, Process Engineering, Specialty Machine. Sheet Metal is sixth.
+- Applications: Part Programming, Process Optimization, Process Troubleshooting, Tooling Recommendation, Demo, Training. Process Optimization is before Process Troubleshooting. The Applications Training card content was not changed.
+- Automation cards and nav: Electrical – Controls Solutions, HMI Design, Automation Cell Design, Robot EOAT – Ancillary Material Handling, Pre-Engineered Solutions. Layered Controls Solutions is removed from nav and from service cards. A render-time filter in `page-automated-system.php` drops a stored `ai_cards` row whose title contains “layered”. `scripts/update-es-content-2026-10.php` will not write that card back. The Automation gallery collection named Layered Controls Solutions was left (`automation-integration.html` and the `ai_collections` default).
+
+**Homepage** (`index.html` and `front-page.php` defaults):
+- Slide 2 eyebrow and peek 02 eyebrow are Floor Inventory. Peek title stays In-Stock & Ready. Headline stays Our Showroom Machines Are Ready To Ship.
+- Machines Placed stat is 14,000+ (`data-count="14000"` `data-suffix="+"`).
+- Testimonial name is Kingsbury Professional Services (`partials/testimonials-block.html` and `template-parts/sections/testimonials.php`). That partial is shared, so the name is on every page that includes it.
+- Haas Automation lineup tags: Automation Models, Bar Feeders → `https://haascnc.com/machines/lathes/bar-feeders`, Cobots. Pallet Changers is not on that tag list. Mega-menu Haas Bar Feeders uses the same URL (`partials/site-header.html` and `gerotech_machines_defaults()`). Pallet-Changing VMCs was removed earlier.
+- Homepage CTA background is `assets/images/cta-home-building.jpg` (Flat Rock headquarters). Alt: “Gerotech headquarters in Flat Rock, brick building and sign”. Copy matches the other engineering footers: subhead “Let's Talk Through It. Prefer Email?”, body about drawings and photos, no phone card. Button is Talk to an Engineer → `mailto:Engineeringproposals@gerotech.com` (`gerotech_engineering_mailto()` in `inc/helpers.php`).
+- That same mailto is on the footer CTAs of homepage, Engineered Solutions, MCS, Applications, and Automation. Support, About, Careers, and Training still use `sales@gerotech.com` (About still has a phone card). Header “Talk to an Engineer” / “Talk to a Sales Engineer” also stay on `sales@gerotech.com`.
+
+**Images** (prototype markup + theme defaults; files are in `assets/images/` and were copied into `wp-content/themes/gerotech-child/assets/images/`):
+- Custom Workholding card: `custom-workholding-block.jpg` (fixture photo).
+- Process Engineering card: `process-engineering-workflow.jpg` (Gerotech Engineering workflow infographic).
+- Process Troubleshooting card and gallery: `lathe-turning.jpg`.
+- Automation Cell Design card and the matching gallery cover: `automation-cell-controls.jpg` (CAD cell render).
+- Electrical card and the first gallery collection (before HMI): `pre-engineered-card.jpg` (open control cabinet). Same file on both.
+- Pre-Engineered card and gallery: `human-robot-automation-interface.jpg` (yellow robot, hand, AUTOMATION graphic).
+- HMI gallery: 13 screens, in this order: edit program, program load, diag safety inputs, blowoff 1 main, outfeed 1 main, robot 1 EOAT, mill 1 main, blowoff 1 main (second), operator screen 1, hydraulic valves, autodoor, diag enet devices, diag all I/O. One requested HMI image never arrived.
+
+**Verified in this pass:** those strings and file paths in the prototype HTML, `partials/site-header.html`, `partials/testimonials-block.html`, `front-page.php`, `page-engineered-solutions.php`, `page-modification-of-standard-machine-tools.php`, `page-unique-applications-for-standard-machines.php`, `page-automated-system.php`, `inc/global-content.php`, and `inc/helpers.php`. This pass did not re-query Local or Dev databases and did not open the live Dev site.
+
+**Still open:**
+- **Not committed.** Local and Dev both carry this pass now (theme + stored ACF); a DB pull would need the seeders re-run.
+- Stored ACF now matches the defaults for `cta_image` (blank ⇒ Flat Rock bundle), the new card images, `nav_es_services`, `ai_collections`, and the hero eyebrow. Round 1 (Floor Inventory, 14,000+, Kingsbury, ES subhead, Pallet removal) was deployed earlier the same day.
+- Figma frame `7665:1228` (node `7665:1743`) was read earlier and still showed the robot CTA photo. Figma was not edited.
+- Prototype preview is port **8081**. Port 8080 is the CFHF site. Do not use 8080.
 
 ---
 ## Previous Session State

@@ -50,11 +50,6 @@ $cards        = $pick(
 			'detail' => '<p>For applications that require additional safety controls, fully machine integrated fire protection, door and window interlocks, light curtains (Presence-Sensing) are required to ensure adequate protection for the operator and machine. To improve air quality from mist, dust, fumes, the appropriate collection system can collect air contaminants during the machining process.</p>',
 		),
 		array(
-			'title'  => 'Sheet Metal Modifications',
-			'image'  => 'assets/images/mcs-gallery/sheet-metal-stainless.jpg',
-			'detail' => '<p>Sheet metal modifications become necessary for various reasons to expand working envelopes, contain fluids, clearance to mention a few. Here are a few sheet metal examples that may benefit your machining process.</p><ul><li><strong>X-Axis Bump Out:</strong> For longer parts that fit within the machining window of a smaller machine but due to total part length or workholding interference with side panels. The side panels can have extensions called bump outs.</li><li><strong>Tool Changer:</strong> When larger diameter tools or right-angle heads cannot fit through the tool changer modifications can be made to accommodate many situations.</li><li><strong>Tool Changer Door:</strong> To ensure coolant and chips cannot escape into the tool changer a custom shutter door solution can be integrated into the machine tool change sequence.</li><li><strong>Sealing Solutions:</strong> When utilizing high pressure coolant there may be a need for additional sealing to contain liquids. For problem leak areas that are a nuisance additional skirts and drip guarding can be an inexpensive fix.</li></ul>',
-		),
-		array(
 			'title'  => 'Auto Doors',
 			'image'  => 'assets/images/mcs-gallery/auto-door-haas.jpg',
 			// Optional: when set, the card renders a muted looping video instead of the
@@ -70,12 +65,17 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Custom Workholding',
-			'image'  => 'assets/images/custom-workholding.jpg',
+			'image'  => 'assets/images/custom-workholding-block.jpg',
 			'detail' => '<p>When you need more than off the shelf vises and chucks, our mechanical design team can provide a custom solution built around your parts to optimize your process. Whether it\'s a hydraulic fixture, trunnion fixture, tombstone fixture, or custom chuck for a complex part, we engineer it to your machine, your process, and your production goals.</p>',
 		),
 		array(
+			'title'  => 'Sheet Metal Modifications',
+			'image'  => 'assets/images/mcs-gallery/sheet-metal-stainless.jpg',
+			'detail' => '<p>Sheet metal modifications become necessary for various reasons to expand working envelopes, contain fluids, clearance to mention a few. Here are a few sheet metal examples that may benefit your machining process.</p><ul><li><strong>X-Axis Bump Out:</strong> For longer parts that fit within the machining window of a smaller machine but due to total part length or workholding interference with side panels. The side panels can have extensions called bump outs.</li><li><strong>Tool Changer:</strong> When larger diameter tools or right-angle heads cannot fit through the tool changer modifications can be made to accommodate many situations.</li><li><strong>Tool Changer Door:</strong> To ensure coolant and chips cannot escape into the tool changer a custom shutter door solution can be integrated into the machine tool change sequence.</li><li><strong>Sealing Solutions:</strong> When utilizing high pressure coolant there may be a need for additional sealing to contain liquids. For problem leak areas that are a nuisance additional skirts and drip guarding can be an inexpensive fix.</li></ul>',
+		),
+		array(
 			'title'  => 'Process Engineering',
-			'image'  => 'assets/images/process-engineering.jpg',
+			'image'  => 'assets/images/process-engineering-workflow.jpg',
 			'detail' => '<p>Gerotech has a fully staffed engineering department that can take your drawings and models and deliver an engineered solution, from one machine to a completely automated machining line. One partner, one accountable team, from concept through production.</p>',
 		),
 		array(
@@ -84,6 +84,24 @@ $cards        = $pick(
 			'detail' => '<p><strong>5 Axis Grinding:</strong> Gerotech has provided specialty 5-axis grinding machines for over 20 years to many customers in the Aerospace Industry.</p><p><strong>Spin Forming:</strong> Gerotech has converted our standard lathe into a special purpose spin forming machine to contour cylindrical parts.</p>',
 		),
 	)
+);
+
+// Client markup 2026-10-07: Column Risers, Safety, Auto Doors, Hydraulic, Workholding, Sheet Metal, Process Engineering, Specialty.
+$card_order = array( 'column riser', 'safety', 'auto door', 'hydraulic', 'workholding', 'sheet metal', 'process engineering', 'specialty' );
+usort(
+	$cards,
+	function ( $a, $b ) use ( $card_order ) {
+		$rank = function ( $card ) use ( $card_order ) {
+			$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
+			foreach ( $card_order as $i => $needle ) {
+				if ( false !== strpos( $title, $needle ) ) {
+					return $i;
+				}
+			}
+			return PHP_INT_MAX;
+		};
+		return $rank( $a ) <=> $rank( $b );
+	}
 );
 
 /* ── Gallery ──────────────────────────────────────────────── */
@@ -142,7 +160,7 @@ $cta_headline     = $pick( 'mcs_cta_headline', 'Need a <em>custom solution</em> 
 $cta_subhead      = $pick( 'mcs_cta_subhead', "Let's Talk Through It. Prefer Email?" );
 $cta_body         = $pick( 'mcs_cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
 $cta_button_label = $pick( 'mcs_cta_button_label', 'Talk to an Engineer' );
-$cta_button_url   = $pick( 'mcs_cta_button_url', gerotech_quote_mailto() );
+$cta_button_url   = $pick( 'mcs_cta_button_url', gerotech_engineering_mailto() );
 $cta_image_value  = $pick( 'mcs_cta_image', 'assets/images/cta-mcs-cell.jpg' );
 $cta_image        = gerotech_image_url( $cta_image_value, 'assets/images/cta-mcs-cell.jpg' );
 $cta_call_label   = $pick( 'mcs_cta_call_label', 'Prefer to talk it through?' );

@@ -35,14 +35,14 @@ $cards        = $pick(
 			'detail' => '<p>We write programs that get the most out of your machine. From simple 2-axis turning and 3-axis milling work to complex multi-axis solutions, our application engineers handle the full range — G-code, conversational programming, and CAM-generated toolpaths.</p><p>Whether you need a one-off program or high-volume production, we will deliver a reliable toolpath that is right for your part.</p>',
 		),
 		array(
-			'title'  => 'Process Troubleshooting',
-			'image'  => 'assets/images/app-troubleshooting.jpg',
-			'detail' => '<p>When you\'re struggling to resolve a tool path issue, our talented team of Application Engineers is here to assist.</p><p>If the root cause is not obvious from looking at the program, we can take your program and run it through our simulators or, when necessary, trial it on one of our showroom machines depending on the model fit.</p><p>Reach out at applications@gerotech.com with a brief description of your issue along with the necessary tooling and program information.</p>',
-		),
-		array(
 			'title'  => 'Process Optimization',
 			'image'  => 'assets/images/app-optimization.jpg',
 			'detail' => '<p>Every program is optimized for cycle time, tool life, and part quality. We handle custom probing and macro programming when the standard available routines don\'t meet your needs.</p>',
+		),
+		array(
+			'title'  => 'Process Troubleshooting',
+			'image'  => 'assets/images/lathe-turning.jpg',
+			'detail' => '<p>When you\'re struggling to resolve a tool path issue, our talented team of Application Engineers is here to assist.</p><p>If the root cause is not obvious from looking at the program, we can take your program and run it through our simulators or, when necessary, trial it on one of our showroom machines depending on the model fit.</p><p>Reach out at applications@gerotech.com with a brief description of your issue along with the necessary tooling and program information.</p>',
 		),
 		array(
 			'title'  => 'Tooling Recommendation',
@@ -60,6 +60,24 @@ $cards        = $pick(
 			'detail' => '<p>Gerotech offers, at no cost to our customers, instructor-led operator training for basic lathe/mill, VPS, Intro to G&amp;M code, and programming classes for both Mill and Lathe at our Grand Rapids location and our Macomb Community College partner.</p><p>If you need onsite training, our application engineers can tailor training to your needs for a fee. Contact your Account Manager to discuss.</p>',
 		),
 	)
+);
+
+// Client markup 2026-10-07: Optimization before Troubleshooting.
+$card_order = array( 'part programming', 'process optimization', 'process troubleshooting', 'tooling', 'demo', 'training' );
+usort(
+	$cards,
+	function ( $a, $b ) use ( $card_order ) {
+		$rank = function ( $card ) use ( $card_order ) {
+			$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
+			foreach ( $card_order as $i => $needle ) {
+				if ( false !== strpos( $title, $needle ) ) {
+					return $i;
+				}
+			}
+			return PHP_INT_MAX;
+		};
+		return $rank( $a ) <=> $rank( $b );
+	}
 );
 
 /* ── Gallery ──────────────────────────────────────────────── */
@@ -83,7 +101,7 @@ $collections   = $pick(
 		array(
 			'title' => 'Process Troubleshooting',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/app-troubleshooting.jpg | | Coolant blasting a part while a tool cuts inside a CNC | Process Troubleshooting · in the cut",
+			'media' => "image | {$uri}/assets/images/lathe-turning.jpg | | Coolant spray on a lathe turning a part | Process Troubleshooting · lathe turning",
 		),
 		array(
 			'title' => 'Process Optimization',
@@ -120,7 +138,7 @@ $cta_headline     = $pick( 'app_cta_headline', 'Need <em>application support</em
 $cta_subhead      = $pick( 'app_cta_subhead', "Let's Talk Through It. Prefer Email?" );
 $cta_body         = $pick( 'app_cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
 $cta_button_label = $pick( 'app_cta_button_label', 'Talk to an Engineer' );
-$cta_button_url   = $pick( 'app_cta_button_url', gerotech_quote_mailto() );
+$cta_button_url   = $pick( 'app_cta_button_url', gerotech_engineering_mailto() );
 // Client (2026-09-22): "use the same picture that we have for the page header,
 // the same for this footer" — so the CTA band intentionally shares app-hero.jpg.
 $cta_image_value  = $pick( 'app_cta_image', 'assets/images/app-hero.jpg' );

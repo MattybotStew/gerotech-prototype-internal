@@ -97,6 +97,16 @@ function gerotech_quote_mailto( $subject = 'Gerotech Quote Request' ) {
 }
 
 /**
+ * Engineering-space footer mailto (homepage, ES, MCS, Applications, Automation).
+ *
+ * @param string $subject Optional subject line.
+ * @return string
+ */
+function gerotech_engineering_mailto( $subject = 'Gerotech Quote Request' ) {
+	return 'mailto:Engineeringproposals@gerotech.com?subject=' . rawurlencode( $subject );
+}
+
+/**
  * Page slugs whose templates render card modals + gallery collections.
  *
  * Shared by inc/enqueue.php (which loads modal.js / gallery-module.js) and

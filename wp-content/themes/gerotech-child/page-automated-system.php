@@ -46,13 +46,8 @@ $cards        = $pick(
 			'detail' => '<details open><summary>Customizable Operator Screens</summary><p>Every application is different, and the operator interface should reflect the needs of the people using it. Our HMI is fully configurable, providing a centralized location for the information and functions required for efficient day-to-day operation.</p></details><details><summary>HMI – Ethernet Diagnostics</summary><p>When implemented on Allen-Bradley control platforms, our software library utilizes native EtherNet/IP diagnostic capabilities to provide operators and maintenance personnel with detailed device diagnostics directly from the HMI. Access to fault codes, device status, fault descriptions, and manufacturer diagnostic information helps reduce troubleshooting time while minimizing the need for a programming laptop.</p></details><details><summary>HMI – I/O Diagnostics</summary><p>When implemented on Allen-Bradley control platforms, our software library provides extensive I/O diagnostics directly on the HMI, giving operators and maintenance technicians clear visibility into machine status without the need for a programming laptop. Where supported, device-specific diagnostics include manufacturer fault information, descriptions, and recommended corrective actions, enabling faster troubleshooting and reduced downtime.</p></details><details><summary>HMI – Device Specific Diagnostics</summary><p>Where applicable, our library components include device-level diagnostics, providing immediate access to fault codes, fault descriptions, and manufacturer-recommended corrective actions.</p></details><details><summary>HMI – Device Centric Control / Feedback</summary><p>Our device-centric PLC and HMI design provides a consistent, intuitive, and flexible operator experience throughout the entire system. Every device utilizes a standardized interface that presents the information, diagnostics, and controls needed for efficient operation and maintenance.</p><p><strong>Typical device interface items:</strong></p><ul><li>Current operating status and operating mode</li><li>Manual operation and jog functions</li><li>Clear indication of manual operation inhibits and the conditions preventing device operation</li><li>Runtime statistics and performance information</li><li>Device configuration and setup parameters</li><li>Maintenance and service functions</li><li>Device health and communication status</li></ul></details><details><summary>HMI – Cell Automation – Overview</summary><p>The Cell Overview screen serves as the primary operational dashboard, presenting the most critical information required to monitor and operate the cell at a glance. Key production metrics, including part counts, cycle times, and active part status, are displayed alongside a high-level summary of the machine\'s safety system that corresponds directly with the detailed Safety Diagnostics screen. By consolidating essential production and safety information into a single interface, operators can quickly assess machine status, identify production bottlenecks, and respond to abnormal conditions without navigating through multiple screens.</p></details><details><summary>HMI – Cell Automation – Station</summary><p>Each station includes a dedicated detail screen that consolidates all relevant information into a single, easy-to-navigate interface. Operators and maintenance personnel can view and control the station operating mode, monitor active interlocks and permissives, access station-specific I/O diagnostics, review part tracking data, and interact with device-specific functions without navigating between areas of the HMI. By centralizing these tools in one location, troubleshooting is simplified, operator training is reduced, and critical machine information is always readily accessible.</p></details><details><summary>HMI – Cell Automation – Part Program</summary><p>The integrated Part Program system provides the flexibility to accommodate multiple product variants, manufacturing requirements, and configurable process options without requiring software modifications. Part Programs define the parameters and processing requirements for each product, allowing the automation system to automatically adjust machine behavior based on the selected part configuration. A guided Program Load screen simplifies changeovers by walking operators through the program selection and loading process. This streamlined workflow reduces setup time, minimizes the risk of operator error, and enables fast, repeatable product changeovers with minimal training.</p></details><details><summary>HMI – Cell Automation – Part Data View</summary><p>The cell-level Part Data screen provides a centralized view of the current status of each part as it progresses through the manufacturing process. Operators can quickly identify required and completed operations, review process-specific data, monitor part tracking information. By consolidating critical production data into a single interface, the system improves traceability, simplifies troubleshooting, and provides clear visibility into the overall health and progress of each part throughout the cell.</p></details><details><summary>HMI – Cell Automation – Safety Devices</summary><p>The Safety Diagnostics screen provides a comprehensive view of the machine\'s safety system, allowing operators and maintenance personnel to quickly identify the status of all safety inputs, outputs, and safety functions. Each safety device includes contextual diagnostics and detailed status information to clearly indicate the current operating condition, fault state, or reason for a safety stop. By presenting meaningful diagnostic information alongside each device, the system reduces troubleshooting time, improves maintenance efficiency, and helps restore the machine to operation safely and quickly.</p></details>',
 		),
 		array(
-			'title'  => 'Layered Controls Solutions',
-			'image'  => 'assets/images/layered-controls.jpg',
-			'detail' => '<p>Our Layered Controls approach organizes automation into three integrated levels, each building on the last to deliver a complete, coordinated manufacturing system.</p><details open><summary>Layer 1 — Machine Tool</summary><p>The OEM CNC control remains responsible for the machine\'s core manufacturing functions, including axis motion, spindle control, tool changes, and machining cycles. For applications requiring additional functionality, we specialize in implementing targeted enhancements to the existing control system, extending the machine\'s capabilities while preserving the OEM control architecture.</p></details><details><summary>Layer 2 — Machine Tool Automation</summary><p>Our Machine Automation package extends the capabilities of the CNC machine with features that are specific to your manufacturing process.</p><p><strong>Typical extended capabilities include:</strong></p><ul><li>Automatic door control</li><li>Part presence verification</li><li>Machine status monitoring</li><li>Custom I/O integration</li><li>Safety interfaces</li><li>Pneumatic and hydraulic systems</li><li>Coolant and chip management</li><li>Operator interfaces</li><li>Process-specific automation</li></ul><p><strong>Machine Tool Control Packages:</strong> Rather than designing every system from the ground up, we offer a family of pre-engineered automation solutions that can be configured to match your application\'s requirements. From cost-effective machine automation packages to fully featured control systems, each solution is designed to provide the right balance of functionality, performance, and investment.</p><p>Every platform is built on proven software, standardized engineering practices, and years of real-world manufacturing experience, allowing us to deliver custom solutions with reduced engineering time, lower project risk, and faster implementation.</p><ul><li>Reduced engineering time</li><li>Faster project delivery</li><li>Lower project risk</li><li>Proven, reliable software</li><li>Consistent operator experience</li><li>Flexible architecture that adapts to a wide range of machine types and applications</li><li>Simplified future enhancements and support</li></ul></details><details><summary>Layer 3 — Automation Cells</summary><p>The Cell Controller coordinates the entire manufacturing system by managing communication between machines, robots, conveyors, vision systems, and peripheral equipment.</p><p><strong>Responsibilities include:</strong></p><ul><li>Robot coordination</li><li>Part routing</li><li>Cell sequencing</li><li>Production scheduling</li><li>Vision integration</li><li>Data collection</li><li>Fault recovery</li><li>System diagnostics</li></ul></details><details><summary>Standardized Software Design Methodology</summary><p>Our automation solutions are developed using a standardized software design methodology that has been refined through years of real-world manufacturing applications. This proven approach provides a consistent programming structure, operator experience, and diagnostic philosophy across our automation platforms.</p><p>By developing from a common software foundation and adapting it to the selected control platform, we can deliver custom automation solutions more efficiently while maintaining proven functionality, consistent operation, and high-quality software.</p><p><strong>Key Benefits:</strong></p><ul><li>Proven software foundation</li><li>Standardized programming methodology</li><li>Consistent HMI navigation and operator experience</li><li>Common alarms, diagnostics, and fault recovery</li><li>Faster project development</li><li>Reduced project risk</li><li>Simplified troubleshooting and maintenance</li><li>Easier operator training</li><li>Flexible deployment across multiple control platforms</li><li>Scalable design for future expansion</li></ul></details>',
-		),
-		array(
 			'title'  => 'Automation Cell Design',
-			'image'  => 'assets/images/automation-cell-design.jpg',
+			'image'  => 'assets/images/automation-cell-controls.jpg',
 			'detail' => '<p>We design every automation cell in SolidWorks and validate it in RoboGuide. SolidWorks lets us model the robot, the machine, the workholding, and EOAT as one integrated assembly so interference, reach, and cycle time concerns are identified in the design phase. RoboGuide then simulates the full motion path confirming the robot path prior to build.</p>',
 		),
 		array(
@@ -62,15 +57,24 @@ $cards        = $pick(
 		),
 		array(
 			'title'  => 'Pre-Engineered Solutions',
-			'image'  => 'assets/images/pre-engineered-automation.jpg',
+			'image'  => 'assets/images/human-robot-automation-interface.jpg',
 			'detail' => '<p>Rather than designing every system from the ground up, we offer a family of pre-engineered automation solutions that can be configured to match your application\'s requirements — from cost-effective machine automation packages to fully featured control systems.</p><p>Every platform is built on proven software, standardized engineering practices, and years of real-world manufacturing experience, delivering custom solutions with reduced engineering time, lower project risk, and faster implementation.</p><ul><li>Reduced engineering time &amp; faster project delivery</li><li>Lower project risk with proven, reliable software</li><li>Consistent operator experience across platforms</li><li>Flexible architecture — adapts to a wide range of machine types</li><li>Simplified future enhancements and support</li></ul><details><summary>Standardized Software Design Methodology</summary><p>Our automation solutions are developed using a standardized software design methodology that has been refined through years of real-world manufacturing applications. This proven approach provides a consistent programming structure, operator experience, and diagnostic philosophy across our automation platforms.</p><p>By developing from a common software foundation and adapting it to the selected control platform, we can deliver custom automation solutions more efficiently while maintaining proven functionality, consistent operation, and high-quality software.</p><p><strong>Key Benefits:</strong></p><ul><li>Proven software foundation</li><li>Standardized programming methodology</li><li>Consistent HMI navigation and operator experience</li><li>Common alarms, diagnostics, and fault recovery</li><li>Faster project development</li><li>Reduced project risk</li><li>Simplified troubleshooting and maintenance</li><li>Easier operator training</li><li>Flexible deployment across multiple control platforms</li><li>Scalable design for future expansion</li></ul></details>',
 		),
 	)
 );
 
-// 2026-10-06: "Electrical – Controls Solutions" leads, then HMI Design.
-// Enforce the client's card order regardless of stored row order.
-$card_order = array( 'electrical', 'hmi design', 'layered', 'automation cell', 'robot eoat', 'pre-engineered' );
+// Client markup 2026-10-07: Layered Controls Solutions is marked Remove.
+// Drop it even when a stored ai_cards row still has it. Electrical still leads.
+$cards = array_values(
+	array_filter(
+		$cards,
+		function ( $card ) {
+			$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
+			return false === strpos( $title, 'layered' );
+		}
+	)
+);
+$card_order = array( 'electrical', 'hmi design', 'automation cell', 'robot eoat', 'pre-engineered' );
 usort(
 	$cards,
 	function ( $a, $b ) use ( $card_order ) {
@@ -94,14 +98,27 @@ $collections     = $pick(
 	'ai_collections',
 	array(
 		array(
+			'title' => 'Electrical – Controls Solutions',
+			'meta'  => '',
+			'media' => "image | {$uri}/assets/images/pre-engineered-card.jpg | | Open grey control cabinet with blue wiring, red terminals, and a VFD | Electrical – Controls Solutions · control cabinet",
+		),
+		array(
 			'title' => 'HMI Design',
 			'meta'  => '',
 			'media' => implode( "\n", array(
-				"image | {$uri}/assets/images/automation-gallery/hmi-operator-1.jpg | | Gerotech operator screen showing part complete and fixture presence | Operator screen · part complete",
-				"image | {$uri}/assets/images/automation-gallery/hmi-operator-2.jpg | | Gerotech operator screen, closer view of part complete | Operator screen · part complete (close view)",
-				"image | {$uri}/assets/images/automation-gallery/hmi-operator-3.jpg | | Gerotech operator screen with the full button bar | Operator screen · full controls",
-				"image | {$uri}/assets/images/automation-gallery/hmi-cell-overview.jpg | | Gerotech cell overview screen with mill and robot status | Cell overview",
-				"image | {$uri}/assets/images/automation-gallery/hmi-diagnostics.jpg | | Gerotech diagnostics screen showing safety inputs and a door-open fault | Diagnostics · safety inputs",
+				"image | {$uri}/assets/images/automation-gallery/hmi-edit-program.png | | HMI edit program screen | Edit Program Screen",
+				"image | {$uri}/assets/images/automation-gallery/hmi-program-load.png | | HMI program load screen | Program Load Screen",
+				"image | {$uri}/assets/images/automation-gallery/hmi-diag-safety-inputs.png | | HMI diagnostics safety inputs | Diag > Safety Inputs",
+				"image | {$uri}/assets/images/automation-gallery/hmi-blowoff-1-main.png | | HMI BlowOff 1 main screen | BlowOff 1 Main",
+				"image | {$uri}/assets/images/automation-gallery/hmi-outfeed-1-main.png | | HMI Outfeed 1 main screen | Outfeed 1 Main Screen",
+				"image | {$uri}/assets/images/automation-gallery/hmi-robot-1-eoat.png | | HMI Robot 1 EOAT screen | Robot 1 EOAT",
+				"image | {$uri}/assets/images/automation-gallery/hmi-mill-1-main.png | | HMI Mill 1 main screen | Mill 1 Main Screen",
+				"image | {$uri}/assets/images/automation-gallery/hmi-blowoff-1-main-2.png | | HMI BlowOff 1 main screen, second view | BlowOff 1 Main",
+				"image | {$uri}/assets/images/automation-gallery/hmi-operator-screen-1.png | | HMI operator screen 1 | Operator Screen 1",
+				"image | {$uri}/assets/images/automation-gallery/hmi-hydraulic-valves.jpg | | HMI hydraulic valves split view | Hydraulic Valves",
+				"image | {$uri}/assets/images/automation-gallery/hmi-autodoor.jpg | | HMI autodoor split view | Autodoor",
+				"image | {$uri}/assets/images/automation-gallery/hmi-diag-enet-devices.png | | HMI diagnostics Ethernet devices | Diag > Enet Devices",
+				"image | {$uri}/assets/images/automation-gallery/hmi-diag-all-io.png | | HMI diagnostics all I/O | Diag > All IO",
 			) ),
 		),
 		array(
@@ -112,7 +129,7 @@ $collections     = $pick(
 		array(
 			'title' => 'Automation Cell Design',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/automation-cell-design.jpg | | FANUC M-20iD/25 tending a Haas ST-10 in a guarded cell | FANUC M-20iD/25 · Haas ST-10\n"
+			'media' => "image | {$uri}/assets/images/automation-cell-controls.jpg | | CAD render of a long automation cell with red enclosures, yellow guarding, and an overhead rail | Automation Cell Design · controls layout\n"
 				. "image | {$uri}/assets/images/automation-gallery/automation-cell-lab.jpg | | Automation training lab with control cabinet, teach pendant, dual yellow robots on pedestals, EOAT tree, and CNC machines in the background | Training lab · dual robots · EOAT tree\n"
 				. "image | {$uri}/assets/images/automation-gallery/automation-cell-guarded.jpg | | Guarded yellow robot cell with wire-mesh safety enclosure, vertical control cabinet with HMI, and floor controller | Guarded robot cell · control cabinet\n"
 				. "image | {$uri}/assets/images/automation-gallery/automation-cell-vision.jpg | | Keyence overhead machine vision system with four green LED ring lights on a diamond mounting plate | Keyence vision · ring lights",
@@ -127,7 +144,7 @@ $collections     = $pick(
 		array(
 			'title' => 'Pre-Engineered Solutions',
 			'meta'  => '',
-			'media' => "image | {$uri}/assets/images/pre-engineered-card.jpg | | Open grey control cabinet with blue wiring, red terminals, and a VFD | Pre-Engineered Solutions · control cabinet",
+			'media' => "image | {$uri}/assets/images/human-robot-automation-interface.jpg | | Yellow robot arm and a hand meeting under an Automation label | Pre-Engineered Solutions · human-robot interface",
 		),
 	)
 );
@@ -138,7 +155,7 @@ $cta_headline     = $pick( 'ai_cta_headline', 'Need a <em>custom solution</em> f
 $cta_subhead      = $pick( 'ai_cta_subhead', "Let's Talk Through It. Prefer Email?" );
 $cta_body         = $pick( 'ai_cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
 $cta_button_label = $pick( 'ai_cta_button_label', 'Talk to an Engineer' );
-$cta_button_url   = $pick( 'ai_cta_button_url', gerotech_quote_mailto() );
+$cta_button_url   = $pick( 'ai_cta_button_url', gerotech_engineering_mailto() );
 // Client (2026-09-22): use the FANUC rail-robot photo for this CTA band too — the
 // same asset as the Engineered Solutions CTA, so it is deliberately shared.
 $cta_image_value  = $pick( 'ai_cta_image', 'assets/images/cta-rail-robot.jpg' );

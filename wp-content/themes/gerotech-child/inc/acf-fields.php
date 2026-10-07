@@ -272,6 +272,7 @@ acf_add_local_field_group(
 			array( 'key' => 'field_home_cta_tab', 'label' => 'CTA Band', 'type' => 'tab', 'placement' => 'top' ),
 			array( 'key' => 'field_home_cta_eyebrow', 'label' => 'Eyebrow', 'name' => 'cta_eyebrow', 'type' => 'text' ),
 			array( 'key' => 'field_home_cta_headline', 'label' => 'Headline', 'name' => 'cta_headline', 'type' => 'textarea', 'rows' => 2 ),
+			array( 'key' => 'field_home_cta_subhead', 'label' => 'Subhead', 'name' => 'cta_subhead', 'type' => 'text' ),
 			array( 'key' => 'field_home_cta_body', 'label' => 'Body', 'name' => 'cta_body', 'type' => 'textarea', 'rows' => 2 ),
 			array( 'key' => 'field_home_cta_button_label', 'label' => 'Button label', 'name' => 'cta_button_label', 'type' => 'text' ),
 			array( 'key' => 'field_home_cta_button_url', 'label' => 'Button URL', 'name' => 'cta_button_url', 'type' => 'text' ),

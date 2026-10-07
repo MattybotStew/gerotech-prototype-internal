@@ -1,7 +1,7 @@
 # Gerotech Website Prototype — Design Spec
 
 **Presentation date:** July 7, 2026  
-**Last updated:** August 17, 2026 (homepage Haas/news/testimonial refresh)  
+**Last updated:** October 7, 2026 (Tristien Bridges Basecamp round — see **Tristien round (2026-10)** below)  
 **Client:** Gerotech — CNC Machinery Distributor + Engineering Solutions, Michigan  
 **Build:** Static HTML/CSS/JS, no framework  
 **Agent design directions:** `AGENTS.md` → **Design directions (2026-08-17)**
@@ -85,9 +85,11 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 
 | Action | Destination |
 |--------|-------------|
-| Get a Quote | `mailto:sales@gerotech.com?subject=Gerotech%20Quote%20Request` |
-| Talk to an Engineer | `tel:+17343797788` |
+| Get a Quote (sales) | `mailto:sales@gerotech.com?subject=Gerotech%20Quote%20Request` |
+| Talk to an Engineer (engineering footers) | `mailto:Engineeringproposals@gerotech.com?subject=Gerotech%20Quote%20Request` |
 | Service Request | `tel:+12484768787` |
+
+The engineering mailto is on the homepage CTA and the ES / Machine Custom Solutions / Applications / Automation footer CTAs (`gerotech_engineering_mailto()` in `inc/helpers.php`). Support, About, Careers and Training still use `sales@gerotech.com`; header CTAs are unchanged.
 
 ---
 
@@ -112,11 +114,11 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 | 1 | Alert banner | `.alert-banner` | Dark bar, 3 click-to-call numbers; collapses on scroll |
 | 2 | Sticky header | `partials/site-header.html` | Logo · Machines + · Engineered Solutions + · Training · Support · About · Get a Quote · Search. WP Support is a service dropdown. |
 | 3 | Peek hero | `.hero-slider--peek` | **min-height 500px**; slides share one grid cell so the hero matches the tallest slide (no page shift on rotate). 3 slides. Figma `7306:1155` / slide 1 photo `7046:872` |
-| 4 | Stat counter | `.stat-counter` | **39+** Years in Michigan, **14,000** Machines Placed |
+| 4 | Stat counter | `.stat-counter` | **39+** Years in Michigan, **14,000+** Machines Placed |
 | 5 | Haas Relationship | `.haas-relationship` | Eyebrow + intro + watermark + F1 lockup. **No** 4-col features band on `7306:1063` |
 | 6 | Machine lineup | `.machine-lineup` `#machine-browse` | Dark section — 5 tabs + split panel. Default tab: Vertical Mills. Panels share one grid cell (`.machine-lineup__panels`) so the section is as tall as the tallest panel and tab switching does not shift the page |
-| 7 | Testimonials | `partials/testimonials-block.html` | `.testimonial-grid` — Rudisill / Ford / Kingbury |
-| 8 | CTA band | `.cta-band--cinema-lockup` | Copy-left, **no phone lockup**. Photo `assets/images/cta-home-figma.jpg` |
+| 7 | Testimonials | `partials/testimonials-block.html` | `.testimonial-grid` — Rudisill / Ford / Kingsbury |
+| 8 | CTA band | `.cta-band--cinema-lockup` | Copy-left, **no phone lockup**. Photo `assets/images/cta-home-building.jpg` |
 | 9 | Email signup | `.email-signup` | Prototype thanks state on submit (`nav.js`) |
 | 10 | Footer | `partials/site-footer.html` | 4-column, wired internal links |
 
@@ -125,7 +127,7 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 | Slide | Eyebrow | Headline | Peek title | CTA | Image |
 |-------|---------|----------|------------|-----|-------|
 | 1 | A Division of Gerotech | Haas Factory Outlet | A Division of Gerotech | Explore the Haas Line → `#machine-browse` | `assets/images/hero-slide-1.jpg` |
-| 2 | New Arrivals | Our Showroom Machines Are Ready To Ship | In-Stock & Ready | Browse Inventory → Haas showroom | `assets/images/hero-showroom.jpg` |
+| 2 | Floor Inventory | Our Showroom Machines Are Ready To Ship | In-Stock & Ready | Browse Inventory → Haas showroom | `assets/images/hero-showroom.jpg` |
 | 3 | Engineered Solutions | Automation Built for Your Shop Floor | On Our Floor | Explore Solutions | `assets/images/hero-automation-cell.jpg` |
 
 Peek cards read `data-peek-eyebrow` / `data-peek-title` from each `.slide`. Peek 01 stays `A Division of Gerotech`; peek 03 is `On Our Floor` (Figma PM 2026-09-30); slide 2 **headline** is the later client line.
@@ -152,7 +154,7 @@ Icons: `assets/images/icons/haas-rel-{sales,apps,warranty,service}.svg` · Water
 | Machining Centers | Vertical Mills | View All Mills → `gerotech.com/machines` |
 | Turning Centers | CNC Lathes | View All Lathes → `gerotech.com/machines` |
 | 5-Axis | 5-Axis Machines | View All 5-Axis → `gerotech.com/machines` |
-| Automation | Pallet Systems & Robots | View Automation → `gerotech.com/machines` |
+| Automation | Haas Automation | View Automation → `gerotech.com/machines` |
 | Haas Tooling | Tooling & Workholding | View Haas Tooling → `gerotech.com/machines` |
 
 Default panel photo: `assets/images/haas-umc-750.jpg`. Tab switching: `machine-tabs.js`.
@@ -223,6 +225,27 @@ Default panel photo: `assets/images/haas-umc-750.jpg`. Tab switching: `machine-t
 
 ---
 
+## Tristien round (2026-10) — QA revision notes
+
+Applied to the prototype, the theme, **and the stored ACF on Local + Dev** (seeded/deployed 2026-10-07 via `scripts/apply-tristien-round2-2026-10.php`, `update-es-nav-order.php`, `update-machine-links.php`). **Not committed.** A saved WordPress options row still beats a theme default, so the seeders are the source of truth — re-run them after a DB pull. Full pass detail lives in `.clinerules` → *Current Session State* and the `JOURNAL.md` 2026-10-07 entries.
+
+| Area | Current state (working tree) |
+|------|------------------------------|
+| Homepage hero | Slide 2 + peek 02 eyebrow **Floor Inventory**; peek title stays **In-Stock & Ready**; headline unchanged |
+| Homepage stat | **14,000+** Machines Placed (`data-count="14000"` `data-suffix="+"`) |
+| Testimonials | **Kingsbury Professional Services** (shared partial — every page that includes it) |
+| Homepage CTA | Photo `assets/images/cta-home-building.jpg` (Flat Rock HQ); subhead *"Let's Talk Through It. Prefer Email?"*; drawings/photos body; **no phone card** |
+| Engineering mailto | `Engineeringproposals@gerotech.com` on the homepage CTA + ES/MCS/Applications/Automation footer CTAs; Sales/Support/About/Careers/Training unchanged |
+| Haas Automation lineup | Tags: Automation Models, **Bar Feeders** → `https://haascnc.com/machines/lathes/bar-feeders`, Cobots. **Pallet Changers removed**; mega-menu `Pallet-Changing VMCs` removed |
+| MCS order | Column Risers · Safety & Environmental · Auto Doors · Hydraulic – Pneumatics · Custom Workholding · **Sheet Metal** · Process Engineering · Specialty Machine |
+| Applications order | Part Programming · **Process Optimization** · Process Troubleshooting · Tooling Recommendation · Demo · Training |
+| Automation order | Electrical – Controls · HMI Design · Automation Cell Design · Robot EOAT · Pre-Engineered. **Layered Controls Solutions removed** from nav, cards and `ai_cards` defaults (a render filter in `page-automated-system.php` drops a stored "layered" row); its gallery collection remains |
+| New card/gallery images | Custom Workholding `custom-workholding-block.jpg` · Process Engineering `process-engineering-workflow.jpg` · Process Troubleshooting `lathe-turning.jpg` · Automation Cell `automation-cell-controls.jpg` · Electrical gallery cover `pre-engineered-card.jpg` · Pre-Engineered `human-robot-automation-interface.jpg` · HMI gallery = 13 supplied screens (one never arrived) |
+
+**Still open:** Applications › Training card content was not changed; Figma frame `7665:1228` still shows the robot CTA and was not edited (Figma is read-only here). Stored ACF now matches these defaults on Local + Dev. Prototype preview is port **8081** (8080 is the CFHF site).
+
+---
+
 ## Image Placeholders
 
 Most images are **Unsplash stand-ins** (`<img>` tags with HTML comment crediting source). Client/Figma assets live in `assets/images/`. When client provides final assets:
@@ -237,6 +260,7 @@ Most images are **Unsplash stand-ins** (`<img>` tags with HTML comment crediting
 |------|-----|
 | `assets/images/hero-slide-1.jpg` | Hero slide 1 background |
 | `assets/images/haas-umc-750.jpg` | Machine lineup — Machining Centers panel |
+| `assets/images/cta-home-building.jpg` | Homepage footer CTA background (Flat Rock HQ) |
 | `assets/images/haas-f1-team.jpg` | Haas Relationship brand card |
 | `assets/images/gerotech-logo.svg` / `gerotech-logo-white.svg` | Header / footer |
 
