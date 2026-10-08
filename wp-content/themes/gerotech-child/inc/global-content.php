@@ -294,7 +294,7 @@ function gerotech_header_defaults() {
 		'logo_url'        => '',
 		'logo_width'      => 188,
 		'logo_height'     => 30,
-		'cta_label'       => 'Talk to an Engineer',
+		'cta_label'       => "Let's Connect",
 		'cta_url'         => '',
 		'search_title'    => 'Search Gerotech',
 		'search_hint'     => 'Prototype site search — browse by section:',

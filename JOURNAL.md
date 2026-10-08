@@ -2,9 +2,41 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-08 — Process Optimization orange top edge removed (Cursor)
+
+The blurred side fill on `app-optimization.jpg` was smearing the orange cycle arrow across the top of the card. Rebuilt the card from `app-optimization-gallery.jpg` at **1080×550** (exact 540×275 cover): orange pixels were replaced with the gray shop tone before the blur, and the sharp photo is height-fitted and centered so both arrow tips stay in the cover crop. Gallery file unchanged. Copied to the theme, synced to Local, overwrote Local **#3476** and Dev **#3475** (`uploads/2021/06/app-optimization.jpg`), regenerated metadata (1080×550), flushed Dev page + CDN.
+
+## 2026-10-08 — Process Optimization card uses gallery photo (Cursor)
+
+The Applications Process Optimization card now shows the gallery photo (`app-optimization-gallery.jpg`, confirmed as the gallery cover and lightbox item). That 1024×682 frame is taller than the 540×275 card, so a straight cover crop cut the top of the cycle. The card file `app-optimization.jpg` is a 1124×590 fit of that photo: the whole diagram sits inside the cover window, with a blurred continuation on the sides. The gallery file is unchanged. Local attachment **#3476** and Dev **#3475** overwritten; Dev page + CDN flushed.
+
+## 2026-10-08 — Process Optimization arrows still clipped (Cursor)
+
+1124×550 was still wider than the 540×275 card (~1.96), so `object-fit: cover` cut the cycle-diagram arrow tips. `app-optimization.jpg` is now **1280×681** (aspect ~1.88): the previous graphic is scaled to 82% of the width and centered on a blurred photo fill, so a center cover crop keeps both side arrows with ~115px of side margin and ~69px top/bottom. Prototype, theme, Local attachment **#3476**, and Dev **#3475** overwritten; metadata regenerated; Dev page + CDN flushed. Gallery file unchanged.
+
+## 2026-10-08 — Process Optimization card fit (Cursor)
+
+Figma `7634:3543` is the Applications **Process Optimization** card. The graphic (`app-optimization.jpg`) was 1600×745, so the 275px cover crop clipped the sides of the cycle diagram. It is now 1124×550: the full graphic fitted to the card width on a blurred continuation of the photo. Prototype and theme already pointed at that file. Stored attachments overwritten in place and metadata regenerated: Local `#3476`, Dev `#3475` (`uploads/2021/06/app-optimization.jpg`). Theme rsynced; Dev page + CDN flushed. Gallery still uses `app-optimization-gallery.jpg`.
+
+## 2026-10-08 — Local gallery images blocked as mixed content (Cursor)
+
+MCS card photos (Process Engineering, Specialty Machine, Custom Workholding) were fine. The broken pictures were the Installed Gallery covers (and the same stored media on Applications and Automation). Local post meta had `http://gerotech.local/...` while the site is served over HTTPS, so the browser blocked the images. They were not 404s. Rewrote those 19 plain-text collection media rows on Local to `https://`. Dev gallery URLs were already https. Card attachments were not touched.
+
+## 2026-10-08 — Header button “Let’s Connect” (Cursor)
+
+The orange header button (next to search) and the matching last phone-menu item now read **Let’s Connect**. Mailto stays `sales@gerotech.com`. Footer CTAs and the ES mega-menu “Talk to an Engineer” buttons were left alone.
+
+- Prototype: `partials/site-header.html` (`.btn-get-quote` and the phone-menu twin).
+- Theme default: `header_cta_label` in `inc/global-content.php` (`gerotech_header_defaults()`). Editor hint in `inc/acf-global-fields.php`.
+- Stored option `header_cta_label` (`field_header_cta_label`) set to Let’s Connect on Local and Dev. Theme rsynced to Dev; page + CDN cache flushed. Local theme synced.
+
+## 2026-10-08 — Custom Workholding card fit + gallery photo (Cursor)
+
+The Custom Workholding card photo is a 576×1024 portrait, so the 275px cover crop showed only a strip. `custom-workholding-block.jpg` is now 1124×550: bottom machine base cropped, fixture fitted to the card height on a blurred continuation of the photo. The full original is `assets/images/mcs-gallery/workholding-frame.jpg`, appended to the Custom Workholding gallery (prototype, theme default, `scripts/update-es-content-2026-10.php`, stored `mcs_collections` on Local and Dev). Card attachments replaced in place: Local `#3500`, Dev `#3517`. Dev page + CDN flushed.
+
 ## 2026-10-08 — Process Engineering card image inset (Cursor)
 
-`process-engineering-workflow.jpg` (prototype `assets/images/` and the theme copy) is the same 1024×682 frame, with the diagram scaled to 70% and centered on a blurred continuation of the factory background. The MCS card uses `object-fit: cover` at 275px tall in a ~2:1 box, which was clipping the top and bottom labels. Not deployed to Dev.
+`process-engineering-workflow.jpg` (prototype `assets/images/` and the theme copy) is the same 1024×682 frame, with the diagram scaled to 70% and centered on a blurred continuation of the factory background. The MCS card uses `object-fit: cover` at 275px tall in a ~2:1 box, which was clipping the top and bottom labels. Theme synced to Local and rsynced to Dev. Stored card attachments overwritten in place and metadata regenerated: Local `#3501`, Dev `#3518` (`uploads/2021/06/process-engineering-workflow.jpg`). Dev page + CDN cache flushed.
 
 ## 2026-10-07 — Tristien round 2 synced to Local + Dev (opencode)
 

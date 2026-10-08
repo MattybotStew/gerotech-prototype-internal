@@ -3,9 +3,9 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-08 (Cursor — Process Engineering workflow image inset so the card crop shows the full diagram)
+**Last Updated:** 2026-10-08 (Cursor — Process Optimization card rebuilt at 1080×550 from the gallery photo; orange blur stripped from the top edge. Local #3476, Dev #3475. Gallery file unchanged.)
 **Active Agent:** Cursor
-**Branch:** `cursor/process-engineering-thumbnail` (tracks `origin/cursor/process-engineering-thumbnail`). HEAD `55c1f9f Apply Tristien Basecamp copy/link round`. Everything after that commit is uncommitted in this working tree.
+**Branch:** `cursor/process-engineering-thumbnail` (tracks `origin/cursor/process-engineering-thumbnail`). 2026-10-08 client round (card crops, workholding gallery frame, header Let’s Connect) is committed and pushed; theme rsynced to Dev.
 **SYNCED (2026-10-07, opencode):** this later pass was seeded into stored ACF on **Local and Dev** and the theme deployed. `scripts/update-es-nav-order.php` **was run**, so stored `nav_es_services` now matches `gerotech_es_defaults()` (19 links). New `scripts/apply-tristien-round2-2026-10.php` carries the images / galleries / engineering mailto / homepage CTA / Bar Feeders URL. Dev verified. **Nothing is committed.**
 
 QA checks the files below. A saved WordPress options row still beats a theme default, so re-run the seeders after any DB pull. Audit Local **314/338**.
@@ -21,11 +21,12 @@ QA checks the files below. A saved WordPress options row still beats a theme def
 - Testimonial name is Kingsbury Professional Services (`partials/testimonials-block.html` and `template-parts/sections/testimonials.php`). That partial is shared, so the name is on every page that includes it.
 - Haas Automation lineup tags: Automation Models, Bar Feeders → `https://haascnc.com/machines/lathes/bar-feeders`, Cobots. Pallet Changers is not on that tag list. Mega-menu Haas Bar Feeders uses the same URL (`partials/site-header.html` and `gerotech_machines_defaults()`). Pallet-Changing VMCs was removed earlier.
 - Homepage CTA background is `assets/images/cta-home-building.jpg` (Flat Rock headquarters). Alt: “Gerotech headquarters in Flat Rock, brick building and sign”. Copy matches the other engineering footers: subhead “Let's Talk Through It. Prefer Email?”, body about drawings and photos, no phone card. Button is Talk to an Engineer → `mailto:Engineeringproposals@gerotech.com` (`gerotech_engineering_mailto()` in `inc/helpers.php`).
-- That same mailto is on the footer CTAs of homepage, Engineered Solutions, MCS, Applications, and Automation. Support, About, Careers, and Training still use `sales@gerotech.com` (About still has a phone card). Header “Talk to an Engineer” / “Talk to a Sales Engineer” also stay on `sales@gerotech.com`.
+- That same mailto is on the footer CTAs of homepage, Engineered Solutions, MCS, Applications, and Automation. Support, About, Careers, and Training still use `sales@gerotech.com` (About still has a phone card). Header orange button is Let’s Connect (`header_cta_label`); mailto stays `sales@gerotech.com`. The phone-menu last item uses that same field. ES mega-menu “Talk to an Engineer” / “Talk to a Sales Engineer” were not changed and still use `sales@gerotech.com`.
 
 **Images** (prototype markup + theme defaults; files are in `assets/images/` and were copied into `wp-content/themes/gerotech-child/assets/images/`):
-- Custom Workholding card: `custom-workholding-block.jpg` (fixture photo).
-- Process Engineering card: `process-engineering-workflow.jpg` (diagram scaled to 70% inside the same frame, 2026-10-08, so the 275px cover crop shows every label). Dev still has the previous file until a theme push.
+- Custom Workholding card: `custom-workholding-block.jpg` (1124×550, fixture fitted to the card, 2026-10-08). Full original is in the gallery as `mcs-gallery/workholding-frame.jpg` (Local + Dev).
+- Process Engineering card: `process-engineering-workflow.jpg` (diagram scaled to 70% inside the same frame, 2026-10-08, so the 275px cover crop shows every label). Theme + stored uploads updated on Local (`#3501`) and Dev (`#3518`) the same day.
+- Process Optimization card: `app-optimization.jpg` (1124×550, full cycle diagram fitted to the card, 2026-10-08). Local `#3476`, Dev `#3475`. Gallery stays `app-optimization-gallery.jpg`.
 - Process Troubleshooting card and gallery: `lathe-turning.jpg`.
 - Automation Cell Design card and the matching gallery cover: `automation-cell-controls.jpg` (CAD cell render).
 - Electrical card and the first gallery collection (before HMI): `pre-engineered-card.jpg` (open control cabinet). Same file on both.

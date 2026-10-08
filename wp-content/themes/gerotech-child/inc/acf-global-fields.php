@@ -190,7 +190,7 @@ acf_add_local_field_group(
 				'label' => 'Orange button — text',
 				'name'  => 'header_cta_label',
 				'type'  => 'text',
-				'instructions' => 'e.g. Talk to an Engineer. Also the last item in the phone menu.',
+				'instructions' => 'e.g. Let\'s Connect. Also the last item in the phone menu.',
 				'wrapper' => array( 'width' => '40' ),
 			),
 			array(
