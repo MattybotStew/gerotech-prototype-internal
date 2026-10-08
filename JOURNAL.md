@@ -2,6 +2,10 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-08 — Process Engineering card image inset (Cursor)
+
+`process-engineering-workflow.jpg` (prototype `assets/images/` and the theme copy) is the same 1024×682 frame, with the diagram scaled to 70% and centered on a blurred continuation of the factory background. The MCS card uses `object-fit: cover` at 275px tall in a ~2:1 box, which was clipping the top and bottom labels. Not deployed to Dev.
+
 ## 2026-10-07 — Tristien round 2 synced to Local + Dev (opencode)
 
 Pushed the Cursor pass (images, ES/MCS/Applications/Automation re-orders, engineering mailto, homepage Flat Rock CTA, Bar Feeders URL) out of the repo/theme and into the stored ACF on **Local and Dev**, and deployed the theme. `scripts/update-es-nav-order.php` was then run, so stored `nav_es_services` no longer overrides the new order.

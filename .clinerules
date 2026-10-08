@@ -3,7 +3,7 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-07 (Cursor — Tristien Bridges Basecamp round, Oct 1–7, whole working tree)
+**Last Updated:** 2026-10-08 (Cursor — Process Engineering workflow image inset so the card crop shows the full diagram)
 **Active Agent:** Cursor
 **Branch:** `cursor/process-engineering-thumbnail` (tracks `origin/cursor/process-engineering-thumbnail`). HEAD `55c1f9f Apply Tristien Basecamp copy/link round`. Everything after that commit is uncommitted in this working tree.
 **SYNCED (2026-10-07, opencode):** this later pass was seeded into stored ACF on **Local and Dev** and the theme deployed. `scripts/update-es-nav-order.php` **was run**, so stored `nav_es_services` now matches `gerotech_es_defaults()` (19 links). New `scripts/apply-tristien-round2-2026-10.php` carries the images / galleries / engineering mailto / homepage CTA / Bar Feeders URL. Dev verified. **Nothing is committed.**
@@ -25,7 +25,7 @@ QA checks the files below. A saved WordPress options row still beats a theme def
 
 **Images** (prototype markup + theme defaults; files are in `assets/images/` and were copied into `wp-content/themes/gerotech-child/assets/images/`):
 - Custom Workholding card: `custom-workholding-block.jpg` (fixture photo).
-- Process Engineering card: `process-engineering-workflow.jpg` (Gerotech Engineering workflow infographic).
+- Process Engineering card: `process-engineering-workflow.jpg` (diagram scaled to 70% inside the same frame, 2026-10-08, so the 275px cover crop shows every label). Dev still has the previous file until a theme push.
 - Process Troubleshooting card and gallery: `lathe-turning.jpg`.
 - Automation Cell Design card and the matching gallery cover: `automation-cell-controls.jpg` (CAD cell render).
 - Electrical card and the first gallery collection (before HMI): `pre-engineered-card.jpg` (open control cabinet). Same file on both.
