@@ -172,7 +172,7 @@ Spec: `handoff/acf-spec.md` §1. Journal entry: 2026-09-29 "Site Content editor 
 - Buttons: `text-transform: uppercase` + 0.05em letter-spacing
 - Card border-radius: **0** (squared edges per Figma)
 - **Accordions:** one drawer open at a time. The group container carries `data-accordion="single"` (ES FAQ `.trust-accordion`, modal `.mcs-modal__detail`); `assets/js/accordions.js` enforces it at runtime. Mobile-nav `<details>` are navigation, not accordions, and are deliberately excluded — do not mark them.
-- **Hero pattern (homepage + all interior pages):** full-bleed photo, left gradient overlay (`105deg`), left-aligned copy; centers on mobile ≤768px. **At ≤900px the overlay is a flat `rgba(0,0,0,0.3)` wash** (no gradient) — declared in `elevated.css`, which loads last, so a hero-overlay rule in `components.css` would be dead
+- **Hero pattern (homepage + all interior pages):** full-bleed photo, left gradient overlay (`105deg`), left-aligned copy; centers on mobile ≤768px. **At ≤1024px (phones + tablets) the overlay is a flat `rgba(0,0,0,0.3)` wash** (no gradient) — declared in `elevated.css`, which loads last, so a hero-overlay rule in `components.css` would be dead
 - **Interior hero:** All sub-pages use **`.page-hero`** — same markup as homepage hero slide (`slide__bg`, `slide__overlay--left`, `slide__content--left`). Per-page photo via `<img src>` in HTML.
 - **CTA bands:** `.cta-band--photo` — same left-aligned photo treatment as hero
 - **CTA lockup (site-wide):** `.cta-band--cinema-lockup` — copy-left + optional call card; Careers / Support / Training omit the call card

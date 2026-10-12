@@ -2,6 +2,13 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-12 — Hero overlay breakpoint: 900px → 1024px (opencode)
+
+Client: "tablet" means **≤1024px**. The flat overlay rule in `elevated.css` now reads `@media (max-width: 1024px)` — phones **and** tablets get `rgba(0, 0, 0, 0.3)`; the `105deg` gradient starts at **1025px**. One-line media-query change plus the comment in `elevated.css` and the pointer comment in `components.css`; docs updated (`AGENTS.md`, `design-spec.md`, `.clinerules`).
+
+- **Worth knowing:** the homepage's desktop peek hero begins at `min-width: 901px`, so **901–1024px now runs the flat wash on the desktop hero layout** — intended, but it is the one band where the two breakpoints disagree.
+- **Verified on Local** at 375/768/900/**1024** (flat) and **1025**/1280 (gradient) on `/engineered-solutions/`, `/` (active slide) and `/careers/`. Synced with `sync-theme-assets.sh` + `sync-theme-to-local.sh`, redeployed to Dev with the CDN flush, then committed and pushed.
+
 ## 2026-10-12 — Hero overlay: flat 30% black on mobile + tablet (opencode)
 
 Client asked to "kill the right gradient" in the heroes on mobile and tablet. At **≤900px** the directional gradient is now a flat **`rgba(0, 0, 0, 0.3)`** wash; desktop (≥901px) keeps the `105deg` gradient. 900px was chosen (by Matt) to match the hero's own breakpoint — the homepage hero becomes the desktop peek layout at `min-width: 901px`.
@@ -9,7 +16,7 @@ Client asked to "kill the right gradient" in the heroes on mobile and tablet. At
 - **Covers** `.slide__overlay--left` (homepage slides **and** every `.page-hero`) and `.page-hero-trust__overlay` (About / Careers). Nothing else has a hero overlay.
 - **Root cause found while doing it:** the `@media (max-width: 768px)` override for `.slide__overlay--left` in `components.css` (a 180deg gradient) had **never applied** — `elevated.css` loads last and re-declares the same single-class selector, so its `105deg` won at every width. Measured: at 375px the hero was rendering the desktop gradient. The new rule therefore lives in **`elevated.css`** (right after the desktop rule) and the dead `components.css` rule was deleted with a pointer comment, so the next person does not repeat the trap.
 - Files: `assets/css/elevated.css`, `assets/css/components.css` (dead rule removed), `AGENTS.md` (hero-pattern bullet), `design-spec.md` ("Hero overlay — mobile/tablet"). Synced with `sync-theme-assets.sh` + `sync-theme-to-local.sh`.
-- **Verified:** prototype (cache-busted) flat at 375/768/900, gradient at 901/1024/1280; **Local** the same on `/engineered-solutions/`, `/` (active slide) and `/careers/`; screenshots at 375/768/1280 checked. Deployed to Dev with the accordion change below — **`wp cdn-cache flush` matters**, WPE serves theme CSS from the CDN.
+- **Verified:** prototype (cache-busted) and **Local**: flat at 375/768/900/**1024**, gradient at **1025**/1280 — checked on `/engineered-solutions/`, `/` (active slide) and `/careers/`; screenshots at 375/768/1280 checked. Deployed to Dev with the accordion change below — **`wp cdn-cache flush` matters**, WPE serves theme CSS from the CDN. Breakpoint was **900px** on first ship and changed to **1024px** the same day (see below).
 
 ## 2026-10-12 — Both changes deployed to Local + Dev, verified live (opencode)
 

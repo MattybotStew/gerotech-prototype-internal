@@ -49,10 +49,10 @@ body {
   );
 }
 
-/* Phones + tablets (≤900px — below the desktop peek hero): the directional
-   gradient becomes a flat 30% black wash, so the copy sits on an even value
-   instead of fading out to the right. Desktop keeps the 105deg gradient. */
-@media (max-width: 900px) {
+/* Phones + tablets (≤1024px): the directional gradient becomes a flat 30% black
+   wash, so the copy sits on an even value instead of fading out to the right.
+   Desktop (>1024px) keeps the 105deg gradient. */
+@media (max-width: 1024px) {
   .slide__overlay--left,
   .page-hero-trust__overlay {
     background: rgba(0, 0, 0, 0.3);
