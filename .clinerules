@@ -5,7 +5,7 @@
 ## Current Session State
 **Last Updated:** 2026-10-12 (opencode — accordions are now one-open-at-a-time (`assets/js/accordions.js`); hero overlay is a flat 30% black at ≤900px)
 **Active Agent:** opencode
-**Branch:** `cursor/process-engineering-thumbnail` @ `17992fa`; these changes are **uncommitted**.
+**Branch:** `cursor/process-engineering-thumbnail` @ **`8dda2f4`** — **committed and pushed**, and `master` fast-forwarded to the same commit (both remotes at `8dda2f4`).
 **What changed — 1) accordions, one drawer at a time:**
 - New **`assets/js/accordions.js`**, enqueued site-wide in `inc/enqueue.php`. A **capture-phase `toggle`** listener (the event does not bubble, but capture reaches `document`) closes every other open `<details>` that shares the opened element's parent. Scoped to containers marked **`data-accordion="single"`**; grouping is by the element's own parent, so nested `<details>` are left alone.
 - **Why runtime and not the native `name` attribute:** the modal accordion markup lives in **stored ACF** (`ai_cards[*].detail`), so adding `name` to the template defaults would not reach Local/Dev without a re-seed (AGENTS.md "fields must be APPLIED" trap). A runtime rule is environment-agnostic and needed no seeding anywhere.
@@ -22,7 +22,7 @@
 **Verified:** prototype (port 8083, CSS cache-busted) — ES `.page-hero` overlay = flat `rgba(0,0,0,0.3)` at 375/768/900 and the 105deg gradient at 901/1024/1280. Theme on **Local** — same results on `/engineered-solutions/`, `/` (active slide) and `/careers/` (`.page-hero-trust__overlay`); screenshots at 375/768/1280 look right (even wash on mobile, gradient intact on desktop). Also verified for change 1: ES FAQ exclusive on click **and** Enter/Space, and can be closed back to none-open; Automation modal Electrical (6 items) and HMI (10 items) exclusive, including content injected from `<template>`; mobile-nav groups still both open; 0 console errors. `php -l` clean on the 3 edited PHP files; `sync-theme-assets.sh --check` OK; `sync-theme-to-local.sh` run.
 
 **Deployed:** theme rsynced to **Local** (`sync-theme-to-local.sh`; `--check` → OK) and to **Dev** (`rsync -avz --checksum --delete` + remote `chmod 755/644` + `wp page-cache flush` + `wp cdn-cache flush`; Dev `--checksum --dry-run` → zero drift). **Verified live on Dev** at 375/768/900/901/1280: hero flat `rgba(0,0,0,0.3)` ≤900 and 105deg ≥901; `accordions.js` enqueued; ES FAQ exclusive (`0,0,1,0` after clicking #1 then #3); HMI modal (stored ACF) exclusive (`…1…` after clicking a second drawer).
-**Not done:** not committed. Nothing was seeded on Dev (no ACF field/name change). To reverse: restore the 105deg/original overlay in `elevated.css` and remove `data-accordion="single"` from the containers (the script is inert without them).
+**Committed:** `8dda2f4` — "Keep one accordion drawer open at a time, and flatten the mobile/tablet hero overlay to 30% black" — pushed to both `cursor/process-engineering-thumbnail` and `master` (fast-forward from `17992fa`). Nothing was seeded on Dev (no ACF field/name change), so repo = Local = Dev. To reverse: restore the original overlay in `elevated.css` and remove `data-accordion="single"` from the containers (the script is inert without them).
 
 ---
 ## Previous Session State

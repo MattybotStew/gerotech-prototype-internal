@@ -15,7 +15,7 @@ Client asked to "kill the right gradient" in the heroes on mobile and tablet. At
 
 Theme rsynced to **Local** (`sync-theme-to-local.sh`, `--check` → OK) and pushed to **Dev** with `rsync -avz --checksum --delete` + remote `chmod 755/644` + `wp page-cache flush` + `wp cdn-cache flush`. Used `--checksum` rather than the plain mtime recipe so only the 5 genuinely changed files moved (`footer.php`, `page-engineered-solutions.php`, `assets/css/components.css`, `assets/css/elevated.css`, `assets/js/accordions.js`, `inc/enqueue.php`); Dev `--checksum --dry-run` afterwards = **zero drift**. No seeding was needed on either environment (no ACF field or field-name change) — the modal accordion rule is applied to **stored** `ai_cards[*].detail` markup at runtime.
 
-**Verified live on Dev (HTTP + browser):** `accordions.js` 200 and enqueued; `elevated.css` serves the `@media (max-width: 900px)` flat rule; `.trust-accordion` and `.mcs-modal__detail` both carry `data-accordion="single"`; hero = flat `rgba(0,0,0,0.3)` at 375/768/900 and 105deg at 901/1280; ES FAQ exclusive after two clicks; HMI modal (10 stored-ACF drawers) exclusive. Still **uncommitted**.
+**Verified live on Dev (HTTP + browser):** `accordions.js` 200 and enqueued; `elevated.css` serves the `@media (max-width: 900px)` flat rule; `.trust-accordion` and `.mcs-modal__detail` both carry `data-accordion="single"`; hero = flat `rgba(0,0,0,0.3)` at 375/768/900 and 105deg at 901/1280; ES FAQ exclusive after two clicks; HMI modal (10 stored-ACF drawers) exclusive. **Committed and pushed as `8dda2f4`** to both `cursor/process-engineering-thumbnail` and `master`.
 
 ## 2026-10-12 — Accordions are one-open-at-a-time (opencode)
 
