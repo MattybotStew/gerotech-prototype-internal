@@ -69,6 +69,10 @@
 
 All interior pages use **`.page-hero`** — the same structure as the homepage hero slide: full-bleed `<img class="slide__bg">`, left gradient overlay (`.slide__overlay--left`), left-aligned copy (`.slide__content--left` with `.slide__eyebrow`, `.slide__headline`, `.slide__body`). Per-page photos are set via the hero `<img src>` in each HTML file (Unsplash stand-ins until client assets). ES detail pages add optional `.page-hero__breadcrumb`.
 
+### Hero overlay — mobile/tablet (2026-10-12)
+
+At **≤900px** (below the desktop peek hero) the directional gradient is dropped for a **flat `rgba(0, 0, 0, 0.3)` wash** — no dark-left→light-right falloff, so the copy sits on an even value. Applies to `.slide__overlay--left` (homepage slides + every `.page-hero`) and `.page-hero-trust__overlay` (About / Careers). Declared in **`elevated.css`**, which loads last: the same selector in `components.css` would be dead, so keep hero-overlay changes there.
+
 | Page | Hero image (stand-in) |
 |------|------------------------|
 | Engineered Solutions | Blueprint / facility |

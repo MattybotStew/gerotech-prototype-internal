@@ -102,7 +102,7 @@ $gerotech_logo   = $gerotech_footer['logo']
 			<div class="mcs-modal__img"></div>
 			<div class="mcs-modal__body">
 				<h2 class="mcs-modal__title" id="mcs-modal-title"></h2>
-				<div class="mcs-modal__detail"></div>
+				<div class="mcs-modal__detail" data-accordion="single"></div>
 			</div>
 		</div>
 	</div>

@@ -12,7 +12,7 @@
 #
 # What syncs:
 #   assets/css/{tokens,components,layout,elevated,gallery-module}.css
-#   assets/js/{nav,slider,animations,stat-counter,machine-tabs,modal,filter,gallery-module}.js
+#   assets/js/{nav,slider,animations,accordions,stat-counter,machine-tabs,modal,filter,gallery-module}.js
 #   assets/images/**  (mirrored; --prune removes orphans)
 #   assets/videos/**  (mirrored; --prune removes orphans)
 #
@@ -32,7 +32,7 @@ SRC="$REPO_ROOT/assets"
 DST="$REPO_ROOT/wp-content/themes/gerotech-child/assets"
 
 CSS_FILES=(tokens.css components.css layout.css elevated.css gallery-module.css)
-JS_FILES=(nav.js slider.js animations.js stat-counter.js machine-tabs.js modal.js filter.js gallery-module.js)
+JS_FILES=(nav.js slider.js animations.js accordions.js stat-counter.js machine-tabs.js modal.js filter.js gallery-module.js)
 
 MODE="sync"
 PRUNE=0

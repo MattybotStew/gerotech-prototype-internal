@@ -3,6 +3,29 @@
 
 ---
 ## Current Session State
+**Last Updated:** 2026-10-12 (opencode — accordions are now one-open-at-a-time (`assets/js/accordions.js`); hero overlay is a flat 30% black at ≤900px)
+**Active Agent:** opencode
+**Branch:** `cursor/process-engineering-thumbnail` @ `17992fa`; these changes are **uncommitted**.
+**What changed — 1) accordions, one drawer at a time:**
+- New **`assets/js/accordions.js`**, enqueued site-wide in `inc/enqueue.php`. A **capture-phase `toggle`** listener (the event does not bubble, but capture reaches `document`) closes every other open `<details>` that shares the opened element's parent. Scoped to containers marked **`data-accordion="single"`**; grouping is by the element's own parent, so nested `<details>` are left alone.
+- **Why runtime and not the native `name` attribute:** the modal accordion markup lives in **stored ACF** (`ai_cards[*].detail`), so adding `name` to the template defaults would not reach Local/Dev without a re-seed (AGENTS.md "fields must be APPLIED" trap). A runtime rule is environment-agnostic and needed no seeding anywhere.
+- **Marked:** `.trust-accordion` (`engineered-solutions.html`, `page-engineered-solutions.php`) and `.mcs-modal__detail` (`application.html`, `automation-integration.html`, `machine-custom-solutions.html`, `footer.php`).
+- **Deliberately NOT marked:** the mobile-nav `<details class="mobile-nav__group">` — that is navigation, not an accordion, and stays independently openable.
+- Plumbing: `scripts/sync-theme-assets.sh` `JS_FILES` + its header comment; `accordions.js` copied into the theme assets; `<script>` tag added to the 11 prototype pages that load `animations.js` (`machine-modification.html` is a redirect stub — skipped). Docs updated: `handoff/js-spec.md` (new section), `handoff/component-inventory.md`, `AGENTS.md`.
+
+**What changed — 2) hero overlay on mobile + tablet:**
+- At **≤900px** the hero's directional gradient is replaced by a flat **`rgba(0, 0, 0, 0.3)`** wash (the client asked to "kill the right gradient"). Applies to `.slide__overlay--left` (homepage slides **and** every `.page-hero`) and `.page-hero-trust__overlay` (About / Careers). Desktop (≥901px) keeps the `105deg` gradient.
+- **Where:** `assets/css/elevated.css`, immediately after the desktop `.slide__overlay--left` rule. It must live in `elevated.css` — that file loads last, so the **`@media (max-width: 768px)` 180deg override that was in `components.css` had been dead** (it is what you'd see at 375px was still the 105deg desktop gradient). That dead rule is now removed, with a comment pointing at `elevated.css`.
+- Breakpoint is **900px** to match the hero's own switch: the homepage hero becomes the desktop peek layout at `min-width: 901px`. Chosen by Matt over 1024px.
+- Docs: `AGENTS.md` (hero-pattern bullet), `design-spec.md` ("Hero overlay — mobile/tablet").
+
+**Verified:** prototype (port 8083, CSS cache-busted) — ES `.page-hero` overlay = flat `rgba(0,0,0,0.3)` at 375/768/900 and the 105deg gradient at 901/1024/1280. Theme on **Local** — same results on `/engineered-solutions/`, `/` (active slide) and `/careers/` (`.page-hero-trust__overlay`); screenshots at 375/768/1280 look right (even wash on mobile, gradient intact on desktop). Also verified for change 1: ES FAQ exclusive on click **and** Enter/Space, and can be closed back to none-open; Automation modal Electrical (6 items) and HMI (10 items) exclusive, including content injected from `<template>`; mobile-nav groups still both open; 0 console errors. `php -l` clean on the 3 edited PHP files; `sync-theme-assets.sh --check` OK; `sync-theme-to-local.sh` run.
+
+**Deployed:** theme rsynced to **Local** (`sync-theme-to-local.sh`; `--check` → OK) and to **Dev** (`rsync -avz --checksum --delete` + remote `chmod 755/644` + `wp page-cache flush` + `wp cdn-cache flush`; Dev `--checksum --dry-run` → zero drift). **Verified live on Dev** at 375/768/900/901/1280: hero flat `rgba(0,0,0,0.3)` ≤900 and 105deg ≥901; `accordions.js` enqueued; ES FAQ exclusive (`0,0,1,0` after clicking #1 then #3); HMI modal (stored ACF) exclusive (`…1…` after clicking a second drawer).
+**Not done:** not committed. Nothing was seeded on Dev (no ACF field/name change). To reverse: restore the 105deg/original overlay in `elevated.css` and remove `data-accordion="single"` from the containers (the script is inert without them).
+
+---
+## Previous Session State
 **Last Updated:** 2026-10-08 (Cursor — Process Optimization card rebuilt at 1080×550 from the gallery photo; orange blur stripped from the top edge. Local #3476, Dev #3475. Gallery file unchanged.)
 **Active Agent:** Cursor
 **Branch:** `cursor/process-engineering-thumbnail` (tracks `origin/cursor/process-engineering-thumbnail`). 2026-10-08 client round (card crops, workholding gallery frame, header Let’s Connect) is committed and pushed; theme rsynced to Dev.

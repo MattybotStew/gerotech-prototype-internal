@@ -2,6 +2,32 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-12 — Hero overlay: flat 30% black on mobile + tablet (opencode)
+
+Client asked to "kill the right gradient" in the heroes on mobile and tablet. At **≤900px** the directional gradient is now a flat **`rgba(0, 0, 0, 0.3)`** wash; desktop (≥901px) keeps the `105deg` gradient. 900px was chosen (by Matt) to match the hero's own breakpoint — the homepage hero becomes the desktop peek layout at `min-width: 901px`.
+
+- **Covers** `.slide__overlay--left` (homepage slides **and** every `.page-hero`) and `.page-hero-trust__overlay` (About / Careers). Nothing else has a hero overlay.
+- **Root cause found while doing it:** the `@media (max-width: 768px)` override for `.slide__overlay--left` in `components.css` (a 180deg gradient) had **never applied** — `elevated.css` loads last and re-declares the same single-class selector, so its `105deg` won at every width. Measured: at 375px the hero was rendering the desktop gradient. The new rule therefore lives in **`elevated.css`** (right after the desktop rule) and the dead `components.css` rule was deleted with a pointer comment, so the next person does not repeat the trap.
+- Files: `assets/css/elevated.css`, `assets/css/components.css` (dead rule removed), `AGENTS.md` (hero-pattern bullet), `design-spec.md` ("Hero overlay — mobile/tablet"). Synced with `sync-theme-assets.sh` + `sync-theme-to-local.sh`.
+- **Verified:** prototype (cache-busted) flat at 375/768/900, gradient at 901/1024/1280; **Local** the same on `/engineered-solutions/`, `/` (active slide) and `/careers/`; screenshots at 375/768/1280 checked. Deployed to Dev with the accordion change below — **`wp cdn-cache flush` matters**, WPE serves theme CSS from the CDN.
+
+## 2026-10-12 — Both changes deployed to Local + Dev, verified live (opencode)
+
+Theme rsynced to **Local** (`sync-theme-to-local.sh`, `--check` → OK) and pushed to **Dev** with `rsync -avz --checksum --delete` + remote `chmod 755/644` + `wp page-cache flush` + `wp cdn-cache flush`. Used `--checksum` rather than the plain mtime recipe so only the 5 genuinely changed files moved (`footer.php`, `page-engineered-solutions.php`, `assets/css/components.css`, `assets/css/elevated.css`, `assets/js/accordions.js`, `inc/enqueue.php`); Dev `--checksum --dry-run` afterwards = **zero drift**. No seeding was needed on either environment (no ACF field or field-name change) — the modal accordion rule is applied to **stored** `ai_cards[*].detail` markup at runtime.
+
+**Verified live on Dev (HTTP + browser):** `accordions.js` 200 and enqueued; `elevated.css` serves the `@media (max-width: 900px)` flat rule; `.trust-accordion` and `.mcs-modal__detail` both carry `data-accordion="single"`; hero = flat `rgba(0,0,0,0.3)` at 375/768/900 and 105deg at 901/1280; ES FAQ exclusive after two clicks; HMI modal (10 stored-ACF drawers) exclusive. Still **uncommitted**.
+
+## 2026-10-12 — Accordions are one-open-at-a-time (opencode)
+
+Every accordion on the site now keeps **one drawer open at a time**. Deployed to Local + Dev (see the entry above). Uncommitted.
+
+- **New `assets/js/accordions.js`** (site-wide, `inc/enqueue.php`). A **capture-phase `toggle`** listener closes every other open `<details>` sharing the opened element's parent. Scoped to containers marked **`data-accordion="single"`**. Grouping is by the element's own parent, so nested `<details>` are untouched and the rule works on content injected after load.
+- **Why not the native `name` attribute:** the modal accordion markup is **stored ACF** (`ai_cards[*].detail` on Local + Dev), so `name=` in the template defaults would not reach either DB without a re-seed. A runtime rule is environment-agnostic and required **no seeding at all**.
+- **Marked:** `.trust-accordion` → `engineered-solutions.html`, `page-engineered-solutions.php`; `.mcs-modal__detail` → `application.html`, `automation-integration.html`, `machine-custom-solutions.html`, `footer.php`.
+- **Deliberately not marked:** mobile-nav `<details class="mobile-nav__group">` — navigation, not an accordion; still independently openable.
+- Plumbing: `scripts/sync-theme-assets.sh` `JS_FILES` + header comment; asset copied to the theme; `<script>` added to the 11 prototype pages that load `animations.js`. Docs: `handoff/js-spec.md`, `handoff/component-inventory.md`, `AGENTS.md` (JS list + Key conventions).
+- **Verified in a browser:** prototype `engineered-solutions.html` FAQ exclusive on click **and** Enter/Space (and can close back to none-open); `automation-integration.html` modal Electrical (6) and HMI (10) exclusive including `<template>`-injected content; mobile-nav groups still both open; 0 console errors. **Local** (`gerotech.local/engineered-solutions/`, `/automated-system/`) — `accordions.js` enqueued, both containers marked, same behaviour, modal accordions driven by **stored ACF with no re-seed**. `php -l` clean on the 3 edited PHP files; `sync-theme-assets.sh --check` OK; `sync-theme-to-local.sh` run.
+
 ## 2026-10-08 — Process Optimization orange top edge removed (Cursor)
 
 The blurred side fill on `app-optimization.jpg` was smearing the orange cycle arrow across the top of the card. Rebuilt the card from `app-optimization-gallery.jpg` at **1080×550** (exact 540×275 cover): orange pixels were replaced with the gray shop tone before the blur, and the sharp photo is height-fitted and centered so both arrow tips stay in the cover crop. Gallery file unchanged. Copied to the theme, synced to Local, overwrote Local **#3476** and Dev **#3475** (`uploads/2021/06/app-optimization.jpg`), regenerated metadata (1080×550), flushed Dev page + CDN.

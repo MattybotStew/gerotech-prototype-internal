@@ -92,6 +92,10 @@ function gerotech_child_enqueue_assets() {
 	// Site-wide.
 	wp_enqueue_script( 'gerotech-nav', $js . 'nav.js', array(), gerotech_asset_version( 'assets/js/nav.js' ), true );
 	wp_enqueue_script( 'gerotech-animations', $js . 'animations.js', array(), gerotech_asset_version( 'assets/js/animations.js' ), true );
+	// Accordions: one open drawer per group (see assets/js/accordions.js). Site-wide
+	// because the rule is global and the modal accordion markup is stored in ACF —
+	// a runtime rule keeps prototype, Local and Dev identical with no re-seed.
+	wp_enqueue_script( 'gerotech-accordions', $js . 'accordions.js', array(), gerotech_asset_version( 'assets/js/accordions.js' ), true );
 
 	// Homepage only.
 	if ( is_front_page() ) {

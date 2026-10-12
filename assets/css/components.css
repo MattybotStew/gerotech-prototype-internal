@@ -3622,14 +3622,8 @@ img.mcs-gallery-card__image {
   margin-right: 0;
 }
 @media (max-width: 768px) {
-  .slide__overlay--left {
-    background: linear-gradient(
-      180deg,
-      rgba(13, 13, 13, 0.72) 0%,
-      rgba(13, 13, 13, 0.45) 45%,
-      rgba(28, 28, 33, 0.55) 100%
-    );
-  }
+  /* Hero overlay lives in elevated.css (it loads last, so an override here
+     would be dead). Mobile/tablet (≤900px) = flat 30% black, no gradient. */
   /* Mobile heroes stay left-aligned site-wide (matches homepage peek + editorial system) */
   .slide__content--left {
     text-align: left;

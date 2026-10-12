@@ -21,7 +21,7 @@ Section → BEM root → editable fields → JS dependency. One row per repeatin
 | Credential band (ES) | `.credential-band` | FANUC ASI seal + copy | `animations.js` |
 | Tech partners (ES) | `.tech-partners-section` | wordmarks | `animations.js` |
 | Capability band (ES) | `.capability-band` | 3 cards (01–03) | `animations.js` |
-| Trust / FAQ (ES) | `.trust-section` | FAQ items | `animations.js` |
+| Trust / FAQ (ES) | `.trust-section` | FAQ items | `animations.js`, `accordions.js` (one open at a time) |
 | Service grid | `.mcs-grid-section` | cards: eyebrow, title, body, image, modal body | `animations.js`, `modal.js` |
 | Gallery | `.mcs-gallery-section` | tiles: image, alt, caption | `modal.js` (lightbox) |
 | News editorial | `.news-section--editorial` | lead group + items 02–04 | `animations.js` |

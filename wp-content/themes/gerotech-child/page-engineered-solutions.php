@@ -374,7 +374,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
           <h2 class="section-title" id="trust-headline"><?php echo gerotech_accent( $faq_headline, 'accent--deep' ); ?></h2>
           <span class="headline-rule headline-rule--deep" aria-hidden="true"></span>
         </div>
-        <div class="trust-accordion">
+        <div class="trust-accordion" data-accordion="single">
 
           <?php foreach ( $faq_items as $item ) : ?>
           <details class="trust-item">

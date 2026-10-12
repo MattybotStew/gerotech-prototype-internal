@@ -31,6 +31,14 @@ Fetches `[data-include]` partials at runtime and re-runs `window.initNav()` + `i
 - Bails early if `prefers-reduced-motion: reduce`. Staggered 60ms per batch.
 - Sets inline opacity/transform — note this will fight ACF content if reordered; keep markup order.
 
+## `accordions.js` — all pages
+
+- **One open drawer per group.** A `toggle` listener (capture phase — the event does not bubble, but capture still reaches `document`) closes every other open `<details>` that shares the opened element's parent.
+- Scoped to containers marked `data-accordion="single"`. Currently: `.trust-accordion` (ES FAQ, `page-engineered-solutions.php`) and `.mcs-modal__detail` (`footer.php` — the modal's accordion markup lives in stored ACF, so the rule is enforced at runtime and needs no re-seed).
+- Relies on the element's own parent, so nested `<details>` are untouched.
+- **Excludes** the mobile-nav disclosure groups (`.mobile-nav__group`), which are navigation and stay independently openable.
+- To add a new accordion: mark its container `data-accordion="single"`. No JS change.
+
 ## `slider.js` — homepage only
 
 - Binds every `.hero-slider`; homepage is `.hero-slider--peek`.
