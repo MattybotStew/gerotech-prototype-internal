@@ -2,6 +2,16 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-12 — ES card grids are one column on phones (opencode)
+
+`.mcs-grid` was `repeat(2, 1fr)` with **no media queries at all**, so phones got 2-up cards — roughly 150px wide each with a 28px gutter, which squeezed the card titles and the fixed 275px image box. Now **one card per row at ≤768px**; tablet (769–1024) and desktop stay 2-up.
+
+- **Where:** `@media (max-width: 768px) { .mcs-grid { grid-template-columns: 1fr } }` in **`components.css`**, directly under the base `.mcs-grid` rule. `.mcs-grid` is declared *only* in `components.css`, so there is no `elevated.css` shadowing trap here (contrast the hero overlay, where the same selector in two files hid a dead rule for months).
+- **Applies to** the three ES card pages: `/modification-of-standard-machine-tools/`, `/unique-applications-for-standard-machines/`, `/automated-system/`. `training.html` in the prototype also uses `.mcs-grid` and inherits it; the theme's Training page is legacy markup and does not — Matt's call was to ignore Training.
+- **Not touched** (deliberately, per Matt): the product galleries (`.mcs-gallery-grid`, still 4-up with no media queries) and the ES landing page's `.es-grid` (3→2 at 1024).
+- **Verified:** all three pages read `1 col` at 375 and 768 and `2 col` at 769/1024/1280; mobile screenshots of the MCS grid, Applications *Process Optimization* and Automation *HMI Design* cards check out. Card images render 325×275 on a 375px phone, so the landscape 2:1 sources (e.g. `custom-workholding-block.jpg`, `app-optimization.jpg`) keep ~55–60% of their width — the tuned subjects still read correctly, no re-crop needed.
+- Docs: `handoff/qa-checklist.md` grid line. Synced to Local and Dev, committed and pushed.
+
 ## 2026-10-12 — Hero overlay darkened 30% → 60% on phones + tablets (opencode)
 
 The flat wash shipped earlier today at `rgba(0, 0, 0, 0.3)` was too light: over the bright shop-floor hero photos the **body copy was unreadable** (client screenshot of the ES hero at tablet width). It is now **`rgba(0, 0, 0, 0.6)`**. Breakpoint unchanged at `max-width: 1024px`; desktop (>1024px) still gets the `105deg` gradient. One value in `elevated.css`; comments in `elevated.css` + `components.css` and the docs (`AGENTS.md`, `design-spec.md`, `.clinerules`) updated to match.

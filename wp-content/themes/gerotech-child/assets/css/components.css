@@ -2843,6 +2843,13 @@ svg.ext-arrow {
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
 }
+/* Phones: one card per row. The 2-up grid left the cards ~150px wide with a
+   28px gutter, which squeezed the titles and the 275px image box. */
+@media (max-width: 768px) {
+  .mcs-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .mcs-card {
   background: var(--clr-white);
   border: 1px solid var(--clr-gray-border);

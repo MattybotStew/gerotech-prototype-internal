@@ -41,7 +41,7 @@ Test every page at: **360, 390, 768, 1024, 1440, 1920**.
 
 - [ ] No horizontal overflow at any width (prototype audit found none)
 - [ ] Header collapses to hamburger ≥1120px desktop-nav threshold
-- [ ] `.grid-4` 4→2→1; `.grid-6` / `.partners-grid` 6→3→1 (tablet step 1024, single col 640)
+- [ ] `.grid-4` 4→2→1; `.grid-6` / `.partners-grid` 6→3→1 (tablet step 1024, single col 640); `.mcs-grid` (ES card pages — MCS / Applications / Automation) 2→1 at 768
 - [ ] `.haas-relationship__grid` 4-col → 2×2 (≤1024) → 1-col (≤640)
 - [ ] Hero copy left-aligned on desktop; mobile fallback centered ≤768 (homepage peek stays left)
 - [ ] Machine lineup tabs scroll horizontally on mobile
