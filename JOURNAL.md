@@ -2,6 +2,13 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-12 — Hero overlay darkened 30% → 60% on phones + tablets (opencode)
+
+The flat wash shipped earlier today at `rgba(0, 0, 0, 0.3)` was too light: over the bright shop-floor hero photos the **body copy was unreadable** (client screenshot of the ES hero at tablet width). It is now **`rgba(0, 0, 0, 0.6)`**. Breakpoint unchanged at `max-width: 1024px`; desktop (>1024px) still gets the `105deg` gradient. One value in `elevated.css`; comments in `elevated.css` + `components.css` and the docs (`AGENTS.md`, `design-spec.md`, `.clinerules`) updated to match.
+
+- **Verified on Local and Dev** at 768 and 1024 (flat, 0.6) and 1025/1280 (gradient) across `/engineered-solutions/`, `/` and `/careers/` — computed `backgroundColor` `rgba(0, 0, 0, 0.6)` confirmed, plus a readability screenshot on mobile.
+- Synced with `sync-theme-assets.sh` + `sync-theme-to-local.sh`, redeployed to Dev (`--checksum` rsync + chmod + page/CDN flush), committed and pushed.
+
 ## 2026-10-12 — Hero overlay breakpoint: 900px → 1024px (opencode)
 
 Client: "tablet" means **≤1024px**. The flat overlay rule in `elevated.css` now reads `@media (max-width: 1024px)` — phones **and** tablets get `rgba(0, 0, 0, 0.3)`; the `105deg` gradient starts at **1025px**. One-line media-query change plus the comment in `elevated.css` and the pointer comment in `components.css`; docs updated (`AGENTS.md`, `design-spec.md`, `.clinerules`).

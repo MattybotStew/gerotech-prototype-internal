@@ -71,7 +71,7 @@ All interior pages use **`.page-hero`** — the same structure as the homepage h
 
 ### Hero overlay — mobile/tablet (2026-10-12)
 
-At **≤1024px** (phones + tablets) the directional gradient is dropped for a **flat `rgba(0, 0, 0, 0.3)` wash** — no dark-left→light-right falloff, so the copy sits on an even value. Applies to `.slide__overlay--left` (homepage slides + every `.page-hero`) and `.page-hero-trust__overlay` (About / Careers); **>1024px keeps the `105deg` gradient**. Note this means the homepage's desktop peek hero (which starts at 901px) runs the flat wash between 901–1024px. Declared in **`elevated.css`**, which loads last: the same selector in `components.css` would be dead, so keep hero-overlay changes there.
+At **≤1024px** (phones + tablets) the directional gradient is dropped for a **flat `rgba(0, 0, 0, 0.6)` wash** — no dark-left→light-right falloff, so the copy sits on an even value. Applies to `.slide__overlay--left` (homepage slides + every `.page-hero`) and `.page-hero-trust__overlay` (About / Careers); **>1024px keeps the `105deg` gradient**. Note this means the homepage's desktop peek hero (which starts at 901px) runs the flat wash between 901–1024px. **60%, not 30%:** the first pass shipped at 30% and the body copy was unreadable over the bright shop-floor photos, so the client raised it. Declared in **`elevated.css`**, which loads last: the same selector in `components.css` would be dead, so keep hero-overlay changes there.
 
 | Page | Hero image (stand-in) |
 |------|------------------------|

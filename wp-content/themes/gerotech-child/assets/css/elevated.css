@@ -49,13 +49,13 @@ body {
   );
 }
 
-/* Phones + tablets (≤1024px): the directional gradient becomes a flat 30% black
-   wash, so the copy sits on an even value instead of fading out to the right.
-   Desktop (>1024px) keeps the 105deg gradient. */
+/* Phones + tablets (≤1024px): the directional gradient becomes a flat 60% black
+   wash — 30% was not enough over the bright shop-floor photos and the body copy
+   was hard to read. Desktop (>1024px) keeps the 105deg gradient. */
 @media (max-width: 1024px) {
   .slide__overlay--left,
   .page-hero-trust__overlay {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.6);
   }
 }
 

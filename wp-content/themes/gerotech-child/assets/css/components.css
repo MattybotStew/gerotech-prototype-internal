@@ -3623,7 +3623,7 @@ img.mcs-gallery-card__image {
 }
 @media (max-width: 768px) {
   /* Hero overlay lives in elevated.css (it loads last, so an override here
-     would be dead). Mobile/tablet (≤1024px) = flat 30% black, no gradient. */
+     would be dead). Mobile/tablet (≤1024px) = flat 60% black, no gradient. */
   /* Mobile heroes stay left-aligned site-wide (matches homepage peek + editorial system) */
   .slide__content--left {
     text-align: left;
