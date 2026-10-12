@@ -143,31 +143,15 @@ gx2_set_card_image( 'automated-system', 'ai_cards', 'Electrical – Controls Sol
 gx2_set_card_image( 'automated-system', 'ai_cards', 'Automation Cell Design', 'assets/images/automation-cell-controls.jpg' );
 gx2_set_card_image( 'automated-system', 'ai_cards', 'Pre-Engineered Solutions', 'assets/images/human-robot-automation-interface.jpg' );
 
-/* ── 2. Drop Layered Controls Solutions from ai_cards ────── */
+/* ── 2. Layered Controls Solutions ───────────────────────────
+ * 2026-10-07: dropped from ai_cards per the printed markup.
+ * 2026-10-12: the client asked for it back, so this step is disabled — it used to
+ * delete the row, and re-running this script would silently undo the restore.
+ * The card now lives in the template default and scripts/restore-layered-card-2026-10.php.
+ */
 
 echo "Automation cards\n";
-$ai_id = gx2_page_id( 'automated-system' );
-if ( $ai_id ) {
-	gx2_reset();
-	$ai_cards = get_field( 'field_ai_cards', $ai_id );
-	if ( is_array( $ai_cards ) ) {
-		$filtered = array_values(
-			array_filter(
-				$ai_cards,
-				function ( $card ) {
-					$title = strtolower( html_entity_decode( isset( $card['title'] ) ? $card['title'] : '', ENT_QUOTES, 'UTF-8' ) );
-					return false === strpos( $title, 'layered' );
-				}
-			)
-		);
-		if ( count( $filtered ) !== count( $ai_cards ) ) {
-			update_field( 'field_ai_cards', $filtered, $ai_id );
-			echo "  ~ Layered Controls Solutions removed from ai_cards\n";
-		} else {
-			echo "  = Layered Controls Solutions: already absent\n";
-		}
-	}
-}
+echo "  = Layered Controls Solutions: removal disabled (restored 2026-10-12), nothing to do\n";
 
 /* ── 3. Footer CTA button URLs -> engineering mailto ─────── */
 

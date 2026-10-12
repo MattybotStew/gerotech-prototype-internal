@@ -798,7 +798,9 @@ function gerotech_es_defaults() {
 		),
 		'cta_label'        => 'Talk to a Sales Engineer',
 		'cta_mobile_label' => 'Talk to an Engineer',
-		'cta_url'          => gerotech_quote_mailto( 'Gerotech Quote Request' ),
+		// Client rule (2026-10-12): the Engineering nav CTA is not an email-preference
+		// CTA, so it goes to the contact form rather than sales@.
+		'cta_url'          => gerotech_page_url( 'contact' ),
 		'col2_title' => 'All Services',
 		'services'   => array(
 			array(
@@ -836,6 +838,7 @@ function gerotech_es_defaults() {
 				'links' => array(
 					array( 'label' => 'Electrical – Controls Solutions', 'url' => $acs . '#electrical-controls-solutions' ),
 					array( 'label' => 'HMI Design', 'url' => $acs . '#hmi-design' ),
+					array( 'label' => 'Layered Controls Solutions', 'url' => $acs . '#layered-controls-solutions' ),
 					array( 'label' => 'Automation Cell Design', 'url' => $acs . '#automation-cell-design' ),
 					array( 'label' => 'Robot EOAT – Ancillary Material Handling', 'url' => $acs . '#robot-eoat-ancillary-material-handling' ),
 					array( 'label' => 'Pre-Engineered Solutions', 'url' => $acs . '#pre-engineered-solutions' ),
@@ -1205,7 +1208,9 @@ function gerotech_shared_ui_defaults() {
 	return array(
 		'card_cue_label'              => 'View Details',
 		'card_cta_label'              => 'Talk to an Engineer',
-		'card_cta_url'                => gerotech_quote_mailto(),
+		// Service-card pop-up button. Client rule (2026-10-12): the contact form, not
+		// an email — only the "prefer email?" CTAs use Engineeringproposals@.
+		'card_cta_url'                => gerotech_page_url( 'contact' ),
 		'breadcrumb_home_label'       => 'Home',
 		'breadcrumb_engineered_label' => 'Engineered Solutions',
 	);

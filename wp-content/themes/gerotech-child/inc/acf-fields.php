@@ -1084,7 +1084,7 @@ acf_add_local_field_group(
 		'fields'     => array(
 			array( 'key' => 'field_card_cue_label', 'label' => 'Service card — link cue', 'name' => 'card_cue_label', 'type' => 'text', 'instructions' => 'The small cue on every service card. The arrow is drawn by CSS. Default: “View Details”.' ),
 			array( 'key' => 'field_card_cta_label', 'label' => 'Service card — button label', 'name' => 'card_cta_label', 'type' => 'text', 'instructions' => 'The button inside a service card’s pop-up. Default: “Talk to an Engineer”.' ),
-			array( 'key' => 'field_card_cta_url', 'label' => 'Service card — button link', 'name' => 'card_cta_url', 'type' => 'text', 'instructions' => 'Where the card pop-up button points. Default: the quote email.' ),
+			array( 'key' => 'field_card_cta_url', 'label' => 'Service card — button link', 'name' => 'card_cta_url', 'type' => 'text', 'instructions' => 'Where the card pop-up button points. Default: the contact form.' ),
 			array( 'key' => 'field_breadcrumb_home_label', 'label' => 'Breadcrumb — first item', 'name' => 'breadcrumb_home_label', 'type' => 'text', 'instructions' => 'Default: “Home”.' ),
 			array( 'key' => 'field_breadcrumb_engineered_label', 'label' => 'Breadcrumb — second item', 'name' => 'breadcrumb_engineered_label', 'type' => 'text', 'instructions' => 'Default: “Engineered Solutions”.' ),
 		),

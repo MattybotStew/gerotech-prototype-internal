@@ -21,7 +21,10 @@ $hero_accent     = $pick( 'es_hero_accent_color', 'orange' ); // Blank (no store
 $hero_cta_color  = $pick( 'es_hero_cta_color', 'orange' );    // Controls the primary hero button only.
 $hero_body       = $pick( 'es_hero_body', 'From machine modification and customization to full automation cells, Gerotech engineers are solution driven to provide creative, robust, most efficient process for its customers — backed by decades of engineering experience.' );
 $hero_cta1_label = $pick( 'es_hero_cta1_label', 'Talk to an Engineer' );
-$hero_cta1_url   = $pick( 'es_hero_cta1_url', gerotech_quote_mailto() );
+// Client rule (2026-10-12): only the "prefer email?" CTAs carry an email — the
+// footer bands use gerotech_engineering_mailto(). Every other CTA goes to the
+// contact form, not to sales@.
+$hero_cta1_url   = $pick( 'es_hero_cta1_url', gerotech_page_url( 'contact' ) );
 // Content doc (2026): hero secondary "Explore Capabilities" button removed — blank hides it.
 $hero_cta2_label = $pick( 'es_hero_cta2_label', '' );
 $hero_cta2_url   = $pick( 'es_hero_cta2_url', '#why-headline' );
@@ -33,7 +36,7 @@ $hero_srcset     = gerotech_image_srcset( $es_hero_value, 'assets/images/es-hero
 $why_headline  = $pick( 'es_why_headline', 'Why Manufacturers <em>Trust Gerotech</em>' );
 $why_body      = $pick( 'es_why_body', "Every manufacturing operation is unique. That's why our engineers start by understanding your process. We work alongside your team to solve manufacturing challenges and develop practical solutions built around your operation." );
 $why_cta_label = $pick( 'es_why_cta_label', 'Talk to an Engineer' );
-$why_cta_url   = $pick( 'es_why_cta_url', gerotech_quote_mailto() );
+$why_cta_url   = $pick( 'es_why_cta_url', gerotech_page_url( 'contact' ) );
 $why_features  = $pick(
 	'es_why_features',
 	array(
@@ -69,7 +72,7 @@ $fanuc_headline   = $pick( 'es_fanuc_headline', 'Factory-Trained Robotics Integr
 $fanuc_body       = $pick( 'es_fanuc_body', "Gerotech is a FANUC Authorized System Integrator (ASI) — one of a select group of companies certified to design, build, and support complete FANUC robotic automation systems. That means factory-trained engineers, direct FANUC technical support, and proven cell methodology on every project." );
 $fanuc_benefits   = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $pick( 'es_fanuc_benefits', "Factory-trained FANUC robotics engineers on staff\nDirect access to FANUC technical resources\nComplete cell design, integration, and production support" ) ) ) ) );
 $fanuc_cta1_label = $pick( 'es_fanuc_cta1_label', 'Talk to an Engineer' );
-$fanuc_cta1_url   = $pick( 'es_fanuc_cta1_url', 'tel:+17343797788' );
+$fanuc_cta1_url   = $pick( 'es_fanuc_cta1_url', gerotech_page_url( 'contact' ) );
 $fanuc_cta2_label = $pick( 'es_fanuc_cta2_label', 'Explore Capabilities' );
 $fanuc_cta2_url   = $pick( 'es_fanuc_cta2_url', gerotech_page_url( 'automation-integration' ) );
 $fanuc_badge_value = $pick( 'es_fanuc_badge', 'assets/images/fanuc-asi-seal.png' );
@@ -105,7 +108,7 @@ $cap_eyebrow    = $pick( 'es_cap_eyebrow', 'Beyond a Single Brand' );
 $cap_headline   = $pick( 'es_cap_headline', "Your Machine.\nOur Solution." );
 $cap_body       = $pick( 'es_cap_body', 'Whatever sits on your floor, any make and any control, our engineers modify, customize, and automate around it.' );
 $cap_cta1_label = $pick( 'es_cap_cta1_label', 'Talk to an Engineer' );
-$cap_cta1_url   = $pick( 'es_cap_cta1_url', gerotech_quote_mailto() );
+$cap_cta1_url   = $pick( 'es_cap_cta1_url', gerotech_page_url( 'contact' ) );
 // Content doc (2026): capability secondary CTA removed — blank hides it.
 $cap_cta2_label = $pick( 'es_cap_cta2_label', '' );
 $cap_cta2_url   = $pick( 'es_cap_cta2_url', '#why-headline' );

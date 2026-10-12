@@ -42,7 +42,7 @@ $cards        = $pick(
 		array(
 			'title'  => 'Process Troubleshooting',
 			'image'  => 'assets/images/lathe-turning.jpg',
-			'detail' => '<p>When you\'re struggling to resolve a tool path issue, our talented team of Application Engineers is here to assist.</p><p>If the root cause is not obvious from looking at the program, we can take your program and run it through our simulators or, when necessary, trial it on one of our showroom machines depending on the model fit.</p><p>Reach out at applications@gerotech.com with a brief description of your issue along with the necessary tooling and program information.</p>',
+			'detail' => '<p>When you\'re struggling to resolve a tool path issue, our talented Application Engineers are here to assist.</p><p>If the root cause is not obvious from looking at the program, we can take your program and run it through our simulators or, when necessary, trial it on one of our showroom machines depending on the model fit.</p><p>Reach out at applications@gerotech.com with a brief description of your issue along with the necessary tooling and program information.</p>',
 		),
 		array(
 			'title'  => 'Tooling Recommendation',
