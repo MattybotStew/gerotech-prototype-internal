@@ -270,11 +270,8 @@ preflight_remote() {
 	assert_not_production
 	ok "target is stage, not production"
 
-	run_remote </dev/null >/dev/null 2>&1 || die "cannot open an SSH session to $STAGE_HOST"
-	ok "SSH session established"
-
 	local out
-	out="$(run_remote <<'REMOTE'
+	if ! out="$(run_remote <<'REMOTE'
 command -v rsync >/dev/null || { echo "MISSING rsync"; exit 3; }
 command -v wp    >/dev/null || { echo "MISSING wp";    exit 3; }
 [ -d "$REMOTE_THEME" ] || { echo "MISSING theme dir";  exit 3; }
@@ -282,8 +279,10 @@ echo "siteurl=$(wp option get siteurl 2>/dev/null | head -1)"
 echo "theme=$(wp theme list --status=active --field=name 2>/dev/null | head -1)"
 echo "files=$(find "$REMOTE_THEME" -type f -not -name '.DS_Store' | wc -l | tr -d ' ')"
 REMOTE
-)" || die "remote pre-flight failed: $out"
-	ok "$(printf '%s' "$out" | tr '\n' ' ')"
+)"; then
+		die "cannot reach stage, or stage failed pre-flight: ${out:-no output}"
+	fi
+	ok "SSH session established; $(printf '%s' "$out" | tr '\n' ' ')"
 
 	case "$out" in *"siteurl=https://gerotechdev"*) ;; *)
 		die "stage reports a siteurl that is not gerotechdev — refusing to touch it." ;; esac
