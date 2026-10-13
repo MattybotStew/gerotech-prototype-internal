@@ -113,6 +113,7 @@ deploy-stage.sh — push to STAGE (WP Engine Dev) with guards.
 
   --check                 read-only: pre-flight, drift, dry run, chrome diff
   --apply                 snapshot, deploy, chmod, flush, verify, assert
+  --verify                read-only: run the rendered assertions only (no SSH)
   --rollback              restore a snapshot (newest unless --snapshot given)
   --list-snapshots        what is available to roll back to
 
@@ -134,6 +135,7 @@ while [ $# -gt 0 ]; do
 	case "$1" in
 		--check)          MODE="check" ;;
 		--apply)          MODE="apply" ;;
+		--verify)         MODE="verify" ;;
 		--rollback)       MODE="rollback" ;;
 		--list-snapshots) MODE="list" ;;
 		--scope)          SCOPE="${2:?--scope needs a value}"; shift ;;
@@ -150,7 +152,7 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-[ -n "$MODE" ] || { printf 'nothing to do — pass --check, --apply, --rollback or --list-snapshots\n\n' >&2; usage; }
+[ -n "$MODE" ] || { printf 'nothing to do — pass --check, --apply, --verify, --rollback or --list-snapshots\n\n' >&2; usage; }
 
 case "$SCOPE" in
 	theme|home-nav) ;;
@@ -201,6 +203,33 @@ run_remote() {
 http_status() { curl -s -L -o /dev/null -w '%{http_code}' --max-time 25 "$1" 2>/dev/null || echo 000; }
 
 mktmp() { local f; f="$(mktemp "${TMPDIR:-/tmp}/deploy-stage.XXXXXX")"; TMP_FILES+=("$f"); printf '%s' "$f"; }
+mktmpd() { local d; d="$(mktemp -d "${TMPDIR:-/tmp}/deploy-stage.XXXXXX")"; TMP_FILES+=("$d"); printf '%s' "$d"; }
+
+# Fetched pages are cached for the run. Assertions must grep a FILE, never a
+# `curl | grep -q` pipeline: grep -q exits at the first match, curl takes
+# SIGPIPE, and `pipefail` turns that into a non-zero pipeline — so the assertion
+# silently reports a false negative most of the time (measured: 2 of 12 runs
+# passed before this was fixed).
+PAGE_CACHE_DIR="$(mktmpd)"
+
+_page_key() { printf '%s' "$1" | tr -c 'A-Za-z0-9' '_'; }
+
+page_fetch() {
+	local path="$1" key file
+	key="$(_page_key "$path")"
+	file="$PAGE_CACHE_DIR/$key.html"
+	if [ ! -f "$file" ]; then
+		curl -s -L -o "$file" -w '%{http_code}' --max-time 25 "$STAGE_URL$path" > "$file.code" 2>/dev/null \
+			|| echo 000 > "$file.code"
+		[ -s "$file" ] || warn "empty body from $STAGE_URL$path — assertions on it are meaningless"
+	fi
+	printf '%s' "$file"
+}
+
+page_status() {
+	page_fetch "$1" >/dev/null
+	cat "$PAGE_CACHE_DIR/$(_page_key "$1").html.code" 2>/dev/null || echo 000
+}
 
 # ─── Pre-flight ───────────────────────────────────────────────────────────────
 
@@ -399,18 +428,18 @@ REMOTE
 
 # ─── Assertions ───────────────────────────────────────────────────────────────
 
-fetch_page() { curl -s -L --max-time 25 "$STAGE_URL$1"; }
+fetch_page() { page_fetch "$1"; }
 
 assert_status() {
 	local u code
 	for u in "$@"; do
-		code="$(http_status "$STAGE_URL$u")"
+		code="$(page_status "$u")"
 		if [ "$code" = 200 ]; then ok "200  $u"; else fail "$code  $u"; ASSERT_FAILED=1; fi
 	done
 }
 
 assert_present() {
-	if fetch_page "$1" | grep -qF -- "$2"; then
+	if grep -qF -- "$2" "$(page_fetch "$1")"; then
 		ok "present   $(printf '%-36s' "$2") on $1"
 	else
 		fail "MISSING   $2 on $1"; ASSERT_FAILED=1
@@ -418,7 +447,7 @@ assert_present() {
 }
 
 assert_absent() {
-	if fetch_page "$1" | grep -qF -- "$2"; then
+	if grep -qF -- "$2" "$(page_fetch "$1")"; then
 		fail "UNEXPECTED  $2 on $1"; ASSERT_FAILED=1
 	else
 		ok "absent    $(printf '%-36s' "$2") on $1"
@@ -428,7 +457,7 @@ assert_absent() {
 # Not a failure: stage legitimately stores absolute gerotechdev URLs. It must be
 # resolved before Production, so it is surfaced every run.
 warn_if_present() {
-	if fetch_page "$1" | grep -qF -- "$2"; then
+	if grep -qF -- "$2" "$(page_fetch "$1")"; then
 		warn "found \"$2\" on $1 — expected on stage, must be replaced before Production"
 	fi
 	return 0
@@ -449,7 +478,7 @@ assert_rendered() {
 	assert_absent "/" "Prototype site search"
 
 	local got
-	got="$(fetch_page "/" | grep -o 'mega-nav__machine-link' | wc -l | tr -d ' ' || true)"
+	got="$(grep -o 'mega-nav__machine-link' "$(page_fetch "/")" | wc -l | tr -d ' ' || true)"
 	if [ "${got:-0}" -ge 30 ]; then ok "machine links rendered: $got"; else warn "machine links rendered: $got (expected >= 30)"; fi
 
 	warn_if_present "/" "wpenginepowered.com/contact"
@@ -589,6 +618,16 @@ case "$MODE" in
 		assert_rendered
 		[ "$ASSERT_FAILED" -eq 0 ] || die "files restored, but the rendered assertions still fail."
 		ok "rollback verified"
+		[ "$WARNINGS" -eq 0 ] || info "$WARNINGS warning(s) — see above."
+		;;
+
+	verify)
+		assert_not_production
+		assert_rendered
+		chrome_diff_local
+		step "Verdict"
+		[ "$ASSERT_FAILED" -eq 0 ] || die "the rendered assertions failed — stage is not rendering as expected."
+		ok "stage renders as expected (read-only — nothing was written)"
 		[ "$WARNINGS" -eq 0 ] || info "$WARNINGS warning(s) — see above."
 		;;
 
