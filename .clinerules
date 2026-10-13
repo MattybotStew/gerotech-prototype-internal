@@ -9,6 +9,11 @@
 
 **Context — "stage" is the WP Engine Dev environment.** There is no separate staging install: `~/.ssh/known_hosts` holds `gerotechdev` (**stage**) and `gerotech` (Production, untouched). Confirmed against `handoff/implementation-plan-wordpress-theme-acf.md` §13 ("Environment: Development (`gerotechdev`) — never Production. Stage is the Dev rollback").
 
+**Port scope — settled 2026-10-13 (Matt).** The pages being ported are **Home, Engineered Solutions and the three ES sub-pages** (Machine Custom Solutions, Applications, Automation & Controls) — nothing else.
+- **Training / Support / About are legacy and are NOT ported.** They therefore have **no CTA band at all** (`page-training.php`, `page-support.php`, `page-about.php` contain zero `cta-band` markup) even though the *prototype* gives Training and About a band pointing at `sales@gerotech.com`. **That gap is expected — do not "fix" it by porting the bands.**
+- **Careers is not a worry** and needs no attention. It does have a built `page-careers.php` with a band on `sales@gerotech.com`, but it is out of scope; leave it.
+- Consequence inside the scope: the five in-scope CTA bands (Home, ES, MCS, Applications, Automation) are **all** `Engineeringproposals@gerotech.com` with subject `Gerotech Quote Request` — identical on Local and Dev. They are also the **only CTAs in scope that work today**, because they are `mailto:` and do not touch the contact form. Every other in-scope CTA goes to `/contact/` and is dead until the form recipients are supplied.
+
 **Verified up to date on stage (read-only audit, 2026-10-13)** — the homepage + navigation carried by the Dev DB are current, so no re-seed was needed: 3 hero slides (slide 2 = `Floor Inventory` / `In-Stock & Ready` / "Our Showroom Machines Are **Ready To Ship**"); homepage CTA "Talk to an Engineer" → `Engineeringproposals@gerotech.com` with the "Prefer Email?" subhead and the Flat Rock default image; header `Let&#039;s Connect`; Machines panel 8 groups / 40 links; ES panel 3 groups / **20 links incl. Layered Controls Solutions**; ES nav CTA + card CTA `/contact/`; footer tagline/address/phone/copyright + 3 columns + 3 socials; 3 testimonials; `ai_cards` 6 / `app_cards` 6 / `mcs_cards` 8. `/`, `/engineered-solutions/`, `/automated-system/`, `/contact/` all 200.
 
 **What changed:**
