@@ -450,6 +450,11 @@ do_rsync() {
 
 snapshot() {
 	if [ "$SKIP_SNAPSHOT" -eq 1 ]; then warn "snapshot skipped — no rollback point"; return 0; fi
+	if [ "$REMOTE_HAS_THEME" != "yes" ]; then
+		warn "no snapshot taken: $THEME_SLUG is not installed on $ENV yet, so there is nothing to overwrite"
+		info "rollback for this first deploy is simply: wp theme activate gerotech on $ENV"
+		return 0
+	fi
 	step "Snapshot — the rollback point"
 	local name
 	name="$(run_remote <<'REMOTE'
