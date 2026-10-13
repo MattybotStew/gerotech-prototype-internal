@@ -32,6 +32,23 @@
 
 **Deployed:** theme re-rsynced to Dev (`inc/global-content.php`) + remote `chmod 755/644` + page & CDN flush; `sync-theme-assets.sh` (0 files) + `sync-theme-to-local.sh` run. The two DB scripts were run on **both** environments. Local DB backed up first to `local-backup-20261013-105605.sql` (now gitignored).
 
+**STANDING RULE — deploy with `scripts/deploy-stage.sh`, not by hand (2026-10-13).** The hand recipe was ~7 remembered steps and almost every failure mode was **silent** (see the table in `JOURNAL.md` 2026-10-13). The script is now the only supported path and turns each one into a refusal or a red error:
+
+| Mode | What it does |
+|---|---|
+| `--check` | **read-only — start here.** Pre-flight, checksum drift, rsync dry run, rendered chrome diff vs Local. Exits **0** with warnings; blockers are reported as `would block --apply` |
+| `--apply` | snapshot → rsync → chmod → flush → manifest verify → rendered assertions |
+| `--rollback` | restore the newest snapshot (or `--snapshot <file>`), then re-verify |
+| `--list-snapshots` | what is available to roll back to |
+
+- **Guards, all tested:** the host *and* remote path are hard-guarded for `gerotechdev` — **Production is unreachable by construction** (`assert_not_production`; verified to refuse `--list-snapshots`, `--check` and `--apply` with exit 1 when pointed at `gerotech@gerotech.ssh.wpengine.net`). `--apply` **refuses a dirty working tree** and **refuses an unpushed HEAD** (escape hatches `--allow-dirty` / `--allow-unpushed` exist but are deliberate, loud choices). Interactive confirmation unless `--yes`; with no TTY, `--yes` is mandatory. Usage errors exit 2.
+- **Scope:** `--scope theme` (default; whole child theme, with `--delete`) or `--scope home-nav` (43 files from `scripts/deploy-stage-home-nav.txt`, **no `--delete`** — with `--files-from` it would delete everything not listed).
+- **Snapshots** live at `$HOME/.gerotech-snapshots/` on stage (outside the docroot, so not web-served), newest 5 kept. This is the rollback point that never existed before.
+- **Never trust timestamps:** the drift check and the post-deploy verification both use **sha256 manifests**. rsync's default size+mtime check will silently skip a same-size edit — demonstrated in the journal.
+- **Exit code alone is never treated as success:** `--apply` asserts HTTP 200 on six URLs, structural markers present (`hero-slider--peek`, `mega-nav__machine-link`, `cta-band__actions`, `search-modal__hint`, `mega-nav__service-link`, `layered-controls-solutions`), and `Prototype site search` **absent**. A failed assertion prints the rollback command.
+- **Known-good run (2026-10-13):** `--check` = exit 0, 174/174 byte-identical, 0 add / 0 delete / 0 replace, chrome identical to Local (27,644 chars). `--check` takes ~75 s — each WPE SSH round trip is ~13 s, so pre-flight deliberately uses a single call.
+- `--seed` / `--audit` optionally run the ACF seeder (idempotent, blanks only) and the applied-state audit on stage. A theme push still does **not** apply fields.
+
 ---
 
 ## Previous Session State

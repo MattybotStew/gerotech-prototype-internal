@@ -2,6 +2,49 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-13 — `deploy-stage.sh`: deploys that refuse rather than fail silently (opencode)
+
+Stage deploys were ~7 remembered steps, and nearly every failure mode was **silent**. The repo's own history is the catalogue:
+
+| Failure | Silent? | Where it happened |
+|---|---|---|
+| `rsync -q src/ dst/` without `-a` doesn't recurse → skips `inc/`, `template-parts/` | **silent** | `.clinerules` "Deploy trap" |
+| rsync's default size+mtime check skips a same-size edit | **silent** | demonstrated below |
+| forgetting `sync-theme-assets.sh` → prototype CSS/JS never reaches the theme | **silent** | happened twice (breadcrumb `/`, cue `→`) |
+| a same-named CSS/JS keeps serving old bytes from the WPE CDN | looks like a failure | needs `wp cdn-cache flush` |
+| missing chmod → mode 600 ships unreadable → WP Engine **403** | loud but confusing | `app-demo-showroom.jpg` |
+| `--delete` carries another agent's uncommitted work to stage | **silent** | ES audit shipped Cursor's thumbnail changes |
+| a theme push does not apply ACF fields | **silent** | standing rule |
+| a stored DB value beats the template default | **silent** | most common "nothing happened" |
+| `wp eval-file` over SSH word-splits args | partial | why the card-image script takes no args |
+| deploying while the shared tree sits on someone else's branch | **silent** | `.clinerules` "⚠ the shared working tree is on `cursor/…`" |
+| `media_handle_sideload()` moves the asset out of the theme | **silent** | tell: "0 files updated" |
+| a typo'd host is Production | catastrophic | no guard existed |
+
+**The proof that mattered most.** rsync's default check is size+mtime. A file edited to a different value of the *same length* with its mtime preserved is invisible to it:
+
+```
+src: DEPLOY v2   dst: DEPLOY v1   (same size, same mtime)
+
+default dry run  → (no file listed => change INVISIBLE)
+checksum run -c  → >fc...... f.php
+```
+
+So "the deploy ran" never proved anything. Hence manifests, not timestamps.
+
+**`scripts/deploy-stage.sh`** — `--check` (read-only, the place to start), `--apply`, `--rollback`, `--list-snapshots`; `--scope theme|home-nav`; `--seed` / `--audit`.
+
+- **Production is unreachable by construction.** The host *and* the remote path are guarded for `gerotechdev`; pointing it at `gerotech@gerotech.ssh.wpengine.net` refuses on `--list-snapshots`, `--check` and `--apply` (exit 1). Tested by rewriting those two constants in a throwaway copy.
+- **`--apply` refuses a dirty tree and an unpushed HEAD** (the two ways one agent's half-finished work reaches stage). `--allow-dirty` / `--allow-unpushed` exist and are loud. Interactive confirmation unless `--yes`; **with no TTY, `--yes` is required**. Usage errors exit 2.
+- **Rollback exists now.** Every `--apply` tars the remote theme to `$HOME/.gerotech-snapshots/` on stage — deliberately **outside the docroot** so it is not web-served — keeps the newest 5, and `--rollback` restores with a temp-dir swap (never an in-place `rm -rf`).
+- **Scope `home-nav`** pushes 43 files from `scripts/deploy-stage-home-nav.txt` and **omits `--delete`**, which is not a nicety: combined with `--files-from`, `--delete` removes every file not in the list.
+- **Exit codes are not trusted.** `--apply` asserts HTTP 200 across six URLs, structural markers present, `Prototype site search` absent, and prints the rollback command when an assertion fails.
+- **`--check` is honest about what would block.** Blockers print as `would block --apply` and still exit 0, so the environment can be inspected before fixing it.
+
+**Verified:** guards exercised individually — Production refusal (3 modes), `--apply`/`--rollback` without `--yes` on a non-TTY, and all four usage errors exiting 2. Final `--check` on a clean, pushed tree: **exit 0**; 174/174 files byte-identical; 0 added / 0 deleted / 0 replaced; chrome identical to Local (27,644 chars). `--check` takes ~75 s because each WPE SSH round trip is ~13 s — pre-flight was reduced to a single call for that reason.
+
+**Docs:** `.clinerules` standing rule + table; `AGENTS.md` now points at the script and keeps the raw recipe only as an unguarded fallback.
+
 ## 2026-10-13 — Stage prep: form senders, "Prototype" search copy, header button, DB scripts on Dev (opencode)
 
 Prepping the homepage + navigation for client review on **stage**. First finding: **there is no separate staging install** — `~/.ssh/known_hosts` holds `gerotechdev` (**stage**) and `gerotech` (Production, untouched), and `handoff/implementation-plan-wordpress-theme-acf.md` §13 agrees ("Environment: Development (`gerotechdev`) — never Production. Stage is the Dev rollback").
