@@ -43,6 +43,18 @@ So "the deploy ran" never proved anything. Hence manifests, not timestamps.
 
 **Verified:** guards exercised individually — Production refusal (3 modes), `--apply`/`--rollback` without `--yes` on a non-TTY, and all four usage errors exiting 2. Final `--check` on a clean, pushed tree: **exit 0**; 174/174 files byte-identical; 0 added / 0 deleted / 0 replaced; chrome identical to Local (27,644 chars). `--check` takes ~75 s because each WPE SSH round trip is ~13 s — pre-flight was reduced to a single call for that reason.
 
+### Two bugs the script found in itself on first real use
+
+Both were **my** bugs, and both were silent-ish. Worth reading before trusting any deploy tool.
+
+1. **A false-negative race in the rendered assertions.** `assert_present` was `if curl … | grep -qF …`. `grep -q` exits at the *first* match, `curl` then takes SIGPIPE, and `pipefail` propagates curl's non-zero status — so the `if` took the *else* branch and reported `MISSING`. Measured: the same check passed **2 of 12** runs. The first `--apply` hit it, declared four assertions failed, and **told the user to roll back a deploy that was completely correct**. Pages are now fetched once per run into a cache dir and assertions grep the file — which also removed ~15 redundant fetches. `--verify` was added so assertions can be re-checked without deploying.
+   - Diagnosis method worth reusing: the giveaway was the script contradicting itself (`machine links rendered: 40` alongside `MISSING mega-nav__machine-link`), so I verified the raw HTML with `grep -c` before believing either the script or my own code.
+2. **Snapshots were being written to a place that does not survive.** The first design used `$HOME/.gerotech-snapshots` on stage. WP Engine's `$HOME` is **ephemeral per SSH session**: the tar was created, `basename` printed, `--apply` reported a rollback point — and by the next connection the directory did not exist. `--list-snapshots` returning "none" while `--apply` had just named a snapshot is what exposed it. Probed four candidate locations across two connections; only the install dir persists. Snapshots moved to `<install>/_gerotech-scripts/snapshots/` and the tar is now size-checked.
+   - This is precisely the failure class the script exists to catch, and it caught its own.
+
+**Full path exercised after the fixes:** `--check` (exit 0, clean) → `--apply` (exit 0, snapshot created, 174/174 identical, all assertions green) → `--list-snapshots` (two 30 MB snapshots, **persisting across sessions**) → `--rollback` (exit 0, restored, assertions re-verified) → `--check` again (exit 0, clean).
+
+
 **Docs:** `.clinerules` standing rule + table; `AGENTS.md` now points at the script and keeps the raw recipe only as an unguarded fallback.
 
 ## 2026-10-13 — Stage prep: form senders, "Prototype" search copy, header button, DB scripts on Dev (opencode)
