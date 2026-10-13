@@ -16,10 +16,22 @@ Desktop home is Gerotech-Design canvas `6573:406` → frame **`7306:1063`**. Kee
 - Homepage CTA: `assets/images/cta-home-building.jpg` (Flat Rock headquarters), no phone lockup.
 - Proto Training / Support / About have page hrefs. WP Support remains a service dropdown.
 
-## WP Engine Dev (as of 2026-09-18)
+## WP Engine environments (corrected 2026-10-13)
 
-- URL: https://gerotechdev.wpenginepowered.com/ — Gerotech Child **active**. Homepage, 4 ES pages, 7 legacy pages (ACF-wired), and Careers are live.
-- Push from Local: **Dev only**, files **Select** → `wp-content/themes/gerotech-child/` only, **Database off**. Never `wp-admin` / `wp-includes` / `uploads`. Never Production.
+**There are three, and "stage" is not the Dev one.** The implementation plan calls Dev "stage" ("Stage is the Dev rollback"); that is wrong and has already caused a deploy to land on the environment nobody was looking at.
+
+| Install | Role | URL | Theme |
+|---|---|---|---|
+| `gerotechdev` | **Dev** | https://gerotechdev.wpenginepowered.com/ | `gerotech-child` **active** |
+| `gerotechstg` | **Staging** — what the client sees | https://gerotechstg.wpenginepowered.com/ | `gerotech-child` **active** (was the legacy parent until 2026-10-13) |
+| `gerotech` | **Production** | gerotech.com | — never touched |
+
+- **All three are reachable over SSH with the same Local-issued key** (`~/Library/Application Support/Local/ssh/wpe-connect`). `gerotechstg` was not in `known_hosts` until 2026-10-13, which is part of why it was missed.
+- `gerotechdev` and `gerotechstg` share the **same page IDs** (Home 11, ES 28, MCS 1250, Applications 1265, Automation 1239, Training 39, Support 1535, About 14, Careers 18, Contact 16), so the child theme's templates bind on both. They do **not** share content: stg has `news-and-events` (#1224) in **draft**, so it 404s there but 200s on dev.
+- `gerotechstg`'s DB was left untouched on promotion — this build renders the design from **code defaults**, including theme-bundled hero images, so no seeding was required. The 2017 legacy `options_*` group is present there; new option field names were already diffed against its 371 names at build time.
+- stg's CF7 recipients carry the same search-replace artefact (`…@gerotechstg.wpenginepowered.com`), so nothing delivers there either.
+- **Deploy to either with `scripts/deploy-stage.sh --env dev|stg`.** The env is an allow-list; Production has no entry.
+- Push from Local (GUI): files **Select** → `wp-content/themes/gerotech-child/` only, **Database off**. Never `wp-admin` / `wp-includes` / `uploads`. Never Production.
 - **Direct deploy (no GUI):** prefer **`scripts/deploy-stage.sh`** — it is the only supported path. `--check` is read-only and reports what would change; `--apply` snapshots the remote theme first (so `--rollback` exists), deploys, normalises perms, flushes both caches, then verifies with sha256 manifests and rendered assertions. It hard-refuses Production, a dirty tree, and an unpushed HEAD.
 
   The raw recipe below still works and is what the script runs internally, but it has no guards: `rsync -avz --delete -e "ssh -i \"$HOME/Library/Application Support/Local/ssh/wpe-connect\"" wp-content/themes/gerotech-child/ gerotechdev@gerotechdev.ssh.wpengine.net:/nas/content/live/gerotechdev/wp-content/themes/gerotech-child/`, then normalise perms on the server (`ssh -i "$HOME/Library/Application Support/Local/ssh/wpe-connect" gerotechdev@gerotechdev.ssh.wpengine.net "find /nas/content/live/gerotechdev/wp-content/themes/gerotech-child -type d -exec chmod 755 {} +; find /nas/content/live/gerotechdev/wp-content/themes/gerotech-child -type f -exec chmod 644 {} +"`), then `wp page-cache flush` + `wp cdn-cache flush` (path `/nas/content/live/gerotechdev`). **The chmod is not optional:** a restrictive local umask ships files the web server can't read, and WP Engine answers **403**. Note macOS's `openrsync` has no `--chmod`, which is why it's a separate step; `sync-theme-assets.sh` and `sync-theme-to-local.sh` already normalise the local copies. See `handoff/implementation-plan-wordpress-theme-acf.md` §14.

@@ -7,7 +7,15 @@
 **Active Agent:** opencode
 **Branch:** `master` == `origin/master`. Clean tree; everything below is committed and pushed.
 
-**Context — "stage" is the WP Engine Dev environment.** There is no separate staging install: `~/.ssh/known_hosts` holds `gerotechdev` (**stage**) and `gerotech` (Production, untouched). Confirmed against `handoff/implementation-plan-wordpress-theme-acf.md` §13 ("Environment: Development (`gerotechdev`) — never Production. Stage is the Dev rollback").
+**Context — there are THREE WP Engine environments, and "stage" is NOT the Dev one.** Corrected 2026-10-13 after a promote landed on the wrong host. The implementation plan calls Dev "stage" ("Stage is the Dev rollback") — that is wrong.
+
+| Install | Role | Theme |
+|---|---|---|
+| `gerotechdev` | **Dev** | `gerotech-child` active |
+| `gerotechstg` | **Staging** — the environment the client looks at | `gerotech-child` active since 2026-10-13 |
+| `gerotech` | **Production** — never touched | legacy |
+
+All three accept SSH with the same Local key. `gerotechstg` was not in `known_hosts`, which is part of why it was missed. Deploy with `scripts/deploy-stage.sh --env dev|stg`; Production has no entry in the allow-list. Both dev and stg share the same page IDs (Home 11, ES 28, MCS 1250, Applications 1265, Automation 1239) so the child templates bind on both, but they do **not** share content — stg has `news-and-events` (#1224) in **draft**, so it 404s there and 200s on dev. Neither environment's forms deliver (both carry a `…wpenginepowered.com` recipient).
 
 **Port scope — settled 2026-10-13 (Matt).** The pages being ported are **Home, Engineered Solutions and the three ES sub-pages** (Machine Custom Solutions, Applications, Automation & Controls) — nothing else.
 - **Training / Support / About are legacy and are NOT ported.** They therefore have **no CTA band at all** (`page-training.php`, `page-support.php`, `page-about.php` contain zero `cta-band` markup) even though the *prototype* gives Training and About a band pointing at `sales@gerotech.com`. **That gap is expected — do not "fix" it by porting the bands.**

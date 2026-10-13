@@ -614,7 +614,7 @@ def chrome(p):
         parts.append(m.group(0) if m else '')
     return '\n'.join(parts)
 def norm(s):
-    s=re.sub(r'https?://gerotechdev\.wpenginepowered\.com','HOST',s)
+    s=re.sub(r'https?://[a-z0-9.-]*wpenginepowered\.com','HOST',s)
     s=re.sub(r'https?://gerotech\.local','HOST',s)
     s=re.sub(r'\?ver=[^"\'&]+','?ver=V',s)
     return re.sub(r'\s+',' ',s)

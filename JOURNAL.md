@@ -2,6 +2,40 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-13 — Promoted the new build to STAGING (`gerotechstg`) (opencode)
+
+**"Stage" was the wrong host, and that was the whole problem.** Matt reported the homepage still looked old at `gerotechstg.wpenginepowered.com`. It did — because the child theme had **never been deployed there**. There are **three** WP Engine environments, not two:
+
+| Install | Role | Was | Now |
+|---|---|---|---|
+| `gerotechdev` | Dev | `gerotech-child` active | unchanged |
+| `gerotechstg` | **Staging** — what the client looks at | legacy parent `gerotech` active, child **not on disk** | `gerotech-child` active |
+| `gerotech` | Production | — | never touched |
+
+Two things compounded the mis-identification. The implementation plan and `AGENTS.md` both say **"Stage is the Dev rollback"**, and `~/.ssh/known_hosts` listed only `gerotechdev` and `gerotech`. So a whole prep round went to Dev while the client was looking at stg. `gerotechstg` also accepted the same Local SSH key once its host key was accepted — nothing about the tooling distinguished "the environment you mean" from "the environment the docs name".
+
+**Diagnosis:** stg ran `gerotech` (the legacy parent) and `wp-content/themes/` had no `gerotech-child` at all. Rendered markers confirmed it: `hero-slider--peek` 0, `mega-nav__machine-link` 0, and the legacy `#pages_header` / `mega-menu-wrap` markup present. Not a cache problem.
+
+**Promotion:** `scripts/deploy-stage.sh --env stg --apply --activate --yes` — 189 items added, `wp theme activate gerotech-child`, perms, both caches flushed, 174/174 files byte-identical, then the assertions. **stg's database was deliberately left untouched:** this build renders the design from code defaults, including theme-bundled hero images (`assets/images/hero-slide-1.jpg`), so no seeding was needed. Verified after: `hero-slider--peek` present, 40 machine links, 3 slide headlines, `cta-band__actions`, `search-modal__hint`, legacy `pages_header` gone, and the rendered `<header>`/`<footer>` **identical to Local (27,644 chars)**.
+
+**Why the templates bind:** stg and dev share the same page IDs (Home 11, ES 28, MCS 1250, Applications 1265, Automation 1239, Training 39, Support 1535, About 14, Careers 18, Contact 16). They do **not** share content — `/news-and-events/` is 404 on stg because post #1224 is a **draft** there and published on dev. That is pre-existing, not caused by the promotion; worth not mistaking for a regression.
+
+**Blast radius, as expected:** activation is global, so all 32 pages changed. The 9 converted pages get the new design; the ~23 legacy pages keep their legacy body markup under the new chrome — the documented "unconverted pages look unfinished" state. This makes stg a genuine launch rehearsal. stg's CF7 recipients are equally dead (`…@gerotechstg.wpenginepowered.com`).
+
+**Tooling changes forced by this:**
+- `--env dev|stg` replaces the hard-coded `gerotechdev`. It is an **allow-list** — Production has no entry, plus the `gerotech.ssh` marker and an install-name check as second and third layers.
+- `--activate` runs `wp theme activate` after the files land and **verifies the result** rather than trusting the exit code.
+- Pre-flight now reports the **active theme** and whether the child is even installed — on stg the theme directory did not exist, and the old check *required* it, so it would have refused a legitimate first deploy. It also requires the parent `gerotech` to be present.
+- Snapshot skips cleanly on a first deploy (nothing to overwrite) instead of aborting on `tar`.
+- `--format=name` is not valid for `wp theme list` — silently empty, which made the parent-theme check report absent. Now `--field=name`.
+
+**Two more bugs found by using it, both mine, both now fixed:**
+1. The Local chrome diff was skipped on stg *after* activation because `REMOTE_ACTIVE` still held the pre-activation value from pre-flight. Refreshed after activating.
+2. Assertions could race a cold cache right after activation + flush (this is what produced a stray exit 1). Assertions now warm the homepage first and `page_fetch` retries up to 3 times.
+3. The chrome-diff normaliser only knew `gerotechdev`, so stg's absolute URLs never collapsed and every run reported a spurious diff. Now matches any `*.wpenginepowered.com`.
+
+**Verified:** `--apply` run twice on stg, both **exit 0**; `--verify` exit 0 with chrome identical to Local; 13 URLs checked, all 200 except the legitimately-draft `/news-and-events/`.
+
 ## 2026-10-13 — `deploy-stage.sh`: deploys that refuse rather than fail silently (opencode)
 
 Stage deploys were ~7 remembered steps, and nearly every failure mode was **silent**. The repo's own history is the catalogue:
