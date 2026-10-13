@@ -40,9 +40,35 @@ fi
 #                 CF7 102/233 forms are deliberately not rendered.
 INTENTIONAL="header.php footer.php"
 
-# Form shortcodes the legacy templates render.
+# Form shortcodes the legacy templates render. Anything here that the child
+# override does not also render is content silently lost to the parent.
+# HTML comments are stripped first: the parent keeps its disabled CF7 calls
+# inside <!-- --> and a naive grep counts those as live, which produces false
+# failures when the child legitimately renders the Gravity Form instead.
+strip_comments() {
+	awk '
+	{
+		s = $0
+		out = ""
+		while (length(s) > 0) {
+			if (incomment) {
+				p = index(s, "-->")
+				if (p == 0) { s = ""; break }
+				s = substr(s, p + 3); incomment = 0
+			} else {
+				p = index(s, "<!--")
+				if (p == 0) { out = out s; s = ""; break }
+				out = out substr(s, 1, p - 1)
+				s = substr(s, p + 4); incomment = 1
+			}
+		}
+		print out
+	}' "$1" 2>/dev/null
+}
+
 ids() {
-	grep -ohE 'gravityform id="[0-9]+"|contact-form-7 id="[0-9]+"' "$1" 2>/dev/null \
+	strip_comments "$1" \
+		| grep -ohE 'gravityform id="[0-9]+"|contact-form-7 id="[0-9]+"' \
 		| sort -u || true
 }
 

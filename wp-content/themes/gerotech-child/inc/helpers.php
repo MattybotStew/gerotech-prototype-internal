@@ -107,6 +107,28 @@ function gerotech_engineering_mailto( $subject = 'Gerotech Quote Request' ) {
 }
 
 /**
+ * Render a form shortcode, but only when the plugin that owns it is active.
+ *
+ * Gravity Forms is installed on staging and production but NOT on dev. A bare
+ * do_shortcode() there leaves an unregistered shortcode untouched, which prints
+ * the literal `[gravityform id="1" …]` text onto the page. This returns an empty
+ * string instead, so dev degrades quietly rather than looking broken.
+ *
+ * @param string $shortcode Shortcode text, with or without brackets.
+ * @return string Rendered markup, or '' when the shortcode is unavailable.
+ */
+function gerotech_shortcode( $shortcode ) {
+	$shortcode = trim( (string) $shortcode );
+	$tag       = strtok( ltrim( $shortcode, '[' ), ' ' );
+
+	if ( false === $tag || '' === $tag || ! shortcode_exists( $tag ) ) {
+		return '';
+	}
+
+	return do_shortcode( $shortcode );
+}
+
+/**
  * Page slugs whose templates render card modals + gallery collections.
  *
  * Shared by inc/enqueue.php (which loads modal.js / gallery-module.js) and

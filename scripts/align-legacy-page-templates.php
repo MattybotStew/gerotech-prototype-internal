@@ -118,13 +118,16 @@ foreach ( $gerotech_forms as $path => $template ) {
 	$in_parent = file_exists( get_template_directory() . '/' . $template );
 	$resolves = $in_child ? 'child' : ( $in_parent ? 'parent' : 'NOWHERE' );
 
-	if ( 'parent' !== $resolves ) {
+	// Either theme owning the file is fine — the child wins when it ships one.
+	// NOWHERE means the page falls through to the generic page.php, which is
+	// what silently drops the form.
+	if ( 'NOWHERE' === $resolves ) {
 		$gerotech_bad++;
 	}
 
 	printf(
 		"  %-8s %-22s tmpl=%-26s resolves=%s\n",
-		'parent' === $resolves ? 'OK' : 'PROBLEM',
+		'NOWHERE' === $resolves ? 'PROBLEM' : 'OK',
 		$path,
 		$current,
 		$resolves
