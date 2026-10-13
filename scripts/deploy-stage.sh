@@ -63,7 +63,13 @@ SSH_CMD="ssh -i \"$SSH_KEY\" -o BatchMode=yes -o ConnectTimeout=20"
 SSH_ARGS=(-i "$SSH_KEY" -o BatchMode=yes -o ConnectTimeout=20)
 
 REMOTE_THEME="$STAGE_ROOT/$THEME_REL"
+# Snapshots MUST live inside the install: WPE's $HOME is EPHEMERAL per SSH
+# session, so a snapshot written there is reported as created and then silently
+# vanishes — the worst possible failure mode for a rollback point. Measured:
+# $HOME and /tmp do not survive a new connection; only the install dir does.
+REMOTE_SNAP_DIR="$STAGE_ROOT/_gerotech-scripts/snapshots"
 KEEP_SNAPSHOTS=5
+DEPLOY_COMMIT="$(git -C "$REPO_ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 
 WARNINGS=0
 ASSERT_FAILED=0
@@ -193,7 +199,8 @@ run_remote() {
 		printf 'set -euo pipefail\n'
 		printf 'REMOTE_THEME=%s\n' "$(printf '%q' "$REMOTE_THEME")"
 		printf 'REMOTE_ROOT=%s\n' "$(printf '%q' "$STAGE_ROOT")"
-		printf 'REMOTE_SNAP_DIR="$HOME/.gerotech-snapshots"\n'
+		printf 'REMOTE_SNAP_DIR=%s\n' "$(printf '%q' "$REMOTE_SNAP_DIR")"
+		printf 'DEPLOY_COMMIT=%s\n' "$(printf '%q' "$DEPLOY_COMMIT")"
 		printf 'KEEP_SNAPSHOTS=%d\n' "$KEEP_SNAPSHOTS"
 		printf 'SNAP_FILE=%s\n' "$(printf '%q' "$SNAPSHOT_FILE")"
 		cat
@@ -397,14 +404,17 @@ snapshot() {
 	name="$(run_remote <<'REMOTE'
 mkdir -p "$REMOTE_SNAP_DIR"
 stamp="$(date -u +%Y%m%d-%H%M%S)"
-file="$REMOTE_SNAP_DIR/gerotech-child-$stamp.tgz"
+file="$REMOTE_SNAP_DIR/gerotech-child-$stamp-$DEPLOY_COMMIT.tgz"
 cd "$REMOTE_ROOT/wp-content/themes"
 tar -czf "$file" gerotech-child
 ls -1t "$REMOTE_SNAP_DIR"/gerotech-child-*.tgz 2>/dev/null \
   | tail -n +$((KEEP_SNAPSHOTS + 1)) | xargs -r rm -f
+# Prove it survived rather than trusting the tar exit code.
+[ -s "$file" ] || { echo "SNAPSHOT-EMPTY" >&2; exit 1; }
 basename "$file"
 REMOTE
 )" || die "could not create a snapshot on stage"
+	case "$name" in *SNAPSHOT-EMPTY*) die "the snapshot came out empty" ;; esac
 	ok "snapshot: $name"
 	SNAPSHOT_TAKEN="$name"
 }
