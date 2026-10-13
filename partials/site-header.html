@@ -28,9 +28,10 @@
       <nav aria-label="Main navigation">
         <ul class="site-nav">
           <li class="site-nav__item has-mega has-mega--machines">
-            <a class="site-nav__link" href="https://gerotech.com/machines" target="_blank" rel="noopener noreferrer" aria-haspopup="true">
+            <!-- Hover/focus trigger only — no destination, so it is a button, not a link. -->
+            <button type="button" class="site-nav__link" aria-haspopup="true">
               Machines <span class="arrow" aria-hidden="true">+</span>
-            </a>
+            </button>
             <!-- TODO: machine category/model links pending — hrefs are "#" placeholders -->
             <div class="mega-nav mega-nav--machines" role="menu" aria-label="Machines menu">
               <div class="mega-nav__inner mega-nav__inner--machines">

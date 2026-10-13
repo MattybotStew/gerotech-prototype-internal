@@ -54,7 +54,21 @@ $gerotech_nav_item_attrs = function ( $item ) {
 			}
 			?>
 			<li class="<?php echo esc_attr( $item_classes ); ?>">
-				<a class="site-nav__link" href="<?php echo esc_url( $item['url'] ); ?>"<?php echo $gerotech_nav_item_attrs( $item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $item['label'] ); ?><?php if ( 'plain' !== $item['style'] ) : ?> <span class="arrow" aria-hidden="true">+</span><?php endif; ?></a>
+				<?php
+				/*
+				 * A panel-style item with no URL is a trigger, not a link: the
+				 * panel opens on :hover and :focus-within (components.css), so a
+				 * <button> keeps it keyboard-reachable while removing the
+				 * navigation. The Machines item is the one that uses this.
+				 */
+				$is_trigger = ( 'plain' !== $item['style'] )
+					&& ( '' === $item['url'] || '#' === $item['url'] );
+				?>
+				<?php if ( $is_trigger ) : ?>
+					<button type="button" class="site-nav__link" aria-haspopup="true"><?php echo esc_html( $item['label'] ); ?> <span class="arrow" aria-hidden="true">+</span></button>
+				<?php else : ?>
+					<a class="site-nav__link" href="<?php echo esc_url( $item['url'] ); ?>"<?php echo $gerotech_nav_item_attrs( $item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $item['label'] ); ?><?php if ( 'plain' !== $item['style'] ) : ?> <span class="arrow" aria-hidden="true">+</span><?php endif; ?></a>
+				<?php endif; ?>
 
 				<?php if ( 'dropdown' === $item['style'] && ! empty( $item['links'] ) ) : ?>
 					<div class="dropdown" role="menu" aria-label="<?php echo esc_attr( $item['label'] . ' ' . __( 'menu', 'gerotech-child' ) ); ?>">

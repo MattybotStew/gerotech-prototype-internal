@@ -402,8 +402,14 @@ function gerotech_nav_defaults() {
 	return array(
 		array(
 			'label'      => 'Machines',
-			'url'        => 'https://gerotech.com/machines',
-			'new_tab'    => true,
+			// Deliberately blank: the Machines item is a hover/focus trigger for
+			// the Haas catalogue panel, not a link. It used to point at the live
+			// gerotech.com/machines catalogue and, earlier, at a WordPress
+			// "Machines" page — which is why that page is now unpublished. A
+			// panel-style item with no URL renders as a <button>; see
+			// template-parts/site-nav.php.
+			'url'        => '',
+			'new_tab'    => false,
 			'style'      => 'machines-mega',
 			'show_mobile' => true,
 			'links'      => array(),

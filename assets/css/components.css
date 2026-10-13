@@ -129,6 +129,16 @@
   gap: var(--sp-4);
   color: var(--clr-ink);
   text-decoration: none;
+  /* The Machines item is a hover/focus trigger, not a link, so it renders as a
+     <button>. These four lines reset the UA button chrome; they are no-ops on
+     the anchors that share this class. */
+  background: none;
+  border: 0;
+  font: inherit;
+  text-align: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: var(--fw-bold);
