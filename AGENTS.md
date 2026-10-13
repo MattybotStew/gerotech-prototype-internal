@@ -185,6 +185,7 @@ Spec: `handoff/acf-spec.md` §1. Journal entry: 2026-09-29 "Site Content editor 
 - All images are Unsplash stand-ins (HTML comment on each) — verify URLs periodically; some IDs 404 over time
 - CSS class naming: BEM (e.g. `.service-card__category`, `.slide__content--left`)
 - Phone links: E.164 format (`tel:+17343797788`)
+- **Machines is a trigger, not a link.** The header's Machines item opens the Haas catalogue panel on hover/focus and goes nowhere, so `gerotech_nav_defaults()` gives it a blank URL and `template-parts/site-nav.php` renders a panel-style item with no URL as `<button type="button">` instead of `<a>`. The WordPress "Machines" page (#1479) is **draft** on Local, Dev and Staging — it once held a duplicate catalogue and `/machines/` now 404s. Two legacy menu items still point at it, but only the *parent* theme renders menus and the child overrides `header.php`/`footer.php` and calls `wp_nav_menu` nowhere, so nothing rendered links to it. `.site-nav__link` carries button resets (background/border/font/appearance/text-align) — no-ops on the anchors that share the class.
 - Never guess at open client decisions — use placeholder + HTML comment
 - Buttons: `text-transform: uppercase` + 0.05em letter-spacing
 - Card border-radius: **0** (squared edges per Figma)

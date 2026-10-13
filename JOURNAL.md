@@ -2,6 +2,20 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-13 — Machines is now a trigger, and its page is unpublished (opencode)
+
+The header's Machines item opened the Haas catalogue panel on hover **and** navigated away — to the live `gerotech.com/machines` catalogue, with a WordPress "Machines" page (#1479) still public behind it. Now it is a trigger only.
+
+- **`gerotech_nav_defaults()`** gives Machines a blank URL, with a comment saying why (a blank URL is load-bearing here, not an oversight).
+- **`template-parts/site-nav.php`** renders a panel-style item with no URL as `<button type="button" class="site-nav__link" aria-haspopup="true">` instead of an `<a>`. The panel already opens on `:hover` **and `:focus-within`** (`components.css` 2359-2360), so a button keeps it keyboard-reachable while removing the navigation — a `<span>` would have dropped the keyboard route.
+- **`.site-nav__link`** gained the resets a `<button>` needs — `background`, `border`, `font`, `appearance`, `text-align`. All are no-ops on the anchors that share the class, so no other nav item changed.
+- **`scripts/clear-machines-nav-url.php`** blanks the stored `nav_items` URL. A stored repeater row beats the code default and dev/Local both had one, so the template default alone would not have worked. Idempotent; only the row labelled "Machines" is touched.
+- **Page #1479 is now a draft** on Local, Dev and Staging; `/machines/` 404s on all three.
+
+**Checked before unpublishing**, because the legacy site uses Max Mega Menu: two menu items (1541 in *Footer Menu*, 1812 in *Main Menu*, plus 3498 in Dev's *Main Menu (STAGE)*) point at #1479. But **only the parent theme renders menus** — its `header.php`/`footer.php` call `wp_nav_menu`, and the child overrides both and calls it nowhere. So nothing rendered was linking to that page, and the items are dead config.
+
+**Verified on Local and Staging:** Machines renders as a button with no `href`, the panel is intact with its 40 machine links, every other top-level item is unchanged, no link anywhere points at our `/machines/`, and `/machines/` 404s.
+
 ## 2026-10-13 — Restored the legacy pages: forms AND styling (opencode)
 
 My previous fix traded one break for another. Removing our legacy-page templates made the **styling** collapse: the parent theme hardcodes its `style.css` in its own `header.php`, which the child overrides, so the legacy design's stylesheet never loads. The child instead ships `assets/css/legacy.css` — that same stylesheet **scoped to `.legacy`** — and its own templates wrap the markup in `<div class="legacy">`. Take those templates away and the CSS matches nothing, so the pages render unstyled. Matt: *"all the pages that have forms [are broken]."*
