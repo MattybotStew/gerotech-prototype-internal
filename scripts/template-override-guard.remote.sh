@@ -42,9 +42,12 @@ INTENTIONAL="header.php footer.php"
 
 # Form shortcodes the legacy templates render. Anything here that the child
 # override does not also render is content silently lost to the parent.
-# HTML comments are stripped first: the parent keeps its disabled CF7 calls
-# inside <!-- --> and a naive grep counts those as live, which produces false
-# failures when the child legitimately renders the Gravity Form instead.
+#
+# Disabled code must be stripped first, or the guard compares against shortcodes
+# that never render. The parent disables its CF7 calls TWO different ways:
+# HTML comments (<!-- ... -->) and PHP line comments (//echo do_shortcode(...)),
+# so both are removed. Long URLs would eat a line if // were stripped blindly,
+# so // preceded by ':' (i.e. https://) is left alone.
 strip_comments() {
 	awk '
 	{
@@ -62,8 +65,27 @@ strip_comments() {
 				s = substr(s, p + 4); incomment = 1
 			}
 		}
-		print out
-	}' "$1" 2>/dev/null
+
+		# Now drop PHP line comments, but not the slashes in a URL.
+		# NOTE: use '#' here, not a C-style comment. The awk on WP Engine is
+		# mawk, which does not support /* */ and fails to compile the whole
+		# program, returning nothing — which silently made this guard pass by
+		# comparing empty sets.
+		clean = ""
+		while ((q = index(out, "//")) > 0) {
+			pre = (q > 1) ? substr(out, q - 1, 1) : ""
+			if (pre == ":") {
+				clean = clean substr(out, 1, q + 1)
+				out   = substr(out, q + 2)
+			} else {
+				clean = clean substr(out, 1, q - 1)
+				out   = ""
+			}
+		}
+		clean = clean out
+
+		print clean
+	}' "$1"
 }
 
 ids() {
@@ -74,6 +96,19 @@ ids() {
 
 fail=0
 checked=0
+
+# SELF-CHECK. If the parent theme yields no form shortcodes at all, this guard is
+# blind: a broken strip_comments returns nothing, every comparison then succeeds
+# vacuously, and it reports a clean pass. That is exactly what happened when the
+# awk program below used a /* */ comment - mawk rejected it, stderr was hidden,
+# and the guard cheerfully passed. Refuse to report a result we cannot trust.
+parent_forms="$(for f in "${PARENT}"/*.php; do ids "${f}"; done | sort -u | wc -l | tr -d ' ')"
+
+if [ "${parent_forms}" -eq 0 ]; then
+	printf 'ERROR  the guard read ZERO form shortcodes from the parent theme.\n'
+	printf '       Refusing to report a pass - it would be comparing empty sets.\n'
+	exit 2
+fi
 
 for child_file in "${CHILD}"/*.php; do
 	[ -e "${child_file}" ] || continue
