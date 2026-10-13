@@ -297,7 +297,7 @@ function gerotech_header_defaults() {
 		'cta_label'       => "Let's Connect",
 		'cta_url'         => '',
 		'search_title'    => 'Search Gerotech',
-		'search_hint'     => 'Prototype site search — browse by section:',
+		'search_hint'     => 'Browse by section:',
 		'search_placeholder' => 'Search pages and topics…',
 		'search_links'    => array(
 			array( 'label' => 'Haas Machines ↗', 'url' => 'https://gerotech.com/machines', 'new_tab' => true ),

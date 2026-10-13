@@ -148,10 +148,13 @@ break it. Rendering is finished and must not change in this work; only the editi
    convention like the hero `<em>`.
 9. Phone-menu machine group titles render `href="#"` (`site-mobile-nav.php`) — decide where
    they should go.
-10. `header_search_hint` on Local and Dev still says "Prototype site search — browse by
-    section:" — client-facing copy; stored value, so fix in both DBs, not just the default.
+10. **Form recipients — the biggest launch blocker.** 16 of 18 CF7 forms deliver to a
+    `@…wpenginepowered.com` hostname; the senders were fixed on 2026-10-13 but the client
+    still has to supply the real mailboxes (see `.clinerules`). Every CTA added on
+    2026-10-12 points at the contact form, so nothing currently reaches anyone on stage.
 11. Client edits on Dev live only in the Dev DB. Before launch: agree how values move to
-    Production (seeder + migrate scripts, or a content export).
+    Production (seeder + migrate scripts, or a content export). Note the DB also stores
+    absolute `…gerotechdev.wpenginepowered.com` URLs that need a host search-replace.
 
 Spec: `handoff/acf-spec.md` §1. Journal entry: 2026-09-29 "Site Content editor rebuilt".
 

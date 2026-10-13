@@ -2,6 +2,30 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-13 — Stage prep: form senders, "Prototype" search copy, header button, DB scripts on Dev (opencode)
+
+Prepping the homepage + navigation for client review on **stage**. First finding: **there is no separate staging install** — `~/.ssh/known_hosts` holds `gerotechdev` (**stage**) and `gerotech` (Production, untouched), and `handoff/implementation-plan-wordpress-theme-acf.md` §13 agrees ("Environment: Development (`gerotechdev`) — never Production. Stage is the Dev rollback").
+
+**The homepage + navigation were already correct on stage**, so no re-seed was needed. A read-only audit of the Dev DB found: 3 hero slides (slide 2 = `Floor Inventory` / `In-Stock & Ready` / "Our Showroom Machines Are **Ready To Ship**"); homepage CTA "Talk to an Engineer" → `Engineeringproposals@gerotech.com` with the "Prefer Email?" subhead and the Flat Rock default image; header `Let's Connect`; Machines panel 8 groups / 40 links; ES panel 3 groups / **20 links incl. Layered Controls Solutions**; ES nav CTA + card CTA `/contact/`; footer tagline/address/phone/copyright + 3 columns + 3 socials; 3 testimonials; `ai_cards` 6 / `app_cards` 6 / `mcs_cards` 8. `/`, `/engineered-solutions/`, `/automated-system/`, `/contact/` all 200. Theme rsynced (`-avz --delete`) + chmod 755/644 + page & CDN flush.
+
+**1. CF7 senders fixed on Local + Dev — all 18 forms.** Every form's `_mail.sender` (and `_mail_2`/`_mail_3` where present) was `noreply@gerotechdev.wpenginepowered.com`: not a mailbox, and a host the form does not own, so SPF/DKIM failed even where the recipient *was* real (forms 48 and 331 go to `joshl@phiregroup.com`). All now **`noreply@gerotech.com`**. New idempotent `scripts/fix-cf7-mail-senders.php`; it rewrites `sender` only and **prints the recipients it deliberately leaves alone**, so the pending list stays visible. Read-back on both environments: **0 senders still on a `wpenginepowered` host**.
+
+**2. 🔴 STILL OPEN — the recipients need the client.** **16 of 18 forms still deliver to a `@…wpenginepowered.com` hostname**: 60 `sales@`, 317 `service@`, 322 `parts@`, 299 `rotary@`, 333/334 `training@`, 300 `applications@`, 102/233 mailing list, plus the `…_copy` duplicates. Matt's call on 2026-10-13 was to **leave the recipients until the client supplies the real mailboxes** — we do not guess `@gerotech.com` addresses. This is the biggest launch blocker: the 2026-10-12 rule points the ES hero/why/FANUC/capability buttons, the 19 service-card modal buttons, the ES nav button **and** the header orange button at `/contact/`, so on stage today *a client clicking "Talk to an Engineer" reaches a form whose mail goes nowhere*.
+
+**3. "Prototype site search — browse by section:" → "Browse by section:".** Client-facing copy that must not ship. Fixed in three places so it cannot come back: the stored `header_search_hint` on **Local and Dev** (new idempotent `scripts/fix-search-hint.php`, which only rewrites a value that still contains "Prototype" — an editor's own wording is never clobbered) and the **template default** in `inc/global-content.php` for a fresh database. Verified rendered on both: `search-modal__hint` reads "Browse by section:", 0 occurrences of "Prototype site search". This was `.clinerules`/`AGENTS.md` open item 10 — now closed.
+
+**4. Header orange button stays the contact form, and the prototype now agrees.** The prototype header was the last surface still on `mailto:sales@gerotech.com`, disagreeing with stage. `partials/site-header.html` — the desktop `.btn-get-quote` **and** its phone-menu twin, the only two `Let's Connect` occurrences in the prototype — now point at `contact.html`. No theme change was needed: `header.php` and `site-mobile-nav.php` both render the stored `header_cta_url`, which is already the Dev `/contact/`.
+
+**5. DB scripts staged on Dev.** `scripts/` is not part of a theme push, so a Dev DB rebuild would have silently lost the client-review round. Copied into `/nas/content/live/gerotechdev/_gerotech-scripts/`: `apply-client-review-2026-10-12.php`, `update-home-hero-slide2-break.php`, `update-es-nav-order.php` (already present), plus the two new fix scripts; perms normalised to 644.
+
+**Known, deliberately not changed:**
+- Dev stores `options_header_cta_url` as the absolute `https://gerotechdev.wpenginepowered.com/contact/`; **Local stores no row at all** and falls back to the theme default (`gerotech_page_url( 'contact' )`). Both resolve to `/contact/`, so stage is right.
+- **Absolute Dev URLs stored in the DB** — `header_cta_url`, `nav_machines_help_url`, 5 `nav_es_services_*_links_*_url`, `footer_columns_*` / `footer_legal_links_*`, plus `siteurl`/`home`/`admin_email` and the aioseo / CDN plugin options. Correct on stage; **needs a host search-replace before Production — do not export this DB as-is.**
+- **reCAPTCHA site key `6LcOOuoa…` still lacks the Dev hostname** (red "Invalid domain for site key" chip on the form). Needs Google reCAPTCHA admin access.
+- **Adobe Fonts kit `lqh7ybe` is domain-locked** — confirm the Dev domain is in the kit or Navigo will not load.
+
+**Safety:** the Local DB was backed up before any write to `local-backup-20261013-105605.sql` (14 MB, now gitignored). Local has no `wp` CLI, so the scripts ran through the registered Local PHP 8.2 build with the `VjZ_PwL-d` runtime's own `php.ini` (its `mysqli.default_socket` points at the gerotech MySQL — not `Rg1VtCBT9`, which is the goodshepherd site). `php -l` clean on both new scripts and every edited PHP file.
+
 ## 2026-10-12 — Client review round: Process Troubleshooting wording, Layered Controls restored, Engineering CTAs → contact form (opencode)
 
 Three client items. Deployed to Local + Dev (theme rsync + stored-ACF seeding). Committed after.
