@@ -48,13 +48,12 @@ THEME_REL="wp-content/themes/gerotech-child"
 LOCAL_THEME="$REPO_ROOT/$THEME_REL"
 FILES_FROM_HOME_NAV="$REPO_ROOT/scripts/deploy-stage-home-nav.txt"
 
-STAGE_HOST="gerotechdev@gerotechdev.ssh.wpengine.net"
-STAGE_ROOT="/nas/content/live/gerotechdev"
-STAGE_URL="https://gerotechdev.wpenginepowered.com"
 LOCAL_URL="https://gerotech.local"
-STAGE_MARKER="gerotechdev"
+THEME_SLUG="gerotech-child"
 
-# Substring of the production host — a hard stop if it ever appears in the target.
+# The ONLY environments this script may touch, by WP Engine install name.
+# Production is `gerotech` and is deliberately absent from this list, so it
+# cannot be named even by accident.
 PRODUCTION_MARKER="gerotech.ssh.wpengine.net"
 
 SSH_KEY="${GEROTECH_SSH_KEY:-$HOME/Library/Application Support/Local/ssh/wpe-connect}"
@@ -62,18 +61,13 @@ SSH_KEY="${GEROTECH_SSH_KEY:-$HOME/Library/Application Support/Local/ssh/wpe-con
 SSH_CMD="ssh -i \"$SSH_KEY\" -o BatchMode=yes -o ConnectTimeout=20"
 SSH_ARGS=(-i "$SSH_KEY" -o BatchMode=yes -o ConnectTimeout=20)
 
-REMOTE_THEME="$STAGE_ROOT/$THEME_REL"
-# Snapshots MUST live inside the install: WPE's $HOME is EPHEMERAL per SSH
-# session, so a snapshot written there is reported as created and then silently
-# vanishes — the worst possible failure mode for a rollback point. Measured:
-# $HOME and /tmp do not survive a new connection; only the install dir does.
-REMOTE_SNAP_DIR="$STAGE_ROOT/_gerotech-scripts/snapshots"
 KEEP_SNAPSHOTS=5
-DEPLOY_COMMIT="$(git -C "$REPO_ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 
 WARNINGS=0
 ASSERT_FAILED=0
 SNAPSHOT_TAKEN=""
+REMOTE_ACTIVE=""
+REMOTE_HAS_THEME=""
 
 TMP_FILES=()
 cleanup() { [ "${#TMP_FILES[@]}" -gt 0 ] && rm -rf "${TMP_FILES[@]}" || true; }
@@ -105,6 +99,8 @@ block_or_fail() {
 
 MODE=""
 SCOPE="theme"
+ENV="dev"
+ACTIVATE=0
 ASSUME_YES=0
 ALLOW_DIRTY=0
 ALLOW_UNPUSHED=0
@@ -124,6 +120,9 @@ deploy-stage.sh — push to STAGE (WP Engine Dev) with guards.
   --list-snapshots        what is available to roll back to
 
   --scope theme|home-nav  what to push (default: theme)
+  --env dev|stg           target environment (default: dev)
+  --activate              activate gerotech-child after deploying
+                          (needed once per environment; requires --scope theme)
   --snapshot <file>       snapshot to restore on --rollback
   --seed                  run seed-acf-content.php on stage (idempotent)
   --audit                 run the ACF applied-state audit on stage (read-only)
@@ -145,6 +144,8 @@ while [ $# -gt 0 ]; do
 		--rollback)       MODE="rollback" ;;
 		--list-snapshots) MODE="list" ;;
 		--scope)          SCOPE="${2:?--scope needs a value}"; shift ;;
+		--env)            ENV="${2:?--env needs a value}"; shift ;;
+		--activate)       ACTIVATE=1 ;;
 		--snapshot)       SNAPSHOT_FILE="${2:?--snapshot needs a value}"; shift ;;
 		--seed)           SEED=1 ;;
 		--audit)          AUDIT=1 ;;
@@ -165,6 +166,31 @@ case "$SCOPE" in
 	*) printf 'x --scope must be "theme" or "home-nav" (got: %s)\n' "$SCOPE" >&2; exit 2 ;;
 esac
 
+# Resolve the target from the environment name. This is an allow-list, not a
+# pattern: production simply has no entry, so it cannot be selected, and a
+# typo'd --env is a usage error rather than a surprise deploy.
+case "$ENV" in
+	dev) INSTALL="gerotechdev" ;;
+	stg) INSTALL="gerotechstg" ;;
+	*)   printf 'x --env must be "dev" or "stg" (got: %s)\n' "$ENV" >&2; exit 2 ;;
+esac
+
+STAGE_HOST="$INSTALL@$INSTALL.ssh.wpengine.net"
+STAGE_ROOT="/nas/content/live/$INSTALL"
+STAGE_URL="https://$INSTALL.wpenginepowered.com"
+REMOTE_THEME="$STAGE_ROOT/$THEME_REL"
+# Snapshots MUST live inside the install: WPE's $HOME is EPHEMERAL per SSH
+# session, so a snapshot written there is created, reported as the rollback
+# point, and then silently vanishes. Measured: $HOME and /tmp do not survive a
+# new connection; only the install dir does.
+REMOTE_SNAP_DIR="$STAGE_ROOT/_gerotech-scripts/snapshots"
+DEPLOY_COMMIT="$(git -C "$REPO_ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+
+if [ "$ACTIVATE" -eq 1 ] && [ "$SCOPE" != "theme" ]; then
+	printf 'x --activate needs --scope theme — the whole theme must be present to activate it\n' >&2
+	exit 2
+fi
+
 need_confirmation() {
 	[ "$ASSUME_YES" -eq 1 ] && return 0
 	if [ -t 0 ]; then
@@ -180,12 +206,16 @@ need_confirmation() {
 # ─── Guards ───────────────────────────────────────────────────────────────────
 
 assert_not_production() {
-	case "$STAGE_HOST$STAGE_ROOT" in
-		*"$PRODUCTION_MARKER"*) die "target looks like PRODUCTION. This script only ever pushes to stage." ;;
+	case "$ENV" in
+		dev|stg) ;;
+		*) die "unknown environment '$ENV' — refusing." ;;
 	esac
 	case "$STAGE_HOST$STAGE_ROOT" in
-		*"$STAGE_MARKER"*) ;;
-		*) die "stage host/path do not contain '$STAGE_MARKER' — refusing to guess." ;;
+		*"$PRODUCTION_MARKER"*) die "target looks like PRODUCTION. This script only pushes to dev/stg." ;;
+	esac
+	case "$STAGE_HOST$STAGE_ROOT" in
+		*"$INSTALL"*) ;;
+		*) die "target does not reference '$INSTALL' — refusing to guess." ;;
 	esac
 }
 
@@ -201,6 +231,7 @@ run_remote() {
 		printf 'REMOTE_ROOT=%s\n' "$(printf '%q' "$STAGE_ROOT")"
 		printf 'REMOTE_SNAP_DIR=%s\n' "$(printf '%q' "$REMOTE_SNAP_DIR")"
 		printf 'DEPLOY_COMMIT=%s\n' "$(printf '%q' "$DEPLOY_COMMIT")"
+		printf 'THEME_SLUG=%s\n' "$(printf '%q' "$THEME_SLUG")"
 		printf 'KEEP_SNAPSHOTS=%d\n' "$KEEP_SNAPSHOTS"
 		printf 'SNAP_FILE=%s\n' "$(printf '%q' "$SNAPSHOT_FILE")"
 		cat
@@ -301,29 +332,48 @@ preflight_local() {
 }
 
 preflight_remote() {
-	step "Pre-flight — stage"
+	step "Pre-flight — $ENV ($INSTALL)"
 
 	assert_not_production
-	ok "target is stage, not production"
+	ok "target is $ENV, not production"
 
 	local out
 	if ! out="$(run_remote <<'REMOTE'
-command -v rsync >/dev/null || { echo "MISSING rsync"; exit 3; }
-command -v wp    >/dev/null || { echo "MISSING wp";    exit 3; }
-[ -d "$REMOTE_THEME" ] || { echo "MISSING theme dir";  exit 3; }
+command -v rsync >/dev/null || { echo "tools=MISSING-rsync"; exit 3; }
+command -v wp    >/dev/null || { echo "tools=MISSING-wp";    exit 3; }
 echo "siteurl=$(wp option get siteurl 2>/dev/null | head -1)"
-echo "theme=$(wp theme list --status=active --field=name 2>/dev/null | head -1)"
-echo "files=$(find "$REMOTE_THEME" -type f -not -name '.DS_Store' | wc -l | tr -d ' ')"
+echo "active=$(wp theme list --status=active --field=name 2>/dev/null | head -1)"
+echo "parent=$(wp theme list --field=name 2>/dev/null | grep -cx 'gerotech' || true)"
+if [ -d "$REMOTE_THEME" ]; then
+	echo "installed=yes"
+	echo "files=$(find "$REMOTE_THEME" -type f -not -name '.DS_Store' | wc -l | tr -d ' ')"
+else
+	echo "installed=no"
+	echo "files=0"
+fi
 REMOTE
 )"; then
-		die "cannot reach stage, or stage failed pre-flight: ${out:-no output}"
+		die "cannot reach $INSTALL, or it failed pre-flight: ${out:-no output}"
 	fi
-	ok "SSH session established; $(printf '%s' "$out" | tr '\n' ' ')"
+	ok "SSH session established"
+	printf '%s\n' "$out" | sed 's/^/       /'
 
-	case "$out" in *"siteurl=https://gerotechdev"*) ;; *)
-		die "stage reports a siteurl that is not gerotechdev — refusing to touch it." ;; esac
-	case "$out" in *"theme=gerotech-child"*) ;; *)
-		die "the child theme is not the active theme on stage." ;; esac
+	case "$out" in *"siteurl=https://$INSTALL"*) ;; *)
+		die "$INSTALL reports a different siteurl — refusing to touch it." ;; esac
+	case "$out" in *"tools=MISSING"*) die "missing tooling on $INSTALL" ;; esac
+	case "$out" in *"parent=1"*) ;;
+		*) die "the parent theme 'gerotech' is not on $INSTALL — the child cannot activate." ;; esac
+
+	REMOTE_ACTIVE="$(printf '%s\n' "$out" | sed -n 's/^active=//p')"
+	REMOTE_HAS_THEME="$(printf '%s\n' "$out" | sed -n 's/^installed=//p')"
+
+	if [ "$REMOTE_ACTIVE" = "$THEME_SLUG" ]; then
+		ok "the child theme is already the active theme"
+	elif [ "$ACTIVATE" -eq 1 ]; then
+		warn "child theme is NOT active on $ENV (active: ${REMOTE_ACTIVE:-unknown}) — --activate will switch it, which changes EVERY page"
+	else
+		warn "child theme is NOT active on $ENV (active: ${REMOTE_ACTIVE:-unknown}) — this deploy will not be visible without --activate"
+	fi
 }
 
 # ─── Drift ────────────────────────────────────────────────────────────────────
@@ -391,7 +441,8 @@ do_rsync() {
 	if [ "${changed:-0}" -eq 0 ]; then
 		ok "no changes to transfer"
 	else
-		printf '%s\n' "$out" | grep -E '^[<>ch*]' | sed 's/^/       /'
+		printf '%s\n' "$out" | grep -E '^[<>ch*]' | head -20 | sed 's/^/       /'
+		if [ "${changed}" -gt 20 ]; then info "… and $((changed - 20)) more"; fi
 		info "$changed item(s)"
 	fi
 	return 0
@@ -420,7 +471,7 @@ REMOTE
 }
 
 remote_post_deploy() {
-	step "Permissions + caches"
+	step "Permissions — on $ENV"
 	run_remote <<'REMOTE'
 find "$REMOTE_THEME" -type d -exec chmod 755 {} +
 find "$REMOTE_THEME" -type f -exec chmod 644 {} +
@@ -428,6 +479,25 @@ echo "perms normalised"
 REMOTE
 	ok "755/644 — a mode-600 file is a 403 on WP Engine"
 
+	if [ "$ACTIVATE" -eq 1 ]; then
+		step "Activate $THEME_SLUG on $ENV"
+		local act
+		if ! act="$(run_remote <<'REMOTE'
+wp theme activate "$THEME_SLUG" >/dev/null 2>&1 || { echo "ACTIVATE-FAILED"; exit 1; }
+wp theme list --status=active --field=name | head -1
+REMOTE
+)"; then
+			die "could not activate $THEME_SLUG on $ENV"
+		fi
+		case "$act" in *ACTIVATE-FAILED*) die "could not activate $THEME_SLUG on $ENV" ;; esac
+		if [ "$act" = "$THEME_SLUG" ]; then
+			ok "active theme is now $THEME_SLUG"
+		else
+			die "activation reported success but the active theme is '$act'"
+		fi
+	fi
+
+	step "Caches"
 	run_remote <<'REMOTE'
 wp page-cache flush >/dev/null 2>&1 || true
 wp cdn-cache flush  >/dev/null 2>&1 || true
@@ -496,7 +566,11 @@ assert_rendered() {
 }
 
 chrome_diff_local() {
-	step "Rendered chrome — Local vs stage (advisory)"
+	step "Rendered chrome — Local vs target (advisory)"
+	if [ -n "$REMOTE_ACTIVE" ] && [ "$REMOTE_ACTIVE" != "$THEME_SLUG" ]; then
+		warn "$ENV runs '$REMOTE_ACTIVE', not $THEME_SLUG — chrome diff skipped, there is nothing meaningful to compare yet"
+		return 0
+	fi
 	if [ "$(http_status "$LOCAL_URL/")" != 200 ]; then
 		warn "Local not reachable at $LOCAL_URL — skipping"; return 0
 	fi
@@ -614,7 +688,7 @@ REMOTE
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
-printf '%sdeploy-stage%s  mode=%s scope=%s target=%s\n' "$B" "$N" "$MODE" "$SCOPE" "$STAGE_HOST"
+printf '%sdeploy-stage%s  mode=%s env=%s scope=%s target=%s\n' "$B" "$N" "$MODE" "$ENV" "$SCOPE" "$STAGE_HOST"
 
 case "$MODE" in
 	list)
@@ -644,10 +718,15 @@ case "$MODE" in
 	check)
 		preflight_local
 		preflight_remote
-		local_l="$(mktmp)"; remote_l="$(mktmp)"
-		manifest_local > "$local_l"
-		manifest_remote > "$remote_l"
-		show_drift "$(cat "$local_l")" "$(cat "$remote_l")"
+		if [ "$REMOTE_HAS_THEME" = "yes" ]; then
+			local_l="$(mktmp)"; remote_l="$(mktmp)"
+			manifest_local > "$local_l"
+			manifest_remote > "$remote_l"
+			show_drift "$(cat "$local_l")" "$(cat "$remote_l")"
+		else
+			step "Drift — checksums, not timestamps"
+			info "the child theme is not installed on $ENV yet — nothing to compare (this would be a first deploy)"
+		fi
 		do_rsync dry
 		chrome_diff_local
 		step "Verdict"
