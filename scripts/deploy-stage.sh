@@ -253,13 +253,25 @@ PAGE_CACHE_DIR="$(mktmpd)"
 _page_key() { printf '%s' "$1" | tr -c 'A-Za-z0-9' '_'; }
 
 page_fetch() {
-	local path="$1" key file
+	local path="$1" key file code attempt
 	key="$(_page_key "$path")"
 	file="$PAGE_CACHE_DIR/$key.html"
 	if [ ! -f "$file" ]; then
-		curl -s -L -o "$file" -w '%{http_code}' --max-time 25 "$STAGE_URL$path" > "$file.code" 2>/dev/null \
-			|| echo 000 > "$file.code"
-		[ -s "$file" ] || warn "empty body from $STAGE_URL$path — assertions on it are meaningless"
+		# Right after activation + cache flush the first hit can be a cold-cache
+		# blip. Retry before concluding anything, so a transient miss cannot be
+		# mistaken for a broken deploy.
+		attempt=1
+		while :; do
+			code="$(curl -s -L -o "$file" -w '%{http_code}' --max-time 25 "$STAGE_URL$path" 2>/dev/null || echo 000)"
+			if [ "$code" = 200 ] && [ -s "$file" ]; then break; fi
+			if [ "$attempt" -ge 3 ]; then break; fi
+			attempt=$((attempt + 1))
+			sleep 2
+		done
+		printf '%s' "$code" > "$file.code"
+		if [ ! -s "$file" ]; then
+			warn "empty body from $STAGE_URL$path after $attempt attempt(s) — assertions on it are meaningless"
+		fi
 	fi
 	printf '%s' "$file"
 }
@@ -497,6 +509,7 @@ REMOTE
 		case "$act" in *ACTIVATE-FAILED*) die "could not activate $THEME_SLUG on $ENV" ;; esac
 		if [ "$act" = "$THEME_SLUG" ]; then
 			ok "active theme is now $THEME_SLUG"
+			REMOTE_ACTIVE="$THEME_SLUG"   # pre-flight saw the old value; refresh it
 		else
 			die "activation reported success but the active theme is '$act'"
 		fi
@@ -549,7 +562,12 @@ warn_if_present() {
 }
 
 assert_rendered() {
-	step "Assertions — rendered stage"
+	step "Assertions — rendered target ($ENV)"
+	# Warm the page cache first: activation + flush means the very first hits can
+	# be slow or partial, and a cold-cache miss must not read as a failed deploy.
+	curl -s -o /dev/null --max-time 25 "$STAGE_URL/" || true
+	curl -s -o /dev/null --max-time 25 "$STAGE_URL/" || true
+
 	assert_status "/" "/engineered-solutions/" "/modification-of-standard-machine-tools/" \
 	              "/unique-applications-for-standard-machines/" "/automated-system/" "/contact/"
 
