@@ -630,6 +630,31 @@ PY
 	return 0
 }
 
+# ─── Template-override guard ──────────────────────────────────────────────────
+
+# A child theme wins over its parent for any template with the same filename.
+# If ours renders fewer forms than the parent's original, the page silently
+# loses that form. This runs after the files are live, so it validates what
+# actually shipped; a failure is fatal and the snapshot is the way back.
+template_override_guard() {
+	local guard="$REPO_ROOT/scripts/check-template-overrides.sh"
+	if [ ! -f "$guard" ]; then
+		warn "scripts/check-template-overrides.sh not found — override guard skipped"
+		return 0
+	fi
+
+	step "Template-override guard"
+	local out
+	if out="$("$guard" --env "$ENV" 2>&1)"; then
+		printf '%s\n' "$out" | grep -E '^(FAIL|note|  )' | sed 's/^/  /' || true
+		ok "no template override drops a form shortcode"
+	else
+		printf '%s\n' "$out" | sed 's/^/  /' >&2
+		block_or_fail "a template override drops a form shortcode — see above."
+	fi
+	return 0
+}
+
 # ─── Content ──────────────────────────────────────────────────────────────────
 
 content_stage() {
@@ -750,6 +775,7 @@ case "$MODE" in
 			step "Drift — checksums, not timestamps"
 			info "the child theme is not installed on $ENV yet — nothing to compare (this would be a first deploy)"
 		fi
+		template_override_guard
 		do_rsync dry
 		chrome_diff_local
 		step "Verdict"
@@ -780,6 +806,7 @@ case "$MODE" in
 			info "scope home-nav — skipping the whole-tree manifest compare"
 		fi
 
+		template_override_guard
 		content_stage
 		assert_rendered
 		chrome_diff_local
