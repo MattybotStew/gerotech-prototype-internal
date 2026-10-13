@@ -2,6 +2,38 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-13 — Restored the legacy pages: forms AND styling (opencode)
+
+My previous fix traded one break for another. Removing our legacy-page templates made the **styling** collapse: the parent theme hardcodes its `style.css` in its own `header.php`, which the child overrides, so the legacy design's stylesheet never loads. The child instead ships `assets/css/legacy.css` — that same stylesheet **scoped to `.legacy`** — and its own templates wrap the markup in `<div class="legacy">`. Take those templates away and the CSS matches nothing, so the pages render unstyled. Matt: *"all the pages that have forms [are broken]."*
+
+**What the live site actually renders.** Every live form on those pages is a **Gravity Form**; every CF7 counterpart is disabled — some in HTML comments, some with PHP `//` comments:
+
+| Page | Live | Disabled |
+|---|---|---|
+| `page-service.php` | **GF 1** | tab block commented, `//` on CF7 317 |
+| `rotary-repair.php` | **GF 2** | CF7 299 inside `<!-- -->` |
+| `preventive-maintenance.php` | **GF 3** | `//` on CF7 321 |
+| `page-contact.php` | **GF 4** | `//` on CF7 60 |
+| `page-service-home.php` | *no form* | tab block commented |
+
+Our port had resurrected the disabled CF7 calls and dropped the live Gravity Forms. (It also confirmed `/support/` legitimately has **no** form — the marker count there is the parent footer's mailing-list CF7.)
+
+**Fix.** The five templates are back, each with its `<div class="legacy">` wrapper, and each CF7 call is the corresponding Gravity Form again. `page-support.php` was **renamed `page-service-home.php`** so it wins over the parent's file with `_wp_page_template` untouched — which also keeps the legacy behaviour correct if the child is ever deactivated.
+
+Gravity Forms is **not installed on dev**, where a bare `do_shortcode()` leaves an unregistered shortcode untouched and prints the literal `[gravityform id="1" …]` text on the page. All calls now go through a new `gerotech_shortcode()` helper that returns empty when the shortcode is unavailable, so dev degrades quietly.
+
+**Verified** (both environments, all 200): every form page has the `.legacy` wrapper, no literal shortcode leaks anywhere, and on staging the Gravity Forms render — `/rotary-repair/` 13, `/planned-maintenance/` 13, `/contact/` 13 markers, `/service/` 41 because three of its tabs now carry GF 1, 2 and 3. Converted pages unaffected (homepage `hero-slider--peek`, ES `trust-accordion`, MCS `mcs-card` 40, Automation 30).
+
+**Open for the client:** `/service/` now offers three Gravity Forms (one per tab) where the live site shows only GF 1 — our tabbed UI was resurrected from the parent's commented-out block and was never live. Collapsing it to just GF 1 is a one-line change if they prefer.
+
+### The guard was passing by accident
+
+The override guard reported a clean pass on staging while comparing **empty sets**. The `awk` on WP Engine is **mawk**, which does not support `/* */` comments; it rejected the program, and because stderr was suppressed the function simply returned nothing — so nothing was ever found missing and everything "passed".
+
+Three fixes: a mawk-safe `#` comment; stop suppressing awk stderr; and a **self-check** that refuses to report at all if the parent theme yields zero form shortcodes. Proven by deliberately blinding the function — the guard now prints *"ERROR … would be comparing empty sets"* and exits non-zero instead of passing.
+
+That is the **third** check today that looked green while doing nothing (after the `grep -q`/SIGPIPE race and the `wp theme list --format=name` no-op). The pattern is consistent: a check that cannot fail is worse than no check.
+
 ## 2026-10-13 — Gravity Forms were being silently replaced; fixed and guarded (opencode)
 
 Matt had to restore staging from backup because "we overwrote the Gravity Forms". The PM's list was `[gravityform id="1"]` on `/service/`, `2` on `/rotary-repair/`, `3` on `/planned-maintenance/`, `4` on `/contact/`.
