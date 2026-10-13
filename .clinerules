@@ -40,7 +40,21 @@ All three accept SSH with the same Local key. `gerotechstg` was not in `known_ho
 
 **Deployed:** theme re-rsynced to Dev (`inc/global-content.php`) + remote `chmod 755/644` + page & CDN flush; `sync-theme-assets.sh` (0 files) + `sync-theme-to-local.sh` run. The two DB scripts were run on **both** environments. Local DB backed up first to `local-backup-20261013-105605.sql` (now gitignored).
 
-**STANDING RULE — deploy with `scripts/deploy-stage.sh`, not by hand (2026-10-13).** The hand recipe was ~7 remembered steps and almost every failure mode was **silent** (see the table in `JOURNAL.md` 2026-10-13). The script is now the only supported path and turns each one into a refusal or a red error:
+**STANDING RULE — the child theme must never override a page it does not port (2026-10-13).** This is now enforced by a guard, not by memory.
+
+- The legacy site renders its **Gravity Forms from the PARENT theme's PHP**, not from the database: `gerotech/page-service.php` → `[gravityform id="1"]`, `rotary-repair.php` → `2`, `preventive-maintenance.php` → `3`, `page-contact.php` → `4`. All four deliver to **real** `@gerotech.com` mailboxes.
+- The child used to ship templates with those same filenames and rendered **Contact Form 7 instead**, so activating it silently replaced four working forms with forms that deliver to a `…wpenginepowered.com` hostname — i.e. nowhere. Nothing errored; the client reported "we overwrote the Gravity Forms".
+- **Removed** from the child: `page-service.php`, `page-contact.php`, `rotary-repair.php`, `preventive-maintenance.php`, `page-support.php`. `page-service.php` alone covered **six** pages (`service`, `service/submit-a-request`, `service/parts-order`, `service/rotary-repair`, `service/preventive-maintenance-plan`, `service/application-support`).
+- **`scripts/align-legacy-page-templates.php`** pins those pages to their legacy template so they cannot fall through to the generic `page.php`. **Keyed on FULL PATHS** — the site is hierarchical and there is an `application-support` at both `/application-support/` (#3179) and `/service/application-support/` (#198); bare slugs set the template on the wrong page.
+- **`scripts/check-template-overrides.sh`** (+ `template-override-guard.remote.sh`) compares every template present in BOTH themes and fails if ours renders fewer form shortcodes than the parent's. `header.php` / `footer.php` are named, reported exceptions (intentional design replacements). **Wired into `deploy-stage.sh`** as the *Template-override guard* step.
+- **An assigned parent-only template BEATS `page-<slug>.php`.** Eight pages carry `page-solutions.php`; only four are ported. The child's **`page-solutions.php` dispatcher** routes our four slugs to our templates and hands the other four (`engineering-process-optimization`, `custom-workholding-and-tooling`, `custom-training-program`, `integration-partners`) straight back to the parent's file. Without it the ES pages rendered legacy on any site whose DB still has that meta — which is exactly what staging did.
+- **Gravity Forms is NOT installed on dev** (no plugin, no `wp_gf_form` table). Dev can never render those four forms, so **staging is the only place to verify them.** Conversely stg and dev share the same page IDs but not content.
+
+**Bash 3.2 gotcha (macOS).** A **quoted heredoc inside a command substitution** mis-parses the moment the body contains an odd number of single quotes — an apostrophe in a comment is enough ("unexpected EOF while looking for matching `'`"). Reproduced on `/bin/bash` 3.2.57 with a six-line file. That is why the guard's remote logic lives in its own file piped over stdin. **Do not reintroduce heredoc-in-`$()` for these scripts.**
+
+**STANDING RULE — deploy with `scripts/deploy-stage.sh`, not by hand (2026-10-13).**
+
+ The hand recipe was ~7 remembered steps and almost every failure mode was **silent** (see the table in `JOURNAL.md` 2026-10-13). The script is now the only supported path and turns each one into a refusal or a red error:
 
 | Mode | What it does |
 |---|---|

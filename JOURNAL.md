@@ -2,6 +2,40 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-13 — Gravity Forms were being silently replaced; fixed and guarded (opencode)
+
+Matt had to restore staging from backup because "we overwrote the Gravity Forms". The PM's list was `[gravityform id="1"]` on `/service/`, `2` on `/rotary-repair/`, `3` on `/planned-maintenance/`, `4` on `/contact/`.
+
+**Nothing was overwritten in the database.** Every page's `post_content` was scanned: **not one contains a `gravityform` shortcode**, and no post meta references gravity. The forms are **hardcoded in the PARENT theme's PHP**:
+
+| Parent template | Form | Delivers to |
+|---|---|---|
+| `gerotech/page-service.php` | `[gravityform id="1"]` | `Service@gerotech.com` |
+| `gerotech/rotary-repair.php` | `[gravityform id="2"]` | `rotary@gerotech.com` |
+| `gerotech/preventive-maintenance.php` | `[gravityform id="3"]` | `service@gerotech.com` |
+| `gerotech/page-contact.php` | `[gravityform id="4"]` | `service@gerotech.com` |
+
+All four deliver to **real** mailboxes. Our child shipped templates with those same filenames and rendered **Contact Form 7 instead**, so activating it silently replaced four working forms with forms pointing at a `…wpenginepowered.com` hostname — nowhere. No error, no log. The page just quietly lost its form. That is the whole bug.
+
+**Second cause, found later:** Gravity Forms is **not installed on dev** — no plugin, no `wp_gf_form` table. So dev showed `gravity=0` for a *different* reason and can never verify this. **Staging is the only place these forms can be checked.**
+
+**The fix.** The child was overriding pages we agreed not to port, so it no longer does:
+- Deleted `page-service.php`, `page-contact.php`, `rotary-repair.php`, `preventive-maintenance.php`, `page-support.php`. `page-service.php` alone covered **six** pages (`service`, `service/submit-a-request`, `service/parts-order`, `service/rotary-repair`, `service/preventive-maintenance-plan`, `service/application-support`).
+- `scripts/align-legacy-page-templates.php` pins those pages to the legacy template so they cannot fall through to the generic `page.php`.
+- `scripts/check-template-overrides.sh` (+ `template-override-guard.remote.sh`) compares every template in BOTH themes and fails if ours renders fewer form shortcodes than the parent's. `header.php`/`footer.php` are named exceptions. Wired into `deploy-stage.sh`.
+- It immediately caught a fifth case nobody had noticed: our `footer.php` also drops the parent's mailing-list forms (CF7 102/233). That one is an intentional design replacement, so it is reported, not failed.
+
+**The ES pages had a separate bug — an assigned template beats the slug hierarchy.** Eight pages carry `page-solutions.php` in `_wp_page_template`; that file exists only in the **parent**, so WordPress used the parent's legacy template and **ignored** our `page-engineered-solutions.php`. On dev the meta is empty (`<none>`), which is why ES looked right there and legacy on staging. Fixed with the child's **`page-solutions.php` dispatcher**: routes our four slugs to our templates, hands the other four (`engineering-process-optimization`, `custom-workholding-and-tooling`, `custom-training-program`, `integration-partners`) back to the parent's file untouched. No database change.
+
+**Verified on staging after re-promotion:** all four Gravity Forms render with the child theme active, at exactly the legacy counts (`/service/` 20, `/rotary-repair/` 13, `/planned-maintenance/` 13, `/contact/` 13); `/support/` renders its six CF7 forms (438 markers); all four ES pages render OUR templates (`mcs-card` 40/30/30, `trust-accordion`, `layered-controls-solutions`); the four non-ported `page-solutions.php` pages still render legacy (`ours=0`); the guard passes; every page 200.
+
+**Three self-inflicted bugs found by running it, all fixed:**
+1. **macOS bash 3.2 mis-parses a quoted heredoc inside a command substitution** when the body contains an odd number of single quotes — an apostrophe in a comment (`parent's`) was enough to produce *"unexpected EOF while looking for matching `'`"*. Reproduced on 3.2.57 with a six-line file; the identical body without the apostrophe parses. The guard's remote logic now lives in its own file piped over stdin. Deploying had already succeeded before the guard aborted, which is exactly why the snapshot and the guard exist.
+2. **The aligner matched bare slugs on a hierarchical site** and changed the wrong page: there is an `application-support` at `/application-support/` (#3179) *and* under `/service/` (#198). It set #3179, which staging deliberately leaves with no template. Reverted, and the script now keys on full paths and re-reads every page to prove the template resolves to a file the parent ships.
+3. The reference check `wp theme list --format=name` is invalid (silently empty), which made the parent-theme pre-flight check report absent.
+
+**I also destroyed the Local SSH key** with a malformed `rsync` that used the key path as its destination — `rsync -a` wrote the PHP script over `wpe-connect` and left it 0644. No server was affected. Matt restored it from the 14:57 APFS snapshot (`sudo mount_apfs -o ro -s com.apple.TimeMachine.… /dev/disk3s1`); fingerprint verified against the surviving `.pub`. Lesson: never let a bare variable be rsync's second argument.
+
 ## 2026-10-13 — Promoted the new build to STAGING (`gerotechstg`) (opencode)
 
 **"Stage" was the wrong host, and that was the whole problem.** Matt reported the homepage still looked old at `gerotechstg.wpenginepowered.com`. It did — because the child theme had **never been deployed there**. There are **three** WP Engine environments, not two:
