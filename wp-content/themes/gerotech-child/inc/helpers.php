@@ -129,6 +129,35 @@ function gerotech_shortcode( $shortcode ) {
 }
 
 /**
+ * Render the mailing-list signup form.
+ *
+ * Gravity Form 5 is the signup form on staging and production. Dev has no
+ * Gravity Forms, so fall back to the static email-signup form there — the band
+ * is part of the design and a blank right-hand column reads as a bug.
+ *
+ * @param string $input_id     Unique id for the fallback email input.
+ * @param string $label        Visually hidden label for the fallback input.
+ * @param string $placeholder  Placeholder text for the fallback input.
+ * @param string $submit_label Button label for the fallback form.
+ * @return string
+ */
+function gerotech_mailing_list_form( $input_id, $label, $placeholder, $submit_label ) {
+	if ( shortcode_exists( 'gravityform' ) ) {
+		return gerotech_shortcode( '[gravityform id="5" title="true"]' );
+	}
+
+	ob_start();
+	?>
+	<form class="email-signup__form" action="#" method="post" novalidate>
+		<label for="<?php echo esc_attr( $input_id ); ?>" class="sr-only"><?php echo esc_html( $label ); ?></label>
+		<input class="email-signup__input" id="<?php echo esc_attr( $input_id ); ?>" type="email" name="email" placeholder="<?php echo esc_attr( $placeholder ); ?>" required autocomplete="email" />
+		<button class="email-signup__submit" type="submit"><?php echo esc_html( $submit_label ); ?></button>
+	</form>
+	<?php
+	return ob_get_clean();
+}
+
+/**
  * Page slugs whose templates render card modals + gallery collections.
  *
  * Shared by inc/enqueue.php (which loads modal.js / gallery-module.js) and

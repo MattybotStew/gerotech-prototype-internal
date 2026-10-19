@@ -2,6 +2,20 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-19 — Mailing-list signup now uses the staging Gravity Form (opencode)
+
+The bottom `.email-signup` band on **Home, ES, MCS, Applications, Automation and Careers** was a static form with `action="#"` — it posted nowhere, so the "Join Our Mailing List" band collected nothing. Matt supplied `[gravityform id="5" title="true"]`, the signup form he built on staging.
+
+**Change.** New helper `gerotech_mailing_list_form( $input_id, $label, $placeholder, $submit_label )` in `inc/helpers.php`. It renders the Gravity Form when `shortcode_exists( 'gravityform' )`, and otherwise returns the original static form. All six templates now call it instead of repeating the markup, so the band has one source.
+
+**Why the fallback.** Gravity Forms is **not installed on Dev** (documented 2026-10-13), and Local doesn't have it either. A bare `do_shortcode()` would print the literal shortcode text; returning `''` would leave the band's right-hand column empty. Falling back to the static form keeps the design intact where GF can't render, and the swap is invisible in the templates.
+
+**Styling.** Gravity Forms 2.7's `gform-theme--orbital` markup brings its own blue primary colour and grid, which would clash inside the dark band. Added rules scoped to `.email-signup` in `assets/css/components.css` (prototype) — form sits in the 440px right column, headings/labels white, button orange with the site's uppercase treatment. Scoped so the legacy GF forms on service/contact pages are untouched. Synced with `sync-theme-assets.sh` and `sync-theme-to-local.sh`.
+
+**Verified on Local:** all PHP lints clean; the band still renders the fallback with its heading, sub, input and button (Local has no GF, which is the case this fallback exists for). **Not yet verified against GF 5 itself, and not deployed to stg** — the deploy script refuses a dirty tree, so this needs a commit + push first.
+
+**Open for Matt:** the band already prints `Signup — title` from ACF, and the supplied shortcode has `title="true"`, so GF will add a second heading above the fields. If that duplicates visually, change the helper's shortcode to `title="false"`.
+
 ## 2026-10-13 — Machines is now a trigger, and its page is unpublished (opencode)
 
 The header's Machines item opened the Haas catalogue panel on hover **and** navigated away — to the live `gerotech.com/machines` catalogue, with a WordPress "Machines" page (#1479) still public behind it. Now it is a trigger only.

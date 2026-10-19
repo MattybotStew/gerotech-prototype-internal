@@ -227,11 +227,7 @@ $signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' 
 				<h2 class="email-signup__title"><?php echo gerotech_accent( $signup_title, 'accent' ); ?></h2>
 				<p class="email-signup__sub"><?php echo esc_html( $signup_sub ); ?></p>
 			</div>
-			<form class="email-signup__form" action="#" method="post" novalidate>
-				<label for="email-input-cr" class="sr-only"><?php echo esc_html( $signup_email_label ); ?></label>
-				<input class="email-signup__input" id="email-input-cr" type="email" name="email" placeholder="<?php echo esc_attr( $signup_email_ph ); ?>" required autocomplete="email" />
-				<button class="email-signup__submit" type="submit"><?php echo esc_html( $signup_submit ); ?></button>
-			</form>
+			<?php echo gerotech_mailing_list_form( 'email-input-cr', $signup_email_label, $signup_email_ph, $signup_submit ); ?>
 		</div>
 	</section>
 </main>

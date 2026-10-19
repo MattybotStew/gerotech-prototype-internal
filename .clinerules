@@ -3,9 +3,15 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-13 (opencode — stage prep: form senders de-host-ified, "Prototype site search" copy replaced, prototype header button aligned to the contact form, DB scripts staged on Dev)
+**Last Updated:** 2026-10-19 (opencode — mailing-list signup now renders Gravity Form 5 on environments that have Gravity Forms)
 **Active Agent:** opencode
-**Branch:** `master` == `origin/master`. Clean tree; everything below is committed and pushed.
+**Branch:** `master` — uncommitted changes for the signup-form swap (see below).
+
+**Mailing-list signup → Gravity Form 5 (2026-10-19).** The `.email-signup` band (Home, ES, MCS, Applications, Automation, Careers) used a static `action="#"` form that posted nowhere. It now renders the client's staging Gravity Form via one helper, `gerotech_mailing_list_form()` in `inc/helpers.php`, which prints `[gravityform id="5" title="true"]` **only when Gravity Forms is active**. Dev has no Gravity Forms, so it falls back to the original static form — the band keeps its right-hand column instead of going blank. CSS for the GF markup is scoped to `.email-signup` in `components.css` (prototype + theme, synced).
+- The band already has its own `<h2 class="email-signup__title">` from ACF. The supplied shortcode says `title="true"`, so GF prints its own form title above the fields — **flagged to Matt, may read as a duplicate heading**; switching to `title="false"` is a one-word change in the helper.
+- No ACF fields were added or changed, so no seeder/audit step is needed.
+- **Not yet deployed to stg** (deploy needs a commit + push first: the script refuses a dirty tree). Until then staging still renders the static form.
+
 
 **Context — there are THREE WP Engine environments, and "stage" is NOT the Dev one.** Corrected 2026-10-13 after a promote landed on the wrong host. The implementation plan calls Dev "stage" ("Stage is the Dev rollback") — that is wrong.
 
