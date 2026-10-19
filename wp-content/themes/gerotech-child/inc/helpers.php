@@ -142,7 +142,10 @@ function gerotech_shortcode( $shortcode ) {
  * @return string
  */
 function gerotech_mailing_list_form( $input_id, $label, $placeholder, $submit_label ) {
-	if ( shortcode_exists( 'gravityform' ) ) {
+	// The plugin being active is not enough: on Dev it is active but form 5
+	// does not exist, and the shortcode then prints "Oops! We could not locate
+	// your form." into the band. Only use the form when it really is there.
+	if ( class_exists( 'GFAPI' ) && ! is_wp_error( GFAPI::get_form( 5 ) ) ) {
 		return gerotech_shortcode( '[gravityform id="5" title="true"]' );
 	}
 
