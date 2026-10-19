@@ -145,7 +145,10 @@ function gerotech_mailing_list_form( $input_id, $label, $placeholder, $submit_la
 	// The plugin being active is not enough: on Dev it is active but form 5
 	// does not exist, and the shortcode then prints "Oops! We could not locate
 	// your form." into the band. Only use the form when it really is there.
-	if ( class_exists( 'GFAPI' ) && ! is_wp_error( GFAPI::get_form( 5 ) ) ) {
+	// GFAPI::get_form() returns false (not WP_Error) for a missing form, so
+	// require the array itself.
+	$form = class_exists( 'GFAPI' ) ? GFAPI::get_form( 5 ) : false;
+	if ( is_array( $form ) && ! empty( $form['id'] ) ) {
 		// title="false": the band already prints its own heading from ACF, and
 		// title="true" produced a second h2 ("Mailing List") above the field.
 		return gerotech_shortcode( '[gravityform id="5" title="false"]' );
