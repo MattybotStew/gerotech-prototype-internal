@@ -12,7 +12,9 @@ The bottom `.email-signup` band on **Home, ES, MCS, Applications, Automation and
 
 **Styling.** Gravity Forms 2.7's `gform-theme--orbital` markup brings its own blue primary colour and grid, which would clash inside the dark band. Added rules scoped to `.email-signup` in `assets/css/components.css` (prototype) — form sits in the 440px right column, headings/labels white, button orange with the site's uppercase treatment. Scoped so the legacy GF forms on service/contact pages are untouched. Synced with `sync-theme-assets.sh` and `sync-theme-to-local.sh`.
 
-**Verified on Local:** all PHP lints clean; the band still renders the fallback with its heading, sub, input and button (Local has no GF, which is the case this fallback exists for). **Not yet verified against GF 5 itself, and not deployed to stg** — the deploy script refuses a dirty tree, so this needs a commit + push first.
+**Verified on Local:** all PHP lints clean; the band still renders the fallback with its heading, sub, input and button (Local has no GF, which is the case this fallback exists for). **Not yet verified against GF 5 itself.**
+
+**Committed `7d29101` and pushed.** Deploy to Dev and stg is **blocked by the network**: both `*.ssh.wpengine.net` hosts resolve to `34.168.124.108` and TCP 22 times out from this machine. Outbound SSH itself is fine (github.com:22 connects) and both environments answer HTTP 200, so this is the WP Engine SSH gateway (or a route to it), not the deploy script — the script refused correctly rather than half-deploying. Retry `deploy-stage.sh --env dev|stg --apply --yes` once SSH is reachable, or push from the Local GUI (theme files only, DB off).
 
 **Open for Matt:** the band already prints `Signup — title` from ACF, and the supplied shortcode has `title="true"`, so GF will add a second heading above the fields. If that duplicates visually, change the helper's shortcode to `title="false"`.
 
