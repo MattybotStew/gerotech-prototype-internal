@@ -1694,6 +1694,17 @@
    static form above. It keeps the band's right-hand column and inherits the
    orange button treatment. Scoped to .email-signup so the legacy forms on
    service/contact pages are untouched. */
+/* Gravity Forms sets its palette in an inline ID rule printed next to the
+   form, so the override has to out-specify it (extra attribute = one more
+   class-level selector). Without this the submit button stays GF blue. */
+.email-signup #gform_wrapper_5[data-form-index].gform-theme {
+  --gf-color-primary: var(--clr-orange);
+  --gf-color-primary-rgb: 243, 138, 44;
+  --gf-color-primary-darker: var(--clr-orange-deep);
+  --gf-color-primary-lighter: var(--clr-orange-light);
+  --gf-color-in-ctrl-primary: var(--clr-orange);
+  --gf-color-in-ctrl-primary-rgb: 243, 138, 44;
+}
 .email-signup .gform_wrapper {
   flex: 0 1 440px;
   min-width: 280px;
