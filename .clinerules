@@ -3,14 +3,19 @@
 
 ---
 ## Current Session State
-**Last Updated:** 2026-10-19 (opencode — mailing-list signup now renders Gravity Form 5 on environments that have Gravity Forms)
+**Last Updated:** 2026-10-19 (opencode — mailing-list signup now renders Gravity Form 5; deployed to stg and dev)
 **Active Agent:** opencode
-**Branch:** `master` — uncommitted changes for the signup-form swap (see below).
+**Branch:** `master` == `origin/master` (`a0cc27e`). Clean tree.
 
-**Mailing-list signup → Gravity Form 5 (2026-10-19).** The `.email-signup` band (Home, ES, MCS, Applications, Automation, Careers) used a static `action="#"` form that posted nowhere. It now renders the client's staging Gravity Form via one helper, `gerotech_mailing_list_form()` in `inc/helpers.php`, which prints `[gravityform id="5" title="true"]` **only when Gravity Forms is active**. Dev has no Gravity Forms, so it falls back to the original static form — the band keeps its right-hand column instead of going blank. CSS for the GF markup is scoped to `.email-signup` in `components.css` (prototype + theme, synced).
-- The band already has its own `<h2 class="email-signup__title">` from ACF. The supplied shortcode says `title="true"`, so GF prints its own form title above the fields — **flagged to Matt, may read as a duplicate heading**; switching to `title="false"` is a one-word change in the helper.
-- No ACF fields were added or changed, so no seeder/audit step is needed.
-- **Committed and pushed (`7d29101`), synced to Local, NOT yet deployed.** Both deploy attempts failed at the network layer, not in the script: `gerotechdev.ssh.wpengine.net` and `gerotechstg.ssh.wpengine.net` resolve to `34.168.124.108` and **port 22 times out** (general outbound SSH works — github.com:22 connects; both sites serve HTTP 200). Until SSH is reachable, staging still renders the static form. Fallback: push the theme from the Local GUI (files `wp-content/themes/gerotech-child/` only, DB off).
+**Mailing-list signup → Gravity Form 5 (2026-10-19).** The `.email-signup` band (Home, ES, MCS, Applications, Automation, Careers) used a static `action="#"` form that posted nowhere. It now renders the client's staging Gravity Form through one helper, `gerotech_mailing_list_form()` in `inc/helpers.php`, which prints `[gravityform id="5" title="false"]` **only when form 5 actually exists**. CSS for the GF markup is scoped to `.email-signup` in `components.css` (prototype + theme, synced).
+
+- **Gravity Forms IS installed on Dev** — the 2026-10-13 note that it is not is now stale. Dev simply has **no form 5**, so it takes the fallback (verified: `fallback=1`, `oops=0`). Staging renders GF 5 on all six pages.
+- **The existence check matters.** `GFAPI::get_form( 5 )` returns **`false`**, not `WP_Error`, when the form is missing; `shortcode_exists('gravityform')` alone rendered *"Oops! We could not locate your form."* into the band on Dev. The helper requires `is_array( $form ) && ! empty( $form['id'] )`.
+- **`title="true"` was wrong for this band.** It printed a second `h2` ("Mailing List") under the ACF "Join Our Mailing List" heading. Changed to `title="false"`; screenshot-verified on stg.
+- **GF's palette needs an ID-level override.** It sets `--gf-color-primary` in an inline `#gform_wrapper_5[data-form-index].gform-theme` rule, so the brand styling lives in `.email-signup #gform_wrapper_5[data-form-index].gform-theme` (the extra attribute out-specifies it). Without that the Sign up button stayed GF blue.
+- **🔴 The form still delivers nowhere.** Form 5's only notification is *Admin Notification* → `{admin_email}`, and stg's `admin_email` is `tbridges@gerotechstg.wpenginepowered.com` — dead. The client must supply the real mailbox (or change the notification in the GF admin). Nothing in the theme holds the recipient.
+- No ACF fields were added or changed, so no seeder/audit step was needed.
+- **Deploy gotcha:** WP Engine SSH was flaky (port 22 timing out intermittently, RSSH flaking mid-transfer). Deploying single files needs `rsync -R` (or `cd` into the theme and pass relative paths) — without `-R` rsync **flattens them into the theme root**, which happened twice and left stray `helpers.php`/`components.css` at the theme root (both removed). Always confirm with `sha256sum` on the server afterwards.
 
 
 **Context — there are THREE WP Engine environments, and "stage" is NOT the Dev one.** Corrected 2026-10-13 after a promote landed on the wrong host. The implementation plan calls Dev "stage" ("Stage is the Dev rollback") — that is wrong.

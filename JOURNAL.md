@@ -14,7 +14,18 @@ The bottom `.email-signup` band on **Home, ES, MCS, Applications, Automation and
 
 **Verified on Local:** all PHP lints clean; the band still renders the fallback with its heading, sub, input and button (Local has no GF, which is the case this fallback exists for). **Not yet verified against GF 5 itself.**
 
-**Committed `7d29101` and pushed.** Deploy to Dev and stg is **blocked by the network**: both `*.ssh.wpengine.net` hosts resolve to `34.168.124.108` and TCP 22 times out from this machine. Outbound SSH itself is fine (github.com:22 connects) and both environments answer HTTP 200, so this is the WP Engine SSH gateway (or a route to it), not the deploy script — the script refused correctly rather than half-deploying. Retry `deploy-stage.sh --env dev|stg --apply --yes` once SSH is reachable, or push from the Local GUI (theme files only, DB off).
+**Deployed to stg and dev** (commits `7d29101` … `a0cc27e`). WP Engine SSH was intermittently unreachable — port 22 would time out, then a handshake would succeed 20 s later, and rsync died mid-transfer several times — so the successful path was the whole-theme `deploy-stage.sh` (which landed the first eight files) followed by targeted `rsync -aR` of the two later-changed files, server-side `chmod 644`, and both cache flushes. Verified by `sha256sum` equality on both servers.
+
+**Three bugs surfaced by actually looking at the rendered page:**
+1. **GF is installed on Dev** (the 2026-10-13 note said it was not), but form 5 does not exist there. `shortcode_exists('gravityform')` therefore passed and the band printed *"Oops! We could not locate your form."* The guard now requires `GFAPI::get_form( 5 )` to return an **array** — it returns `false`, not `WP_Error`, for a missing form.
+2. **`title="true"` duplicated the heading** — ACF's "Join Our Mailing List" plus GF's "Mailing List". Changed to `title="false"`.
+3. **The submit button stayed Gravity Forms blue.** Its palette is set in an inline `#gform_wrapper_5[data-form-index].gform-theme` rule; the brand override had to carry the same ID plus an extra attribute to win.
+
+**Verified after deploy:** stg `/`, `/engineered-solutions/`, `/careers/`, `/modification-of-standard-machine-tools/`, `/unique-applications-for-standard-machines/`, `/automated-system/` all 200 with `gform_wrapper_5`, zero "could not locate"; dev serves the static fallback with no error. Screenshot of the stg band shows one heading and an orange Sign up button.
+
+**Still open:** form 5's only notification is *Admin Notification → `{admin_email}`*, and stg's `admin_email` is `tbridges@gerotechstg.wpenginepowered.com`. Submissions do not reach anyone until the client supplies the real mailbox.
+
+**Deploy gotcha worth remembering:** `rsync file1 file2 host:/path/` **flattens** the source paths. Two `helpers.php` / `components.css` copies landed in the theme root and had to be deleted. Use `-R` (or `cd` into the theme with relative paths) and always verify with `sha256sum` on the server.
 
 **Open for Matt:** the band already prints `Signup — title` from ACF, and the supplied shortcode has `title="true"`, so GF will add a second heading above the fields. If that duplicates visually, change the helper's shortcode to `title="false"`.
 
