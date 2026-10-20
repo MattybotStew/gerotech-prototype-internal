@@ -2,6 +2,28 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-20 — Training calendar + course pages were unstyled; signup confirmation now white (opencode)
+
+Matt reported the pages linked from `/training/` as broken on Dev, staging and production, and separately asked for the signup confirmation text to be white.
+
+**What was actually broken.** `/scheduled-training/` and all `training-session` singles (`/training/<course>/`) rendered the **legacy body markup with zero styling** — no fonts, no layout, an unstyled calendar table — and the `#classes_fr` / `#classes_gr` / `#classes_mcc` class-date boxes stayed empty. All 11 links returned HTTP 200, so nothing was "missing"; the pages were rendering the wrong way.
+
+**Three independent causes, all in the child theme:**
+
+1. **`legacy.css` + `fonts.css` were not enqueued for these pages.** The guard was `is_page( $legacy_pages )` against a slug list — `scheduled-training` is not on it, and a CPT single is never `is_page()`.
+2. **The stylesheet alone would not have fixed it.** Every rule in `legacy.css` is `.legacy …`-scoped (625 of them), and the parent's `page-calendar.php` / `single-training-session.php` emit no `.legacy` wrapper. The other ported pages (`page-training.php`, `page-service-home.php`) wrap their bodies for exactly this reason; these two templates were simply never ported.
+3. **The child dequeued the parent's `ts_script` globally.** `ts_script.js` is three lines of jQuery that push the inline `fr_classes` / `gr_classes` / `mcc_classes` vars into the class-date boxes. Dequeued everywhere ⇒ the boxes could never fill, even once real dates exist.
+
+**Fix.** Ported both templates into the child theme with `<div class="legacy">` around the body; widened the legacy-asset guard to `is_page($legacy_pages) || is_singular('training-session') || is_page_template('page-calendar.php')`; and made the parent-script dequeue keep `ts_script` **and** `site-scripts` on training-session singles and the calendar page (`site-scripts` drives the attendee-count dropdown and the mobile calendar event popups). PHP lint clean on all three files.
+
+**The calendar was not empty — it was unstyled.** Stage serves **29 session markers for `?mn=6&yr=2026`**. Months around today are genuinely empty because the newest session anywhere is **June 2026** and today is October 2026. Likewise **"None at this time." on the course pages is correct behaviour**, not a bug — every repeater row is past-dated, and `single-training-session.php` filters with `$datey > date('Ymd') - 3`. No training dates were invented; the client adds future sessions and they will now render.
+
+**Signup confirmation.** GF's confirmation message inherits its dark theme text and was unreadable on the dark `.email-signup` band. Added `.email-signup .gform_confirmation_wrapper, .gform_confirmation_message { color: var(--clr-white) }` in `components.css` and flipped the static fallback's `.email-signup__thanks` from orange to white in `elevated.css`.
+
+**Verification.** Local was unusable — the Local *app* was running but the `gerotech` site was stopped (`gerotech.local` → Local-router 502, its MySQL not listening), and there is no CLI to start it. `sync-theme-to-local.sh` was run so Local carries the change, but the rendered check happened on **staging**. WP Engine SSH was flaky yet again (TCP fine, key negotiates, session then hangs after `Authentications that can continue: publickey`), so the deploy ran through a retry loop around `scripts/deploy-stage.sh --env stg`.
+
+**Commit:** `288b239`.
+
 ## 2026-10-19 — Mailing-list signup now uses the staging Gravity Form (opencode)
 
 The bottom `.email-signup` band on **Home, ES, MCS, Applications, Automation and Careers** was a static form with `action="#"` — it posted nowhere, so the "Join Our Mailing List" band collected nothing. Matt supplied `[gravityform id="5" title="true"]`, the signup form he built on staging.
