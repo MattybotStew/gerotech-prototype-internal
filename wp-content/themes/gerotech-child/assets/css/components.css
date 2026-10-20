@@ -1756,6 +1756,18 @@
 .email-signup .gform_wrapper .gform_button:focus {
   background: var(--clr-orange-light);
 }
+/* Confirmation message — GF prints it in place of the form on submit and
+   inherits the theme's dark text, which is unreadable on this dark band. */
+.email-signup .gform_confirmation_wrapper,
+.email-signup .gform_confirmation_message,
+.email-signup .gform_confirmation_wrapper .gform_confirmation_message {
+  color: var(--clr-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+}
+.email-signup .gform_confirmation_wrapper a {
+  color: var(--clr-orange-light);
+}
 @media (max-width: 768px) {
   .email-signup .gform_wrapper { flex-basis: 100%; }
 }

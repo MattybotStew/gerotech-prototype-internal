@@ -69,8 +69,20 @@ function gerotech_child_enqueue_assets() {
 	// Support + Service bodies are ported from the dev site and styled by the
 	// parent theme's stylesheet, scoped to `.legacy` so it cannot leak into the
 	// new header/footer. Replica fonts come from the parent theme.
+	//
+	// The training calendar (`/scheduled-training/`) and the training-session
+	// singles (`/training/<course>/`) render the parent's legacy markup too —
+	// `is_page()` misses both, because the calendar's slug is not in the list
+	// and the course pages are a CPT, not pages. Their bodies are therefore
+	// wrapped in `.legacy` by our own `page-calendar.php` /
+	// `single-training-session.php` overrides, and they need the same assets.
 	$legacy_pages = array( 'support', 'service', 'training', 'rotary-repair', 'planned-maintenance', 'about', 'contact' );
-	if ( is_page( $legacy_pages ) ) {
+
+	$is_legacy_body = is_page( $legacy_pages )
+		|| is_singular( 'training-session' )
+		|| is_page_template( 'page-calendar.php' );
+
+	if ( $is_legacy_body ) {
 		wp_enqueue_style( 'gerotech-legacy-fonts', get_template_directory_uri() . '/fonts.css', array(), null );
 		wp_enqueue_style(
 			'gerotech-legacy',
@@ -81,7 +93,16 @@ function gerotech_child_enqueue_assets() {
 	}
 
 	// ── Dequeue parent theme scripts (not used by the child) ──
+	// `ts_script` fills the class-date boxes (#classes_fr / _gr / _mcc) on the
+	// training-session singles, and the calendar/singles also rely on
+	// `site-scripts` for the attendee-count dropdown. Keep both on those pages;
+	// everything else in the parent's JS is superseded by the child's.
+	$keep_parent_scripts = is_singular( 'training-session' ) || is_page_template( 'page-calendar.php' );
+
 	foreach ( array( 'site-scripts', 'home_script', 'ts_script' ) as $handle ) {
+		if ( $keep_parent_scripts && in_array( $handle, array( 'ts_script', 'site-scripts' ), true ) ) {
+			continue;
+		}
 		wp_dequeue_script( $handle );
 		wp_deregister_script( $handle );
 	}
