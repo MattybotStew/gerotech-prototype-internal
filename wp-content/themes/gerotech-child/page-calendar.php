@@ -1,5 +1,7 @@
 <?php
 /**
+ * Template Name: Calendar
+ *
  * Calendar (Scheduled Training) — legacy body ported from the dev site.
  *
  * The parent theme's markup is styled by its stylesheet, which the child loads
