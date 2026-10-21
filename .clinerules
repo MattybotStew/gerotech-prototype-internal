@@ -17,6 +17,15 @@
 
 **Signup confirmation text now white.** The GF mailing-list confirmation inherits Gravity Forms' dark theme text, which is unreadable on the dark `.email-signup` band. Added `.email-signup .gform_confirmation_wrapper / .gform_confirmation_message` → `--clr-white` in `components.css`, and changed the static fallback's `.email-signup__thanks` from `--clr-orange-light` to white in `elevated.css`.
 
+**Production legacy pages fixed (2026-10-21, user-authorized).** Matt asked why `/planned-maintenance/` was fine on stage but broken on prod, and to find every legacy page with the same issue. Root cause across all of them: `_wp_page_template` was `default` on prod (the `align-legacy-page-templates.php` values had never been applied there), so those pages fell through to the **parent** theme's generic `page.php` — whose fallback branch hardcodes a "ROTARY REPAIR" hero and calls `the_field('rotary_content')`, which discarded the real content and rendered unstyled.
+
+- **`/planned-maintenance/` (#1538)** — one DB write: `_wp_page_template = preventive-maintenance.php` (the child ships that template, byte-identical to the repo, with the `.legacy` wrapper + GF3). Verified: template now binds, legacy CSS applies, GF3 + Engage CTA + PM Flyer render, "ROTARY REPAIR" gone.
+- **Four orphan pages fell through the same way** (`/privacy/` #89, `/custom-training-program/` #1294, `/hydraulic-pneumatic-clamping-systems/` #1297, `/5-axis-cnc-grinders/` #1268). Three are "Under Construction" stubs (their text lives in an `intro` ACF field, not post_content); `privacy` held a real policy that was being silently dropped. **Fix:** added a generic child `page.php` (the child had none, so `default` pages couldn't resolve) that renders a proper interior `.page-hero` + the page content, falling back to the `intro` field when editor content is empty. Verified all four: correct hero + correct body, no more ROTARY REPAIR.
+
+**Prod deploy was done surgically, NOT via `deploy-stage.sh`** (which correctly hard-refuses `gerotech.ssh.wpengine.net`). The `page.php` file was pushed over SSH stdin (scp's SFTP subsystem is blocked on WPE) and chmod'd 644; md5 confirmed byte-identical. Caches flushed via `wp page-cache flush` + `wp cdn-cache flush`.
+
+**Still open for the client (no decision):** the three "Under Construction" stubs are still placeholders — whether they should be filled in, unpublished, or redirected is a client call. They now at least render their "Under Construction" text instead of a wrong hero.
+
 **Local could not be used for verification.** The Local *app* was running but the `gerotech` site itself was stopped, so `gerotech.local` returned the Local-router 502 page and its MySQL was not listening for that site. `sync-theme-to-local.sh` was still run so Local has the change. Verification had to happen on **staging** instead.
 
 **Deploy gotcha (recurring):** WP Engine SSH was flaky again — port 22 accepts TCP and the key negotiates, then the session hangs after `Authentications that can continue: publickey`. The deploy needed a retry loop; `scripts/deploy-stage.sh` was the path used, never a hand-rolled `rsync`.

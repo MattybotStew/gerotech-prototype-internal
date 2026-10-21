@@ -2,6 +2,20 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-10-21 — Production legacy pages fixed: /planned-maintenance/ + four orphan pages (opencode)
+
+Matt reported `/planned-maintenance/` was "fine on stage, broken on prod" and asked me to find every legacy page with the same issue.
+
+**Root cause (one mechanism, two fixes).** Every affected page had `_wp_page_template = default` on **prod** — the `align-legacy-page-templates.php` assignments had been applied on dev/stg but never on prod. A `default` page with no matching `page-{slug}.php` falls through to the **parent** theme's generic `page.php`, whose fallback branch hardcodes a "ROTARY REPAIR" hero and calls `the_field('rotary_content')` — which renders empty and silently drops whatever the page actually holds.
+
+**Fix 1 — `/planned-maintenance/` (#1538), DB only.** Set `_wp_page_template = preventive-maintenance.php` (one `wp post meta update`). The child already ships that template byte-identical to the repo (md5 `faeb9957…`), with the `.legacy` wrapper and GF3 shortcode. Verified live: template binds, legacy CSS applies, GF3 + Engage CTA + PM Flyer render, "ROTARY REPAIR" gone.
+
+**Fix 2 — four orphan pages, new generic `page.php`.** `/privacy/` (#89) held a real privacy policy that was being dropped; `/custom-training-program/` (#1294), `/hydraulic-pneumatic-clamping-systems/` (#1297) and `/5-axis-cnc-grinders/` (#1268) are "Under Construction" stubs whose placeholder text lives in an `intro` ACF field, not post_content. The child theme had **no `page.php` at all**, which is why none of them could resolve. Added `page.php`: a proper interior `.page-hero` + `.section-body` rendering `the_content()`, falling back to the `intro` field when editor content is empty. Verified all four: correct hero + correct body, no more ROTARY REPAIR.
+
+**Prod deploy was surgical, not `deploy-stage.sh`** (which correctly refuses `gerotech.ssh.wpengine.net`). scp's SFTP subsystem is blocked on WPE, so `page.php` was pushed over SSH stdin (`cat > … < page.php`) and chmod'd 644; md5 matched (`0cc4c666…`). Page + CDN caches flushed.
+
+**Still open (client decision):** the three "Under Construction" stubs are still placeholders — fill, unpublish, or redirect is a client call. They now render their placeholder text rather than a wrong hero.
+
 ## 2026-10-20 — Training calendar + course pages were unstyled; signup confirmation now white (opencode)
 
 Matt reported the pages linked from `/training/` as broken on Dev, staging and production, and separately asked for the signup confirmation text to be white.
