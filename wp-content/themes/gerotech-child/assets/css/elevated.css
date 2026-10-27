@@ -776,7 +776,7 @@ body.search-open {
 .email-signup__thanks {
   margin: var(--sp-12) 0 0;
   font-size: var(--fs-ui);
-  color: var(--clr-white);
+  color: var(--clr-orange-light);
   font-weight: var(--fw-medium);
 }
 

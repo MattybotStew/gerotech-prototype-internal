@@ -1,464 +1,368 @@
-<?php
-/**
- * Homepage (front page).
- *
- * Content is driven by ACF (`inc/acf-fields.php`) with the current design as
- * defaults, so the page renders correctly whether or not fields are populated.
- *
- * @package GerotechChild
- */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerotech, Inc: Machines, Solutions, Support</title>
+  <link rel="stylesheet" href="https://use.typekit.net/lqh7ybe.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/elevated.css" />
+</head>
+<body>
 
-get_header();
+  <div data-include="partials/site-header.html"></div>
 
-$home_id = get_the_ID();
+  <main id="main">
 
-/** Read an ACF field (null-safe if ACF is inactive), falling back to a default. */
-$pick = function ( $key, $default ) use ( $home_id ) {
-	return gerotech_field( $key, $default, $home_id );
-};
+    <!-- ============================================================
+         Hero Carousel — Figma peek-card (Make)
+         ============================================================ -->
+    <section class="hero-slider hero-slider--peek" aria-label="Homepage hero carousel">
+      <div class="hero-slider__track">
+        <div
+          class="slide is-active"
+          role="tabpanel"
+          aria-label="Slide 1 of 3"
+          data-peek-eyebrow="Haas Factory Outlet"
+          data-peek-accent="Haas"
+          data-peek-accent-color="haas"
+          data-peek-title="A Division of Gerotech"
+        >
+          <!-- Client photo: Gerotech vans + Haas F1 Team sign at HQ (hero-slide-1@2x = 2560px source) -->
+          <img class="slide__bg slide__bg--right" src="assets/images/hero-slide-1.jpg" srcset="assets/images/hero-slide-1.jpg 1920w, assets/images/hero-slide-1@2x.jpg 2560w" sizes="100vw" alt="Gerotech and Haas F1 Team vans at Gerotech headquarters" loading="eager" fetchpriority="high" decoding="async" />
+          <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
+          <div class="slide__content slide__content--left">
+            <p class="slide__eyebrow slide__eyebrow--white">A Division of Gerotech</p>
+            <h1 class="slide__headline">
+              <span class="accent accent--haas">Haas</span> Factory Outlet
+            </h1>
+            <a class="btn btn--primary btn--haas" href="#machine-browse">Explore the Haas Line</a>
+          </div>
+        </div>
+        <div
+          class="slide"
+          role="tabpanel"
+          aria-label="Slide 2 of 3"
+          data-peek-eyebrow="Floor Inventory"
+          data-peek-title="In-Stock &amp; Ready"
+        >
+          <img class="slide__bg" src="assets/images/hero-showroom.jpg" alt="Haas showroom machines ready to ship" loading="lazy" decoding="async" />
+          <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
+          <div class="slide__content slide__content--left">
+            <p class="slide__eyebrow">Floor Inventory</p>
+            <h2 class="slide__headline">
+              Our Showroom Machines Are<br />
+              <span class="accent">Ready To Ship</span>
+            </h2>
+            <p class="slide__body">Showroom Machines Are Backed By Our 1-Year Warranty. Confidence Comes Standard.</p>
+            <a class="btn btn--primary" href="https://www.haascnc.com/HFO/HFO-Gerotech/Showroom-Inventory.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Browse Inventory</a>
+          </div>
+        </div>
+        <div
+          class="slide"
+          role="tabpanel"
+          aria-label="Slide 3 of 3"
+          data-peek-eyebrow="Engineered Solutions"
+          data-peek-title="On Our Floor"
+        >
+          <img class="slide__bg slide__bg--right" src="assets/images/hero-automation-cell.jpg" alt="Gerotech automation cell with robotic tending" loading="lazy" decoding="async" />
+          <div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
+          <div class="slide__content slide__content--left">
+            <p class="slide__eyebrow">Engineered Solutions</p>
+            <h2 class="slide__headline">
+              <span class="accent">Automation</span> Built<br />
+              for Your<br />
+              Shop Floor
+            </h2>
+            <a class="btn btn--primary" href="engineered-solutions.html">Explore Solutions</a>
+          </div>
+        </div>
+      </div>
 
-/* ── Hero slides ───────────────────────────────────────────── */
-$slides = $pick(
-	'home_hero_slides',
-	array(
-		array(
-			'eyebrow'         => 'A Division of Gerotech',
-			'headline'        => '<em>Haas</em> Factory Outlet',
-			'accent_color'    => 'haas',
-			'body'            => '',
-			'cta_label'       => 'Explore the Haas Line',
-			'cta_url'         => '#machine-browse',
-			'cta_color'       => 'haas',
-			'image'           => 'assets/images/hero-slide-1.jpg',
-			'image_position'  => 'right',
-			'title_alt'       => 'Gerotech and Haas F1 Team vans at Gerotech headquarters',
-			'peek_eyebrow'    => 'Haas Factory Outlet',
-			'peek_accent'     => 'Haas', /* intra-card accent word → brand red eyebrow (matches headline accent) */
-			'peek_title'      => 'A Division of Gerotech',
-		),
-		array(
-			'eyebrow'         => 'Floor Inventory',
-			'headline'        => "Our Showroom Machines Are\n<em>Ready To Ship</em>",
-			'accent_color'    => 'orange',
-			'body'            => 'Showroom Machines Are Backed By Our 1-Year Warranty. Confidence Comes Standard.',
-			'cta_label'       => 'Browse Inventory',
-			'cta_url'         => 'https://www.haascnc.com/HFO/HFO-Gerotech/Showroom-Inventory.html#gsc.tab=0',
-			'cta_color'       => 'orange',
-			'image'           => 'assets/images/hero-showroom.jpg',
-			'image_position'  => 'default',
-			'peek_eyebrow'    => 'Floor Inventory',
-			'peek_title'      => 'In-Stock & Ready',
-		),
-		array(
-			'eyebrow'         => 'Engineered Solutions',
-			'headline'        => "<em>Automation</em> Built\nfor Your\nShop Floor",
-			'accent_color'    => 'orange',
-			'body'            => '',
-			'cta_label'       => 'Explore Solutions',
-			'cta_url'         => gerotech_page_url( 'engineered-solutions' ),
-			'cta_color'       => 'orange',
-			'image'           => 'assets/images/hero-automation-cell.jpg',
-			'image_position'  => 'right',
-			'peek_eyebrow'    => 'Engineered Solutions',
-			'peek_title'      => 'On Our Floor',
-		),
-	)
-);
+      <div class="hero-slider__index" aria-hidden="true">
+        <svg class="hero-slider__progress" viewBox="0 0 48 48" focusable="false">
+          <circle class="hero-slider__progress-track" cx="24" cy="24" r="21" fill="none" />
+          <circle class="hero-slider__progress-bar" cx="24" cy="24" r="21" fill="none" />
+        </svg>
+        <span class="hero-slider__index-num">01</span>
+      </div>
+      <div class="hero-slider__peeks" role="tablist" aria-label="Slide navigation"></div>
+    </section>
 
-/* ── Stats ─────────────────────────────────────────────────── */
-$stats = $pick(
-	'home_stats',
-	array(
-		array( 'value' => '39+', 'count' => 39, 'suffix' => '+', 'label' => 'Years in Michigan' ),
-		array( 'value' => '14,000+', 'count' => 14000, 'suffix' => '+', 'label' => 'Machines Placed' ),
-	)
-);
+    <!-- ============================================================
+         Stat Counter — 39+ / 14,000+ (comments 151, 202; 12 and #1 removed)
+         ============================================================ -->
+    <section class="stat-counter" aria-label="Gerotech by the numbers">
+      <div class="container">
+        <div class="stat-counter__grid stat-counter__grid--2">
+          <div class="stat-counter__item">
+            <p class="stat-counter__value" data-count="39" data-suffix="+">39+</p>
+            <p class="stat-counter__label">Years in Michigan</p>
+          </div>
+          <div class="stat-counter__item">
+            <p class="stat-counter__value" data-count="14000" data-suffix="+">14,000+</p>
+            <p class="stat-counter__label">Machines Placed</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* ── Haas relationship ─────────────────────────────────────── */
-$haas_eyebrow  = $pick( 'haas_eyebrow', 'The Haas Relationship' );
-$haas_eyebrow_color = gerotech_accent_choice( $pick( 'haas_eyebrow_color', 'haas' ) );
-$haas_headline = $pick( 'haas_headline', "Proud to Be Michigan's\n<em>Haas Factory Outlet</em>" );
-$haas_accent_color = $pick( 'haas_accent_color', 'haas' );
-$haas_lede     = $pick( 'haas_lede', "Gerotech is proud to serve as Michigan's Haas Factory Outlet, bringing together Haas CNC technology with the local expertise, engineering, service, training, and support manufacturers need. Since 1987, we've worked alongside manufacturers to understand their challenges and deliver solutions that make sense for their operation—from CNC machinery and automation to engineered solutions and ongoing support." );
-$haas_logo_value = $pick( 'haas_brand_logo', '' );
-$haas_logo     = gerotech_image_url( $haas_logo_value, 'assets/images/haas-f1-team.jpg' );
-$haas_logo_alt = gerotech_image_alt( $haas_logo_value, 'Haas Automation, Official Machine Tool of Haas F1 Team' );
+    <!-- ============================================================
+         Haas Relationship (Figma 7080:1405 intro + 7080:2240 features band)
+         ============================================================ -->
+    <section class="haas-relationship" aria-labelledby="haas-rel-headline">
+      <div class="haas-relationship__top">
+        <div class="haas-relationship__bg" aria-hidden="true">
+          <img
+            class="haas-relationship__watermark"
+            src="assets/images/haas-wordmark-watermark.svg"
+            alt=""
+            width="2776"
+            height="664"
+            decoding="async"
+          />
+        </div>
+        <div class="haas-relationship__content">
+          <div class="container">
+            <div class="eyebrow-row eyebrow-row--haas">
+              <span class="eyebrow-row__rule" aria-hidden="true"></span>
+              <p class="eyebrow">The Haas Relationship</p>
+            </div>
 
-/* ── Machine lineup ────────────────────────────────────────── */
-$lineup_eyebrow  = $pick( 'lineup_eyebrow', 'Haas Factory Outlet' );
-$lineup_headline = $pick( 'lineup_headline', 'Browse the <em>Machine Lineup</em>' );
-$panels          = $pick(
-	'lineup_panels',
-	array(
-		array(
-			'tab_label'   => 'Machining Centers',
-			'badge'       => 'Vertical & Horizontal',
-			'category'    => '',
-			'title'       => 'Vertical Mills',
-			'description' => '',
-			'tags_label'  => 'Featured series',
-			'tags'        => "VF Series | https://www.haascnc.com/machines/vertical-mills/vf-series.html#gsc.tab=0\nUniversal Machines | https://www.haascnc.com/machines/vertical-mills/universal-machine.html#gsc.tab=0\nVR Series | https://www.haascnc.com/machines/vertical-mills/vr-series.html\nMini Mills | https://www.haascnc.com/machines/vertical-mills/mini-mills.html\nMold Machines | https://www.haascnc.com/machines/vertical-mills/mold-machines.html#gsc.tab=0\nDrill/Tap/Mill Series | https://www.haascnc.com/machines/vertical-mills/drill-tap-mill.html#gsc.tab=0",
-			'cta_label'   => 'View All Mills →',
-			'cta_url'     => 'https://www.haascnc.com/machines/vertical-mills.html',
-			'cta2_label'  => '',
-			'cta2_url'    => '',
-			'photo_style' => 'default',
-			'photo'       => 'assets/images/haas-umc-750.jpg',
-		),
-		array(
-			'tab_label'   => 'Turning Centers',
-			'badge'       => 'Production Turning',
-			'category'    => 'Production Turning',
-			'title'       => 'CNC Lathes',
-			'description' => '',
-			'tags_label'  => 'Featured series',
-			'tags'        => "ST Series | https://www.haascnc.com/machines/lathes/st.html#gsc.tab=0\nToolroom Lathe | https://www.haascnc.com/machines/lathes/toolroom-lathe.html#gsc.tab=0\nDual Spindle | https://www.haascnc.com/machines/lathes/dual-spindle.html#gsc.tab=0\nBox Way Series | https://www.haascnc.com/machines/lathes/box-way-series.html#gsc.tab=0\nChucker Lathe | https://www.haascnc.com/machines/lathes/chucker-lathe.html#gsc.tab=0",
-			'cta_label'   => 'View All Lathes →',
-			'cta_url'     => 'https://www.haascnc.com/machines/lathes.html#gsc.tab=0',
-			'cta2_label'  => '',
-			'cta2_url'    => '',
-			'photo_style' => 'default',
-			'photo'       => 'assets/images/haas-st-25y.jpg',
-		),
-		array(
-			'tab_label'   => 'Rotaries & Indexers',
-			'badge'       => 'Rotaries & Indexers',
-			'category'    => 'Rotaries & Indexers',
-			'title'       => 'Rotaries & Indexers',
-			'description' => 'Machine more sides in fewer setups with Haas rotary tables and indexers—giving you greater flexibility for complex parts and multi-axis machining.',
-			'tags_label'  => 'Featured products',
-			'tags'        => "Rotary Tables | https://www.haascnc.com/machines/rotaries-indexers/rotary-tables.html#gsc.tab=0\n5-Axis Rotaries | https://www.haascnc.com/machines/rotaries-indexers/5-axis-rotaries.html#gsc.tab=0",
-			'cta_label'   => 'View All Rotaries & Indexers',
-			'cta_url'     => 'https://www.haascnc.com/machines/rotaries-indexers.html',
-			'cta2_label'  => '',
-			'cta2_url'    => '',
-			'photo_style' => 'default',
-			'photo'       => 'assets/images/lineup-rotaries-indexers.jpg',
-		),
-		array(
-			'tab_label'   => 'Haas Automation',
-			'badge'       => 'Robotics & Pallets',
-			'category'    => 'Haas Automation',
-			'title'       => 'Haas Automation',
-			'description' => 'Explore Haas automation solutions, including robotic systems, pallet changers, bar feeders, and other options designed to maximize machine productivity.',
-			'tags_label'  => 'Featured products',
-			'tags'        => "Automation Models | https://www.haascnc.com/machines/automation-systems/automation-models.html#gsc.tab=0\nBar Feeders | https://haascnc.com/machines/lathes/bar-feeders\nCobots | https://www.haascnc.com/machines/automation-systems/automation-models.html#robot",
-			'cta_label'   => 'View Automation →',
-			'cta_url'     => 'https://www.haascnc.com/machines/automation-systems.html#gsc.tab=0',
-			'cta2_label'  => '',
-			'cta2_url'    => '',
-			'photo_style' => 'default',
-			'photo'       => 'assets/images/lineup-haas-automation.jpg',
-		),
-		array(
-			'tab_label'   => 'Haas Tooling',
-			'badge'       => 'Haas Tooling',
-			'category'    => 'Haas Tooling',
-			'title'       => 'Tooling & Workholding',
-			'description' => 'Your one-stop shop for tooling. Explore categories for mills, lathes, inspection, workholding, and more.',
-			'tags_label'  => '',
-			'tags'        => '',
-			'cta_label'   => 'Haas Tooling',
-			'cta_url'     => 'https://www.haastooling.com',
-			'cta2_label'  => "Winner's Circle",
-			'cta2_url'    => 'https://www.haastooling.com/p/WINNERS_CIRCLE-1Y',
-			'photo_style' => 'logo',
-			'photo'       => 'assets/images/haas-winners-circle.png',
-		),
-	)
-);
+            <div class="haas-relationship__intro">
+              <div class="haas-relationship__copy-col">
+                <h2 id="haas-rel-headline" class="haas-relationship__headline">
+                  Proud to Be Michigan's<br />
+                  <span class="accent accent--haas">Haas Factory Outlet</span>
+                </h2>
+                <p class="haas-relationship__lede">
+                  Gerotech is proud to serve as Michigan's Haas Factory Outlet, bringing together Haas CNC technology with the local expertise, engineering, service, training, and support manufacturers need. Since 1987, we've worked alongside manufacturers to understand their challenges and deliver solutions that make sense for their operation—from CNC machinery and automation to engineered solutions and ongoing support.
+                </p>
+              </div>
+              <div class="haas-relationship__brand">
+                <!-- Haas F1 Team lockup (official brand asset) -->
+                <img
+                  class="haas-relationship__brand-logo"
+                  src="assets/images/haas-f1-team.jpg"
+                  alt="Haas Automation, Official Machine Tool of Haas F1 Team"
+                  width="1738"
+                  height="500"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-/* ── CTA band ──────────────────────────────────────────────── */
-$cta_eyebrow  = $pick( 'cta_eyebrow', 'Get Started' );
-$cta_headline = $pick( 'cta_headline', 'Put Gerotech to work on your project.' );
-$cta_subhead  = $pick( 'cta_subhead', "Let's Talk Through It. Prefer Email?" );
-$cta_body     = $pick( 'cta_body', 'Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.' );
-$cta_btn_lbl  = $pick( 'cta_button_label', 'Talk to an Engineer' );
-$cta_btn_url  = $pick( 'cta_button_url', gerotech_engineering_mailto() );
-$cta_image_value = $pick( 'cta_image', '' );
-$cta_image    = gerotech_image_url( $cta_image_value, 'assets/images/cta-home-building.jpg' );
-$cta_image_alt = gerotech_image_alt( $cta_image_value, 'Gerotech headquarters in Flat Rock, brick building and sign' );
-$cta_call_label  = $pick( 'cta_call_label', 'Prefer to talk it through?' );
-$cta_call_number = $pick( 'cta_call_number', '' );
-$cta_call_note   = $pick( 'cta_call_note', 'Talk to a person, not a form.' );
+    </section>
 
-/* ── Email signup ──────────────────────────────────────────── */
-$signup_title = $pick( 'signup_title', 'Join Our <em>Mailing List</em>' );
-$signup_sub   = $pick( 'signup_sub', 'Projects, machine updates, and service news — delivered to your inbox.' );
 
-// Shared mailing-list form strings — global fields (Site Content → Forms).
-$signup_email_label = gerotech_field( 'signup_email_label', 'Email address', 'option' );
-$signup_email_ph    = gerotech_field( 'signup_email_placeholder', 'your@email.com', 'option' );
-$signup_submit     = gerotech_field( 'signup_submit_label', 'Sign Up', 'option' );
-?>
+    <!-- ============================================================
+         Machine lineup — Figma 7043:223 (tabs + split panel)
+         ============================================================ -->
+    <section class="machine-lineup" id="machine-browse" aria-labelledby="machine-lineup-headline">
+      <div class="container">
+        <div class="machine-lineup__header">
+          <div class="machine-lineup__intro">
+            <div class="eyebrow-row">
+              <span class="eyebrow-row__rule" aria-hidden="true"></span>
+              <p class="eyebrow">Haas Factory Outlet</p>
+            </div>
+            <h2 id="machine-lineup-headline" class="machine-lineup__headline">Browse the <span class="accent">Machine Lineup</span></h2>
+          </div>
+        </div>
 
-<main id="main">
+        <div class="machine-tabs machine-tabs--lineup" role="tablist" aria-label="Machine categories">
+          <button type="button" class="machine-tab is-active" role="tab" aria-selected="true" aria-controls="machine-panel-milling" id="machine-tab-milling" data-target="machine-panel-milling">Machining Centers</button>
+          <button type="button" class="machine-tab" role="tab" aria-selected="false" aria-controls="machine-panel-turning" id="machine-tab-turning" data-target="machine-panel-turning">Turning Centers</button>
+          <button type="button" class="machine-tab" role="tab" aria-selected="false" aria-controls="machine-panel-rotaries" id="machine-tab-rotaries" data-target="machine-panel-rotaries">Rotaries &amp; Indexers</button>
+          <button type="button" class="machine-tab" role="tab" aria-selected="false" aria-controls="machine-panel-automation" id="machine-tab-automation" data-target="machine-panel-automation">Haas Automation</button>
+          <button type="button" class="machine-tab" role="tab" aria-selected="false" aria-controls="machine-panel-tooling" id="machine-tab-tooling" data-target="machine-panel-tooling">Haas Tooling</button>
+        </div>
 
-	<!-- ============================================================
-		 Hero Carousel — Figma peek-card (Make)
-		 ============================================================ -->
-	<section class="hero-slider hero-slider--peek" aria-label="<?php esc_attr_e( 'Homepage hero carousel', 'gerotech-child' ); ?>">
-		<div class="hero-slider__track">
-			<?php $total = count( $slides ); ?>
-			<?php foreach ( $slides as $i => $s ) : ?>
-				<?php
-				$is_first = ( 0 === $i );
-				$pos      = isset( $s['image_position'] ) ? $s['image_position'] : 'default';
-				$img_val  = isset( $s['image'] ) ? $s['image'] : '';
-				$img      = gerotech_image_url( $img_val, '' );
-				$img_set  = gerotech_image_srcset( $img_val, '' );
-				// Accent colour: White (default) | Haas Red | Brand Orange.
-				// Neither colour field carries an ACF default_value on purpose: ACF injects a
-				// default on read, and saving the page would then persist it over a slide whose
-				// design colour differs (slide 1 is Haas Red, the rest Brand Orange). So an empty
-				// value means "no explicit choice" — fall back to the retired `accent_class` meta
-				// (read raw: that field is unregistered, so it is absent from $s), then to the
-				// original design treatment (slide 1 Haas red, everything else brand orange).
-				$accent_raw = isset( $s['accent_color'] ) ? trim( (string) $s['accent_color'] ) : '';
-				if ( '' === $accent_raw ) {
-					$accent_raw = (string) get_post_meta( $home_id, "home_hero_slides_{$i}_accent_class", true );
-				}
-				$accent_raw = ( '' !== $accent_raw ) ? $accent_raw : ( $is_first ? 'haas' : 'orange' );
-				$accent     = gerotech_accent_class( $accent_raw );
-				$accent_key = gerotech_accent_choice( $accent_raw );
+        <div class="machine-lineup__panels">
+          <!-- Machining Centers — Figma default panel -->
+          <article class="machine-panel machine-panel--lineup is-active" id="machine-panel-milling" role="tabpanel" aria-labelledby="machine-tab-milling">
+            <div class="machine-panel__photo machine-panel__photo--umc">
+              <img src="assets/images/haas-umc-750.jpg" alt="Haas UMC-750 machining center" loading="lazy" decoding="async" />
+              <div class="machine-panel__photo-shade" aria-hidden="true"></div>
+              <p class="machine-panel__badge"><span class="machine-panel__badge-dot" aria-hidden="true"></span> Vertical &amp; Horizontal</p>
+            </div>
+            <div class="machine-panel__body">
+              <div class="machine-panel__copy">
+                <h3 class="machine-panel__title">Vertical Mills</h3>
+                <p class="machine-panel__tags-label">Featured series</p>
+                <ul class="model-tags model-tags--dark model-tags--grid" aria-label="Featured mill series">
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/vertical-mills/vf-series.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">VF Series</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/vertical-mills/universal-machine.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Universal Machines</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/vertical-mills/vr-series.html" target="_blank" rel="noopener noreferrer">VR Series</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/vertical-mills/mini-mills.html" target="_blank" rel="noopener noreferrer">Mini Mills</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/vertical-mills/mold-machines.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Mold Machines</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/vertical-mills/drill-tap-mill.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Drill/Tap/Mill Series</a></li>
+                </ul>
+              </div>
+              <div class="machine-panel__footer">
+                <a class="btn btn--primary machine-panel__cta" href="https://www.haascnc.com/machines/vertical-mills.html" target="_blank" rel="noopener noreferrer">View All Mills →</a>
+              </div>
+            </div>
+          </article>
 
-				// Button colour is independent of the accent. Empty keeps the original
-				// treatment: slide 1 Haas red, everything else brand orange.
-				$cta_choice = isset( $s['cta_color'] ) ? trim( (string) $s['cta_color'] ) : '';
-				if ( '' === $cta_choice ) {
-					$cta_choice = $is_first ? 'haas' : 'orange';
-				}
-				$cta_btn = 'btn ' . gerotech_btn_class( $cta_choice );
-				// ACF repeats every sub-field, so an untouched alt is an empty string — fall back to the eyebrow.
-				$img_alt  = ! empty( $s['title_alt'] ) ? $s['title_alt'] : ( ! empty( $s['eyebrow'] ) ? $s['eyebrow'] : '' );
-				?>
-				<div
-					class="slide<?php echo $is_first ? ' is-active' : ''; ?>"
-					role="tabpanel"
-					aria-label="<?php echo esc_attr( sprintf( 'Slide %d of %d', $i + 1, $total ) ); ?>"
-					data-peek-eyebrow="<?php echo esc_attr( isset( $s['peek_eyebrow'] ) ? $s['peek_eyebrow'] : '' ); ?>"
-					data-peek-accent="<?php echo esc_attr( isset( $s['peek_accent'] ) ? $s['peek_accent'] : '' ); ?>"
-					data-peek-accent-color="<?php echo esc_attr( $accent_key ); ?>"
-					data-peek-title="<?php echo esc_attr( isset( $s['peek_title'] ) ? $s['peek_title'] : '' ); ?>"
-				>
-					<?php if ( $img ) : ?>
-						<img class="slide__bg<?php echo 'right' === $pos ? ' slide__bg--right' : ''; ?>" src="<?php echo esc_url( $img ); ?>"<?php echo $img_set ? ' srcset="' . esc_attr( $img_set ) . '" sizes="100vw"' : ''; ?> alt="<?php echo esc_attr( $img_alt ); ?>" <?php echo $is_first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'; ?> decoding="async" />
-					<?php endif; ?>
-					<div class="slide__overlay slide__overlay--left" aria-hidden="true"></div>
-					<div class="slide__content slide__content--left">
-						<?php if ( ! empty( $s['eyebrow'] ) ) : ?>
-							<p class="slide__eyebrow<?php echo $is_first ? ' slide__eyebrow--white' : ''; ?>"><?php echo esc_html( $s['eyebrow'] ); ?></p>
-						<?php endif; ?>
-						<?php if ( $is_first ) : ?>
-							<h1 class="slide__headline"><?php echo gerotech_accent( $s['headline'], $accent ); ?></h1>
-						<?php else : ?>
-							<h2 class="slide__headline"><?php echo gerotech_accent( $s['headline'], $accent ); ?></h2>
-						<?php endif; ?>
-						<?php if ( ! empty( $s['body'] ) ) : ?>
-							<p class="slide__body"><?php echo esc_html( $s['body'] ); ?></p>
-						<?php endif; ?>
-						<?php if ( ! empty( $s['cta_label'] ) ) : ?>
-							<a class="<?php echo esc_attr( $cta_btn ); ?>" href="<?php echo esc_url( $s['cta_url'] ); ?>"><?php echo esc_html( $s['cta_label'] ); ?></a>
-						<?php endif; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
-		</div>
+          <article class="machine-panel machine-panel--lineup" id="machine-panel-turning" role="tabpanel" aria-labelledby="machine-tab-turning" hidden>
+            <div class="machine-panel__photo">
+              <img src="assets/images/haas-st-25y.jpg" alt="Haas ST-25Y turning center" loading="lazy" decoding="async" />
+              <div class="machine-panel__photo-shade" aria-hidden="true"></div>
+              <p class="machine-panel__badge"><span class="machine-panel__badge-dot" aria-hidden="true"></span> Production Turning</p>
+            </div>
+            <div class="machine-panel__body">
+              <div class="machine-panel__copy">
+                <p class="machine-panel__cat">Production Turning</p>
+                <h3 class="machine-panel__title">CNC Lathes</h3>
+                <!-- Comment 181: panel body copy removed -->
+                <p class="machine-panel__tags-label">Featured series</p>
+                <ul class="model-tags model-tags--dark model-tags--grid" aria-label="Featured lathe series">
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/lathes/st.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">ST Series</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/lathes/toolroom-lathe.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Toolroom Lathe</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/lathes/dual-spindle.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Dual Spindle</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/lathes/box-way-series.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Box Way Series</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/lathes/chucker-lathe.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Chucker Lathe</a></li>
+                </ul>
+              </div>
+              <div class="machine-panel__footer">
+                <a class="btn btn--primary machine-panel__cta" href="https://www.haascnc.com/machines/lathes.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">View All Lathes →</a>
+              </div>
+            </div>
+          </article>
 
-		<div class="hero-slider__index" aria-hidden="true">
-			<svg class="hero-slider__progress" viewBox="0 0 48 48" focusable="false">
-				<circle class="hero-slider__progress-track" cx="24" cy="24" r="21" fill="none" />
-				<circle class="hero-slider__progress-bar" cx="24" cy="24" r="21" fill="none" />
-			</svg>
-			<span class="hero-slider__index-num">01</span>
-		</div>
-		<div class="hero-slider__peeks" role="tablist" aria-label="<?php esc_attr_e( 'Slide navigation', 'gerotech-child' ); ?>"></div>
-	</section>
+          <article class="machine-panel machine-panel--lineup" id="machine-panel-rotaries" role="tabpanel" aria-labelledby="machine-tab-rotaries" hidden>
+            <div class="machine-panel__photo">
+              <img src="assets/images/lineup-rotaries-indexers.jpg" alt="Three Haas rotary tables and indexers on the Gerotech showroom floor" loading="lazy" decoding="async" /><!-- Client photo: rotaries on showroom floor -->
+              <div class="machine-panel__photo-shade" aria-hidden="true"></div>
+              <p class="machine-panel__badge"><span class="machine-panel__badge-dot" aria-hidden="true"></span> Rotaries &amp; Indexers</p>
+            </div>
+            <div class="machine-panel__body">
+              <div class="machine-panel__copy">
+                <p class="machine-panel__cat">Rotaries &amp; Indexers</p>
+                <h3 class="machine-panel__title">Rotaries &amp; Indexers</h3>
+                <p class="machine-panel__desc">Machine more sides in fewer setups with Haas rotary tables and indexers—giving you greater flexibility for complex parts and multi-axis machining.</p>
+                <p class="machine-panel__tags-label">Featured products</p>
+                <ul class="model-tags model-tags--dark model-tags--grid" aria-label="Rotary products">
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/rotaries-indexers/rotary-tables.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Rotary Tables</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/rotaries-indexers/5-axis-rotaries.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">5-Axis Rotaries</a></li>
+                </ul>
+              </div>
+              <div class="machine-panel__footer">
+                <a class="btn btn--primary machine-panel__cta" href="https://www.haascnc.com/machines/rotaries-indexers.html" target="_blank" rel="noopener noreferrer">View All Rotaries &amp; Indexers</a>
+              </div>
+            </div>
+          </article>
 
-	<!-- ============================================================
-		 Stat Counter
-		 ============================================================ -->
-	<?php if ( $stats ) : ?>
-	<section class="stat-counter" aria-label="<?php esc_attr_e( 'Gerotech by the numbers', 'gerotech-child' ); ?>">
-		<div class="container">
-			<div class="stat-counter__grid stat-counter__grid--<?php echo esc_attr( min( 2, count( $stats ) ) ); ?>">
-				<?php foreach ( $stats as $st ) : ?>
-					<div class="stat-counter__item">
-						<p class="stat-counter__value"<?php echo ( isset( $st['count'] ) && '' !== $st['count'] ) ? ' data-count="' . esc_attr( $st['count'] ) . '"' : ''; ?><?php echo ( isset( $st['suffix'] ) && '' !== $st['suffix'] ) ? ' data-suffix="' . esc_attr( $st['suffix'] ) . '"' : ''; ?>><?php echo esc_html( $st['value'] ); ?></p>
-						<p class="stat-counter__label"><?php echo esc_html( $st['label'] ); ?></p>
-					</div>
-				<?php endforeach; ?>
-			</div>
-		</div>
-	</section>
-	<?php endif; ?>
+          <article class="machine-panel machine-panel--lineup" id="machine-panel-automation" role="tabpanel" aria-labelledby="machine-tab-automation" hidden>
+            <div class="machine-panel__photo">
+              <img src="assets/images/lineup-haas-automation.jpg" alt="Haas UMC-750 machining center with a yellow robot in a guarded automation cell" loading="lazy" decoding="async" /><!-- Client photo: UMC-750 + yellow robot cell -->
+              <div class="machine-panel__photo-shade" aria-hidden="true"></div>
+              <p class="machine-panel__badge"><span class="machine-panel__badge-dot" aria-hidden="true"></span> Robotics &amp; Pallets</p>
+            </div>
+            <div class="machine-panel__body">
+              <div class="machine-panel__copy">
+                <p class="machine-panel__cat">Haas Automation</p>
+                <h3 class="machine-panel__title">Haas Automation</h3>
+                <p class="machine-panel__desc">Explore Haas automation solutions, including robotic systems, pallet changers, bar feeders, and other options designed to maximize machine productivity.</p>
+                <p class="machine-panel__tags-label">Featured products</p>
+                <ul class="model-tags model-tags--dark model-tags--grid" aria-label="Haas automation options">
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/automation-systems/automation-models.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">Automation Models</a></li>
+                  <li><a class="model-tag" href="https://haascnc.com/machines/lathes/bar-feeders" target="_blank" rel="noopener noreferrer">Bar Feeders</a></li>
+                  <li><a class="model-tag" href="https://www.haascnc.com/machines/automation-systems/automation-models.html#robot" target="_blank" rel="noopener noreferrer">Cobots</a></li>
+                </ul>
+              </div>
+              <div class="machine-panel__footer">
+                <a class="btn btn--primary machine-panel__cta" href="https://www.haascnc.com/machines/automation-systems.html#gsc.tab=0" target="_blank" rel="noopener noreferrer">View Automation →</a>
+              </div>
+            </div>
+          </article>
 
-	<!-- ============================================================
-		 Haas Relationship
-		 ============================================================ -->
-	<section class="haas-relationship" aria-labelledby="haas-rel-headline">
-		<div class="haas-relationship__top">
-			<div class="haas-relationship__bg" aria-hidden="true">
-				<img class="haas-relationship__watermark" src="<?php echo esc_url( GEROTECH_CHILD_URI . '/assets/images/haas-wordmark-watermark.svg' ); ?>" alt="" width="2776" height="664" decoding="async" />
-			</div>
-			<div class="haas-relationship__content">
-				<div class="container">
-					<div class="eyebrow-row eyebrow-row--<?php echo esc_attr( $haas_eyebrow_color ); ?>">
-						<span class="eyebrow-row__rule" aria-hidden="true"></span>
-						<p class="eyebrow"><?php echo esc_html( $haas_eyebrow ); ?></p>
-					</div>
-					<div class="haas-relationship__intro">
-						<div class="haas-relationship__copy-col">
-							<h2 id="haas-rel-headline" class="haas-relationship__headline"><?php echo gerotech_accent( $haas_headline, gerotech_accent_class( $haas_accent_color ) ); ?></h2>
-							<p class="haas-relationship__lede"><?php echo esc_html( $haas_lede ); ?></p>
-						</div>
-						<div class="haas-relationship__brand">
-							<img class="haas-relationship__brand-logo" src="<?php echo esc_url( $haas_logo ); ?>" alt="<?php echo esc_attr( $haas_logo_alt ); ?>" width="1738" height="500" loading="lazy" decoding="async" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+          <article class="machine-panel machine-panel--lineup" id="machine-panel-tooling" role="tabpanel" aria-labelledby="machine-tab-tooling" hidden>
+            <div class="machine-panel__photo machine-panel__photo--logo">
+              <img src="assets/images/haas-winners-circle.png" alt="Haas Tooling Winner's Circle" loading="lazy" decoding="async" />
+              <p class="machine-panel__badge"><span class="machine-panel__badge-dot" aria-hidden="true"></span> Haas Tooling</p>
+            </div>
+            <div class="machine-panel__body">
+              <div class="machine-panel__copy">
+                <p class="machine-panel__cat">Haas Tooling</p>
+                <h3 class="machine-panel__title">Tooling &amp; Workholding</h3>
+                <p class="machine-panel__desc">Your one-stop shop for tooling. Explore categories for mills, lathes, inspection, workholding, and more.</p>
+              </div>
+              <div class="machine-panel__footer">
+                <div class="machine-panel__cta-row">
+                  <a class="btn btn--primary machine-panel__cta" href="https://www.haastooling.com" target="_blank" rel="noopener noreferrer">Haas Tooling</a>
+                  <a class="btn btn--outline-white machine-panel__cta" href="https://www.haastooling.com/p/WINNERS_CIRCLE-1Y" target="_blank" rel="noopener noreferrer">Winner's Circle</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-	<!-- ============================================================
-		 Machine lineup
-		 ============================================================ -->
-	<?php if ( $panels ) : ?>
-	<section class="machine-lineup" id="machine-browse" aria-labelledby="machine-lineup-headline">
-		<div class="container">
-			<div class="machine-lineup__header">
-				<div class="machine-lineup__intro">
-					<div class="eyebrow-row">
-						<span class="eyebrow-row__rule" aria-hidden="true"></span>
-						<p class="eyebrow"><?php echo esc_html( $lineup_eyebrow ); ?></p>
-					</div>
-					<h2 id="machine-lineup-headline" class="machine-lineup__headline"><?php echo gerotech_accent( $lineup_headline, 'accent' ); ?></h2>
-				</div>
-			</div>
+    <!-- ============================================================
+         Testimonial Carousel
+         ============================================================ -->
+    <div data-include="partials/testimonials-block.html?v=20260916"></div>
 
-			<div class="machine-tabs machine-tabs--lineup" role="tablist" aria-label="<?php esc_attr_e( 'Machine categories', 'gerotech-child' ); ?>">
-				<?php foreach ( $panels as $i => $p ) : ?>
-					<button type="button" class="machine-tab<?php echo 0 === $i ? ' is-active' : ''; ?>" role="tab" aria-selected="<?php echo 0 === $i ? 'true' : 'false'; ?>" aria-controls="machine-panel-<?php echo (int) $i; ?>" id="machine-tab-<?php echo (int) $i; ?>" data-target="machine-panel-<?php echo (int) $i; ?>"><?php echo esc_html( $p['tab_label'] ); ?></button>
-				<?php endforeach; ?>
-			</div>
+    <!-- ============================================================
+         CTA Band
+         ============================================================ -->
+    <section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="Call to action">
+      <img class="cta-band__bg" src="assets/images/cta-home-building.jpg" alt="Gerotech headquarters in Flat Rock, brick building and sign" loading="lazy" decoding="async" /><!-- Client FR building photo; Figma 7665:1743 still shows the robot CTA -->
+      <div class="cta-band__overlay" aria-hidden="true"></div>
+      <div class="cta-band__content">
+        <div class="cta-band__copy">
+          <div class="eyebrow-row">
+            <span class="eyebrow-row__rule" aria-hidden="true"></span>
+            <p class="eyebrow eyebrow--orange">Get Started</p>
+          </div>
+          <h2 class="cta-band__headline">Put Gerotech to work on your project.</h2>
+          <span class="cta-band__rule" aria-hidden="true"></span>
+          <p class="cta-band__subhead">Let's Talk Through It. Prefer Email?</p>
+          <p class="cta-band__body">Tell us about your machine, part, process, and project goals, and include any drawings, photos, or specifications that may help. This will help our team come prepared to discuss your application.</p>
+          <div class="cta-band__actions">
+            <a class="btn btn--primary btn--lg" href="mailto:Engineeringproposals@gerotech.com?subject=Gerotech%20Quote%20Request">Talk to an Engineer</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-			<div class="machine-lineup__panels">
-				<?php foreach ( $panels as $i => $p ) : ?>
-					<?php
-					$is_first    = ( 0 === $i );
-					$photo_style = isset( $p['photo_style'] ) ? $p['photo_style'] : 'default';
-					$photo       = gerotech_image_url( isset( $p['photo'] ) ? $p['photo'] : '', '' );
-					$tags        = gerotech_parse_tags( isset( $p['tags'] ) ? $p['tags'] : '' );
-					$photo_mod   = '';
-					if ( 'logo' === $photo_style ) {
-						$photo_mod = ' machine-panel__photo--logo';
-					} elseif ( $is_first ) {
-						$photo_mod = ' machine-panel__photo--umc';
-					}
-					?>
-					<article class="machine-panel machine-panel--lineup<?php echo $is_first ? ' is-active' : ''; ?>" id="machine-panel-<?php echo (int) $i; ?>" role="tabpanel" aria-labelledby="machine-tab-<?php echo (int) $i; ?>"<?php echo $is_first ? '' : ' hidden'; ?>>
-						<div class="machine-panel__photo<?php echo $photo_mod; ?>">
-							<?php if ( $photo ) : ?>
-								<img src="<?php echo esc_url( $photo ); ?>" alt="<?php echo esc_attr( $p['title'] ); ?>" loading="lazy" decoding="async" />
-							<?php endif; ?>
-							<?php if ( 'logo' !== $photo_style ) : ?>
-								<div class="machine-panel__photo-shade" aria-hidden="true"></div>
-							<?php endif; ?>
-							<?php if ( ! empty( $p['badge'] ) ) : ?>
-								<p class="machine-panel__badge"><span class="machine-panel__badge-dot" aria-hidden="true"></span> <?php echo esc_html( $p['badge'] ); ?></p>
-							<?php endif; ?>
-						</div>
-						<div class="machine-panel__body">
-							<div class="machine-panel__copy">
-								<?php if ( ! empty( $p['category'] ) ) : ?>
-									<p class="machine-panel__cat"><?php echo esc_html( $p['category'] ); ?></p>
-								<?php endif; ?>
-								<h3 class="machine-panel__title"><?php echo esc_html( $p['title'] ); ?></h3>
-								<?php if ( ! empty( $p['description'] ) ) : ?>
-									<p class="machine-panel__desc"><?php echo esc_html( $p['description'] ); ?></p>
-								<?php endif; ?>
-								<?php if ( ! empty( $p['tags_label'] ) && $tags ) : ?>
-									<p class="machine-panel__tags-label"><?php echo esc_html( $p['tags_label'] ); ?></p>
-									<ul class="model-tags model-tags--dark model-tags--grid" aria-label="<?php echo esc_attr( $p['tags_label'] ); ?>">
-										<?php foreach ( $tags as $t ) : ?>
-											<li>
-												<?php if ( $t['url'] ) : ?>
-													<a class="model-tag" href="<?php echo esc_url( $t['url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $t['label'] ); ?></a>
-												<?php else : ?>
-													<span class="model-tag"><?php echo esc_html( $t['label'] ); ?></span>
-												<?php endif; ?>
-											</li>
-										<?php endforeach; ?>
-									</ul>
-								<?php endif; ?>
-							</div>
-							<div class="machine-panel__footer">
-								<div class="machine-panel__cta-row">
-									<?php if ( ! empty( $p['cta_label'] ) ) : ?>
-										<a class="btn btn--primary machine-panel__cta" href="<?php echo esc_url( $p['cta_url'] ); ?>"<?php echo ( 0 === strpos( (string) $p['cta_url'], 'http' ) ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo esc_html( $p['cta_label'] ); ?></a>
-									<?php endif; ?>
-									<?php if ( ! empty( $p['cta2_label'] ) ) : ?>
-										<a class="btn btn--outline-white machine-panel__cta" href="<?php echo esc_url( $p['cta2_url'] ); ?>"<?php echo ( 0 === strpos( (string) $p['cta2_url'], 'http' ) ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>><?php echo esc_html( $p['cta2_label'] ); ?></a>
-									<?php endif; ?>
-								</div>
-							</div>
-						</div>
-					</article>
-				<?php endforeach; ?>
-			</div>
-		</div>
-	</section>
-	<?php endif; ?>
+    <!-- ============================================================
+         Email Signup
+         ============================================================ -->
+    <section class="email-signup" aria-label="Mailing list signup">
+      <div class="email-signup__inner">
+        <div class="email-signup__copy">
+          <h2 class="email-signup__title">Join Our <span class="accent">Mailing List</span></h2>
+          <p class="email-signup__sub">Projects, machine updates, and service news — delivered to your inbox.</p>
+        </div>
+        <form class="email-signup__form" action="#" method="post" novalidate>
+          <label for="email-input" class="sr-only">Email address</label>
+          <input class="email-signup__input" id="email-input" type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+          <button class="email-signup__submit" type="submit">Sign Up</button>
+        </form>
+      </div>
+    </section>
 
-	<?php get_template_part( 'template-parts/sections/testimonials' ); ?>
+  </main>
 
-	<!-- ============================================================
-		 CTA Band
-		 ============================================================ -->
-	<section class="cta-band cta-band--cinema cta-band--cinema-lockup" aria-label="<?php esc_attr_e( 'Call to action', 'gerotech-child' ); ?>">
-		<img class="cta-band__bg" src="<?php echo esc_url( $cta_image ); ?>" alt="<?php echo esc_attr( $cta_image_alt ); ?>" loading="lazy" decoding="async" />
-		<div class="cta-band__overlay" aria-hidden="true"></div>
-		<div class="cta-band__content">
-			<div class="cta-band__copy">
-				<div class="eyebrow-row">
-					<span class="eyebrow-row__rule" aria-hidden="true"></span>
-					<p class="eyebrow eyebrow--orange"><?php echo esc_html( $cta_eyebrow ); ?></p>
-				</div>
-				<h2 class="cta-band__headline"><?php echo esc_html( $cta_headline ); ?></h2>
-				<span class="cta-band__rule" aria-hidden="true"></span>
-				<?php if ( $cta_subhead ) : ?>
-				<p class="cta-band__subhead"><?php echo esc_html( $cta_subhead ); ?></p>
-				<?php endif; ?>
-				<p class="cta-band__body"><?php echo esc_html( $cta_body ); ?></p>
-				<div class="cta-band__actions">
-					<a class="btn btn--primary btn--lg" href="<?php echo esc_url( $cta_btn_url ); ?>"><?php echo esc_html( $cta_btn_lbl ); ?></a>
-				</div>
-			</div>
-			<?php if ( $cta_call_number ) : ?>
-			<a class="cta-band__call" href="<?php echo esc_url( gerotech_tel_link( $cta_call_number ) ); ?>">
-				<span class="cta-band__call-label"><?php echo esc_html( $cta_call_label ); ?></span>
-				<span class="cta-band__call-number"><?php echo esc_html( $cta_call_number ); ?></span>
-				<span class="cta-band__call-note"><?php echo esc_html( $cta_call_note ); ?></span>
-			</a>
-			<?php endif; ?>
-		</div>
-	</section>
+  <div data-include="partials/site-footer.html"></div>
 
-	<!-- ============================================================
-		 Email Signup
-		 ============================================================ -->
-	<section class="email-signup" aria-label="<?php esc_attr_e( 'Mailing list signup', 'gerotech-child' ); ?>">
-		<div class="email-signup__inner">
-			<div class="email-signup__copy">
-				<h2 class="email-signup__title"><?php echo gerotech_accent( $signup_title, 'accent' ); ?></h2>
-				<p class="email-signup__sub"><?php echo esc_html( $signup_sub ); ?></p>
-			</div>
-			<?php echo gerotech_mailing_list_form( 'email-input', $signup_email_label, $signup_email_ph, $signup_submit ); ?>
-		</div>
-	</section>
-
-</main>
-
-<?php
-get_footer();
+  <script src="assets/js/include-partials.js"></script>
+  <script src="assets/js/nav.js"></script>
+  <script src="assets/js/slider.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/accordions.js"></script>
+  <script src="assets/js/stat-counter.js"></script>
+  <script src="assets/js/machine-tabs.js"></script>
+</body>
+</html>
